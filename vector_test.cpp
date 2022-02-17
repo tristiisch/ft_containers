@@ -44,7 +44,7 @@ std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 	return outputFile;
 }
 
-int main()
+static void basic_test()
 {
 	ft::vector<int> vector;
 
@@ -76,7 +76,31 @@ int main()
 	std::cout << vector << std::endl;
 	std::cout << std::endl;
 
+	std::cout << "vector.pop_back()" << std::endl;
+	vector.pop_back();
+	std::cout << vector << std::endl;
+	std::cout << std::endl;
+
 	std::cout << "vector.clear()" << std::endl;
 	vector.clear();
 	std::cout << vector << std::endl;
+}
+
+static void segfault_test()
+{
+	ft::vector<int> vector;
+
+	std::cout << vector << std::endl;
+
+	std::cout << "vector.pop_back()" << std::endl;
+	vector.pop_back();
+	std::cout << vector << std::endl;
+	std::cout << std::endl;
+}
+
+int main()
+{
+	basic_test();
+	(void)&segfault_test;
+	// segfault_test();
 }

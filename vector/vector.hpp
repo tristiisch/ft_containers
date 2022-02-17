@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 00:18:55 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 01:15:16 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 namespace ft
 {
-	template <typename T, class Allocator = std::allocator<T>>
+	template<typename T, class Allocator = std::allocator<T> >
 	class vector
 	{
 	public:
@@ -60,8 +60,8 @@ namespace ft
 			while (n < 0)
 			{
 				_alloc.construct(_end, val);
-				_end++;
-				n--;
+				++_end;
+				--n;
 			}
 		}
 
@@ -82,7 +82,14 @@ namespace ft
 				this->reserve(next_capacity);
 			}
 			_alloc.construct(_end, value);
-			_end++;
+			++_end;
+		}
+
+		// Supprime la valeur au Top du vector
+		void pop_back()
+		{
+			_alloc.destroy(&this->back());
+			--_end;
 		}
 
 		// Réalloue de la mémoire pour avoir une capacity de new_cap
@@ -106,11 +113,18 @@ namespace ft
 				while (prev_start != prev_end)
 				{
 					_alloc.construct(_end, *prev_start);
-					_end++;
-					prev_start++;
+					++_end;
+					++prev_start;
 				}
 				_alloc.deallocate(prev_start - prev_size, prev_capacity);
 			}
+		}
+
+		void clear()
+		{
+			size_type save_size = this->size();
+			for (size_type i = 0; i < save_size; ++i)
+				_alloc.destroy(--_end);
 		}
 
 		// iterator from start
@@ -141,7 +155,7 @@ namespace ft
 			return this->_end - this->_start;
 		}
 
-		// Max ram ?
+		// Max ram ? it's 2_305_843_009_213_693_951 for me
 		size_type max_size() const
 		{
 			return allocator_type().max_size();
@@ -158,11 +172,24 @@ namespace ft
 			return this->size() == 0;
 		}
 
-		void clear()
+		reference front()
 		{
-			size_type save_size = this->size();
-			for (size_type i = 0; i < save_size; i++)
-				_alloc.destroy(--_end);
+			return *_start;
+		}
+
+		const_reference front() const
+		{
+			return *_start;
+		}
+		
+		reference back()
+		{
+			return *(_end - 1);
+		}
+
+		const_reference back() const
+		{
+			return *(_end - 1);
 		}
 
 	private:

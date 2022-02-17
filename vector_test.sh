@@ -4,11 +4,11 @@
 # - si le programme return bien 0
 # - [LINUX] Vérifie les invalid read/write et autre erreur invisible
 
-CC=clang++
+CC="clang++ -Wall -Wextra -std=c++98"
 SRCS=vector_test.cpp
 EXEC=vector_test.out
 
-VALGRIND_FLAGS= --leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes
+VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
 
 $CC $SRCS -o ./$EXEC
 if [ $? != 0 ]; then
@@ -35,6 +35,7 @@ fi
 ./$EXEC
 if [ $? != 0 ]; then
 	echo -e "\e[0;31mKO : prog not return 0\e[0m"
+	exit 1
 else
 	echo -e "\033[0;32mOK\033[0m"
 fi
