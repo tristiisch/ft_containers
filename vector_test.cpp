@@ -146,12 +146,12 @@ static void atTest()
 	try {
 		std::cout << "vector.at(-1) " << vector.at(-1) << std::endl;
 	} catch (std::out_of_range &e) {
-		std::cout << e.what() << std::endl;
+		std::cout << "\033[0;31mException on Vector > " << -1 << " is out of range.\033[0m" << std::endl;
 	}
 	try {
 		std::cout << "vector.at(3) " << vector.at(3) << std::endl;
 	} catch (std::out_of_range &e) {
-		std::cout << e.what() << std::endl;
+		std::cout << "\033[0;31mException on Vector > " << 3 << " is out of range.\033[0m" << std::endl;
 	}
 	std::cout << vector << std::endl;
 }

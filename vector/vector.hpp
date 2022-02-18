@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 16:55:29 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 17:02:49 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,16 +170,16 @@ namespace ft
 		reference at(size_type n)
 		{
 			if (n >= this->size())
-				// throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
-				throw std::out_of_range("vector"); // STL MSG
+				throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
+				// throw std::out_of_range("vector"); // STL MSG on MAC
 			return (*this)[n];
 		}
 
 		const_reference at(size_type n) const
 		{
 			if (n >= this->size())
-				// throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
-				throw std::out_of_range("vector"); // STL MSG
+				throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
+				// throw std::out_of_range("vector"); // STL MSG on MAC
 			return (*this)[n];
 		}
 
