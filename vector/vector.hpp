@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 04:52:59 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 13:09:20 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,10 @@ namespace ft
 
 		bool empty() const
 		{
-			return this->size() == 0;
+			if (this->size == 0)
+				return (true);
+			else
+				return (false);
 		}
 
 		reference front()
