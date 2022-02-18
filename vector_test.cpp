@@ -116,15 +116,19 @@ static void test()
 
 	std::cout << "Various test :" << std::endl;
 
-	vector.push_back(95623);
-	vector.push_back(8);
-	vector.push_back(6);
+	// vector.push_back(95623);
+	// vector.push_back(8);
+	// vector.push_back(6);
 	std::cout << vector << std::endl;
+	std::cout << std::endl;
 
-	vector.insert(vector.begin() + 6, 42);
-	vector.insert(vector.begin() + 8, 420);
-	// std::cout << vector.get_allocator() << std::endl;
-	// std::cout << vector << std::endl;
+	vector.insert(vector.begin(), 8);
+	vector.insert(vector.end(), 999);
+	// vector.insert(vector.begin() + 6, 42);
+	// vector.insert(vector.begin() + 8, 1000);
+	vector.get_allocator();
+	vector.begin();
+	std::cout << vector << std::endl;
 }
 
 static void atTest()
@@ -158,9 +162,11 @@ static void atTest()
 
 int main()
 {
+	// (void)&basicTest;
 	basicTest();
 
-	std::cout << std::endl << std::endl;
+	// std::cout << std::endl << std::endl;
+	// (void)&outRangePop;
 	outRangePop();
 
 	//std::cout << std::endl << std::endl;
@@ -168,9 +174,10 @@ int main()
 	// segfault_test();
 
 	// std::cout << std::endl << std::endl;
-	//test(); // NOT WORKING
+	// test(); // NOT WORKING
 	(void)&test;
 	
-	std::cout << std::endl << std::endl;
-	atTest(); // NOT WORKING
+	// std::cout << std::endl << std::endl;
+	atTest();
+	(void)&atTest;
 }

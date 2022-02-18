@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 17:02:49 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 18:37:34 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ namespace ft
 				pointer new_end = pointer();
 				pointer new_end_capacity = pointer();
 
-				int next_capacity = (this->size() * 2 > 0) ? this->size() * 2 : 1; 
+				int next_capacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
 				new_start = _alloc.allocate( next_capacity );
 				new_end = new_start + this->size() + 1;
 				new_end_capacity = new_start + next_capacity;
@@ -170,7 +170,7 @@ namespace ft
 		reference at(size_type n)
 		{
 			if (n >= this->size())
-				throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
+				throw std::out_of_range("vector::out_of_range > n in not in range");
 				// throw std::out_of_range("vector"); // STL MSG on MAC
 			return (*this)[n];
 		}
@@ -178,16 +178,16 @@ namespace ft
 		const_reference at(size_type n) const
 		{
 			if (n >= this->size())
-				throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
+				throw std::out_of_range("vector::out_of_range > n in not in range");
 				// throw std::out_of_range("vector"); // STL MSG on MAC
 			return (*this)[n];
 		}
 
 		// Not needed ?
-		// Allocator get_allocator() const
-		// {
-		// 	return _alloc;
-		// }
+		Allocator get_allocator() const
+		{
+			return _alloc;
+		}
 
 		// iterator from start
 		iterator begin()
