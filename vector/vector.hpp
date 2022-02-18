@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 02:52:50 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 04:52:59 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ namespace ft
 			_start = _alloc.allocate(n);
 			_end = _start;
 			_end_capacity = _start + n;
-			for (; n < 0; --n)
+			for (; n > 0; --n)
 				_alloc.construct(_end++, val);
 		}
 
@@ -81,8 +81,6 @@ namespace ft
 		// Supprime la valeur au Top du vector
 		void pop_back()
 		{
-			if (empty())
-				return;
 			_alloc.destroy(_end--);
 		}
 

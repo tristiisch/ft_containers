@@ -1,15 +1,18 @@
 
 #include <iostream>
-
+#include <iterator>
 /**
   * Main de test pour les fonctions associé à Vector
   * Permet d'effectuer le test avec notre code ou la STL
-  * Il faut changer <nb> de 'if <nb>' par 0 ou 1
+  * Il faut changer IS_STL par 0 ou 1
+  * "clang++ -D IS_STL" permet de switch sans modifier le code
   */
 
-#if 0
-	#include <map>
-	#include <stack>
+#ifndef IS_STL
+# define IS_STL 0
+#endif
+
+#if IS_STL
 	#include <vector>
 	namespace ft = std;
 	#warning "Using STL"
@@ -24,22 +27,19 @@ std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 	outputFile << "Capacity\t" << vector.capacity() << std::endl;
 	outputFile << "Size\t\t" << vector.size() << std::endl;
 	outputFile << "Max Size\t" << vector.max_size() << std::endl;
-
-	std::cout << "Content\t\t";
-	if (!vector.empty())
-	{
-		auto it = vector.begin();
-		while (it != vector.end())
-		{
-			std::cout << *it;
-			if (it + 1 != vector.end())
-				std::cout << ", ";
-			it++;
-		}
-	}
+	outputFile << "Content\t\t";
+	if (vector.empty())
+		outputFile << "empty";
 	else
 	{
-		std::cout << "empty";
+		typename ft::vector<T>::const_iterator it = vector.begin();
+		while (it != vector.end())
+		{
+			outputFile << *it;
+			if (it + 1 != vector.end())
+				outputFile << ", ";
+			++it;
+		}
 	}
 	return outputFile;
 }
@@ -101,6 +101,7 @@ static void segfault_test()
 {
 	ft::vector<int> vector;
 
+	std::cout << "SegFault test" << std::endl;
 	std::cout << vector << std::endl;
 
 	std::cout << "vector.pop_back()" << std::endl;
