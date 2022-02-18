@@ -36,7 +36,7 @@ jobs:
     runs-on: macos-latest
     name: Tester MacOS
     steps:
-      - name: Checkout repo, Libft & Tester
+      - name: Checkout repo
         uses: actions/checkout@v2
         with:
           submodules: true

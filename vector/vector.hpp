@@ -6,12 +6,12 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 02:52:50 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 16:55:29 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
-# define VECTOR_HPP  
+# define VECTOR_HPP
 
 # include <memory>
 # include <iostream>
@@ -55,7 +55,7 @@ namespace ft
 			_start = _alloc.allocate(n);
 			_end = _start;
 			_end_capacity = _start + n;
-			for (; n < 0; --n)
+			for (; n > 0; --n)
 				_alloc.construct(_end++, val);
 		}
 
@@ -74,15 +74,12 @@ namespace ft
 				int next_capacity = (this->size() > 0) ? this->size() * 2 : 1;
 				this->reserve(next_capacity);
 			}
-			_alloc.construct(_end, value);
-			++_end;
+			_alloc.construct(_end++, value);
 		}
 
-		// Supprime la valeur au Top du vector
+		// Supprime la valeur au Top du vector. N'affecte pas la memoire allouée
 		void pop_back()
 		{
-			if (empty())
-				return;
 			_alloc.destroy(_end--);
 		}
 
@@ -110,12 +107,87 @@ namespace ft
 			}
 		}
 
+		// A revoir totalement, ne fonctionne pas comme la STL
+		iterator insert(iterator pos, const T& value)
+		{
+			size_type pos_len = pos - _start;
+			//std::cout << "S " << _end_capacity - _end << std::endl;
+			if (size_type(_end_capacity - _end) >= 1)
+			{
+				//std::cout << "Hey" << std::endl;
+				for (size_type i = 0; i < pos_len; i++)
+					_alloc.construct(_end - i, *(_end - i - 1));
+				_end++;
+				_alloc.construct(&(*pos), value);
+			}
+			else
+			{
+				//std::cout << "Hey2" << std::endl;
+				pointer new_start = pointer();
+				pointer new_end = pointer();
+				pointer new_end_capacity = pointer();
+
+				int next_capacity = (this->size() * 2 > 0) ? this->size() * 2 : 1; 
+				new_start = _alloc.allocate( next_capacity );
+				new_end = new_start + this->size() + 1;
+				new_end_capacity = new_start + next_capacity;
+
+				for (size_type i = 0; i < pos_len; i++)
+					_alloc.construct(new_start + i, *(_start + i));
+				_alloc.construct(new_start + pos_len, value);
+				for (size_type j = 0; j < this->size() - pos_len; j++)
+					_alloc.construct(new_end - j - 1, *(_end - j - 1));
+
+				for (size_type l = 0; l < this->size(); l++)
+					_alloc.destroy(_start + l);
+				if (_start)
+					_alloc.deallocate(_start, this->capacity());
+
+				_start = new_start;
+				_end = new_end;
+				_end_capacity = new_end_capacity;
+			}
+			return (iterator(_start + pos_len));
+		}
+
 		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
 		{
 			for (; _start != _end; --_end)
 				_alloc.destroy(_end);
 		}
+
+		reference operator[](size_type n)
+		{
+			return *(_start + n);
+		}
+
+		const_reference operator[](size_type n) const
+		{
+			return *(_start + n);
+		}
+
+		reference at(size_type n)
+		{
+			if (n >= this->size())
+				// throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
+				throw std::out_of_range("vector"); // STL MSG
+			return (*this)[n];
+		}
+
+		const_reference at(size_type n) const
+		{
+			if (n >= this->size())
+				// throw std::out_of_range("vector::out_of_range > n in not in range 0-" + this->size() - 1);
+				throw std::out_of_range("vector"); // STL MSG
+			return (*this)[n];
+		}
+
+		// Not needed ?
+		// Allocator get_allocator() const
+		// {
+		// 	return _alloc;
+		// }
 
 		// iterator from start
 		iterator begin()
@@ -190,6 +262,5 @@ namespace ft
 		pointer			_end_capacity;
 	};
 }
-
 
 #endif

@@ -1,15 +1,18 @@
 
 #include <iostream>
-
+#include <iterator>
 /**
   * Main de test pour les fonctions associé à Vector
   * Permet d'effectuer le test avec notre code ou la STL
-  * Il faut changer <nb> de 'if <nb>' par 0 ou 1
+  * Il faut changer IS_STL par 0 ou 1
+  * "clang++ -D IS_STL" permet de switch sans modifier le code
   */
 
-#if 0
-	#include <map>
-	#include <stack>
+#ifndef IS_STL
+# define IS_STL 0
+#endif
+
+#if IS_STL
 	#include <vector>
 	namespace ft = std;
 	#warning "Using STL"
@@ -24,22 +27,19 @@ std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 	outputFile << "Capacity\t" << vector.capacity() << std::endl;
 	outputFile << "Size\t\t" << vector.size() << std::endl;
 	outputFile << "Max Size\t" << vector.max_size() << std::endl;
-
-	std::cout << "Content\t\t";
-	if (!vector.empty())
-	{
-		auto it = vector.begin();
-		while (it != vector.end())
-		{
-			std::cout << *it;
-			if (it + 1 != vector.end())
-				std::cout << ", ";
-			it++;
-		}
-	}
+	outputFile << "Content\t\t";
+	if (vector.empty())
+		outputFile << "empty";
 	else
 	{
-		std::cout << "empty";
+		typename ft::vector<T>::const_iterator it = vector.begin();
+		while (it != vector.end())
+		{
+			outputFile << *it;
+			if (it + 1 != vector.end())
+				outputFile << ", ";
+			++it;
+		}
 	}
 	return outputFile;
 }
@@ -52,7 +52,7 @@ static void basicTest()
 	std::cout << vector << std::endl;
 
 	std::cout << std::endl;
-	std::cout << "vector.insert(42)" << std::endl;
+	std::cout << "vector.push_back(42)" << std::endl;
 	vector.push_back(42);
 	std::cout << vector << std::endl;
 	std::cout << std::endl;
@@ -101,6 +101,7 @@ static void segfault_test()
 {
 	ft::vector<int> vector;
 
+	std::cout << "SegFault test" << std::endl;
 	std::cout << vector << std::endl;
 
 	std::cout << "vector.pop_back()" << std::endl;
@@ -109,12 +110,67 @@ static void segfault_test()
 	std::cout << std::endl;
 }
 
+static void test()
+{
+	ft::vector<int> vector(10);
+
+	std::cout << "Various test :" << std::endl;
+
+	vector.push_back(95623);
+	vector.push_back(8);
+	vector.push_back(6);
+	std::cout << vector << std::endl;
+
+	vector.insert(vector.begin() + 6, 42);
+	vector.insert(vector.begin() + 8, 420);
+	// std::cout << vector.get_allocator() << std::endl;
+	// std::cout << vector << std::endl;
+}
+
+static void atTest()
+{
+	ft::vector<int> vector;
+
+	std::cout << "At test :" << std::endl;
+
+	vector.push_back(95623);
+	vector.push_back(8);
+	vector.push_back(6);
+	std::cout << vector << std::endl;
+
+	std::cout << "vector.at(0) " << vector.at(0) << std::endl;
+	std::cout << "vector.at(2) " << vector.at(2) << std::endl;
+	std::cout << "vector[0] " << vector[0] << std::endl;
+	std::cout << "vector[2] " << vector[2] << std::endl;
+
+	try {
+		std::cout << "vector.at(-1) " << vector.at(-1) << std::endl;
+	} catch (std::out_of_range &e) {
+		std::cout << e.what() << std::endl;
+	}
+	try {
+		std::cout << "vector.at(3) " << vector.at(3) << std::endl;
+	} catch (std::out_of_range &e) {
+		std::cout << e.what() << std::endl;
+	}
+	std::cout << vector << std::endl;
+}
+
 int main()
 {
 	basicTest();
+
 	std::cout << std::endl << std::endl;
 	outRangePop();
+
+	//std::cout << std::endl << std::endl;
 	(void)&segfault_test;
-	// std::cout << std::endl << std::endl;
 	// segfault_test();
+
+	// std::cout << std::endl << std::endl;
+	//test(); // NOT WORKING
+	(void)&test;
+	
+	std::cout << std::endl << std::endl;
+	atTest(); // NOT WORKING
 }
