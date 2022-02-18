@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
+/*   reverse_reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 
 
-#ifndef ITERATOR_HPP
-# define ITERATOR_HPP
+#ifndef REVERSE_ITERATOR_HPP
+# define REVERSE_ITERATOR_HPP
 
 # include <cstddef>
 namespace ft
 {
 
 template <typename T>
-class	Iterator
+class	reverse_iterator
 {
 public:
 
@@ -30,34 +30,34 @@ public:
 	typedef const value_type*		const_pointer;
 	typedef typename std::ptrdiff_t difference_type;
 
-	iterator(void) {};
-	iterator(pointer ptr) { _ptr = ptr; };
-	iterator(iterator const &src) { *this = src; } ;
+	reverse_iterator(void) {};
+	reverse_iterator(pointer ptr) { _ptr = ptr; };
+	reverse_iterator(reverse_iterator const &src) { *this = src; } ;
 
-	virtual ~iterator() {};
+	virtual ~reverse_iterator() {};
 
-	iterator &operator=(iterator const &src) { _ptr = src.operator->(); return (*this); };
+	reverse_iterator &operator=(reverse_iterator const &src) { _ptr = src.operator->(); return (*this); };
 
 	// BOOLEANS
-	bool operator ==(iterator const& b) const { return (_ptr == b._ptr); };
-	bool operator !=(iterator const& b) const { return (_ptr != b._ptr); };
-	bool operator >(iterator const& b) const { return (_ptr > b._ptr); };
-	bool operator <(iterator const& b) const { return (_ptr < b._ptr); };
-	bool operator >=(iterator const& b) const { return (_ptr >= b._ptr); };
-	bool operator <=(iterator const& b) const { return (_ptr <= b._ptr); };
+	bool operator ==(reverse_iterator const& b) const { return (_ptr == b._ptr); };
+	bool operator !=(reverse_iterator const& b) const { return (_ptr != b._ptr); };
+	bool operator >(reverse_iterator const& b) const { return (_ptr > b._ptr); };
+	bool operator <(reverse_iterator const& b) const { return (_ptr < b._ptr); };
+	bool operator >=(reverse_iterator const& b) const { return (_ptr >= b._ptr); };
+	bool operator <=(reverse_iterator const& b) const { return (_ptr <= b._ptr); };
 
 	// ARITHMETICS (à faire)
-	iterator operator +(difference_type b) { return (iterator(_ptr - b)); }; // a + n
-	iterator operator -(difference_type b) { return (iterator(_ptr + b)); }; // a - n
+	reverse_iterator operator +(difference_type b) { return (reverse_iterator(_ptr - b)); }; // a + n
+	reverse_iterator operator -(difference_type b) { return (reverse_iterator(_ptr + b)); }; // a - n
 
-	difference_type operator +(iterator b) { return (_ptr + b._ptr); }; // a + b
-	difference_type operator -(iterator b) { return (_ptr - b._ptr); }; // a - b
+	difference_type operator +(reverse_iterator b) { return (_ptr + b._ptr); }; // a + b
+	difference_type operator -(reverse_iterator b) { return (_ptr - b._ptr); }; // a - b
 
 	// INCREMENTERS (à faire)
-	iterator operator ++() { _ptr--; return (*this); };			// ++a
-	iterator operator ++(int) { _ptr--; return (iterator(_ptr + 1)); };	// a++
-	iterator operator --() { _ptr++; return (*this); };			// --a
-	iterator operator --(int) { _ptr++; return (iterator(_ptr - 1)); };	// a--
+	reverse_iterator operator ++() { _ptr--; return (*this); };			// ++a
+	reverse_iterator operator ++(int) { _ptr--; return (reverse_iterator(_ptr + 1)); };	// a++
+	reverse_iterator operator --() { _ptr++; return (*this); };			// --a
+	reverse_iterator operator --(int) { _ptr++; return (reverse_iterator(_ptr - 1)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
 	void operator +=(difference_type b) { _ptr += b; };	// a += b
@@ -81,4 +81,3 @@ public:
 }
 
 #endif
-                                    f
