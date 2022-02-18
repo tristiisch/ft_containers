@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/17 19:29:15 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 16:12:53 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace ft
 {
 
 template <typename T>
-class	vectorIterator
+class	iterator
 {
 public:
 
@@ -29,34 +29,34 @@ public:
 	typedef const value_type*		const_pointer;
 	typedef typename std::ptrdiff_t difference_type;
 
-	vectorIterator(void) {};
-	vectorIterator(pointer ptr) { _ptr = ptr; };
-	vectorIterator(vectorIterator const &src) { *this = src; } ;
+	iterator(void) {};
+	iterator(pointer ptr) { _ptr = ptr; };
+	iterator(iterator const &src) { *this = src; } ;
 
-	virtual ~vectorIterator() {};
+	virtual ~iterator() {};
 
-	vectorIterator &operator=(vectorIterator const &src) { _ptr = src.operator->(); return (*this); };
+	iterator &operator=(iterator const &src) { _ptr = src.operator->(); return (*this); };
 
 	// BOOLEANS
-	bool operator ==(vectorIterator const& b) const { return (_ptr == b._ptr); };
-	bool operator !=(vectorIterator const& b) const { return (_ptr != b._ptr); };
-	bool operator >(vectorIterator const& b) const { return (_ptr > b._ptr); };
-	bool operator <(vectorIterator const& b) const { return (_ptr < b._ptr); };
-	bool operator >=(vectorIterator const& b) const { return (_ptr >= b._ptr); };
-	bool operator <=(vectorIterator const& b) const { return (_ptr <= b._ptr); };
+	bool operator ==(iterator const& b) const { return (_ptr == b._ptr); };
+	bool operator !=(iterator const& b) const { return (_ptr != b._ptr); };
+	bool operator >(iterator const& b) const { return (_ptr > b._ptr); };
+	bool operator <(iterator const& b) const { return (_ptr < b._ptr); };
+	bool operator >=(iterator const& b) const { return (_ptr >= b._ptr); };
+	bool operator <=(iterator const& b) const { return (_ptr <= b._ptr); };
 
 	// ARITHMETICS
-	vectorIterator operator +(difference_type b) { return (vectorIterator(_ptr + b)); }; // a + n
-	vectorIterator operator -(difference_type b) { return (vectorIterator(_ptr - b)); }; // a - n
+	iterator operator +(difference_type b) { return (iterator(_ptr + b)); }; // a + n
+	iterator operator -(difference_type b) { return (iterator(_ptr - b)); }; // a - n
 
-	difference_type operator +(vectorIterator b) { return (_ptr + b._ptr); }; // a + b
-	difference_type operator -(vectorIterator b) { return (_ptr - b._ptr); }; // a - b
+	difference_type operator +(iterator b) { return (_ptr + b._ptr); }; // a + b
+	difference_type operator -(iterator b) { return (_ptr - b._ptr); }; // a - b
 
 	// INCREMENTERS
-	vectorIterator operator ++() { _ptr++; return (*this); };			// ++a
-	vectorIterator operator ++(int) { _ptr++; return (vectorIterator(_ptr - 1)); };	// a++
-	vectorIterator operator --() { _ptr--; return (*this); };			// --a
-	vectorIterator operator --(int) { _ptr--; return (vectorIterator(_ptr + 1)); };	// a--
+	iterator operator ++() { _ptr++; return (*this); };			// ++a
+	iterator operator ++(int) { _ptr++; return (iterator(_ptr - 1)); };	// a++
+	iterator operator --() { _ptr--; return (*this); };			// --a
+	iterator operator --(int) { _ptr--; return (iterator(_ptr + 1)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
 	void operator +=(difference_type b) { _ptr += b; };	// a += b

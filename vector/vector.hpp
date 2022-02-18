@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 18:37:34 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 19:47:19 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <memory>
 # include <iostream>
 # include "iterator.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft
 {
@@ -29,8 +30,10 @@ namespace ft
 		typedef	typename Allocator::const_reference		const_reference;
 		typedef typename Allocator::pointer				pointer;
 
-		typedef ft::vectorIterator<T>					iterator;
-		typedef ft::vectorIterator<const T>				const_iterator;
+		typedef ft::iterator<T>							iterator;
+		typedef ft::iterator<const T>					const_iterator;
+		typedef ft::reverse_iterator<T>					reverse_iterator;
+		typedef	ft::reverse_iterator<const T>			const_reverse_iterator;
 
 		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc.. 
 
@@ -57,6 +60,30 @@ namespace ft
 			_end_capacity = _start + n;
 			for (; n > 0; --n)
 				_alloc.construct(_end++, val);
+		}
+
+		template <class InputIterator>
+         	vector (InputIterator first, InputIterator last,
+                 const Allocator& alloc = Allocator()) // checker pour la verif des iterator + comprendre pourquoi "InputIterator"
+		:
+			_alloc(alloc),
+			_start(NULL),
+			_end(NULL),
+			_end_capacity(NULL)
+		{
+			size_t size = 0;
+			iterator i = iterator(first);
+			while (i != last)
+			{
+				i++;
+				size++;
+			}
+			_start = _alloc.allocate(size);
+			_end = _start;
+			_end_capacity = _start + size;
+			for (; size > 0; --size)
+				_alloc.construct(_end++, *(first++));
+
 		}
 
 		//Destructeur par défaut
@@ -192,23 +219,40 @@ namespace ft
 		// iterator from start
 		iterator begin()
 		{
-			return _start;
+			return iterator(_start);
 		}
 
-		// iterator from start
 		const_iterator begin() const
 		{
-			return _start;
+			return const_iterator(_start);
 		}
 
+		
+		// iterator at the end
 		iterator end()
 		{
-			return _end;
+			if (this->empty() == false)
+				return iterator(_end);
+			else
+				return iterator(_start);
 		}
 
 		const_iterator end() const
 		{
-			return _end;
+			if (this->empty() == false)
+				return const_iterator(_end);
+			else
+				return const_iterator(_start);
+		}
+
+		reverse_iterator rbegin()
+		{
+			return(reverse_iterator(_end - 1));
+		}
+
+		reverse_iterator rend()
+		{
+			return(reverse_iterator(_start - 1));
 		}
 
 		// Number of elements
@@ -232,7 +276,10 @@ namespace ft
 
 		bool empty() const
 		{
-			return this->size() == 0;
+			if (this->size() == 0)
+				return (true);
+			else
+				return (false);
 		}
 
 		reference front()
