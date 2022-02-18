@@ -44,10 +44,11 @@ std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 	return outputFile;
 }
 
-static void basic_test()
+static void basicTest()
 {
 	ft::vector<int> vector;
 
+	std::cout << "Basic Test :" << std::endl;
 	std::cout << vector << std::endl;
 
 	std::cout << std::endl;
@@ -86,6 +87,16 @@ static void basic_test()
 	std::cout << vector << std::endl;
 }
 
+static void outRangePop()
+{
+	ft::vector<int> vector(10);
+
+	std::cout << "Out range pop_back Test :" << std::endl;
+
+	vector.pop_back();
+	std::cout << vector << std::endl;
+}
+
 static void segfault_test()
 {
 	ft::vector<int> vector;
@@ -100,7 +111,10 @@ static void segfault_test()
 
 int main()
 {
-	basic_test();
+	basicTest();
+	std::cout << std::endl << std::endl;
+	outRangePop();
 	(void)&segfault_test;
+	// std::cout << std::endl << std::endl;
 	// segfault_test();
 }

@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 01:15:16 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 02:52:50 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,23 @@
 
 namespace ft
 {
-	template<typename T, class Allocator = std::allocator<T> >
+	template<typename T, typename Allocator = std::allocator<T> >
 	class vector
 	{
 	public:
-		typedef T										value_type;
-		typedef Allocator								allocator_type;
 		typedef typename Allocator::size_type			size_type;
 		typedef typename Allocator::difference_type		difference_type;
 		typedef	typename Allocator::reference			reference;
 		typedef	typename Allocator::const_reference		const_reference;
-		typedef typename allocator_type::pointer		pointer;
+		typedef typename Allocator::pointer				pointer;
 
-		typedef ft::vectorIterator<value_type>			iterator;
-		typedef ft::vectorIterator<const value_type>	const_iterator;
+		typedef ft::vectorIterator<T>					iterator;
+		typedef ft::vectorIterator<const T>				const_iterator;
 
 		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc.. 
 
 		// constructeur par defaut
-		explicit vector(const allocator_type& alloc = allocator_type())
+		explicit vector(const Allocator& alloc = Allocator())
 		:	
 			_alloc(alloc),
 			_start(NULL),
@@ -47,7 +45,7 @@ namespace ft
 		{};
 
 		// constructeur avec capacity par default
-		explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+		explicit vector(size_type n, const T& val = T(), const Allocator& alloc = Allocator())
 		:
 			_alloc(alloc),
 			_start(NULL),
@@ -57,18 +55,13 @@ namespace ft
 			_start = _alloc.allocate(n);
 			_end = _start;
 			_end_capacity = _start + n;
-			while (n < 0)
-			{
-				_alloc.construct(_end, val);
-				++_end;
-				--n;
-			}
+			for (; n < 0; --n)
+				_alloc.construct(_end++, val);
 		}
 
 		//Destructeur par défaut
 		~vector()
 		{
-			this->clear();
 			_alloc.deallocate(_start, this->capacity());
 		}
 
@@ -88,8 +81,9 @@ namespace ft
 		// Supprime la valeur au Top du vector
 		void pop_back()
 		{
-			_alloc.destroy(&this->back());
-			--_end;
+			if (empty())
+				return;
+			_alloc.destroy(_end--);
 		}
 
 		// Réalloue de la mémoire pour avoir une capacity de new_cap
@@ -99,7 +93,7 @@ namespace ft
 		void reserve(size_type new_cap)
 		{
 			if (new_cap > this->max_size())
-				throw (std::length_error("vector::reserve"));
+				throw (std::length_error("vector::reserve > new capacity greater than max size"));
 			else if (new_cap > this->capacity())
 			{
 				pointer prev_start = _start;
@@ -111,20 +105,16 @@ namespace ft
 				_end_capacity = _start + new_cap;
 				_end = _start;
 				while (prev_start != prev_end)
-				{
-					_alloc.construct(_end, *prev_start);
-					++_end;
-					++prev_start;
-				}
+					_alloc.construct(_end++, *prev_start++);
 				_alloc.deallocate(prev_start - prev_size, prev_capacity);
 			}
 		}
 
+		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
 		{
-			size_type save_size = this->size();
-			for (size_type i = 0; i < save_size; ++i)
-				_alloc.destroy(--_end);
+			for (; _start != _end; --_end)
+				_alloc.destroy(_end);
 		}
 
 		// iterator from start
@@ -141,30 +131,31 @@ namespace ft
 
 		iterator end()
 		{
-			return this->empty() ? this->begin() : _end;
+			return _end;
 		}
 
 		const_iterator end() const
 		{
-			return this->empty() ? this->begin() : _end;
+			return _end;
 		}
 
 		// Number of elements
 		size_type size() const
 		{
-			return this->_end - this->_start;
+			return _end - _start;
 		}
 
-		// Max ram ? it's 2_305_843_009_213_693_951 for me
+		// Le nombre maximum d'octet que notre vector peux contenir.
+		// Défini en fonction de la RAM
 		size_type max_size() const
 		{
-			return allocator_type().max_size();
+			return Allocator().max_size();
 		}
 
 		// Max elements
 		size_type capacity() const
 		{
-			return this->_end_capacity - this->_start;
+			return _end_capacity - _start;
 		}
 
 		bool empty() const
@@ -193,11 +184,12 @@ namespace ft
 		}
 
 	private:
-		allocator_type	_alloc;
+		Allocator		_alloc;
 		pointer			_start;
 		pointer			_end;
 		pointer			_end_capacity;
 	};
 }
+
 
 #endif
