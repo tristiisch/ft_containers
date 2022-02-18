@@ -14,7 +14,7 @@ VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite 
 # Compile with our containers
 $CC -D IS_STL=0 $SRCS -o ./$EXEC
 if [ $? != 0 ]; then
-	echo -e "\e[0;31mKO : compile error\e[0m"
+	echo -e "\033[0;31mKO : compile error\033[0m"
 	exit 1
 fi
 
@@ -22,7 +22,7 @@ fi
 ./$EXEC > output
 if [ $? != 0 ]; then
 	cat output
-	echo -e "\e[0;31mKO : prog not return 0\nError msg can be on top\e[0m"
+	echo -e "\033[0;31mKO : prog not return 0\nError msg can be on top\033[0m"
 	rm -f output $EXEC
 	exit 1
 else
@@ -51,7 +51,7 @@ rm -f $EXEC
 # Compile with STL containers
 $CC -D IS_STL=1 $SRCS -o ./$EXEC\_STL 1>/dev/null 2>/dev/null
 if [ $? != 0 ]; then
-	echo -e "\e[0;33mWARN: STL prog didn't compile\e[0m"
+	echo -e "\033[0;33mWARN: STL prog didn't compile\033[0m"
 	exit 1
 fi
 
@@ -59,7 +59,7 @@ fi
 ./$EXEC\_STL > output_STL
 if [ $? != 0 ]; then
 	# cat output
-	echo -e "\e[0;33mWARN: STL prog not return 0\e[0m"
+	echo -e "\033[0;33mWARN: STL prog not return 0\033[0m"
 # else
 # 	cat output
 fi
@@ -67,7 +67,7 @@ rm -f $EXEC\_STL
 
 # Diff between STL containers and our containers
 if [ "$(diff output output_STL)" != "" ]; then
-	echo -e "\e[0;31mKO : prog works not like STL\e[0m"
+	echo -e "\033[0;31mKO : prog works not like STL\033[0m"
 	diff output output_STL
 	rm -f output output_STL
 	exit 1

@@ -52,7 +52,7 @@ static void basicTest()
 	std::cout << vector << std::endl;
 
 	std::cout << std::endl;
-	std::cout << "vector.insert(42)" << std::endl;
+	std::cout << "vector.push_back(42)" << std::endl;
 	vector.push_back(42);
 	std::cout << vector << std::endl;
 	std::cout << std::endl;
@@ -110,12 +110,74 @@ static void segfault_test()
 	std::cout << std::endl;
 }
 
+static void test()
+{
+	ft::vector<int> vector(10);
+
+	std::cout << "Various test :" << std::endl;
+
+	// vector.push_back(95623);
+	// vector.push_back(8);
+	// vector.push_back(6);
+	std::cout << vector << std::endl;
+	std::cout << std::endl;
+
+	vector.insert(vector.begin(), 8);
+	vector.insert(vector.end(), 999);
+	// vector.insert(vector.begin() + 6, 42);
+	// vector.insert(vector.begin() + 8, 1000);
+	vector.get_allocator();
+	vector.begin();
+	std::cout << vector << std::endl;
+}
+
+static void atTest()
+{
+	ft::vector<int> vector;
+
+	std::cout << "At test :" << std::endl;
+
+	vector.push_back(95623);
+	vector.push_back(8);
+	vector.push_back(6);
+	std::cout << vector << std::endl;
+
+	std::cout << "vector.at(0) " << vector.at(0) << std::endl;
+	std::cout << "vector.at(2) " << vector.at(2) << std::endl;
+	std::cout << "vector[0] " << vector[0] << std::endl;
+	std::cout << "vector[2] " << vector[2] << std::endl;
+
+	try {
+		std::cout << "vector.at(-1) " << vector.at(-1) << std::endl;
+	} catch (std::out_of_range &e) {
+		std::cout << "\033[0;31mException on Vector > " << -1 << " is out of range.\033[0m" << std::endl;
+	}
+	try {
+		std::cout << "vector.at(3) " << vector.at(3) << std::endl;
+	} catch (std::out_of_range &e) {
+		std::cout << "\033[0;31mException on Vector > " << 3 << " is out of range.\033[0m" << std::endl;
+	}
+	std::cout << vector << std::endl;
+}
+
 int main()
 {
+	// (void)&basicTest;
 	basicTest();
-	std::cout << std::endl << std::endl;
-	outRangePop();
-	(void)&segfault_test;
+
 	// std::cout << std::endl << std::endl;
+	// (void)&outRangePop;
+	outRangePop();
+
+	//std::cout << std::endl << std::endl;
+	(void)&segfault_test;
 	// segfault_test();
+
+	// std::cout << std::endl << std::endl;
+	// test(); // NOT WORKING
+	(void)&test;
+	
+	// std::cout << std::endl << std::endl;
+	atTest();
+	(void)&atTest;
 }
