@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 19:47:19 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/20 03:08:04 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <memory>
 # include <iostream>
+# include "utils.hpp"
 # include "iterator.hpp"
 # include "reverse_iterator.hpp"
 
@@ -134,47 +135,64 @@ namespace ft
 			}
 		}
 
-		// A revoir totalement, ne fonctionne pas comme la STL
+		// à opti
 		iterator insert(iterator pos, const T& value)
 		{
-			size_type pos_len = pos - _start;
-			//std::cout << "S " << _end_capacity - _end << std::endl;
-			if (size_type(_end_capacity - _end) >= 1)
+			size_type posIndex = pos - _start;
+			if (size_type(_end_capacity - _end) >= this->size() + 1) 
 			{
-				//std::cout << "Hey" << std::endl;
-				for (size_type i = 0; i < pos_len; i++)
+				// std::cout << C_CYAN << "Hey" << C_RESET << std::endl;
+				for (size_type i = 0; i < posIndex; ++i)
 					_alloc.construct(_end - i, *(_end - i - 1));
-				_end++;
 				_alloc.construct(&(*pos), value);
+				_end++;
 			}
+			// Si il y au moins une place dispo entre end & capacity
+			// déplace tous ce qui a après de 1 à droite, et on ajoute value
+			/*else if (size_type(_end_capacity - _end) >= 1)
+			{
+				std::cout << C_CYAN << "Hey3 " << C_RESET << std::endl;
+				for (iterator it = this->end(); it >= pos; --it)
+				{
+					*(it + 1) = *it;
+					// _alloc.construct(it + 1, *it);
+				}
+				// for (size_type i = 0; i < this->size() - posIndex; ++i) 
+					// _alloc.construct(_end - i, *(_end - i - 1));
+				*pos = value;
+				// this->at(posIndex) = this->at(value);
+				// _alloc.construct(_start + posIndex, value); // ajoute notre valeur
+
+			}*/
+			// Sinon alloue le double
 			else
 			{
-				//std::cout << "Hey2" << std::endl;
-				pointer new_start = pointer();
-				pointer new_end = pointer();
-				pointer new_end_capacity = pointer();
+				int newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
+				// std::cout << C_CYAN << "Hey2 " << newCapacity << C_RESET << std::endl;
+				pointer newStart = pointer();
+				pointer newEnd = pointer();
+				pointer newEndCapacity = pointer();
+				newStart = _alloc.allocate(newCapacity);
+				newEnd = newStart + this->size() + 1;
+				newEndCapacity = newStart + newCapacity;
+				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
+					_alloc.construct(newStart + i, *(_start + i));
 
-				int next_capacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
-				new_start = _alloc.allocate( next_capacity );
-				new_end = new_start + this->size() + 1;
-				new_end_capacity = new_start + next_capacity;
+				_alloc.construct(newStart + posIndex, value); // ajoute notre valeur
 
-				for (size_type i = 0; i < pos_len; i++)
-					_alloc.construct(new_start + i, *(_start + i));
-				_alloc.construct(new_start + pos_len, value);
-				for (size_type j = 0; j < this->size() - pos_len; j++)
-					_alloc.construct(new_end - j - 1, *(_end - j - 1));
+				for (size_type i = 0; i < this->size() - posIndex; ++i)  // realloue de notre valeur à la fin
+					_alloc.construct(newEnd - i - 1, *(_end - i - 1));
 
-				for (size_type l = 0; l < this->size(); l++)
-					_alloc.destroy(_start + l);
+				for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
+					_alloc.destroy(_start + i);
 				if (_start)
 					_alloc.deallocate(_start, this->capacity());
 
-				_start = new_start;
-				_end = new_end;
-				_end_capacity = new_end_capacity;
+				_start = newStart;
+				_end = newEnd;
+				_end_capacity = newEndCapacity;
 			}
-			return (iterator(_start + pos_len));
+			return (iterator(_start + posIndex));
 		}
 
 		// Supprime les valeurs. N'affecte pas la memoire allouée
