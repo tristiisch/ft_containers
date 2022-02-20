@@ -10,6 +10,12 @@ SRCS=vector_test.cpp
 EXEC=vector_test.out
 
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
+DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}'`
+if [ $(echo "$DIFF_VERSION >= 3.4" | bc -l) == 1 ]; then
+	DIFF_FLAGS="--color"
+else
+	DIFF_FLAGS=""
+fi
 
 # Compile with our containers
 $CC -D IS_STL=0 $SRCS -o ./$EXEC
@@ -19,7 +25,7 @@ if [ $? != 0 ]; then
 fi
 
 # Launch with our containers
-./$EXEC > output
+./$EXEC | nl -w2 -s'	' > output
 if [ $? != 0 ]; then
 	cat output
 	echo -e "\033[0;31mKO : prog not return 0\nError msg can be on top\033[0m"
@@ -56,7 +62,7 @@ if [ $? != 0 ]; then
 fi
 
 # Launch with STL containers
-./$EXEC\_STL > output_STL
+./$EXEC\_STL | nl -w2 -s'	' > output_STL
 if [ $? != 0 ]; then
 	# cat output
 	echo -e "\033[0;33mWARN: STL prog not return 0\033[0m"
@@ -66,9 +72,9 @@ fi
 rm -f $EXEC\_STL
 
 # Diff between STL containers and our containers
-if [ "$(diff output output_STL)" != "" ]; then
+if [ "$(diff $DIFF_FLAGS output output_STL)" != "" ]; then
 	echo -e "\033[0;31mKO : prog works not like STL\033[0m"
-	diff output output_STL
+	diff $DIFF_FLAGS output output_STL
 	rm -f output output_STL
 	exit 1
 else
