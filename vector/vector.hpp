@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/20 03:08:04 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 03:39:07 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,60 @@ namespace ft
 			_alloc.deallocate(_start, this->capacity());
 		}
 
+		vector &operator=(const vector& x)
+		{
+			if (x == *this)
+				return (*this);
+			this->clear();
+			this->insert(this->end(), x.begin(), x.end());
+			return (*this);
+		}
+
+		void assign(size_type n, const T& val)
+		{
+			this->clear();
+			if (n == 0)
+				return;
+			if (size_type(_end_capacity - _start) >= n)
+			{
+				while (n)
+				{
+					_alloc.construct(_end++ , val);
+					n--;
+				}
+			}
+			else
+			{
+				_alloc.deallocate(_start, this->capacity());
+				_start = _alloc.allocate(n);
+				_end = _start;
+				_end_capacity = _start + n;
+				while (n)
+				{
+					_alloc.construct(_end++, val);
+					n--;
+				}
+			}
+		}
+
+		iterator erase(iterator position)
+		{
+			pointer p_pos = &(*position);
+			_alloc.destroy(&(*position));
+			if (&(*position) + 1 == _end)
+				_alloc.destroy(&(*position));
+			else
+			{
+				for (int i = 0; i < _end - &(*position) - 1; ++i)
+				{
+					_alloc.construct(&(*position) + i, *(&(*position) + i + 1));
+					_alloc.destroy(&(*position) + i + 1);
+				}
+			}
+			_end -= 1;
+			return (iterator(p_pos));
+		}
+
 		// Ajoute une valeur au Top du vector
 		// Si la capacity est dépassé, alloue le double de la capacity actuelle
 		void push_back(const T& value)
@@ -152,22 +206,26 @@ namespace ft
 			/*else if (size_type(_end_capacity - _end) >= 1)
 			{
 				std::cout << C_CYAN << "Hey3 " << C_RESET << std::endl;
-				for (iterator it = this->end(); it >= pos; --it)
-				{
-					*(it + 1) = *it;
-					// _alloc.construct(it + 1, *it);
-				}
-				// for (size_type i = 0; i < this->size() - posIndex; ++i) 
-					// _alloc.construct(_end - i, *(_end - i - 1));
-				*pos = value;
+				// for (iterator it = this->end(); it >= pos; --it)
+				// {
+				// 	// *(it + 1) = *it;
+				// 	_alloc.construct(it + 1, *it);
+				// }
+				for (size_type i = 0; i < this->size() - posIndex - 1; ++i) 
+					_alloc.construct(_end - i, *(_end - i + 1));
+				// *pos = value;
 				// this->at(posIndex) = this->at(value);
-				// _alloc.construct(_start + posIndex, value); // ajoute notre valeur
+				_alloc.construct(_start + posIndex, value); // ajoute notre valeur
 
 			}*/
 			// Sinon alloue le double
 			else
 			{
-				int newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
+				int newCapacity;
+				if (size_type(_end_capacity - _end) >= 1) // TEMP FIX
+					newCapacity = this->capacity();
+				else
+					newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
 				// std::cout << C_CYAN << "Hey2 " << newCapacity << C_RESET << std::endl;
 				pointer newStart = pointer();
 				pointer newEnd = pointer();
