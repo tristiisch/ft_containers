@@ -1,11 +1,11 @@
-name: Units Tests
+name: Third party testing
 
 on: [push, pull_request]
 
 jobs:
   launch_tester_linux:
     runs-on: ubuntu-latest
-    name: Tester Linux
+    name: Third party testing Linux
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -30,11 +30,11 @@ jobs:
           valgrind --version
         shell: bash
       - name: Launch Script
-        run: ./vector_test.sh
+        run: cd containers_tests && ./do.sh vector
         shell: bash
   launch_tester_macos:
     runs-on: macos-latest
-    name: Tester MacOS
+    name: Third party testing MacOS
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -49,5 +49,5 @@ jobs:
           echo Clang version
           clang++ --version
       - name: Launch Script
-        run: ./vector_test.sh
+        run: cd containers_tests && ./do.sh vector
         shell: bash
