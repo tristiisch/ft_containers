@@ -1,16 +1,18 @@
-name: Units Tests
+name: Third party testing
 
 on: [push, pull_request]
 
 jobs:
   launch_tester_linux:
     runs-on: ubuntu-latest
-    name: Tester Linux
+    name: Third party testing Linux
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Submodule
+        run: git submodule update --init
       - name: Install Progs for Tester
         run: |
           sudo apt update
@@ -30,17 +32,18 @@ jobs:
           valgrind --version
         shell: bash
       - name: Launch Script
-        run: ./vector_test.sh
+        run: cd containers_tests && ./do.sh vector
         shell: bash
   launch_tester_macos:
     runs-on: macos-latest
-    name: Tester MacOS
+    name: Third party testing MacOS
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
           submodules: true
-        continue-on-error: true
+      - name: Submodule
+        run: git submodule update --init
       - name: Environnement Informations
         run: |
           echo OS version
@@ -49,5 +52,5 @@ jobs:
           echo Clang version
           clang++ --version
       - name: Launch Script
-        run: ./vector_test.sh
+        run: cd containers_tests && ./do.sh vector
         shell: bash

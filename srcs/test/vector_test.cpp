@@ -17,8 +17,7 @@
 	namespace ft = std;
 	#warning "Using STL"
 #else
-	#include "vector/iterator.hpp"
-	#include "vector/vector.hpp"
+	#include "../vector.hpp"
 #endif
 
 template <typename T>
@@ -116,16 +115,16 @@ static void test()
 
 	std::cout << "Various test :" << std::endl;
 
-	// vector.push_back(95623);
-	// vector.push_back(8);
-	// vector.push_back(6);
+	vector.push_back(95623);
+	vector.push_back(8);
+	vector.push_back(6);
 	std::cout << vector << std::endl;
 	std::cout << std::endl;
 
 	vector.insert(vector.begin(), 8);
 	vector.insert(vector.end(), 999);
-	// vector.insert(vector.begin() + 6, 42);
-	// vector.insert(vector.begin() + 8, 1000);
+	vector.insert(vector.begin() + 6, 42);
+	vector.insert(vector.begin() + 8, 1000);
 	vector.get_allocator();
 	vector.begin();
 	std::cout << vector << std::endl;
@@ -160,13 +159,65 @@ static void atTest()
 	std::cout << vector << std::endl;
 }
 
+static void eraseTest()
+{
+	ft::vector<int> vector1, vector2;
+
+	std::cout << "Erase test 1:" << std::endl;
+	vector1.push_back(95623);
+	vector1.push_back(8);
+	vector1.push_back(6);
+	vector2.push_back(42);
+	std::cout << vector1 << std::endl;
+
+	vector1.erase(vector1.begin() + 1);
+	std::cout << "vector1.erase(vector1.begin() + 1)" << std::endl;
+	std::cout << vector1 << std::endl;
+
+	std::cout << "Erase test 2:" << std::endl;
+	vector2.push_back(95623);
+	vector2.push_back(8);
+	vector2.push_back(6);
+	vector2.push_back(42);
+	std::cout << vector2 << std::endl;
+
+	vector2.erase(vector2.begin() + 1, vector2.end() - 1);
+	std::cout << "vector2.erase(vector2.begin() + 1, vector2.end() - 1)" << std::endl;
+	std::cout << vector2 << std::endl;
+}
+
+static void assign()
+{
+	ft::vector<int> vector;
+
+	std::cout << "Assign test :" << std::endl;
+	std::cout << vector << std::endl;
+
+	vector.assign(10, 42);
+	std::cout << "vector.assign(10, 42)" << std::endl;
+	std::cout << vector << std::endl;
+}
+/*
 int main()
 {
-	// (void)&basicTest;
-	basicTest();
+	(void)&basicTest;
+	(void)&test;
+	(void)&atTest;
+	(void)&segfault_test;
+	(void)&outRangePop;
 
 	// std::cout << std::endl << std::endl;
-	// (void)&outRangePop;
+	test(); // NOT WORKING
+}*/
+
+
+int main()
+{
+	(void)&basicTest;
+	basicTest();
+
+	std::cout << std::endl << std::endl;
+	(void)&outRangePop;
 	outRangePop();
 
 	//std::cout << std::endl << std::endl;
@@ -177,7 +228,15 @@ int main()
 	// test(); // NOT WORKING
 	(void)&test;
 	
-	// std::cout << std::endl << std::endl;
+	std::cout << std::endl << std::endl;
 	atTest();
-	(void)&atTest;
+	(void)&atTest;	
+
+	std::cout << std::endl << std::endl;
+	eraseTest();
+	(void)&eraseTest;
+
+	// std::cout << std::endl << std::endl;
+	//assign(); // NOT WORKING
+	(void)&assign;
 }
