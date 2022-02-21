@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/21 04:11:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 16:00:26 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <memory>
 # include <iostream>
-# include "utils.hpp"
-# include "iterator.hpp"
-# include "reverse_iterator.hpp"
+# include "utils/utils.hpp"
+# include "utils/iterator.hpp"
+# include "utils/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -25,21 +25,23 @@ namespace ft
 	class vector
 	{
 	public:
-		typedef typename Allocator::size_type			size_type;
-		typedef typename Allocator::difference_type		difference_type;
-		typedef	typename Allocator::reference			reference;
-		typedef	typename Allocator::const_reference		const_reference;
-		typedef typename Allocator::pointer				pointer;
+		typedef T												value_type;
+		typedef Allocator										allocator_type;
+		typedef typename allocator_type::size_type				size_type;
+		typedef typename allocator_type::difference_type		difference_type;
+		typedef	typename allocator_type::reference				reference;
+		typedef	typename allocator_type::const_reference		const_reference;
+		typedef typename allocator_type::pointer				pointer;
 
-		typedef ft::iterator<T>							iterator;
-		typedef ft::iterator<const T>					const_iterator;
-		typedef ft::reverse_iterator<T>					reverse_iterator;
-		typedef	ft::reverse_iterator<const T>			const_reverse_iterator;
+		typedef ft::iterator<value_type>						iterator;
+		typedef ft::iterator<const value_type>					const_iterator;
+		typedef ft::reverse_iterator<value_type>				reverse_iterator;
+		typedef	ft::reverse_iterator<const value_type>			const_reverse_iterator;
 
 		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc.. 
 
 		// constructeur par defaut
-		explicit vector(const Allocator& alloc = Allocator())
+		explicit vector(const allocator_type& alloc = allocator_type())
 		:	
 			_alloc(alloc),
 			_start(NULL),
@@ -49,7 +51,7 @@ namespace ft
 		{};
 
 		// constructeur avec capacity par default
-		explicit vector(size_type n, const T& val = T(), const Allocator& alloc = Allocator())
+		explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		:
 			_alloc(alloc),
 			_start(NULL),
@@ -65,7 +67,7 @@ namespace ft
 
 		template <class InputIterator>
          	vector (InputIterator first, InputIterator last,
-                 const Allocator& alloc = Allocator()) // checker pour la verif des iterator + comprendre pourquoi "InputIterator"
+                 const allocator_type& alloc = allocator_type()) // checker pour la verif des iterator + comprendre pourquoi "InputIterator"
 		:
 			_alloc(alloc),
 			_start(NULL),
@@ -87,6 +89,16 @@ namespace ft
 
 		}
 
+		vector (const vector& x)
+		:
+			_alloc(x._alloc),
+			_start(NULL),
+			_end(NULL),
+			_end_capacity(NULL)
+		{
+			this->insert(this->begin(), x.begin(), x.end());
+		}
+
 		//Destructeur par défaut
 		~vector()
 		{
@@ -97,36 +109,9 @@ namespace ft
 		{
 			if (x == *this)
 				return (*this);
-			this->clear();
+			this->clear(); // a CHECK
 			this->insert(this->end(), x.begin(), x.end());
 			return (*this);
-		}
-
-		void assign(size_type n, const T& val)
-		{
-			this->clear();
-			if (n == 0)
-				return;
-			if (size_type(_end_capacity - _start) >= n)
-			{
-				while (n)
-				{
-					_alloc.construct(_end++ , val);
-					n--;
-				}
-			}
-			else
-			{
-				_alloc.deallocate(_start, this->capacity());
-				_start = _alloc.allocate(n);
-				_end = _start;
-				_end_capacity = _start + n;
-				while (n)
-				{
-					_alloc.construct(_end++, val);
-					n--;
-				}
-			}
 		}
 
 		iterator erase(iterator position)
@@ -161,9 +146,77 @@ namespace ft
 			return (iterator(p_first));
 		}
 
+
+		// iterator from start
+		iterator begin()
+		{
+			return iterator(_start);
+		}
+
+		const_iterator begin() const
+		{
+			return const_iterator(_start);
+		}
+
+		// iterator at the end
+		iterator end()
+		{
+			if (this->empty() == false)
+				return iterator(_end);
+			else
+				return iterator(_start);
+		}
+
+		const_iterator end() const
+		{
+			if (this->empty() == false)
+				return const_iterator(_end);
+			else
+				return const_iterator(_start);
+		}
+
+		reverse_iterator rbegin()
+		{
+			return(reverse_iterator(_end - 1));
+		}
+
+		reverse_iterator rend()
+		{
+			return(reverse_iterator(_start - 1));
+		}
+
+		// Number of elements
+		size_type size() const
+		{
+			return _end - _start;
+		}
+
+		// Le nombre maximum d'octet que notre vector peux contenir.
+		// Défini en fonction de la RAM
+		size_type max_size() const
+		{
+			return allocator_type().max_size();
+		}
+
+		void resize (size_type n, value_type val = value_type())
+		{
+			/*if (n > this->max_size())
+				throw une exception.*/
+			/*else*/ if (n < this->size())
+			{
+				while (this->size() > n)
+				{
+					_end--;
+					_alloc.destroy(_end);
+				}
+			}
+			else if(n > this->size())
+				this->insert(this->end(), n - this->size(), val);
+		}
+
 		// Ajoute une valeur au Top du vector
 		// Si la capacity est dépassé, alloue le double de la capacity actuelle
-		void push_back(const T& value)
+		void push_back(const value_type& value)
 		{
 			if (_end == _end_capacity)
 			{
@@ -204,7 +257,7 @@ namespace ft
 		}
 
 		// à opti
-		iterator insert(iterator pos, const T& value)
+		iterator insert(iterator pos, const value_type& value)
 		{
 			size_type posIndex = pos - _start;
 			if (size_type(_end_capacity - _end) >= this->size() + 1) 
@@ -267,6 +320,46 @@ namespace ft
 			return (iterator(_start + posIndex));
 		}
 
+		/*void assign(size_type n, const value_type& val)
+		{
+			this->clear();
+			if (n == 0)
+				return;
+			if (size_type(_end_capacity - _start) >= n)
+			{
+				while (n)
+				{
+					_alloc.construct(_end++ , val);
+					n--;
+				}
+			}
+			else
+			{
+				_alloc.deallocate(_start, this->capacity());
+				_start = _alloc.allocate(n);
+				_end = _start;
+				_end_capacity = _start + n;
+				while (n)
+				{
+					_alloc.construct(_end++, val);
+					n--;
+				}
+			}
+		}*/
+
+		template <class InputIterator>
+  			void assign (InputIterator first, InputIterator last) // il faut vérifier que ce truc marche comme prévu
+		{
+			this->clear();
+			//this->insert(this->begin(), iterator(first) , iterator(last)); TODO insert first-last
+		}
+
+		void	assign(size_t n, const value_type& val) // il faut vérifier que ce truc marche comme prévu
+		{
+			this->clear();
+			this->insert(this->begin(), n, val);
+		}
+
 		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
 		{
@@ -301,62 +394,11 @@ namespace ft
 		}
 
 		// Not needed ?
-		Allocator get_allocator() const
+		allocator_type get_allocator() const
 		{
 			return _alloc;
 		}
 
-		// iterator from start
-		iterator begin()
-		{
-			return iterator(_start);
-		}
-
-		const_iterator begin() const
-		{
-			return const_iterator(_start);
-		}
-
-		
-		// iterator at the end
-		iterator end()
-		{
-			if (this->empty() == false)
-				return iterator(_end);
-			else
-				return iterator(_start);
-		}
-
-		const_iterator end() const
-		{
-			if (this->empty() == false)
-				return const_iterator(_end);
-			else
-				return const_iterator(_start);
-		}
-
-		reverse_iterator rbegin()
-		{
-			return(reverse_iterator(_end - 1));
-		}
-
-		reverse_iterator rend()
-		{
-			return(reverse_iterator(_start - 1));
-		}
-
-		// Number of elements
-		size_type size() const
-		{
-			return _end - _start;
-		}
-
-		// Le nombre maximum d'octet que notre vector peux contenir.
-		// Défini en fonction de la RAM
-		size_type max_size() const
-		{
-			return Allocator().max_size();
-		}
 
 		// Max elements
 		size_type capacity() const
@@ -372,28 +414,8 @@ namespace ft
 				return (false);
 		}
 
-		reference front()
-		{
-			return *_start;
-		}
-
-		const_reference front() const
-		{
-			return *_start;
-		}
-		
-		reference back()
-		{
-			return *(_end - 1);
-		}
-
-		const_reference back() const
-		{
-			return *(_end - 1);
-		}
-
 	private:
-		Allocator		_alloc;
+		allocator_type		_alloc;
 		pointer			_start;
 		pointer			_end;
 		pointer			_end_capacity;

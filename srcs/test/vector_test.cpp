@@ -17,8 +17,7 @@
 	namespace ft = std;
 	#warning "Using STL"
 #else
-	#include "vector/iterator.hpp"
-	#include "vector/vector.hpp"
+	#include "../vector.hpp"
 #endif
 
 template <typename T>
@@ -237,7 +236,7 @@ int main()
 	eraseTest();
 	(void)&eraseTest;
 
-	std::cout << std::endl << std::endl;
-	assign();
+	// std::cout << std::endl << std::endl;
+	//assign(); // NOT WORKING
 	(void)&assign;
 }

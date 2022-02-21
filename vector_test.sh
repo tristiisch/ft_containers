@@ -6,7 +6,7 @@
 # - Compare le resultat de la sortie standard avec la STL (le main doit gérer le #define IS_STL)
 
 CC="clang++ -Wall -Wextra -std=c++98"
-SRCS=vector_test.cpp
+SRCS=srcs/test/vector_test.cpp
 EXEC=vector_test.out
 
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
