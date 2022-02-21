@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/21 16:00:26 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 18:53:07 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,12 +294,9 @@ namespace ft
 				else
 					newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
 				// std::cout << C_CYAN << "Hey2 " << newCapacity << C_RESET << std::endl;
-				pointer newStart = pointer();
-				pointer newEnd = pointer();
-				pointer newEndCapacity = pointer();
-				newStart = _alloc.allocate(newCapacity);
-				newEnd = newStart + this->size() + 1;
-				newEndCapacity = newStart + newCapacity;
+				pointer newStart = _alloc.allocate(newCapacity);
+				pointer newEnd = newStart + this->size() + 1;
+				pointer newEndCapacity = newStart + newCapacity;
 				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
 					_alloc.construct(newStart + i, *(_start + i));
 
@@ -318,6 +315,62 @@ namespace ft
 				_end_capacity = newEndCapacity;
 			}
 			return (iterator(_start + posIndex));
+		}
+
+		template <class InputIterator>
+		void insert(iterator position, InputIterator first, InputIterator last)
+		{
+			size_type dist = last - first;
+			if (size_type(_end_capacity - _end) >= dist)
+			{
+				for (size_type i = 0; i < this->size() - (&(*position) - _start); ++i)
+					_alloc.construct(_end - i + (dist - 1), *(_end - i - 1));
+				_end += dist;
+				for (; &(*first) != &(*last); ++first, ++position)
+					_alloc.construct(&(*position), *first);
+			}
+			else
+			{
+				//size_type newCapacity = this->capacity() * 2;
+				pointer newStart, newEnd, newEndCapacity;
+
+				// if (size_type(newEndCapacity - newStart) < this->size() + dist)
+				if (this->size() + dist > this->size() * 2)
+				{
+					newStart = _alloc.allocate(this->size() + dist);
+					newEnd = newStart + this->size() + dist;
+					newEndCapacity = newEnd;
+				}
+				else
+				{
+					newStart = _alloc.allocate(this->size() * 2);
+					newEnd = newStart + this->size() + dist;
+					newEndCapacity = newStart + (this->size() * 2);
+				}
+				// while (this->size() + dist > newCapacity)
+				// 	newCapacity *= 2;
+				
+				/*newStart = _alloc.allocate(newCapacity);
+				newEnd = newStart + this->size() + dist;
+				newEndCapacity = newStart + (newCapacity);*/
+
+				for (int i = 0; i < &(*position) - _start; ++i)
+					_alloc.construct(newStart + i, *(_start + i));
+
+				for (int i = 0; &(*first) != &(*last); ++first, ++i)
+					_alloc.construct(newStart + (&(*position) - _start) + i, *first);
+
+				for (size_type i = 0; i < this->size() - (&(*position) - _start); ++i)
+					_alloc.construct(newStart + (&(*position) - _start) + dist + i, *(_start + (&(*position) - _start) + i));
+
+				for (size_type i = 0; i < this->size(); ++i)
+					_alloc.destroy(_start + i);
+				_alloc.deallocate(_start, this->capacity());
+
+				_start = newStart;
+				_end = newEnd;
+				_end_capacity = newEndCapacity;
+			}
 		}
 
 		/*void assign(size_type n, const value_type& val)
@@ -351,6 +404,8 @@ namespace ft
   			void assign (InputIterator first, InputIterator last) // il faut vérifier que ce truc marche comme prévu
 		{
 			this->clear();
+			(void)first;
+			(void)last;
 			//this->insert(this->begin(), iterator(first) , iterator(last)); TODO insert first-last
 		}
 

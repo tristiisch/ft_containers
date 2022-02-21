@@ -109,25 +109,33 @@ static void segfault_test()
 	std::cout << std::endl;
 }
 
-static void test()
+static void insertTest()
 {
-	ft::vector<int> vector(10);
+	ft::vector<int> vector1(10), vector2, vector3(10);
 
-	std::cout << "Various test :" << std::endl;
+	std::cout << "Insert test 1:" << std::endl;
 
-	vector.push_back(95623);
-	vector.push_back(8);
-	vector.push_back(6);
-	std::cout << vector << std::endl;
-	std::cout << std::endl;
+	vector1.push_back(95623);
+	vector1.push_back(150);
+	vector1.push_back(6);
+	std::cout << vector1 << std::endl;
+	std::cout << "vector.insert(vector.begin(), 8) and more" << std::endl;
+	vector1.insert(vector1.begin(), 8);
+	vector1.insert(vector1.end(), 999);
+	vector1.insert(vector1.begin() + 6, 42);
+	vector1.insert(vector1.begin() + 8, 1000);
+	std::cout << vector1 << std::endl;
 
-	vector.insert(vector.begin(), 8);
-	vector.insert(vector.end(), 999);
-	vector.insert(vector.begin() + 6, 42);
-	vector.insert(vector.begin() + 8, 1000);
-	vector.get_allocator();
-	vector.begin();
-	std::cout << vector << std::endl;
+
+	std::cout << "Insert test 2:" << std::endl;
+	vector2.push_back(95623);
+	vector2.push_back(150);
+	vector2.push_back(6);
+
+	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
+	std::cout << vector3 << std::endl;
+	/*vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); // NOT WORKING
+	std::cout << vector3 << std::endl;*/
 }
 
 static void atTest()
@@ -167,7 +175,7 @@ static void eraseTest()
 	vector1.push_back(95623);
 	vector1.push_back(8);
 	vector1.push_back(6);
-	vector2.push_back(42);
+	vector1.push_back(42);
 	std::cout << vector1 << std::endl;
 
 	vector1.erase(vector1.begin() + 1);
@@ -186,7 +194,7 @@ static void eraseTest()
 	std::cout << vector2 << std::endl;
 }
 
-static void assign()
+static void assignTest()
 {
 	ft::vector<int> vector;
 
@@ -201,13 +209,21 @@ static void assign()
 int main()
 {
 	(void)&basicTest;
-	(void)&test;
+	(void)&insertTest;
 	(void)&atTest;
 	(void)&segfault_test;
 	(void)&outRangePop;
+	(void)&assignTest;
+	(void)&eraseTest;
 
-	// std::cout << std::endl << std::endl;
-	test(); // NOT WORKING
+
+	ft::vector<int> vector1;
+
+	vector1.push_back(95623);
+	vector1.push_back(8);
+	vector1.push_back(6);
+
+	std::cout << vector1.end() - vector1.begin() << std::endl;
 }*/
 
 
@@ -224,9 +240,9 @@ int main()
 	(void)&segfault_test;
 	// segfault_test();
 
-	// std::cout << std::endl << std::endl;
-	// test(); // NOT WORKING
-	(void)&test;
+	std::cout << std::endl << std::endl;
+	insertTest();
+	(void)&insertTest;
 	
 	std::cout << std::endl << std::endl;
 	atTest();
@@ -236,7 +252,7 @@ int main()
 	eraseTest();
 	(void)&eraseTest;
 
-	// std::cout << std::endl << std::endl;
-	//assign(); // NOT WORKING
-	(void)&assign;
+	//std::cout << std::endl << std::endl;
+	//assignTest(); // NOT WORKING
+	(void)&assignTest;
 }

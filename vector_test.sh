@@ -10,7 +10,7 @@ SRCS=srcs/test/vector_test.cpp
 EXEC=vector_test.out
 
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
-DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}'`
+DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}' | sed 's/\(.*\)\./\1000/'`
 if [ $(echo "$DIFF_VERSION >= 3.4" | bc -l) == 1 ]; then
 	DIFF_FLAGS="--color"
 else
@@ -26,9 +26,15 @@ fi
 
 # Launch with our containers
 ./$EXEC | nl -w2 -s'	' > output
-if [ $? != 0 ]; then
+PIPE=${PIPESTATUS[0]}
+if [ $PIPE == 139 ]; then
 	cat output
-	echo -e "\033[0;31mKO : prog not return 0\nError msg can be on top\033[0m"
+	echo -e "\033[0;31mKO : Segmentation fault\033[0m"
+	rm -f output $EXEC
+	exit 1
+elif [ $PIPE != 0 ]; then
+	cat output
+	echo -e "\033[0;31mKO : prog return $PIPE\033[0m"
 	rm -f output $EXEC
 	exit 1
 else
@@ -37,16 +43,18 @@ fi
 
 # Memory Check
 if [[ $OSTYPE == 'darwin'* ]]; then
-	if ! leaks -atExit --q -- ./$EXEC 1>/dev/null 2>/dev/null ; then
-		echo -e "\033[0;31mKO : leaks\033[0m"
+	if ! leaks -atExit --q -- ./$EXEC &>/dev/null ; then
+		echo -e "\033[0;31mKO : leaks --------------------------- leaks result :\033[0m"
 		leaks -atExit --q -- ./$EXEC
+		echo -e "\033[0;31mKO : leaks\033[0m"
 		rm -f $EXEC
 		exit 1
 	fi
 else
-	if ! valgrind $VALGRIND_FLAGS ./$EXEC 1>/dev/null 2>/dev/null ; then
-		echo -e "\033[0;31mKO : leaks or bad usage\033[0m"
+	if ! valgrind $VALGRIND_FLAGS ./$EXEC &>/dev/null ; then
+		echo -e "\033[0;31mKO : leaks --------------------------- valgrind result :\033[0m"
 		valgrind $VALGRIND_FLAGS ./$EXEC
+		echo -e "\033[0;31mKO : leaks or bad usage\033[0m"
 		rm -f $EXEC
 		exit 1
 	fi
@@ -55,7 +63,7 @@ fi
 rm -f $EXEC
 
 # Compile with STL containers
-$CC -D IS_STL=1 $SRCS -o ./$EXEC\_STL 1>/dev/null 2>/dev/null
+$CC -D IS_STL=1 $SRCS -o ./$EXEC\_STL &>/dev/null
 if [ $? != 0 ]; then
 	echo -e "\033[0;33mWARN: STL prog didn't compile\033[0m"
 	exit 1
@@ -63,9 +71,11 @@ fi
 
 # Launch with STL containers
 ./$EXEC\_STL | nl -w2 -s'	' > output_STL
-if [ $? != 0 ]; then
-	# cat output
-	echo -e "\033[0;33mWARN: STL prog not return 0\033[0m"
+PIPE=${PIPESTATUS[0]}
+if [ $PIPE == 139 ]; then
+	echo -e "\033[0;33mWARN: STL prog Segmentation fault\033[0m"
+elif [ $PIPE != 0 ]; then
+	echo -e "\033[0;33mWARN: STL prog return $PIPE\033[0m"
 # else
 # 	cat output
 fi
