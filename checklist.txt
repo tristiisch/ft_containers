@@ -1,0 +1,63 @@
+CHECKLIST FOR ft_containers
+
+VECTOR
+- constructor ✓
+- destructor ✓
+- operator= ✓
+- begin ✓
+- end ✓
+- rbegin ✓
+- rend ✓
+- size ✓
+- max_size ✓
+- resize ✓ (à voir pour les exceptions)
+- capacity ✓
+- empty ✓
+- reserve ✓
+- operator[] ✓
+- at ✓
+- front ✓
+- back ✓
+- assign
+- push_back ✓
+- pop_back ✓
+- insert (à refaire)
+- erase
+- swap
+- clear ✓
+- get_allocator ✓
+
+MAP
+- constructor
+- destructor
+- operator=
+- begin
+- end
+- rbegin
+- rend
+- empty
+- size
+- max_size
+- operator[]
+- insert
+- erase
+- swap
+- clear
+- key_comp
+- value_comp
+- find
+- count 
+- lower_bound
+- upper_bound
+- equal_range
+- get_allocator
+
+STACK
+- constructor
+- empty
+- size
+- top
+- push
+- emplace
+- pop
+- swap

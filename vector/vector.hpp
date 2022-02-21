@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 19:47:19 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 15:44:38 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,97 @@ namespace ft
 
 		}
 
+		vector (const vector& x)
+		:
+			_alloc(x._alloc),
+			_start(NULL),
+			_end(NULL),
+			_end_capacity(NULL),
+		{
+			this->insert(this->begin(), x.begin(), x.end());
+		}
+
 		//Destructeur par défaut
 		~vector()
 		{
 			_alloc.deallocate(_start, this->capacity());
+		}
+
+		vector &operator=(const vector& x)
+		{
+			if (x == *this)
+				return (*this);
+			this->insert(this->begin(), x.begin(), x.end());
+			return (*this);
+		}
+
+		// iterator from start
+		iterator begin()
+		{
+			return iterator(_start);
+		}
+
+		const_iterator begin() const
+		{
+			return const_iterator(_start);
+		}
+
+		
+		// iterator at the end
+		iterator end()
+		{
+			if (this->empty() == false)
+				return iterator(_end);
+			else
+				return iterator(_start);
+		}
+
+		const_iterator end() const
+		{
+			if (this->empty() == false)
+				return const_iterator(_end);
+			else
+				return const_iterator(_start);
+		}
+
+		reverse_iterator rbegin()
+		{
+			return(reverse_iterator(_end - 1));
+		}
+
+		reverse_iterator rend()
+		{
+			return(reverse_iterator(_start - 1));
+		}
+
+		// Number of elements
+		size_type size() const
+		{
+			return _end - _start;
+		}
+
+		// Le nombre maximum d'octet que notre vector peux contenir.
+		// Défini en fonction de la RAM
+		size_type max_size() const
+		{
+			return Allocator().max_size();
+		}
+
+		void resize (size_type n, value_type val = value_type())
+		{
+			/*if (n > this->max_size())
+				throw une exception.*/
+			/*else*/ if (n < this->size())
+			{
+				while (this->size() > n)
+				{
+					_end--;
+					_alloc.destroy(_end);
+				}
+			}
+			else if(n > this->size())
+				this->insert(this->end(), n - this->size(), val);
+
 		}
 
 		// Ajoute une valeur au Top du vector
@@ -177,6 +264,19 @@ namespace ft
 			return (iterator(_start + pos_len));
 		}
 
+		template <class InputIterator>
+  			void assign (InputIterator first, InputIterator last) // il faut vérifier que ce truc marche comme prévu
+		{
+			this->clear();
+			this->insert(this->begin(), iterator(first) , iterator(last));
+		}
+
+		void	assign(size_t n, const T& val) // il faut vérifier que ce truc marche comme prévu
+		{
+			this->clear();
+			this->insert(this->begin(), n, val);
+		}
+
 		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
 		{
@@ -216,57 +316,9 @@ namespace ft
 			return _alloc;
 		}
 
-		// iterator from start
-		iterator begin()
-		{
-			return iterator(_start);
-		}
-
-		const_iterator begin() const
-		{
-			return const_iterator(_start);
-		}
+		
 
 		
-		// iterator at the end
-		iterator end()
-		{
-			if (this->empty() == false)
-				return iterator(_end);
-			else
-				return iterator(_start);
-		}
-
-		const_iterator end() const
-		{
-			if (this->empty() == false)
-				return const_iterator(_end);
-			else
-				return const_iterator(_start);
-		}
-
-		reverse_iterator rbegin()
-		{
-			return(reverse_iterator(_end - 1));
-		}
-
-		reverse_iterator rend()
-		{
-			return(reverse_iterator(_start - 1));
-		}
-
-		// Number of elements
-		size_type size() const
-		{
-			return _end - _start;
-		}
-
-		// Le nombre maximum d'octet que notre vector peux contenir.
-		// Défini en fonction de la RAM
-		size_type max_size() const
-		{
-			return Allocator().max_size();
-		}
 
 		// Max elements
 		size_type capacity() const
