@@ -11,6 +11,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Submodule
+        run: git submodule update --init
       - name: Install Progs for Tester
         run: |
           sudo apt update
@@ -40,7 +42,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-        continue-on-error: true
+      - name: Submodule
+        run: git submodule update --init
       - name: Environnement Informations
         run: |
           echo OS version
