@@ -121,10 +121,12 @@ static void test()
 	std::cout << vector << std::endl;
 	std::cout << std::endl;
 
-	vector.insert(vector.begin(), 8);
-	vector.insert(vector.end(), 999);
-	vector.insert(vector.begin() + 6, 42);
-	vector.insert(vector.begin() + 8, 1000);
+	//vector.insert(vector.begin(), 8);
+	//vector.insert(vector.end(), 999);
+	//vector.insert(vector.begin() + 6, 42);
+	//vector.insert(vector.begin() + 8, 1000);
+	vector.insert(vector.begin() + 2, 6, 69);
+	vector.insert(vector.begin() + 2, 72);
 	vector.get_allocator();
 	vector.begin();
 	std::cout << vector << std::endl;
@@ -224,8 +226,8 @@ int main()
 	(void)&segfault_test;
 	// segfault_test();
 
-	// std::cout << std::endl << std::endl;
-	// test(); // NOT WORKING
+	std::cout << std::endl << std::endl;
+	test(); // NOT WORKING
 	(void)&test;
 	
 	std::cout << std::endl << std::endl;
