@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/21 03:39:07 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 04:05:12 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,20 @@ namespace ft
 			}
 			_end -= 1;
 			return (iterator(p_pos));
+		}
+
+		iterator erase(iterator first, iterator last)
+		{
+			pointer p_first = &(*first);
+			for (; &(*first) != &(*last); ++first)
+				_alloc.destroy(&(*first));
+			for (int i = 0; i < _end - &(*last); ++i)
+			{
+				_alloc.construct(p_first + i, *(&(*last) + i));
+				_alloc.destroy(&(*last) + i);
+			}
+			_end -= (&(*last) - p_first);
+			return (iterator(p_first));
 		}
 
 		// Ajoute une valeur au Top du vector
