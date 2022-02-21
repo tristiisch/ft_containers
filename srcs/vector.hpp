@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/21 18:53:07 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 19:29:26 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,43 +256,20 @@ namespace ft
 			}
 		}
 
-		// à opti
 		iterator insert(iterator pos, const value_type& value)
 		{
 			size_type posIndex = pos - _start;
-			if (size_type(_end_capacity - _end) >= this->size() + 1) 
+			if (size_type(_end_capacity - _end) >= 1) 
 			{
-				// std::cout << C_CYAN << "Hey" << C_RESET << std::endl;
-				for (size_type i = 0; i < posIndex; ++i)
+				for (size_type i = 0; i < this->size() - posIndex; ++i)
 					_alloc.construct(_end - i, *(_end - i - 1));
 				_alloc.construct(&(*pos), value);
 				_end++;
 			}
-			// Si il y au moins une place dispo entre end & capacity
-			// déplace tous ce qui a après de 1 à droite, et on ajoute value
-			/*else if (size_type(_end_capacity - _end) >= 1)
-			{
-				std::cout << C_CYAN << "Hey3 " << C_RESET << std::endl;
-				// for (iterator it = this->end(); it >= pos; --it)
-				// {
-				// 	// *(it + 1) = *it;
-				// 	_alloc.construct(it + 1, *it);
-				// }
-				for (size_type i = 0; i < this->size() - posIndex - 1; ++i) 
-					_alloc.construct(_end - i, *(_end - i + 1));
-				// *pos = value;
-				// this->at(posIndex) = this->at(value);
-				_alloc.construct(_start + posIndex, value); // ajoute notre valeur
-
-			}*/
-			// Sinon alloue le double
 			else
 			{
 				int newCapacity;
-				if (size_type(_end_capacity - _end) >= 1) // TEMP FIX
-					newCapacity = this->capacity();
-				else
-					newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
+				newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
 				// std::cout << C_CYAN << "Hey2 " << newCapacity << C_RESET << std::endl;
 				pointer newStart = _alloc.allocate(newCapacity);
 				pointer newEnd = newStart + this->size() + 1;
@@ -315,6 +292,48 @@ namespace ft
 				_end_capacity = newEndCapacity;
 			}
 			return (iterator(_start + posIndex));
+		}
+
+		void insert(iterator position, size_type n, const value_type& val)
+		{
+			size_type posIndex = position - _start;
+			if (size_type(_end_capacity - _end) >= n) 
+			{
+				for (size_type i = 0; i < this->size() - posIndex; ++i)
+					_alloc.construct(_end + (n - 1) - i, *(_end - i - 1));
+				for (size_type i = 0 ; i < n ; ++i)
+					_alloc.construct(&(*position) + i, val);
+				_end = _end + n;
+			}
+			else
+			{
+				int new_cap = n;
+				if (this->size() > 0)
+					new_cap = this->size() * 2;
+				pointer new_start = pointer();
+				pointer new_end = pointer();
+				pointer new_endcap = pointer();
+				new_start = _alloc.allocate(new_cap);
+				new_end = new_start + this->size() + n;
+				new_endcap = new_start + new_cap;
+				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
+					_alloc.construct(new_start + i, *(_start + i));
+
+				for (size_type i = 0 ; i < n ; ++i)
+					_alloc.construct(new_start + posIndex + i, val); // ajoute notre valeur
+
+				for (size_type i = 0 ; i < this->size() - posIndex ; ++i)  // realloue de notre valeur à la fin
+					_alloc.construct(new_end - i - 1, *(_end - i - 1));
+
+				for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
+					_alloc.destroy(_start + i);
+				if (_start)
+					_alloc.deallocate(_start, this->capacity());
+
+				_start = new_start;
+				_end = new_end;
+				_end_capacity = new_endcap;
+			}
 		}
 
 		template <class InputIterator>

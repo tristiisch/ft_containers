@@ -111,7 +111,7 @@ static void segfault_test()
 
 static void insertTest()
 {
-	ft::vector<int> vector1(10), vector2, vector3(10);
+	ft::vector<int> vector1(10), vector2, vector3(10), vector4(10);
 
 	std::cout << "Insert test 1:" << std::endl;
 
@@ -136,6 +136,8 @@ static void insertTest()
 	std::cout << vector3 << std::endl;
 	/*vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); // NOT WORKING
 	std::cout << vector3 << std::endl;*/
+	//vector4.insert(vector1.begin() + 2, 6, 69);
+	std::cout << vector4 << std::endl;
 }
 
 static void atTest()
