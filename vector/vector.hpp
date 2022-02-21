@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/21 04:05:12 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/21 04:11:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,6 +398,41 @@ namespace ft
 		pointer			_end;
 		pointer			_end_capacity;
 	};
+}
+
+template <class T, class Alloc>
+bool operator==(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
+{
+	if (lhs.size() != rhs.size())
+		return false;
+	typename ft::vector<T>::const_iterator first1 = lhs.begin();
+	typename ft::vector<T>::const_iterator first2 = rhs.begin();
+	while (first1 != lhs.end())
+	{
+		if (first2 == rhs.end() || *first1 != *first2)
+			return false;
+		++first1;
+		++first2;
+	}
+	return true;
+}
+
+template <class T, class Alloc>
+bool operator!=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
+{
+	return !(lhs == rhs);
+}
+
+template <class T, class Alloc>
+bool operator<=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
+{
+	return !(rhs < lhs);
+}
+
+template <class T, class Alloc>
+bool operator>=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
+{
+	return !(lhs < rhs);
 }
 
 #endif
