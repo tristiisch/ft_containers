@@ -28,6 +28,9 @@ jobs:
           echo
           echo Valgrind version
           valgrind --version
+          echo
+          echo DiffUtils version
+          diff --version
         shell: bash
       - name: Launch Script
         run: cd containers_test && ./do.sh vector
@@ -48,6 +51,9 @@ jobs:
           echo
           echo Clang version
           clang++ --version
+          echo
+          echo DiffUtils version
+          diff --version
       - name: Launch Script
         run: cd containers_test && ./do.sh vector
         shell: bash
