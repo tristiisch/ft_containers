@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 
-#ifndef REVERSE_ITERATOR_HPP
-# define REVERSE_ITERATOR_HPP
-
-# include <cstddef>
+#include <cstddef>
 namespace ft
 {
 
@@ -79,5 +77,3 @@ public:
 };
 
 }
-
-#endif

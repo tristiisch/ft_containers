@@ -134,9 +134,9 @@ static void insertTest()
 
 	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
 	std::cout << vector3 << std::endl;
-	/*vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); // NOT WORKING
-	std::cout << vector3 << std::endl;*/
-	//vector4.insert(vector1.begin() + 2, 6, 69);
+	vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1);
+	std::cout << vector3 << std::endl;
+	vector4.insert(vector4.begin() + 2, (size_t) 6, 69);
 	std::cout << vector4 << std::endl;
 }
 
@@ -203,7 +203,7 @@ static void assignTest()
 	std::cout << "Assign test :" << std::endl;
 	std::cout << vector << std::endl;
 
-	vector.assign(10, 42);
+	vector.assign((size_t) 10, 42);
 	std::cout << "vector.assign(10, 42)" << std::endl;
 	std::cout << vector << std::endl;
 }
