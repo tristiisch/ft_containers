@@ -198,15 +198,55 @@ static void eraseTest()
 
 static void assignTest()
 {
-	ft::vector<int> vector;
+	ft::vector<int> vector1, vector2;
 
 	std::cout << "Assign test :" << std::endl;
+	std::cout << vector1 << std::endl;
+
+	vector1.assign((size_t) 10, 42);
+	std::cout << "vector1.assign(10, 42)" << std::endl;
+	std::cout << vector1 << std::endl;
+
+	vector2.assign(vector1.begin() + 1, vector1.end() - 1);
+	std::cout << "vector2.assign(vector1.begin() + 1, vector1.end() - 1)" << std::endl;
+	std::cout << vector2 << std::endl;
+}
+
+static void resizeTest()
+{
+	ft::vector<int> vector;
+
+	std::cout << "Resize test :" << std::endl;
+	vector.push_back(95623);
+	vector.push_back(6);
+	vector.push_back(186);
 	std::cout << vector << std::endl;
 
-	vector.assign((size_t) 10, 42);
-	std::cout << "vector.assign(10, 42)" << std::endl;
+	vector.resize(2, 42);
+	std::cout << "vector.resize(2, 42)" << std::endl;
+	std::cout << vector << std::endl;
+
+	// resize greater than capacity : NOT WORKING -> Invalid write of size 4 on valgrind
+	// vector.resize(10, 42);
+	// std::cout << "vector.resize(10, 42)" << std::endl; 
+	// std::cout << vector << std::endl;
+}
+
+static void reserveTest()
+{
+	ft::vector<int> vector;
+
+	std::cout << vector << std::endl;
+
+	vector.reserve(42);
+	std::cout << "vector.reserve(42)" << std::endl;
+	std::cout << vector << std::endl;
+
+	vector.reserve(1);
+	std::cout << "vector.reserve(1)" << std::endl;
 	std::cout << vector << std::endl;
 }
+
 /*
 int main()
 {
@@ -254,7 +294,16 @@ int main()
 	eraseTest();
 	(void)&eraseTest;
 
-	//std::cout << std::endl << std::endl;
-	//assignTest(); // NOT WORKING
+	std::cout << std::endl << std::endl;
+	assignTest();
 	(void)&assignTest;
+
+	std::cout << std::endl << std::endl;
+	resizeTest();
+	(void)&resizeTest;
+
+	std::cout << std::endl << std::endl;
+	reserveTest();
+	(void)&reserveTest;
 }
+

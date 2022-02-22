@@ -70,13 +70,36 @@ function launch_our {
 }
 
 # Memory Check
+function memory_check_STL {
+	if command -v valgrind &>/dev/null ; then
+		if ! valgrind $VALGRIND_FLAGS ./$EXEC\_STL &>/dev/null ; then
+			echo -e "\033[0;33mWARN STL : leaks --------------------------- valgrind result :\033[0m"
+			valgrind $VALGRIND_FLAGS ./$EXEC\_STL
+			echo -e "\033[0;33mWARN STL : leaks or bad usage\033[0m"
+		fi
+	elif command -v leaks &>/dev/null ; then
+		if ! leaks -atExit --q -- ./$EXEC\_STL &>/dev/null ; then
+			echo -e "\033[0;33mWARN STL : leaks --------------------------- leaks result :\033[0m"
+			leaks -atExit --q -- ./$EXEC\_STL
+			echo -e "\033[0;33mWARN STL : leaks\033[0m"
+		fi
+	else
+		echo -e "\033[0;33mWARN: can't do memory check, unable to find valgrind or leaks\033[0m"
+	fi
+	rm -f $EXEC\_STL
+}
+
+
+# Memory Check
 function memory_check {
 	if command -v valgrind &>/dev/null ; then
 		if ! valgrind $VALGRIND_FLAGS ./$EXEC &>/dev/null ; then
 			echo -e "\033[0;31mKO : leaks --------------------------- valgrind result :\033[0m"
 			valgrind $VALGRIND_FLAGS ./$EXEC
 			echo -e "\033[0;31mKO : leaks or bad usage\033[0m"
-			rm -f $EXEC
+			rm -f $EXEC output
+			compile_STL
+			memory_check_STL
 			exit 1
 		fi
 	elif command -v leaks &>/dev/null ; then
@@ -84,7 +107,7 @@ function memory_check {
 			echo -e "\033[0;31mKO : leaks --------------------------- leaks result :\033[0m"
 			leaks -atExit --q -- ./$EXEC
 			echo -e "\033[0;31mKO : leaks\033[0m"
-			rm -f $EXEC
+			rm -f $EXEC output
 			exit 1
 		fi
 	else

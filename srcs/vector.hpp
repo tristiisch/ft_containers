@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/22 01:01:40 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/22 01:23:19 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,15 +201,18 @@ namespace ft
 				throw une exception.*/
 			/*else*/ if (n < this->size())
 			{
-				// while (this->size() > n)
-				// {
-				// 	_end--;
-				// 	_alloc.destroy(_end);
-				// }
-				this->erase(begin() + n, end());
+				while (this->size() > n)
+				{
+					--_end;
+					_alloc.destroy(_end);
+				}
+				//this->erase(begin() + n, end());
 			}
 			else if(n > this->size())
+			{
+				//reserve(n);
 				this->insert(this->end(), n - this->size(), val);
+			}
 		}
 
 		// Ajoute une valeur au Top du vector
