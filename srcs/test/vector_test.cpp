@@ -43,43 +43,37 @@ std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 	return outputFile;
 }
 
-static void basicTest()
+static void pushPopTest()
 {
 	ft::vector<int> vector;
 
-	std::cout << "Basic Test :" << std::endl;
+	std::cout << "Push/Pop Test :" << std::endl;
 	std::cout << vector << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "vector.push_back(42)" << std::endl;
 	vector.push_back(42);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(122)" << std::endl;
 	vector.push_back(122);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(99)" << std::endl;
 	vector.push_back(99);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(2)" << std::endl;
 	vector.push_back(2);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(2147483647)" << std::endl;
 	vector.push_back(2147483647);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.pop_back()" << std::endl;
 	vector.pop_back();
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.clear()" << std::endl;
 	vector.clear();
@@ -223,6 +217,10 @@ static void eraseTest()
 	vector2.erase(vector2.begin() + 1, vector2.end() - 1);
 	std::cout << "vector2.erase(vector2.begin() + 1, vector2.end() - 1)" << std::endl;
 	std::cout << vector2 << std::endl;
+
+	vector2.erase(vector2.begin(), vector2.end());
+	std::cout << "vector2.erase(vector2.begin(), vector2.end())" << std::endl;
+	std::cout << vector2 << std::endl;
 }
 
 static void assignTest()
@@ -255,10 +253,10 @@ static void resizeTest()
 	std::cout << "vector.resize(2, 42)" << std::endl;
 	std::cout << vector << std::endl;
 
-	// resize greater than capacity : NOT WORKING -> Invalid write of size 4 on valgrind
-	// vector.resize(10, 42);
-	// std::cout << "vector.resize(10, 42)" << std::endl; 
-	// std::cout << vector << std::endl;
+	// resize greater than capacity : check with valgrind
+	vector.resize(10, 42);
+	std::cout << "vector.resize(10, 42)" << std::endl; 
+	std::cout << vector << std::endl;
 }
 
 static void reserveTest()
@@ -300,8 +298,8 @@ int main()
 
 int main()
 {
-	(void)&basicTest;
-	basicTest();
+	(void)&pushPopTest;
+	pushPopTest();
 
 	std::cout << std::endl << std::endl;
 	(void)&outRangePop;

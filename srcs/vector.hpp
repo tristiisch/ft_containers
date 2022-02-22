@@ -6,14 +6,13 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/22 20:34:22 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/22 22:06:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
-#include <iostream>
 #include "utils/utils.hpp"
 #include "utils/iterator.hpp"
 #include "utils/reverse_iterator.hpp"
@@ -210,7 +209,7 @@ namespace ft
 			}
 			else if (n > this->size())
 			{
-				//reserve(n);
+				reserve(n);
 				this->insert(this->end(), n - this->size(), val);
 			}
 		}
@@ -369,7 +368,7 @@ namespace ft
 				}
 				// while (this->size() + dist > newCapacity)
 				// 	newCapacity *= 2;
-				
+
 				/*newStart = _alloc.allocate(newCapacity);
 				newEnd = newStart + this->size() + dist;
 				newEndCapacity = newStart + (newCapacity);*/

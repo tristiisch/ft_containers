@@ -5,7 +5,7 @@
 # - [LINUX] Vérifie les invalid read/write et autre erreur invisible
 # - Compare le resultat de la sortie standard avec la STL (le main doit gérer le #define IS_STL)
 
-CC="clang++ -Wall -Wextra -std=c++98"
+CC="c++ -Wall -Wextra -std=c++98"
 SRCS=srcs/test/vector_test.cpp
 EXEC=vector_test.out
 
