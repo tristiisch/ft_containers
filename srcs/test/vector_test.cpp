@@ -109,27 +109,35 @@ static void segfault_test()
 	std::cout << std::endl;
 }
 
-static void test()
+static void insertTest()
 {
-	ft::vector<int> vector(10);
+	ft::vector<int> vector1(10), vector2, vector3(10), vector4(10);
 
-	std::cout << "Various test :" << std::endl;
+	std::cout << "Insert test 1:" << std::endl;
 
-	vector.push_back(95623);
-	vector.push_back(8);
-	vector.push_back(6);
-	std::cout << vector << std::endl;
-	std::cout << std::endl;
+	vector1.push_back(95623);
+	vector1.push_back(150);
+	vector1.push_back(6);
+	std::cout << vector1 << std::endl;
+	std::cout << "vector.insert(vector.begin(), 8) and more" << std::endl;
+	vector1.insert(vector1.begin(), 8);
+	vector1.insert(vector1.end(), 999);
+	vector1.insert(vector1.begin() + 6, 42);
+	vector1.insert(vector1.begin() + 8, 1000);
+	std::cout << vector1 << std::endl;
 
-	//vector.insert(vector.begin(), 8);
-	//vector.insert(vector.end(), 999);
-	//vector.insert(vector.begin() + 6, 42);
-	//vector.insert(vector.begin() + 8, 1000);
-	vector.insert(vector.begin() + 2, 6, 69);
-	vector.insert(vector.begin() + 2, 72);
-	vector.get_allocator();
-	vector.begin();
-	std::cout << vector << std::endl;
+
+	std::cout << "Insert test 2:" << std::endl;
+	vector2.push_back(95623);
+	vector2.push_back(150);
+	vector2.push_back(6);
+
+	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
+	std::cout << vector3 << std::endl;
+	vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1);
+	std::cout << vector3 << std::endl;
+	vector4.insert(vector4.begin() + 2, (size_t) 6, 69);
+	std::cout << vector4 << std::endl;
 }
 
 static void atTest()
@@ -169,7 +177,7 @@ static void eraseTest()
 	vector1.push_back(95623);
 	vector1.push_back(8);
 	vector1.push_back(6);
-	vector2.push_back(42);
+	vector1.push_back(42);
 	std::cout << vector1 << std::endl;
 
 	vector1.erase(vector1.begin() + 1);
@@ -188,28 +196,76 @@ static void eraseTest()
 	std::cout << vector2 << std::endl;
 }
 
-static void assign()
+static void assignTest()
+{
+	ft::vector<int> vector1, vector2;
+
+	std::cout << "Assign test :" << std::endl;
+	std::cout << vector1 << std::endl;
+
+	vector1.assign((size_t) 10, 42);
+	std::cout << "vector1.assign(10, 42)" << std::endl;
+	std::cout << vector1 << std::endl;
+
+	vector2.assign(vector1.begin() + 1, vector1.end() - 1);
+	std::cout << "vector2.assign(vector1.begin() + 1, vector1.end() - 1)" << std::endl;
+	std::cout << vector2 << std::endl;
+}
+
+static void resizeTest()
 {
 	ft::vector<int> vector;
 
-	std::cout << "Assign test :" << std::endl;
+	std::cout << "Resize test :" << std::endl;
+	vector.push_back(95623);
+	vector.push_back(6);
+	vector.push_back(186);
 	std::cout << vector << std::endl;
 
-	vector.assign(10, 42);
-	std::cout << "vector.assign(10, 42)" << std::endl;
+	vector.resize(2, 42);
+	std::cout << "vector.resize(2, 42)" << std::endl;
+	std::cout << vector << std::endl;
+
+	// resize greater than capacity : NOT WORKING -> Invalid write of size 4 on valgrind
+	// vector.resize(10, 42);
+	// std::cout << "vector.resize(10, 42)" << std::endl; 
+	// std::cout << vector << std::endl;
+}
+
+static void reserveTest()
+{
+	ft::vector<int> vector;
+
+	std::cout << vector << std::endl;
+
+	vector.reserve(42);
+	std::cout << "vector.reserve(42)" << std::endl;
+	std::cout << vector << std::endl;
+
+	vector.reserve(1);
+	std::cout << "vector.reserve(1)" << std::endl;
 	std::cout << vector << std::endl;
 }
+
 /*
 int main()
 {
 	(void)&basicTest;
-	(void)&test;
+	(void)&insertTest;
 	(void)&atTest;
 	(void)&segfault_test;
 	(void)&outRangePop;
+	(void)&assignTest;
+	(void)&eraseTest;
 
-	// std::cout << std::endl << std::endl;
-	test(); // NOT WORKING
+
+	ft::vector<int> vector1;
+
+	vector1.push_back(95623);
+	vector1.push_back(8);
+	vector1.push_back(6);
+
+	std::cout << vector1.end() - vector1.begin() << std::endl;
 }*/
 
 
@@ -227,8 +283,8 @@ int main()
 	// segfault_test();
 
 	std::cout << std::endl << std::endl;
-	test(); // NOT WORKING
-	(void)&test;
+	insertTest();
+	(void)&insertTest;
 	
 	std::cout << std::endl << std::endl;
 	atTest();
@@ -238,7 +294,16 @@ int main()
 	eraseTest();
 	(void)&eraseTest;
 
-	// std::cout << std::endl << std::endl;
-	//assign(); // NOT WORKING
-	(void)&assign;
+	std::cout << std::endl << std::endl;
+	assignTest();
+	(void)&assignTest;
+
+	std::cout << std::endl << std::endl;
+	resizeTest();
+	(void)&resizeTest;
+
+	std::cout << std::endl << std::endl;
+	reserveTest();
+	(void)&reserveTest;
 }
+
