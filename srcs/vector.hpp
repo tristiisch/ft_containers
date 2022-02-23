@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/23 17:38:36 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/23 19:06:14 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ namespace ft
 			}
 			else
 			{
-				int newCapacity;
+				 int newCapacity;
 				newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
 				// std::cout << C_CYAN << "Hey2 " << newCapacity << C_RESET << std::endl;
 				pointer newStart = _alloc.allocate(newCapacity);
@@ -287,52 +287,60 @@ namespace ft
 				if (_start)
 					_alloc.deallocate(_start, this->capacity());
 
-				_start = newStart;
-				_end = newEnd;
-				_end_capacity = newEndCapacity;
+				this->_start = newStart;
+				this->_end = newEnd;
+				this->_end_capacity = newEndCapacity;
 			}
 			return (iterator(_start + posIndex));
 		}
 
 		void insert(iterator position, size_type n, const value_type& val)
 		{
-			size_type posIndex = position - _start;
-			if (size_type(_end_capacity - _end) >= n) 
+		size_type posIndex = position - _start;
+		if (size_type(_end_capacity - _end) >= n) 
+		{
+			for (size_type i = 0; i < this->size() - posIndex; ++i)
+				_alloc.construct(_end + (n - 1) - i, *(_end - i - 1));
+			for (size_type i = 0 ; i < n ; ++i)
+				_alloc.construct(&(*position) + i, val);
+			_end = _end + n;
+		}
+		else
+		{
+			int new_cap = n;
+			if (this->size() > 1)
+				new_cap = this->size() * 2;
+			pointer new_start;
+			pointer new_endcap;
+			pointer new_end;
+			
+			if ((this->size() * 2) >= (this->size() + n))
 			{
-				for (size_type i = 0; i < this->size() - posIndex; ++i)
-					_alloc.construct(_end + (n - 1) - i, *(_end - i - 1));
-				for (size_type i = 0 ; i < n ; ++i)
-					_alloc.construct(&(*position) + i, val);
-				_end = _end + n;
-			}
-			else
-			{
-				int new_cap = n;
-				if (this->size() > 0)
-					new_cap = this->size() * 2;
-				pointer new_start = pointer();
-				pointer new_end = pointer();
-				pointer new_endcap = pointer();
 				new_start = _alloc.allocate(new_cap);
 				new_end = new_start + this->size() + n;
 				new_endcap = new_start + new_cap;
-				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
-					_alloc.construct(new_start + i, *(_start + i));
+			}
+			else
+			{
+				new_cap = this->size() + n;
+				new_start = _alloc.allocate(new_cap);
+				new_end = new_start + this->size() + n;
+				new_endcap = new_start + new_cap;
+			}
 
-				for (size_type i = 0 ; i < n ; ++i)
-					_alloc.construct(new_start + posIndex + i, val); // ajoute notre valeur
-
-				for (size_type i = 0 ; i < this->size() - posIndex ; ++i)  // realloue de notre valeur à la fin
-					_alloc.construct(new_end - i - 1, *(_end - i - 1));
-
-				for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
-					_alloc.destroy(_start + i);
-				if (_start)
-					_alloc.deallocate(_start, this->capacity());
-
-				_start = new_start;
-				_end = new_end;
-				_end_capacity = new_endcap;
+			for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
+				_alloc.construct(new_start + i, *(_start + i));
+			for (size_type i = 0 ; i < n ; ++i)
+				_alloc.construct(new_start + posIndex + i, val); // ajoute notre valeur
+			for (size_type i = 0 ; i < this->size() - posIndex ; ++i)  // realloue de notre valeur à la fin
+				_alloc.construct(new_end - i - 1, *(_end - i - 1));
+			for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
+				_alloc.destroy(_start + i);
+			if (_start)
+				_alloc.deallocate(_start, this->capacity());
+			_start = new_start;
+			_end = new_end;
+			_end_capacity = new_endcap;
 			}
 		}
 
@@ -405,10 +413,30 @@ namespace ft
 			this->insert(this->begin(), first, last);
 		}
 
-		// void swap(vector& x)
-		// {
-		// 	std::swap(this, x);
-		// }
+
+
+		void swap(vector& x)
+		{
+			allocator_type save_alloc;
+			pointer save_start;
+			pointer	save_end;
+			pointer save_endcap;
+
+			save_alloc = x._alloc;
+			save_start = x._start;
+			save_end = x._end;
+			save_endcap = x._end_capacity;
+
+			x._alloc = this->_alloc;
+			x._start = this->_start;
+			x._end = this->_end;
+			x._end_capacity = this->_end_capacity;
+
+			this->_alloc = save_alloc;
+			this->_start = save_start;
+			this->_end = save_end;
+			this->_end_capacity = save_endcap;
+		}
 
 		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
@@ -511,5 +539,11 @@ namespace ft
 	bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
 		return !(rhs > lhs);
+	}
+
+	template <class T, class Alloc>
+ 		void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		x.swap(y);
 	}
 }
