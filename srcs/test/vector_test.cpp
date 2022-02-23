@@ -297,11 +297,11 @@ static void iteratorTest()
 	it -= 5;
 	std::cout << "it -= 2 = " << *it << std::endl;
 	std::cout << "it[3] = " << it[3] << std::endl;
-	std::cout << "*vector.begin() = " << *vector.begin() << std::endl;
-	std::cout << "*vector.end() = " << *vector.end() << std::endl;
 	// auto test = it.base();
 	// std::cout << "it.base = " << test << std::endl;
 	//it.get();
+	std::cout << "*vector.begin() = " << *vector.begin() << std::endl;
+	std::cout << "*vector.end() = " << *(vector.end() - 1) << std::endl;
 
 	std::cout << "iterate iterator >";
 	while (it != vector.end())
@@ -329,7 +329,7 @@ static void iteratorTest()
 	std::cout << "rIt -= 2 = " << *rIt << std::endl;
 	std::cout << "rIt[3] = " << rIt[3] << std::endl;
 	std::cout << "*vector.rbegin() = " << *vector.rbegin() << std::endl;
-	std::cout << "*vector.rend() = " << *vector.rend() << std::endl;
+	std::cout << "*vector.rend() = " << *(vector.rend() - 1) << std::endl;
 
 	std::cout << "iterate reverse iterator >";
 	while (rIt != rItEnd)
