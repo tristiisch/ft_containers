@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 16:12:53 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/23 19:03:12 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_HPP
-# define ITERATOR_HPP
+#pragma once
 
-# include <cstddef>
+#include <cstddef>
+
 namespace ft
 {
+
 
 template <typename T>
 class	iterator
@@ -70,7 +71,10 @@ public:
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
+	value_type base() const { return value_type(_ptr); }
+
 	static const bool input_iter = true;
+
 
 	private:
 		pointer _ptr;
@@ -78,5 +82,3 @@ public:
 };
 
 }
-
-#endif

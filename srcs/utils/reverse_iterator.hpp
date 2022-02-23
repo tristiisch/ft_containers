@@ -58,18 +58,20 @@ public:
 	reverse_iterator operator --(int) { _ptr++; return (reverse_iterator(_ptr - 1)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
-	void operator +=(difference_type b) { _ptr += b; };	// a += b
-	void operator -=(difference_type b) { _ptr -= b; };	// a -= b
+	void operator +=(difference_type b) { _ptr -= b; };	// a += b
+	void operator -=(difference_type b) { _ptr += b; };	// a -= b
 
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
 	const_reference operator *() const { return (*_ptr); };								// *a
-	reference operator [](difference_type b) { return (*(_ptr + b)); };					// a[]
-	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
+	reference operator [](difference_type b) { return (*(_ptr - b)); };					// a[]
+	const_reference operator [](difference_type b) const { return (*(_ptr - b)); };		// a[]
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
 	static const bool input_iter = true;
+
+	value_type base() { return _ptr; }
 
 	private:
 		pointer _ptr;

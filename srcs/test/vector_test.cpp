@@ -134,6 +134,8 @@ static void insertTest()
 	std::cout << vector4 << std::endl;
 }
 
+
+
 static void atTest()
 {
 	ft::vector<int> vector1;
@@ -263,6 +265,7 @@ static void reserveTest()
 {
 	ft::vector<int> vector;
 
+	std::cout << "Reserve test :" << std::endl;
 	std::cout << vector << std::endl;
 
 	vector.reserve(42);
@@ -272,6 +275,68 @@ static void reserveTest()
 	vector.reserve(1);
 	std::cout << "vector.reserve(1)" << std::endl;
 	std::cout << vector << std::endl;
+}
+
+static void iteratorTest()
+{
+	int tab[] = {86, 15152, 6, 9465, 472, 41, 989626598, 74, 633, 6};
+	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
+	ft::vector<int>::iterator it = vector.begin();
+
+	std::cout << "Iterator test :" << std::endl;
+	std::cout << vector << std::endl;
+
+	std::cout << "it = " << *it << std::endl;
+	std::cout << "++it = " << *++it << std::endl;
+	std::cout << "it++ = " << *it++ << std::endl;
+	std::cout << "--it = " << *--it << std::endl;
+	std::cout << "it-- = " << *it-- << std::endl;
+	std::cout << "it + 1 = " << *(it + 1) << std::endl;
+	it += 5;
+	std::cout << "it += 5 = " << *it << std::endl;
+	it -= 5;
+	std::cout << "it -= 2 = " << *it << std::endl;
+	std::cout << "it[3] = " << it[3] << std::endl;
+	std::cout << "*vector.begin() = " << *vector.begin() << std::endl;
+	std::cout << "*vector.end() = " << *vector.end() << std::endl;
+	// auto test = it.base();
+	// std::cout << "it.base = " << test << std::endl;
+	//it.get();
+
+	std::cout << "iterate iterator >";
+	while (it != vector.end())
+	{
+		std::cout << " " << *it++;
+	}
+	std::cout << std::endl;
+
+	ft::vector<int>::reverse_iterator rIt = vector.rbegin();
+	ft::vector<int>::reverse_iterator rItEnd = vector.rend();
+
+	std::cout << "Reverse Iterator test :" << std::endl;
+	std::cout << vector << std::endl;
+
+	std::cout << "rIt = " << *rIt << std::endl;
+	std::cout << "++rIt = " << *++rIt << std::endl;
+	std::cout << "rIt++ = " << *rIt++ << std::endl;
+	std::cout << "--rIt = " << *--rIt << std::endl;
+	std::cout << "rIt-- = " << *rIt-- << std::endl;
+	std::cout << "rIt + 1 = " << *(rIt + 1) << std::endl;
+	rIt += 5;
+	std::cout << "rIt += 5 = " << *rIt << std::endl;
+	rIt -= 2;
+	
+	std::cout << "rIt -= 2 = " << *rIt << std::endl;
+	std::cout << "rIt[3] = " << rIt[3] << std::endl;
+	std::cout << "*vector.rbegin() = " << *vector.rbegin() << std::endl;
+	std::cout << "*vector.rend() = " << *vector.rend() << std::endl;
+
+	std::cout << "iterate reverse iterator >";
+	while (rIt != rItEnd)
+	{
+		std::cout << " " << *rIt++;
+	}
+	std::cout << std::endl;
 }
 
 /*
@@ -332,5 +397,9 @@ int main()
 	std::cout << std::endl << std::endl;
 	reserveTest();
 	(void)&reserveTest;
+
+	std::cout << std::endl << std::endl;
+	iteratorTest();
+	(void)&iteratorTest;
 }
 

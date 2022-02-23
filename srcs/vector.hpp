@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/22 22:06:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/23 17:38:36 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -438,6 +438,14 @@ namespace ft
 			this->_range_check(n);
 			return *(_start + n);
 		}
+		
+		reference front () { return (*_start); }
+
+		const_reference front () const { return (*_start); }
+
+		reference back () { return (*(_end - 1)); }
+
+		const_reference back () const { return (*(_end - 1)); }
 
 		allocator_type get_allocator() const
 		{
