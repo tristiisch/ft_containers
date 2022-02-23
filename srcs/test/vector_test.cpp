@@ -43,43 +43,37 @@ std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 	return outputFile;
 }
 
-static void basicTest()
+static void pushPopTest()
 {
 	ft::vector<int> vector;
 
-	std::cout << "Basic Test :" << std::endl;
+	std::cout << "Push/Pop Test :" << std::endl;
 	std::cout << vector << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "vector.push_back(42)" << std::endl;
 	vector.push_back(42);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(122)" << std::endl;
 	vector.push_back(122);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(99)" << std::endl;
 	vector.push_back(99);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(2)" << std::endl;
 	vector.push_back(2);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.push_back(2147483647)" << std::endl;
 	vector.push_back(2147483647);
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.pop_back()" << std::endl;
 	vector.pop_back();
 	std::cout << vector << std::endl;
-	std::cout << std::endl;
 
 	std::cout << "vector.clear()" << std::endl;
 	vector.clear();
@@ -133,40 +127,69 @@ static void insertTest()
 	vector2.push_back(6);
 
 	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
+	// std::cout << vector3 << std::endl;
+	// vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); -> capacity not good on
 	std::cout << vector3 << std::endl;
-	vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1);
-	std::cout << vector3 << std::endl;
-	vector4.insert(vector4.begin() + 2, (size_t) 6, 69);
+	vector4.insert(vector4.begin() + 2, 6, 69);
 	std::cout << vector4 << std::endl;
 }
 
 static void atTest()
 {
-	ft::vector<int> vector;
+	ft::vector<int> vector1;
 
 	std::cout << "At test :" << std::endl;
 
-	vector.push_back(95623);
-	vector.push_back(8);
-	vector.push_back(6);
-	std::cout << vector << std::endl;
+	vector1.push_back(95623);
+	vector1.push_back(8);
+	vector1.push_back(6);
+	std::cout << vector1 << std::endl;
 
-	std::cout << "vector.at(0) " << vector.at(0) << std::endl;
-	std::cout << "vector.at(2) " << vector.at(2) << std::endl;
-	std::cout << "vector[0] " << vector[0] << std::endl;
-	std::cout << "vector[2] " << vector[2] << std::endl;
+	std::cout << "vector1.at(0) " << vector1.at(0) << std::endl;
+	std::cout << "vector1.at(2) " << vector1.at(2) << std::endl;
+	std::cout << "vector1[0] " << vector1[0] << std::endl;
+	std::cout << "vector1[2] " << vector1[2] << std::endl;
 
 	try {
-		std::cout << "vector.at(-1) " << vector.at(-1) << std::endl;
+		std::cout << "vector1.at(-1) " << vector1.at(-1) << std::endl;
 	} catch (std::out_of_range &e) {
 		std::cout << "\033[0;31mException on Vector > " << -1 << " is out of range.\033[0m" << std::endl;
 	}
 	try {
-		std::cout << "vector.at(3) " << vector.at(3) << std::endl;
+		std::cout << "vector1.at(3) " << vector1.at(3) << std::endl;
 	} catch (std::out_of_range &e) {
 		std::cout << "\033[0;31mException on Vector > " << 3 << " is out of range.\033[0m" << std::endl;
 	}
-	std::cout << vector << std::endl;
+	std::cout << vector1 << std::endl;
+
+	const ft::vector<int> vector2(vector1);
+	std::cout << "At test 2 const :" << std::endl;
+	std::cout << vector2 << std::endl;
+
+	std::cout << "vector.at(0) " << vector2.at(0) << std::endl;
+	std::cout << "vector.at(2) " << vector2.at(2) << std::endl;
+	std::cout << "vector[0] " << vector2[0] << std::endl;
+	std::cout << "vector[2] " << vector2[2] << std::endl;
+
+	try {
+		std::cout << "vector2.at(-1) " << vector2.at(-1) << std::endl;
+	} catch (std::out_of_range &e) {
+		std::cout << "\033[0;31mException on Vector > " << -1 << " is out of range.\033[0m" << std::endl;
+	}
+	try {
+		std::cout << "vector2.at(3) " << vector2.at(3) << std::endl;
+	} catch (std::out_of_range &e) {
+		std::cout << "\033[0;31mException on Vector > " << 3 << " is out of range.\033[0m" << std::endl;
+	}
+	std::cout << "At test 3 write :" << std::endl;
+	ft::vector<int> vector3(vector2);
+	std::cout << vector3 << std::endl;
+	vector3[0] = 42;
+	vector3[2] = 256;
+	std::cout << "vector3.at(0) " << vector3.at(0) << std::endl;
+	std::cout << "vector3.at(2) " << vector3.at(2) << std::endl;
+	std::cout << "vector3[0] " << vector3[0] << std::endl;
+	std::cout << "vector3[2] " << vector3[2] << std::endl;
 }
 
 static void eraseTest()
@@ -194,6 +217,10 @@ static void eraseTest()
 	vector2.erase(vector2.begin() + 1, vector2.end() - 1);
 	std::cout << "vector2.erase(vector2.begin() + 1, vector2.end() - 1)" << std::endl;
 	std::cout << vector2 << std::endl;
+
+	vector2.erase(vector2.begin(), vector2.end());
+	std::cout << "vector2.erase(vector2.begin(), vector2.end())" << std::endl;
+	std::cout << vector2 << std::endl;
 }
 
 static void assignTest()
@@ -203,7 +230,7 @@ static void assignTest()
 	std::cout << "Assign test :" << std::endl;
 	std::cout << vector1 << std::endl;
 
-	vector1.assign((size_t) 10, 42);
+	vector1.assign(10, 42);
 	std::cout << "vector1.assign(10, 42)" << std::endl;
 	std::cout << vector1 << std::endl;
 
@@ -226,10 +253,10 @@ static void resizeTest()
 	std::cout << "vector.resize(2, 42)" << std::endl;
 	std::cout << vector << std::endl;
 
-	// resize greater than capacity : NOT WORKING -> Invalid write of size 4 on valgrind
-	// vector.resize(10, 42);
-	// std::cout << "vector.resize(10, 42)" << std::endl; 
-	// std::cout << vector << std::endl;
+	// resize greater than capacity : check with valgrind
+	vector.resize(10, 42);
+	std::cout << "vector.resize(10, 42)" << std::endl; 
+	std::cout << vector << std::endl;
 }
 
 static void reserveTest()
@@ -271,8 +298,8 @@ int main()
 
 int main()
 {
-	(void)&basicTest;
-	basicTest();
+	(void)&pushPopTest;
+	pushPopTest();
 
 	std::cout << std::endl << std::endl;
 	(void)&outRangePop;

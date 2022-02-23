@@ -5,12 +5,12 @@
 # - [LINUX] Vérifie les invalid read/write et autre erreur invisible
 # - Compare le resultat de la sortie standard avec la STL (le main doit gérer le #define IS_STL)
 
-CC="clang++ -Wall -Wextra -std=c++98"
+CC="c++ -Wall -Wextra -std=c++98"
 SRCS=srcs/test/vector_test.cpp
 EXEC=vector_test.out
 
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
-DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}' | sed 's/\./000/2g'`
+DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}' | sed -e 's/\./000/g' -e 's/000/\./1'`
 if [ $(echo "$DIFF_VERSION >= 3.4" | bc -l) == 1 ]; then
 	DIFF_FLAGS="--color"
 else

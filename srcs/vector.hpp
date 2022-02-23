@@ -6,14 +6,13 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/22 01:23:19 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/22 22:06:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
-#include <iostream>
 #include "utils/utils.hpp"
 #include "utils/iterator.hpp"
 #include "utils/reverse_iterator.hpp"
@@ -54,35 +53,35 @@ namespace ft
 			_end(NULL),
 			_end_capacity(NULL)
 		{
-			// _start = _alloc.allocate(n);
-			// _end = _start;
-			// _end_capacity = _start + n;
-			// for (; n > 0; --n)
-			// 	_alloc.construct(_end++, val);
-			insert(this->begin(), n, val);
+			_start = _alloc.allocate(n);
+			_end = _start;
+			_end_capacity = _start + n;
+			for (; n > 0; --n)
+				_alloc.construct(_end++, val);
+			// insert(this->begin(), n, val);
 		}
 
 		// checker pour la verif des iterator + comprendre pourquoi "InputIterator"
 		template<class InputIterator>
-        vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 		:	_alloc(alloc),
 			_start(NULL),
 			_end(NULL),
 			_end_capacity(NULL)
 		{
-			// size_t size = 0;
-			// iterator i = iterator(first);
-			// while (i != last)
-			// {
-			// 	i++;
-			// 	size++;
-			// }
-			// _start = _alloc.allocate(size);
-			// _end = _start;
-			// _end_capacity = _start + size;
-			// for (; size > 0; --size)
-			// 	_alloc.construct(_end++, *(first++));
-			insert(this->begin(), first, last);
+			size_t size = 0;
+			iterator i = iterator(first);
+			while (i != last)
+			{
+				i++;
+				size++;
+			}
+			_start = _alloc.allocate(size);
+			_end = _start;
+			_end_capacity = _start + size;
+			for (; size > 0; --size)
+				_alloc.construct(_end++, *(first++));
+			//insert(this->begin(), first, last);
 		}
 
 		vector(const vector& x)
@@ -208,9 +207,9 @@ namespace ft
 				}
 				//this->erase(begin() + n, end());
 			}
-			else if(n > this->size())
+			else if (n > this->size())
 			{
-				//reserve(n);
+				reserve(n);
 				this->insert(this->end(), n - this->size(), val);
 			}
 		}
@@ -338,7 +337,7 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last)
+		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 		{
 			size_type dist = last - first;
 			if (size_type(_end_capacity - _end) >= dist)
@@ -369,7 +368,7 @@ namespace ft
 				}
 				// while (this->size() + dist > newCapacity)
 				// 	newCapacity *= 2;
-				
+
 				/*newStart = _alloc.allocate(newCapacity);
 				newEnd = newStart + this->size() + dist;
 				newEndCapacity = newStart + (newCapacity);*/
@@ -400,11 +399,16 @@ namespace ft
 		}
 
 		template<class InputIterator>
-  		void assign(InputIterator first, InputIterator last) // il faut vérifier que ce truc marche comme prévu
+  		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL) // il faut vérifier que ce truc marche comme prévu
 		{
 			this->clear();
 			this->insert(this->begin(), first, last);
 		}
+
+		// void swap(vector& x)
+		// {
+		// 	std::swap(this, x);
+		// }
 
 		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
