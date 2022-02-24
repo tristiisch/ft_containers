@@ -128,8 +128,8 @@ static void insertTest()
 	vector2.push_back(6);
 
 	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
-	// std::cout << vector3 << std::endl;
-	// vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); -> capacity not good on
+	//std::cout << vector3 << std::endl;
+	//vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); //-> capacity not good on
 	std::cout << vector3 << std::endl;
 	std::cout << "vector4.insert(vector4.begin() + 2, 6, 69)" << std::endl;
 	vector4.insert(vector4.begin() + 2, 6, 69);
@@ -306,7 +306,7 @@ static void iteratorTest()
 {
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
-	ft::vector<int>::iterator it = vector.begin();
+	// ft::vector<int>::reverse_iterator it(vector.begin()); -> not working
 
 	std::cout << "Iterator test :" << std::endl;
 	std::cout << vector << std::endl;
@@ -321,7 +321,7 @@ static void iteratorTest()
 	std::cout << "*vector.rend() - 1 = " << *(vector.rend() - 1) << std::endl;
 	std::cout << vector << std::endl;
 	printIteratorTest("reverseIt", vector.rbegin(), vector.rend());
-	
+
 	// const ft::vector<int> constVector(vector);
 	// std::cout << "Iterator const test :" << std::endl;
 	// std::cout << constVector << std::endl;
@@ -350,7 +350,6 @@ int main()
 
 	std::cout << vector1.end() - vector1.begin() << std::endl;
 }*/
-
 
 int main()
 {
