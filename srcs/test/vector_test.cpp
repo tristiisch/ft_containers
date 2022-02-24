@@ -281,6 +281,7 @@ static void reserveTest()
 template<class InputIterator>
 static void printIteratorTest(std::string itName, InputIterator begin, InputIterator last)
 {
+	std::cout << itName << " a + b = " << *(2 + begin) << std::endl;
 	std::cout << itName << " = " << *begin << std::endl;
 	std::cout << "++" << itName << " = " << *++begin << std::endl;
 	std::cout << itName << "++ = " << *begin++ << std::endl;
@@ -295,6 +296,7 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << itName << ".base = " << *begin.base() << std::endl;
 	std::cout << "*(&" << itName << ")->base() = " << *(&begin)->base() << std::endl;
 	std::cout << itName << " to last >";
+	
 	while (begin != last)
 		std::cout << " " << *begin++;
 	std::cout << std::endl;
