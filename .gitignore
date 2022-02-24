@@ -1,2 +1,5 @@
 *.out
 *.o
+test_ft
+test_stl
+.obj

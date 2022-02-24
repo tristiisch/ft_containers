@@ -8,6 +8,7 @@
 CC="c++ -Wall -Wextra -std=c++98"
 SRCS=srcs/test/vector_test.cpp
 EXEC=vector_test.out
+MAX_NB_LINE=4
 
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
 DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}' | sed -e 's/\./000/g' -e 's/000/\./1'`
@@ -37,7 +38,7 @@ function compile_STL {
 
 # Launch with STL containers
 function launch_STL {
-	./$EXEC\_STL | nl -w2 -s'	' > output_STL
+	./$EXEC\_STL | nl -w$MAX_NB_LINE -s'	' > output_STL
 	PIPE=${PIPESTATUS[0]}
 	if [ $PIPE == 139 ]; then
 		echo -e "\033[0;33mWARN: STL prog Segmentation fault\033[0m"
@@ -58,7 +59,7 @@ function KO_our {
 
 # Launch with our containers
 function launch_our {
-	./$EXEC | nl -w2 -s'	' > output
+	./$EXEC | nl -w$MAX_NB_LINE -s'	' > output
 	PIPE=${PIPESTATUS[0]}
 	if [ $PIPE == 139 ]; then
 		KO_our "Segmentation fault"

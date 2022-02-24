@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/23 19:00:28 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:53:31 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ namespace ft
 		typedef	typename allocator_type::const_reference		const_reference;
 		typedef typename allocator_type::pointer				pointer;
 
-		typedef ft::iterator<value_type>						iterator;
-		typedef ft::iterator<const value_type>					const_iterator;
+		typedef ft::iterator<value_type, vector>				iterator;
+		typedef ft::iterator<const value_type, vector>			const_iterator;
 		typedef ft::reverse_iterator<value_type>				reverse_iterator;
 		typedef	ft::reverse_iterator<const value_type>			const_reverse_iterator;
 
@@ -173,12 +173,22 @@ namespace ft
 
 		reverse_iterator rbegin()
 		{
-			return(reverse_iterator(_end - 1));
+			return reverse_iterator(_end - 1);
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(_end - 1);
 		}
 
 		reverse_iterator rend()
 		{
-			return(reverse_iterator(_start - 1));
+			return reverse_iterator(_start - 1);
+		}
+		
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(_start - 1);
 		}
 
 		// Number of elements
@@ -344,7 +354,7 @@ namespace ft
 			}
 		}
 
-		template <class InputIterator>
+		template<class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 		{
 			size_type dist = last - first;
@@ -466,6 +476,14 @@ namespace ft
 			this->_range_check(n);
 			return *(_start + n);
 		}
+		
+		reference front () { return (*_start); }
+
+		const_reference front () const { return (*_start); }
+
+		reference back () { return (*(_end - 1)); }
+
+		const_reference back () const { return (*(_end - 1)); }
 
 		allocator_type get_allocator() const
 		{

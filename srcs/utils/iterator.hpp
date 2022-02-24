@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/18 16:12:53 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:55:53 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_HPP
-# define ITERATOR_HPP
+#pragma once
 
-# include <cstddef>
+#include <cstddef>
+
 namespace ft
 {
 
-template <typename T>
+
+template <typename T, class Container>
 class	iterator
 {
 public:
@@ -31,7 +32,7 @@ public:
 
 	iterator(void) {};
 	iterator(pointer ptr) { _ptr = ptr; };
-	iterator(iterator const &src) { *this = src; } ;
+	iterator(const iterator<typename Container::pointer, Container> &src) { *this = src; } ;
 
 	virtual ~iterator() {};
 
@@ -46,8 +47,8 @@ public:
 	bool operator <=(iterator const& b) const { return (_ptr <= b._ptr); };
 
 	// ARITHMETICS
-	iterator operator +(difference_type b) { return (iterator(_ptr + b)); }; // a + n
-	iterator operator -(difference_type b) { return (iterator(_ptr - b)); }; // a - n
+	iterator operator +(difference_type b) const { return (iterator(_ptr + b)); }; // a + n
+	iterator operator -(difference_type b) const { return (iterator(_ptr - b)); }; // a - n
 
 	difference_type operator +(iterator b) { return (_ptr + b._ptr); }; // a + b
 	difference_type operator -(iterator b) { return (_ptr - b._ptr); }; // a - b
@@ -59,8 +60,8 @@ public:
 	iterator operator --(int) { _ptr--; return (iterator(_ptr + 1)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
-	void operator +=(difference_type b) { _ptr += b; };	// a += b
-	void operator -=(difference_type b) { _ptr -= b; };	// a -= b
+	iterator operator +=(difference_type b) {return _ptr += b; };	// a += b
+	iterator operator -=(difference_type b) {return _ptr -= b; };	// a -= b
 
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
@@ -70,13 +71,51 @@ public:
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
+	iterator base() const { return _ptr; }
+
 	static const bool input_iter = true;
+
 
 	private:
 		pointer _ptr;
-
 };
+	template <class I1, class I2, class Container>
+	bool operator==(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return lhs.base() == rhs.base();
+	}
 
+	template <class I1, class I2, class Container>
+	bool operator!=(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return !(lhs == rhs);
+	}
+
+	template <class I1, class I2, class Container>
+	bool operator<(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return lhs.base() < rhs.base();
+	}
+
+	template <class I1, class I2, class Container>
+	bool operator<=(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return !(rhs < lhs);
+	}
+
+	template <class I1, class I2, class Container>
+	bool operator>(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return (rhs < lhs);
+	}
+
+	template <class I1, class I2, class Container>
+	bool operator>=(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return !(lhs < rhs);
+	}
+
+	template <class I1, class I2, class Container>
+	typename iterator<I1, Container>::difference_type operator-(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+		return lhs.base() - rhs.base();
+	}
+
+	template <class Iter, class Container>
+	iterator<Iter, Container> operator+(const typename iterator<Iter, Container>::difference_type &lhs, const iterator<Iter, Container> &rhs) {
+		return rhs + lhs;
+	}
 }
-
-#endif
