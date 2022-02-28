@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/24 01:55:53 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/02/28 16:22:29 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma once
 
 #include <cstddef>
 
@@ -18,7 +16,7 @@ namespace ft
 {
 
 
-template <typename T, class Container>
+template <typename T>
 class	iterator
 {
 public:
@@ -30,9 +28,9 @@ public:
 	typedef const value_type*		const_pointer;
 	typedef typename std::ptrdiff_t difference_type;
 
-	iterator(void) {};
+	iterator(void) :_ptr(NULL){};
 	iterator(pointer ptr) { _ptr = ptr; };
-	iterator(const iterator<typename Container::pointer, Container> &src) { *this = src; } ;
+	iterator(const iterator<value_type> &src) { *this = src; } ;
 
 	virtual ~iterator() {};
 
@@ -79,43 +77,45 @@ public:
 	private:
 		pointer _ptr;
 };
-	template <class I1, class I2, class Container>
-	bool operator==(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+
+	template <typename T>
+	bool operator==(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return lhs.base() == rhs.base();
 	}
 
-	template <class I1, class I2, class Container>
-	bool operator!=(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+	template <typename T>
+	bool operator!=(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return !(lhs == rhs);
 	}
 
-	template <class I1, class I2, class Container>
-	bool operator<(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+	template <typename T>
+	bool operator<(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return lhs.base() < rhs.base();
 	}
 
-	template <class I1, class I2, class Container>
-	bool operator<=(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+	template <typename T>
+	bool operator<=(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return !(rhs < lhs);
 	}
 
-	template <class I1, class I2, class Container>
-	bool operator>(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+	template <typename T>
+	bool operator>(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return (rhs < lhs);
 	}
 
-	template <class I1, class I2, class Container>
-	bool operator>=(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+	template <typename T>
+	bool operator>=(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return !(lhs < rhs);
 	}
 
-	template <class I1, class I2, class Container>
-	typename iterator<I1, Container>::difference_type operator-(const iterator<I1, Container> &lhs, const iterator<I2, Container> &rhs) {
+	template <typename T>
+	typename iterator<T>::difference_type operator-(const iterator<T> &lhs, const iterator<T> &rhs) {
 		return lhs.base() - rhs.base();
 	}
 
-	template <class Iter, class Container>
-	iterator<Iter, Container> operator+(const typename iterator<Iter, Container>::difference_type &lhs, const iterator<Iter, Container> &rhs) {
+	template <typename T>
+	iterator<T> operator+(const typename iterator<T>::difference_type &lhs, const iterator<T> &rhs) {
 		return rhs + lhs;
-	}
+	}	
+
 }

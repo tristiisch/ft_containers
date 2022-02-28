@@ -113,7 +113,7 @@ public:
 	}
 
 	template <class Iter>
-	reverse_iterator<Iter> operator+(const typename reverse_iterator<Iter>::difference_type &lhs, const reverse_iterator<Iter> &rhs) {
+	reverse_iterator<Iter> operator+(typename reverse_iterator<Iter>::difference_type lhs, reverse_iterator<Iter> &rhs) {
 		return rhs + lhs;
 	}
 }
