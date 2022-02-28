@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/02/28 16:08:07 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:01:21 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,15 @@
 
 int		main(void)
 {
-	std::list<TESTED_TYPE> lst;
-	std::list<TESTED_TYPE>::iterator lst_it;
-	for (int i = 1; i < 5; ++i)
-		lst.push_back(i * 3);
+	const int size = 5;
+	ft::vector<int> vct(size);
+	ft::vector<TESTED_TYPE>::iterator it = vct.begin();
+	ft::vector<TESTED_TYPE>::const_iterator ite = vct.begin();
 
-	ft::vector<TESTED_TYPE> vct(lst.begin(), lst.end());
-	//printSize(vct);
+	for (int i = 0; i < size; ++i)
+		it[i] = i;
 
-	lst_it = lst.begin();
-	for (int i = 1; lst_it != lst.end(); ++i)
-		*lst_it++ = i * 5;
-	vct.assign(lst.begin(), lst.end());
-	//printSize(vct);
-//
-	//vct.insert(vct.end(), lst.begin(), lst.end());
-	//printSize(vct);
+	*ite = 42; // < -- error
+
 	return (0);
 }

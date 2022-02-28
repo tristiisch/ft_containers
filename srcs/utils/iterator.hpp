@@ -6,9 +6,11 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/28 16:22:29 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:58:54 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #include <cstddef>
 
@@ -28,9 +30,10 @@ public:
 	typedef const value_type*		const_pointer;
 	typedef typename std::ptrdiff_t difference_type;
 
-	iterator(void) :_ptr(NULL){};
+	iterator(void) {};
 	iterator(pointer ptr) { _ptr = ptr; };
-	iterator(const iterator<value_type> &src) { *this = src; } ;
+	iterator(const iterator &src) { *this = src; } ;
+
 
 	virtual ~iterator() {};
 
@@ -78,43 +81,43 @@ public:
 		pointer _ptr;
 };
 
-	template <typename T>
-	bool operator==(const iterator<T> &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	bool operator==(const InputIterator &lhs, const InputIterator &rhs) {
 		return lhs.base() == rhs.base();
 	}
 
-	template <typename T>
-	bool operator!=(const iterator<T> &lhs, const iterator<T> &rhs) {
-		return !(lhs == rhs);
+	template <class InputIterator>
+	bool operator!=(const InputIterator &lhs, const InputIterator &rhs) {
+		return !(lhs.base() == rhs.base());
 	}
 
-	template <typename T>
-	bool operator<(const iterator<T> &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	bool operator<(const InputIterator &lhs, const InputIterator &rhs) {
 		return lhs.base() < rhs.base();
 	}
 
-	template <typename T>
-	bool operator<=(const iterator<T> &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	bool operator<=(const InputIterator &lhs, const InputIterator &rhs) {
 		return !(rhs < lhs);
 	}
 
-	template <typename T>
-	bool operator>(const iterator<T> &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	bool operator>(const InputIterator &lhs, const InputIterator &rhs) {
 		return (rhs < lhs);
 	}
 
-	template <typename T>
-	bool operator>=(const iterator<T> &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	bool operator>=(const InputIterator &lhs, const InputIterator &rhs) {
 		return !(lhs < rhs);
 	}
 
-	template <typename T>
-	typename iterator<T>::difference_type operator-(const iterator<T> &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	typename InputIterator::difference_type operator-(const InputIterator &lhs, const InputIterator&rhs) {
 		return lhs.base() - rhs.base();
 	}
 
-	template <typename T>
-	iterator<T> operator+(const typename iterator<T>::difference_type &lhs, const iterator<T> &rhs) {
+	template <class InputIterator>
+	InputIterator operator+( const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
 		return rhs + lhs;
 	}	
 

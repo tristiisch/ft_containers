@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/28 16:21:50 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/28 18:56:02 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <cstddef>
 # include "./utils/utils.hpp"
 # include "./utils/iterator.hpp"
+# include "./utils/const_iterator.hpp"
 # include "./utils/reverse_iterator.hpp"
 
 namespace ft
@@ -35,7 +36,7 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 
 		typedef ft::iterator<value_type>						iterator;
-		typedef ft::iterator<const value_type>					const_iterator;
+		typedef ft::const_iterator<value_type>			const_iterator;
 		typedef ft::reverse_iterator<value_type>				reverse_iterator;
 		typedef	ft::reverse_iterator<const value_type>			const_reverse_iterator;
 
@@ -371,7 +372,7 @@ namespace ft
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 		{
-			size_type dist = last - first;
+			size_type dist = ft::distance(first, last);
 			if (size_type(_end_capacity - _end) >= dist)
 			{
 				for (size_type i = 0; i < this->size() - (&(*position) - _start); ++i)
