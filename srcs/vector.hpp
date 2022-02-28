@@ -6,16 +6,19 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/24 19:46:24 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:21:50 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
 
-#include <memory>
-#include "utils/utils.hpp"
-#include "utils/iterator.hpp"
-#include "utils/reverse_iterator.hpp"
+# include <memory>
+# include <algorithm>
+# include <cstddef>
+# include "./utils/utils.hpp"
+# include "./utils/iterator.hpp"
+# include "./utils/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -70,7 +73,7 @@ namespace ft
 			_end_capacity(NULL)
 		{
 			size_t size = 0;
-			iterator i = iterator(first);
+			InputIterator i = first;
 			while (i != last)
 			{
 				i++;
@@ -146,29 +149,29 @@ namespace ft
 		// iterator from start
 		iterator begin()
 		{
-			return iterator(_start);
+			return _start;
 		}
 
 		const_iterator begin() const
 		{
-			return const_iterator(_start);
+			return _start;
 		}
 
 		// iterator at the end
 		iterator end()
 		{
 			if (this->empty() == false)
-				return iterator(_end);
+				return _end;
 			else
-				return iterator(_start);
+				return _start;
 		}
 
 		const_iterator end() const
 		{
 			if (this->empty() == false)
-				return const_iterator(_end);
+				return _end;
 			else
-				return const_iterator(_start);
+				return _start;
 		}
 
 		reverse_iterator rbegin()
@@ -185,6 +188,27 @@ namespace ft
 		size_type size() const
 		{
 			return _end - _start;
+		}
+
+		// Return first element of the vector
+		reference front()
+		{
+			return (*_start);
+		}
+		const_reference front() const
+		{
+			return (*_start);
+		}
+
+		//	Return lasat element of the vector
+		reference back()
+		{
+			return *(_end - 1);
+		}
+		
+		const_reference back() const
+		{
+			return *(_end - 1);
 		}
 
 		// Le nombre maximum d'octet que notre vector peux contenir.
@@ -296,51 +320,51 @@ namespace ft
 
 		void insert(iterator position, size_type n, const value_type& val)
 		{
-		size_type posIndex = position - _start;
-		if (size_type(_end_capacity - _end) >= n) 
-		{
-			for (size_type i = 0; i < this->size() - posIndex; ++i)
-				_alloc.construct(_end + (n - 1) - i, *(_end - i - 1));
-			for (size_type i = 0 ; i < n ; ++i)
-				_alloc.construct(&(*position) + i, val);
-			_end = _end + n;
-		}
-		else
-		{
-			int new_cap = n;
-			if (this->size() > 1)
-				new_cap = this->size() * 2;
-			pointer new_start;
-			pointer new_endcap;
-			pointer new_end;
-			
-			if ((this->size() * 2) >= (this->size() + n))
+			size_type posIndex = position - _start;
+			if (size_type(_end_capacity - _end) >= n) 
 			{
-				new_start = _alloc.allocate(new_cap);
-				new_end = new_start + this->size() + n;
-				new_endcap = new_start + new_cap;
+				for (size_type i = 0; i < this->size() - posIndex; ++i)
+					_alloc.construct(_end + (n - 1) - i, *(_end - i - 1));
+				for (size_type i = 0 ; i < n ; ++i)
+					_alloc.construct(&(*position) + i, val);
+				_end = _end + n;
 			}
 			else
 			{
-				new_cap = this->size() + n;
-				new_start = _alloc.allocate(new_cap);
-				new_end = new_start + this->size() + n;
-				new_endcap = new_start + new_cap;
-			}
-
-			for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
-				_alloc.construct(new_start + i, *(_start + i));
-			for (size_type i = 0 ; i < n ; ++i)
-				_alloc.construct(new_start + posIndex + i, val); // ajoute notre valeur
-			for (size_type i = 0 ; i < this->size() - posIndex ; ++i)  // realloue de notre valeur à la fin
-				_alloc.construct(new_end - i - 1, *(_end - i - 1));
-			for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
-				_alloc.destroy(_start + i);
-			if (_start)
-				_alloc.deallocate(_start, this->capacity());
-			_start = new_start;
-			_end = new_end;
-			_end_capacity = new_endcap;
+				int new_cap = n;
+				if (this->size() > 1)
+					new_cap = this->size() * 2;
+				pointer new_start;
+				pointer new_endcap;
+				pointer new_end;
+				
+				if ((this->size() * 2) >= (this->size() + n))
+				{
+					new_start = _alloc.allocate(new_cap);
+					new_end = new_start + this->size() + n;
+					new_endcap = new_start + new_cap;
+				}
+				else
+				{
+					new_cap = this->size() + n;
+					new_start = _alloc.allocate(new_cap);
+					new_end = new_start + this->size() + n;
+					new_endcap = new_start + new_cap;
+				}
+	
+				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
+					_alloc.construct(new_start + i, *(_start + i));
+				for (size_type i = 0 ; i < n ; ++i)
+					_alloc.construct(new_start + posIndex + i, val); // ajoute notre valeur
+				for (size_type i = 0 ; i < this->size() - posIndex ; ++i)  // realloue de notre valeur à la fin
+					_alloc.construct(new_end - i - 1, *(_end - i - 1));
+				for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
+					_alloc.destroy(_start + i);
+				if (_start)
+					_alloc.deallocate(_start, this->capacity());
+				_start = new_start;
+				_end = new_end;
+				_end_capacity = new_endcap;
 			}
 		}
 
@@ -494,8 +518,8 @@ namespace ft
 
 		void _range_check(size_type n) const {
 			if (n >= size())
-				throw std::out_of_range("vector::out_of_range > n in not in range");
-				// throw std::out_of_range("vector"); // STL MSG on MAC
+				//throw std::out_of_range("vector::out_of_range > n in not in range");
+				throw std::out_of_range("vector"); // STL MSG on MAC
 		}
 	};
 
@@ -539,3 +563,5 @@ namespace ft
 		x.swap(y);
 	}
 }
+
+#endif
