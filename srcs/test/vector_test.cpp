@@ -296,7 +296,6 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << itName << ".base = " << *begin.base() << std::endl;
 	std::cout << "*(&" << itName << ")->base() = " << *(&begin)->base() << std::endl;
 	std::cout << itName << " to last >";
-	
 	while (begin != last)
 		std::cout << " " << *begin++;
 	std::cout << std::endl;
@@ -309,7 +308,9 @@ static void iteratorTest()
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
 	// ft::vector<int>::reverse_iterator it(vector.begin()); -> not working
-
+	// ft::vector<int>::const_iterator it_foo = foo.begin(); -> not working
+	// ft::vector<int>::const_iterator it_bar = bar.begin(); -> not working
+	// ft::vector<std::string>::const_iterator const it_test = vector.erase(vector.begin() + 2); -> not working
 	std::cout << "Iterator test :" << std::endl;
 	std::cout << vector << std::endl;
 
