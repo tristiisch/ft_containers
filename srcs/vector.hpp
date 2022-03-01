@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/28 19:57:43 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/01 16:45:39 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <cstddef>
 # include "./utils/utils.hpp"
 # include "./utils/iterator.hpp"
+# include "./utils/const_iterator.hpp"
 # include "./utils/reverse_iterator.hpp"
 
 namespace ft
@@ -35,7 +36,8 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 
 		typedef ft::iterator<value_type>						iterator;
-		typedef ft::iterator<const value_type>					const_iterator;
+		// typedef ft::const_iterator<const value_type>			const_iterator;
+		typedef ft::const_iterator<value_type>			const_iterator;
 		typedef ft::reverse_iterator<value_type>				reverse_iterator;
 		typedef	ft::reverse_iterator<const value_type>			const_reverse_iterator;
 

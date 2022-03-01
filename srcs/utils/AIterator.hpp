@@ -6,11 +6,13 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/28 20:02:36 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/01 17:12:45 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstddef>
+#ifndef AITERATOR_HPP
+# define AITERATOR_HPP
+# include <cstddef>
 
 namespace ft
 {
@@ -32,7 +34,7 @@ public:
 	// AIterator(pointer ptr) { _ptr = ptr; };
 	// AIterator(const AIterator<value_type> &src) { *this = src; } ;
 
-	virtual ~AIterator() = 0;
+	virtual ~AIterator() {};
 
 	AIterator &operator=(AIterator const &src) { _ptr = src.operator->(); return (*this); };
 
@@ -45,11 +47,11 @@ public:
 	bool operator <=(AIterator const& b) const { return (_ptr <= b._ptr); };
 
 	// ARITHMETICS
-	AIterator operator +(difference_type b) const { return (AIterator(_ptr + b)); }; // a + n
-	AIterator operator -(difference_type b) const { return (AIterator(_ptr - b)); }; // a - n
+	// virtual AIterator<T> operator +(difference_type b) const { return (AIterator(_ptr + b)); }; // a + n
+	// virtual AIterator<T> operator -(difference_type b) const { return (AIterator(_ptr - b)); }; // a - n
 
-	difference_type operator +(AIterator b) { return (_ptr + b._ptr); }; // a + b
-	difference_type operator -(AIterator b) { return (_ptr - b._ptr); }; // a - b
+	virtual difference_type operator +(AIterator<T> b) { return (_ptr + b._ptr); }; // a + b
+	virtual difference_type operator -(AIterator<T> b) { return (_ptr - b._ptr); }; // a - b
 
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
@@ -59,8 +61,6 @@ public:
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	AIterator base() const { return _ptr; }
-
 	static const bool input_iter = true;
 
 
@@ -68,7 +68,7 @@ public:
 		pointer _ptr;
 };
 
-	template <typename T>
+	template <typename T, typename U >
 	bool operator==(const AIterator<T> &lhs, const AIterator<T> &rhs) {
 		return lhs.base() == rhs.base();
 	}
@@ -103,9 +103,10 @@ public:
 		return lhs.base() - rhs.base();
 	}
 
-	template <typename T>
-	AIterator<T> operator+(const typename AIterator<T>::difference_type &lhs, const AIterator<T> &rhs) {
+	template <typename T, typename U>
+	AIterator<T> operator+(const typename AIterator<T>::difference_type &lhs, const AIterator<U> &rhs) {
 		return rhs + lhs;
 	}
 
 }
+#endif
