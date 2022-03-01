@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/28 19:58:54 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:48:11 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ public:
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	iterator base() const { return _ptr; }
+	pointer base() const { return _ptr; }
 
 	static const bool input_iter = true;
 
@@ -81,34 +81,34 @@ public:
 		pointer _ptr;
 };
 
-	template <class InputIterator>
-	bool operator==(const InputIterator &lhs, const InputIterator &rhs) {
+	template < class One, class Two>
+	bool operator==(const One &lhs, const Two &rhs) {
 		return lhs.base() == rhs.base();
 	}
 
-	template <class InputIterator>
-	bool operator!=(const InputIterator &lhs, const InputIterator &rhs) {
-		return !(lhs.base() == rhs.base());
+	template < class One, class Two>
+	bool operator!=(const One &lhs, const Two &rhs) {
+		return lhs.base() != rhs.base();
 	}
 
-	template <class InputIterator>
-	bool operator<(const InputIterator &lhs, const InputIterator &rhs) {
+	template < class One, class Two>
+	bool operator<(const One &lhs, const Two &rhs) {
 		return lhs.base() < rhs.base();
 	}
 
-	template <class InputIterator>
-	bool operator<=(const InputIterator &lhs, const InputIterator &rhs) {
-		return !(rhs < lhs);
+	template < class One, class Two>
+	bool operator<=(const One &lhs, const Two &rhs) {
+		return rhs.base() <= lhs.base();
 	}
 
-	template <class InputIterator>
-	bool operator>(const InputIterator &lhs, const InputIterator &rhs) {
-		return (rhs < lhs);
+	template < class One, class Two>
+	bool operator>(const One &lhs, const Two &rhs) {
+		return (rhs.base() > lhs.base());
 	}
 
-	template <class InputIterator>
-	bool operator>=(const InputIterator &lhs, const InputIterator &rhs) {
-		return !(lhs < rhs);
+	template < class One, class Two>
+	bool operator>=(const One &lhs, const Two &rhs) {
+		return lhs.base() >= rhs.base();
 	}
 
 	template <class InputIterator>
@@ -119,6 +119,13 @@ public:
 	template <class InputIterator>
 	InputIterator operator+( const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
 		return rhs + lhs;
-	}	
+	}
+
+	template <class InputIterator>
+	std::ostream &operator<<(std::ostream &out, InputIterator const &temp)
+{
+	out << temp.base();
+	return (out);
+}
 
 }

@@ -56,7 +56,7 @@ public:
 	reverse_iterator operator ++(int) { _ptr--; return (reverse_iterator(_ptr + 1)); };	// a++
 	reverse_iterator operator --() { _ptr++; return (*this); };			// --a
 	reverse_iterator operator --(int) { _ptr++; return (reverse_iterator(_ptr - 1)); };	// a--
-	
+
 	//COMPOUND ASSIGNMENTS
 	reverse_iterator operator +=(difference_type b) { return _ptr -= b; };	// a += b
 	reverse_iterator operator -=(difference_type b) { return _ptr += b; };	// a -= b
@@ -77,43 +77,5 @@ public:
 		pointer _ptr;
 
 };
-	template <class I1, class I2>
-	bool operator==(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return lhs.base() == rhs.base();
-	}
 
-	template <class I1, class I2>
-	bool operator!=(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return !(lhs == rhs);
-	}
-
-	template <class I1, class I2>
-	bool operator<(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return rhs.base() < lhs.base();
-	}
-
-	template <class I1, class I2>
-	bool operator<=(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return !(rhs < lhs);
-	}
-
-	template <class I1, class I2>
-	bool operator>(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return (rhs < lhs);
-	}
-
-	template <class I1, class I2>
-	bool operator>=(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return !(lhs < rhs);
-	}
-
-	template <class I1, class I2>
-	typename reverse_iterator<I1>::difference_type operator-(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
-		return rhs.base() - lhs.base();
-	}
-
-	template <class Iter>
-	reverse_iterator<Iter> operator+(typename reverse_iterator<Iter>::difference_type lhs, reverse_iterator<Iter> &rhs) {
-		return rhs + lhs;
-	}
 }

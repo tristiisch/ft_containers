@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/02/28 19:01:21 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:47:53 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ int		main(void)
 	const int size = 5;
 	ft::vector<int> vct(size);
 	ft::vector<TESTED_TYPE>::iterator it = vct.begin();
-	ft::vector<TESTED_TYPE>::const_iterator ite = vct.begin();
+	ft::vector<TESTED_TYPE>::const_iterator ite = vct.end();
 
-	for (int i = 0; i < size; ++i)
-		it[i] = i;
-
-	*ite = 42; // < -- error
+	for (int i = 1; it != ite; ++i)
+		*it++ = i;
 
 	return (0);
 }

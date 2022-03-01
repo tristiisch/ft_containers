@@ -30,7 +30,7 @@ public:
 	typedef const value_type*		const_pointer;
 	typedef typename std::ptrdiff_t difference_type;
 
-	const_iterator(void) {};	
+	const_iterator(void) {};
 	const_iterator(pointer ptr) { _ptr = ptr; };
 	const_iterator(const const_iterator &src) { *this = src; } ;
 	const_iterator(const ft::iterator<T> &src) { *this = src; } ;
@@ -65,12 +65,12 @@ public:
 	const_iterator operator +=(difference_type b) {return _ptr += b; };	// a += b
 	const_iterator operator -=(difference_type b) {return _ptr -= b; };	// a -= b
 
-	//DEREFERENCING & ADDRESS STUFF	
+	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (*_ptr); };								// *a
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	const_iterator base() const { return _ptr; }
+	pointer base() const { return _ptr; }
 
 	static const bool input_iter = true;
 
