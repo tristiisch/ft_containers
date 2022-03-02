@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/01 19:48:11 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/02 23:02:37 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ public:
 
 	template < class One, class Two>
 	bool operator<=(const One &lhs, const Two &rhs) {
-		return rhs.base() <= lhs.base();
+		return lhs.base() <= rhs.base();
 	}
 
 	template < class One, class Two>
 	bool operator>(const One &lhs, const Two &rhs) {
-		return (rhs.base() > lhs.base());
+		return (lhs.base() > rhs.base());
 	}
 
 	template < class One, class Two>
@@ -121,11 +121,11 @@ public:
 		return rhs + lhs;
 	}
 
-	template <class InputIterator>
-	std::ostream &operator<<(std::ostream &out, InputIterator const &temp)
-{
-	out << temp.base();
-	return (out);
-}
+	//template <class InputIterator>
+	//std::ostream &operator<<(std::ostream &out, InputIterator const &temp)
+	//{
+	//	out << temp.base();
+	//	return (out);
+	//}
 
 }

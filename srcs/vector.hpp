@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/02/28 18:56:02 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/02 23:00:45 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "./utils/iterator.hpp"
 # include "./utils/const_iterator.hpp"
 # include "./utils/reverse_iterator.hpp"
+# include "./utils/const_reverse_iterator.hpp"
 
 namespace ft
 {
@@ -36,11 +37,11 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 
 		typedef ft::iterator<value_type>						iterator;
-		typedef ft::const_iterator<value_type>			const_iterator;
-		typedef ft::reverse_iterator<value_type>				reverse_iterator;
-		typedef	ft::reverse_iterator<const value_type>			const_reverse_iterator;
+		typedef ft::const_iterator<value_type>					const_iterator;
+		typedef ft::reverse_iterator<iterator>				reverse_iterator;
+		typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
 
-		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc.. 
+		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc..
 
 		// constructeur par defaut
 		explicit vector(const allocator_type& alloc = allocator_type())
@@ -206,7 +207,7 @@ namespace ft
 		{
 			return *(_end - 1);
 		}
-		
+
 		const_reference back() const
 		{
 			return *(_end - 1);
@@ -271,7 +272,7 @@ namespace ft
 				pointer prev_end = _end;
 				size_type prev_size = this->size();
 				size_type prev_capacity = this->capacity();
-				
+
 				_start = _alloc.allocate(new_cap);
 				_end_capacity = _start + new_cap;
 				_end = _start;
@@ -284,7 +285,7 @@ namespace ft
 		iterator insert(iterator pos, const value_type& value)
 		{
 			size_type posIndex = pos - _start;
-			if (size_type(_end_capacity - _end) >= 1) 
+			if (size_type(_end_capacity - _end) >= 1)
 			{
 				for (size_type i = 0; i < this->size() - posIndex; ++i)
 					_alloc.construct(_end - i, *(_end - i - 1));
@@ -322,7 +323,7 @@ namespace ft
 		void insert(iterator position, size_type n, const value_type& val)
 		{
 			size_type posIndex = position - _start;
-			if (size_type(_end_capacity - _end) >= n) 
+			if (size_type(_end_capacity - _end) >= n)
 			{
 				for (size_type i = 0; i < this->size() - posIndex; ++i)
 					_alloc.construct(_end + (n - 1) - i, *(_end - i - 1));
@@ -338,7 +339,7 @@ namespace ft
 				pointer new_start;
 				pointer new_endcap;
 				pointer new_end;
-				
+
 				if ((this->size() * 2) >= (this->size() + n))
 				{
 					new_start = _alloc.allocate(new_cap);
@@ -352,7 +353,7 @@ namespace ft
 					new_end = new_start + this->size() + n;
 					new_endcap = new_start + new_cap;
 				}
-	
+
 				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
 					_alloc.construct(new_start + i, *(_start + i));
 				for (size_type i = 0 ; i < n ; ++i)

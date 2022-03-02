@@ -14,6 +14,7 @@
 
 #include <cstddef>
 #include "./iterator.hpp"
+
 namespace ft
 {
 
@@ -23,17 +24,17 @@ class	const_iterator
 {
 public:
 
-	typedef T						value_type;
-	typedef value_type&				reference;
-	typedef const value_type&		const_reference;
-	typedef value_type*				pointer;
-	typedef const value_type*		const_pointer;
-	typedef typename std::ptrdiff_t difference_type;
+	typedef T							value_type;
+	typedef value_type&					reference;
+	typedef const value_type&			const_reference;
+	typedef value_type*					pointer;
+	typedef const value_type*			const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
 
 	const_iterator(void) {};
 	const_iterator(pointer ptr) { _ptr = ptr; };
-	const_iterator(const const_iterator &src) { *this = src; } ;
-	const_iterator(const ft::iterator<T> &src) { *this = src; } ;
+	const_iterator(ft::iterator<T> const &src) { _ptr = src.operator->(); } ;
+	const_iterator(const_iterator const &src) { *this = src; } ;
 
 
 	virtual ~const_iterator() {};
@@ -68,7 +69,8 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (*_ptr); };								// *a
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
-	pointer operator ->() const { return (_ptr); };											// a->b
+	pointer operator ->() { return (_ptr); };
+	pointer operator ->() const { return _ptr; };											// a->b
 
 	pointer base() const { return _ptr; }
 
