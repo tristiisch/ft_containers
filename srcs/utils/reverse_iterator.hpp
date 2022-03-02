@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/02 23:02:25 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/02 23:53:19 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ public:
 
 	// INCREMENTERS
 	reverse_iterator operator ++() { _ptr--; return (*this); };			// ++a
-	reverse_iterator operator ++(int) { _ptr--; return (reverse_iterator(_ptr - 1)); };	// a++
+	reverse_iterator operator ++(int) { _ptr--; return (reverse_iterator(_ptr + 1)); };	// a++
 	reverse_iterator operator --() { _ptr++; return (*this); };			// --a
-	reverse_iterator operator --(int) { _ptr++; return (reverse_iterator(_ptr + 1)); };	// a--
+	reverse_iterator operator --(int) { _ptr++; return (reverse_iterator(_ptr - 1)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
 	reverse_iterator operator +=(difference_type b) {return _ptr -= b; };	// a += b
