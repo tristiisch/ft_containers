@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:11:58 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/02 23:24:05 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/03 00:00:00 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ public:
 
 	// INCREMENTERS
 	const_reverse_iterator operator ++() { _ptr--; return (*this); };			// ++a
-	const_reverse_iterator operator ++(int) { _ptr--; return (const_reverse_iterator(_ptr - 1)); };	// a++
+	const_reverse_iterator operator ++(int) { _ptr--; return (const_reverse_iterator(_ptr + 1)); };	// a++
 	const_reverse_iterator operator --() { _ptr++; return (*this); };			// --a
-	const_reverse_iterator operator --(int) { _ptr++; return (const_reverse_iterator(_ptr + 1)); };	// a--
+	const_reverse_iterator operator --(int) { _ptr++; return (const_reverse_iterator(_ptr - 1)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
 	const_reverse_iterator operator +=(difference_type b) {return _ptr -= b; };	// a += b
@@ -70,11 +70,11 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
 	const_reference operator *() const { return (*_ptr); };								// *a
-	reference operator [](difference_type b) { return (*(_ptr + b)); };					// a[]
+	reference operator [](difference_type b) { return (*(_ptr - b)); };					// a[]
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	pointer base() const { return _ptr; }
+	pointer base() const { return _ptr + 1; }
 
 	static const bool input_iter = true;
 

@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/02 23:53:19 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/03 00:02:16 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
 	const_reference operator *() const { return (*_ptr); };								// *a
-	reference operator [](difference_type b) { return (*(_ptr + b)); };					// a[]
+	reference operator [](difference_type b) { return (*(_ptr - b)); };					// a[]
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	pointer base() const { return _ptr; }
+	pointer base() const { return _ptr + 1; }
 
 	static const bool input_iter = true;
 
