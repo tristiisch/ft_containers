@@ -128,8 +128,8 @@ static void insertTest()
 	vector2.push_back(6);
 
 	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
-	// std::cout << vector3 << std::endl;
-	// vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); -> capacity not good on
+	//std::cout << vector3 << std::endl;
+	//vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); //-> capacity not good on
 	std::cout << vector3 << std::endl;
 	std::cout << "vector4.insert(vector4.begin() + 2, 6, 69)" << std::endl;
 	vector4.insert(vector4.begin() + 2, 6, 69);
@@ -288,15 +288,15 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << "--" << itName << " = " << *--begin << std::endl;
 	std::cout << itName << "-- = " << *begin-- << std::endl;
 	std::cout << itName << " + 1 = " << *(begin + 1) << std::endl;
-	std::cout << itName << " += 5 = " << *(begin += 5) << std::endl;
+	std::cout << "--(" << itName << " += 6) = " << *--(begin += 6) << std::endl;
 	std::cout << itName << " - 1 = " << *(begin - 1) << std::endl;
 	std::cout << itName << ".base = " << *begin.base() << std::endl;
 	std::cout << itName << " -= 2 = " << *(begin -= 2) << std::endl;
+	std::cout << " --(--" << itName << ") = " << *(--(--begin)) << std::endl;
 	std::cout << itName << "[3] = " << begin[3] << std::endl;
 	std::cout << itName << ".base = " << *begin.base() << std::endl;
 	std::cout << "*(&" << itName << ")->base() = " << *(&begin)->base() << std::endl;
 	std::cout << itName << " to last >";
-	
 	while (begin != last)
 		std::cout << " " << *begin++;
 	std::cout << std::endl;
@@ -308,22 +308,26 @@ static void iteratorTest()
 {
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
-	ft::vector<int>::iterator it = vector.begin();
 
 	std::cout << "Iterator test :" << std::endl;
 	std::cout << vector << std::endl;
-
 	std::cout << "*vector.begin() = " << *vector.begin() << std::endl;
 	std::cout << "*vector.end() - 1 = " << *(vector.end() - 1) << std::endl;
 	printIteratorTest("it", vector.begin(), vector.end());
 
 	ft::vector<int>::reverse_iterator rIt = vector.rbegin();
 	std::cout << "Reverse Iterator test :" << std::endl;
+	std::cout << vector << std::endl;
 	std::cout << "*vector.rbegin() = " << *vector.rbegin() << std::endl;
 	std::cout << "*vector.rend() - 1 = " << *(vector.rend() - 1) << std::endl;
-	std::cout << vector << std::endl;
 	printIteratorTest("reverseIt", vector.rbegin(), vector.rend());
-	
+
+	ft::vector<int>::reverse_iterator rit(vector.begin());
+	ft::vector<int>::const_iterator it_foo = vector.begin();
+	ft::vector<int>::const_reverse_iterator it_bar = vector.rbegin();
+	(void)rit;
+	(void)it_foo;
+	(void)it_bar;
 	// const ft::vector<int> constVector(vector);
 	// std::cout << "Iterator const test :" << std::endl;
 	// std::cout << constVector << std::endl;
@@ -352,7 +356,6 @@ int main()
 
 	std::cout << vector1.end() - vector1.begin() << std::endl;
 }*/
-
 
 int main()
 {
