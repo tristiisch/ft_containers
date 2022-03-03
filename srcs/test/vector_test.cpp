@@ -308,8 +308,13 @@ static void iteratorTest()
 {
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
-	// ft::vector<int>::reverse_iterator it(vector.begin()); -> not working
+	ft::vector<int>::reverse_iterator rit(vector.begin());
+	ft::vector<int>::const_iterator it_foo = vector.begin();
+	ft::vector<int>::const_reverse_iterator it_bar = vector.rbegin();
 
+	(void)rit;
+	(void)it_foo;
+	(void)it_bar;
 	std::cout << "Iterator test :" << std::endl;
 	std::cout << vector << std::endl;
 

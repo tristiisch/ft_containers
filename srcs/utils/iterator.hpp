@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/02 23:02:37 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/03 20:27:49 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ public:
 	difference_type operator -(iterator b) { return (_ptr - b._ptr); }; // a - b
 
 	// INCREMENTERS
-	iterator operator ++() { _ptr++; return (*this); };			// ++a
-	iterator operator ++(int) { _ptr++; return (iterator(_ptr - 1)); };	// a++
-	iterator operator --() { _ptr--; return (*this); };			// --a
-	iterator operator --(int) { _ptr--; return (iterator(_ptr + 1)); };	// a--
+	iterator& operator ++() { _ptr++; return (*this); };			// ++a
+	iterator operator ++(int) { return (iterator( _ptr++)); };	// a++
+	iterator& operator --() { _ptr--; return (*this); };			// --a
+	iterator operator --(int) { return (iterator(_ptr--)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
-	iterator operator +=(difference_type b) {return _ptr += b; };	// a += b
-	iterator operator -=(difference_type b) {return _ptr -= b; };	// a -= b
+	iterator& operator +=(difference_type b) {_ptr += b; return *this; };	// a += b
+	iterator& operator -=(difference_type b) {_ptr -= b; return *this; };	// a -= b
 
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
