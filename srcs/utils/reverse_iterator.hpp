@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/03 00:02:16 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/03 22:43:19 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ public:
 	difference_type operator -(reverse_iterator b) { return (_ptr + b._ptr); }; // a - b
 
 	// INCREMENTERS
-	reverse_iterator operator ++() { _ptr--; return (*this); };			// ++a
-	reverse_iterator operator ++(int) { _ptr--; return (reverse_iterator(_ptr + 1)); };	// a++
-	reverse_iterator operator --() { _ptr++; return (*this); };			// --a
-	reverse_iterator operator --(int) { _ptr++; return (reverse_iterator(_ptr - 1)); };	// a--
+	reverse_iterator& operator ++() { _ptr--; return (*this); };			// ++a
+	reverse_iterator operator ++(int) { return (reverse_iterator( _ptr--)); };	// a++
+	reverse_iterator& operator --() { _ptr++; return (*this); };			// --a
+	reverse_iterator operator --(int) { return (reverse_iterator(_ptr++)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
-	reverse_iterator operator +=(difference_type b) {return _ptr -= b; };	// a += b
-	reverse_iterator operator -=(difference_type b) {return _ptr += b; };	// a -= b
+	reverse_iterator& operator +=(difference_type b) {_ptr -= b; return *this; };	// a += b
+	reverse_iterator& operator -=(difference_type b) {_ptr += b; return *this; };	// a -= b
 
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
