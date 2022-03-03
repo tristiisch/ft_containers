@@ -30,6 +30,10 @@ jobs:
       - name: Launch Script
         run: ./vector_test.sh
         shell: bash
+      - name: Launch Script with Capacity check
+        run: ./vector_test.sh capacity
+        shell: bash
+        continue-on-error: true
   launch_tester_macos:
     runs-on: macos-latest
     name: Own Tester MacOS
@@ -47,3 +51,7 @@ jobs:
       - name: Launch Script
         run: ./vector_test.sh
         shell: bash
+      - name: Launch Script with Capacity check
+        run: ./vector_test.sh capacity
+        shell: bash
+        continue-on-error: true

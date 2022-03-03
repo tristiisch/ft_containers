@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/03 22:43:19 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 00:04:40 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ public:
 	reference operator *() { return (*_ptr); };											// *a
 	const_reference operator *() const { return (*_ptr); };								// *a
 	reference operator [](difference_type b) { return (*(_ptr - b)); };					// a[]
-	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
+	const_reference operator [](difference_type b) const { return *(*this + b); };		// a[]
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 

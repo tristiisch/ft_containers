@@ -57,19 +57,18 @@ public:
 	difference_type operator -(const_iterator b) { return (_ptr - b._ptr); }; // a - b
 
 	// INCREMENTERS
-	const_iterator operator ++() { _ptr++; return (*this); };			// ++a
-	const_iterator operator ++(int) { _ptr++; return (const_iterator(_ptr - 1)); };	// a++
-	const_iterator operator --() { _ptr--; return (*this); };			// --a
-	const_iterator operator --(int) { _ptr--; return (const_iterator(_ptr + 1)); };	// a--
+	const_iterator& operator ++() { _ptr++; return (*this); };			// ++a
+	const_iterator operator ++(int) { return (const_iterator(_ptr++)); };	// a++
+	const_iterator& operator --() { _ptr--; return (*this); };			// --a
+	const_iterator operator --(int) { return (const_iterator( _ptr--)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
-	const_iterator operator +=(difference_type b) {return _ptr += b; };	// a += b
-	const_iterator operator -=(difference_type b) {return _ptr -= b; };	// a -= b
+	const_iterator& operator +=(difference_type b) { _ptr += b; return *this; };	// a += b
+	const_iterator& operator -=(difference_type b) { _ptr -= b; return *this; };	// a -= b
 
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (*_ptr); };								// *a
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
-	pointer operator ->() { return (_ptr); };
 	pointer operator ->() const { return _ptr; };											// a->b
 
 	pointer base() const { return _ptr; }

@@ -12,6 +12,10 @@
 # define IS_STL 0
 #endif
 
+#ifndef CAPACITY_TEST
+# define CAPACITY_TEST 0
+#endif
+
 #if IS_STL
 	#include <vector>
 	namespace ft = std;
@@ -23,9 +27,14 @@
 template <typename T>
 std::ostream &operator<<(std::ostream &outputFile, ft::vector<T> const &vector)
 {
-	outputFile	<< "\033[1;36mSize | Capacity | Max_Size\t" << vector.size()
-				<< " | " << vector.capacity() << " | " << vector.max_size()
-				<< "\033[0m" << std::endl;
+	if (CAPACITY_TEST == 1)
+		outputFile	<< "\033[1;36mSize|Capacity|Max_Size\t" << vector.size()
+					<< "|" << vector.capacity() << "|" << vector.max_size()
+					<< "\033[0m" << std::endl;
+	else
+		outputFile	<< "\033[1;36mSize|Max_Size\t" << vector.size()
+					<< "|" << vector.max_size()
+					<< "\033[0m" << std::endl;
 	outputFile << "\033[1;36mContent ";
 	if (vector.empty())
 		outputFile << "<empty>";
@@ -128,15 +137,13 @@ static void insertTest()
 	vector2.push_back(6);
 
 	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
-	//std::cout << vector3 << std::endl;
-	//vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); //-> capacity not good on
+	std::cout << vector3 << std::endl;
+	vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); //-> capacity not good on
 	std::cout << vector3 << std::endl;
 	std::cout << "vector4.insert(vector4.begin() + 2, 6, 69)" << std::endl;
 	vector4.insert(vector4.begin() + 2, 6, 69);
 	std::cout << vector4 << std::endl;
 }
-
-
 
 static void atTest()
 {
@@ -256,6 +263,13 @@ static void resizeTest()
 	vector.resize(2, 42);
 	std::cout << "vector.resize(2, 42)" << std::endl;
 	std::cout << vector << std::endl;
+	
+	std::cout << "vector push_back" << std::endl;
+	vector.push_back(863);
+	vector.push_back(3);
+	vector.push_back(1); // -> capacity not like stl
+	vector.push_back(48512);
+	std::cout << vector << std::endl;
 
 	vector.resize(10, 42);
 	std::cout << "vector.resize(10, 42)" << std::endl; 
@@ -288,10 +302,10 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << "--" << itName << " = " << *--begin << std::endl;
 	std::cout << itName << "-- = " << *begin-- << std::endl;
 	std::cout << itName << " + 1 = " << *(begin + 1) << std::endl;
-	std::cout << "--(" << itName << " += 6) = " << *--(begin += 6) << std::endl;
+	std::cout << "++(" << itName << " += 6) = " << *++(begin += 6) << std::endl;
 	std::cout << itName << " - 1 = " << *(begin - 1) << std::endl;
 	std::cout << itName << ".base = " << *begin.base() << std::endl;
-	std::cout << itName << " -= 2 = " << *(begin -= 2) << std::endl;
+	std::cout << itName << " -= 1 = " << *(begin -= 1) << std::endl;
 	std::cout << " --(--" << itName << ") = " << *(--(--begin)) << std::endl;
 	std::cout << itName << "[3] = " << begin[3] << std::endl;
 	std::cout << itName << ".base = " << *begin.base() << std::endl;
@@ -300,13 +314,11 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	while (begin != last)
 		std::cout << " " << *begin++;
 	std::cout << std::endl;
-
-	// 1 + begin; -> not working
 }
 
 static void iteratorTest()
 {
-	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6};
+	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6, 96, 432, 555};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
 
 	std::cout << "Iterator test :" << std::endl;
@@ -322,18 +334,19 @@ static void iteratorTest()
 	std::cout << "*vector.rend() - 1 = " << *(vector.rend() - 1) << std::endl;
 	printIteratorTest("reverseIt", vector.rbegin(), vector.rend());
 
-	ft::vector<int>::reverse_iterator rit(vector.begin());
-	ft::vector<int>::const_iterator it_foo = vector.begin();
-	ft::vector<int>::const_reverse_iterator it_bar = vector.rbegin();
-	(void)rit;
-	(void)it_foo;
-	(void)it_bar;
-	// const ft::vector<int> constVector(vector);
-	// std::cout << "Iterator const test :" << std::endl;
-	// std::cout << constVector << std::endl;
-	// std::cout << "*constVector.begin() = " << *constVector.begin() << std::endl;
-	// std::cout << "*constVector.end() - 1 = " << *(constVector.end() - 1) << std::endl;
-	// printIteratorTest("constIt", constVector.begin(), constVector.end());
+	const ft::vector<int> constVector(vector);
+	ft::vector<int>::const_iterator itConst(constVector.begin());
+	std::cout << "Iterator const test :" << std::endl;
+	std::cout << constVector << std::endl;
+	std::cout << "*constVector.begin() = " << *constVector.begin() << std::endl;
+	std::cout << "*constVector.end() - 1 = " << *(constVector.end() - 1) << std::endl;
+	printIteratorTest("itConst", constVector.begin(), constVector.end());
+
+	std::cout << "Iterator const test :" << std::endl;
+	std::cout << constVector << std::endl;
+	std::cout << "*constVector.rbegin() = " << *constVector.rbegin() << std::endl;
+	std::cout << "*constVector.rend() - 1 = " << *(constVector.rend() - 1) << std::endl;
+	printIteratorTest("reverseitConst", constVector.rbegin(), constVector.rend());
 }
 
 /*

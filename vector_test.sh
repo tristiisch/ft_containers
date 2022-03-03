@@ -18,9 +18,13 @@ else
 	DIFF_FLAGS=""
 fi
 
+if [[ $1 == "capacity" ]]; then
+	PRECONCOMPIL_FLAGS+="-D CAPACITY_TEST"
+fi
+
 # Compile with our containers
 function compile_our {
-	$CC -D IS_STL=0 $SRCS -o ./$EXEC
+	$CC $PRECONCOMPIL_FLAGS -D IS_STL=0 $SRCS -o ./$EXEC
 	if [ $? != 0 ]; then
 		echo -e "\033[0;31mKO : compile error\033[0m"
 		exit 1
@@ -29,7 +33,7 @@ function compile_our {
 
 # Compile with STL containers
 function compile_STL {
-	$CC -D IS_STL=1 $SRCS -o ./$EXEC\_STL &>/dev/null
+	$CC $PRECONCOMPIL_FLAGS -D IS_STL=1 $SRCS -o ./$EXEC\_STL &>/dev/null
 	if [ $? != 0 ]; then
 		echo -e "\033[0;33mWARN: STL prog didn't compile\033[0m"
 		exit 1
