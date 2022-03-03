@@ -11,7 +11,7 @@ SRCS_TEST 			=	$(shell find $(SRCS_TEST_DIR) -type f -name '*.cpp')
 INCLUDES			=	$(shell find $(SRCS_DIR) -type f -name '*.hpp')
 OBJS				=	$(SRCS_TEST:$(SRCS_TEST_DIR)/%.cpp=$(OBJS_DIR)/%.o)
 
-all: $(NAME_FT) $(NAME_STL)
+all: $(NAME_STL) $(NAME_FT)
 
 $(OBJS_DIR)/%.o: $(SRCS_TEST_DIR)/%.cpp $(INCLUDES)
 	mkdir -p $(dir $@) && $(CXX) $(CXXFLAGS) -c -o $@ $<

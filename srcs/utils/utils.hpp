@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/02/22 21:57:07 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/01 17:11:55 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,20 @@ namespace ft {
 		typedef T type;
 		static const bool value = is_integral;
 	};
+
+
+	template<class InputIterator>
+        typename InputIterator::difference_type
+            distance (InputIterator first, InputIterator last)
+        {
+            typename InputIterator::difference_type dist = 0;
+            while (first != last)
+            {
+                first++;
+                dist++;
+            }
+            return (dist);
+        }
 
 	template<typename>
 	struct is_integral_type : public is_integral_res<false, bool> {};
