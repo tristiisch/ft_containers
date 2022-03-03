@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 11:28:05 by alganoun          #+#    #+#             */
-/*   Updated: 2022/02/28 11:35:05 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:12:54 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
 
 
     template<class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-    struct iterator
+    struct iterator_1
     {
         typedef T         value_type;
         typedef Distance  difference_type;

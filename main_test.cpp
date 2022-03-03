@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/02/28 16:08:07 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/02 20:22:14 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,27 @@
 #include "srcs/utils/iterator.hpp"
 
 
-#include <list>
-
 #define TESTED_TYPE int
 
 int		main(void)
 {
-	std::list<TESTED_TYPE> lst;
-	std::list<TESTED_TYPE>::iterator lst_it;
-	for (int i = 1; i < 5; ++i)
-		lst.push_back(i * 3);
+	ft::vector<TESTED_TYPE> vct;
+	ft::vector<TESTED_TYPE>::iterator it = vct.begin();
+	ft::vector<TESTED_TYPE>::const_iterator cit = vct.begin();
 
-	ft::vector<TESTED_TYPE> vct(lst.begin(), lst.end());
-	//printSize(vct);
+	//ft::vector<TESTED_TYPE>::reverse_iterator rit(it);
 
-	lst_it = lst.begin();
-	for (int i = 1; lst_it != lst.end(); ++i)
-		*lst_it++ = i * 5;
-	vct.assign(lst.begin(), lst.end());
-	//printSize(vct);
-//
-	//vct.insert(vct.end(), lst.begin(), lst.end());
-	//printSize(vct);
+	//ft::vector<TESTED_TYPE>::const_reverse_iterator crit(rit);
+	//ft::vector<TESTED_TYPE>::const_reverse_iterator crit_(it);
+	//ft::vector<TESTED_TYPE>::const_reverse_iterator crit_2(cit);
+
+	/* error expected
+	ft::vector<TESTED_TYPE>::reverse_iterator rit_(crit);
+	ft::vector<TESTED_TYPE>::reverse_iterator rit2(cit);
+	ft::vector<TESTED_TYPE>::iterator it2(rit);
+	ft::vector<TESTED_TYPE>::const_iterator cit2(crit);
+	*/
+
+	std::cout << "OK" << std::endl;
 	return (0);
 }
