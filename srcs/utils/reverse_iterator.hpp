@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 00:57:40 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 03:28:15 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,34 @@ public:
 		pointer _ptr;
 };
 
-	// template <class I1, class I2>
-	// typename reverse_iterator<I1>::difference_type operator-(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
+	// template <class One, class Two>
+	// typename reverse_iterator<One>::difference_type operator-(const reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
 	// 	return rhs.base() - lhs.base();
+	// }
+
+	// template <class One, class Two>
+	// bool operator<(const reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+	// 	return rhs.base() < lhs.base();
+	// }
+
+	// template <class One, class Two>
+	// bool operator<=(const reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+	// 	return !(rhs < lhs);
+	// }
+
+	// template <class One, class Two>
+	// bool operator>(const reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+	// 	return (rhs < lhs);
+	// }
+
+	// template <class One, class Two>
+	// bool operator>=(const reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+	// 	return !(lhs < rhs);
+	// }
+
+
+	// template <class Iter>
+	// reverse_iterator<Iter> operator+(const typename reverse_iterator<Iter>::difference_type &lhs, const reverse_iterator<Iter> &rhs) {
+	// 	return rhs + lhs;
 	// }
 }

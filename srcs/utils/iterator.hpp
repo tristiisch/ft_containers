@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 00:57:37 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 03:28:04 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,27 @@ public:
 		return lhs.base() != rhs.base();
 	}
 
+/*********** USLESS : les comparaisons ne vont pas dedans ***********/
+	// template <class One, class Two>
+	// bool operator<(const iterator<One> &lhs, const iterator<Two> &rhs) {
+	// 	return lhs.base() < rhs.base();
+	// }
+
+	// template <class One, class Two>
+	// bool operator<=(const iterator<One> &lhs, const iterator<Two> &rhs) {
+	// 	return !(rhs < lhs);
+	// }
+
+	// template <class One, class Two>
+	// bool operator>(const iterator<One> &lhs, const iterator<Two> &rhs) {
+	// 	return (rhs < lhs);
+	// }
+
+	// template <class One, class Two>
+	// bool operator>=(const iterator<One> &lhs, const iterator<Two> &rhs) {
+	// 	return !(lhs < rhs);
+	// }
+
 	template < class One, class Two>
 	bool operator<(const One &lhs, const Two &rhs) {
 		return lhs.base() < rhs.base();
@@ -111,22 +132,30 @@ public:
 		return lhs.base() >= rhs.base();
 	}
 
+/********************************************************************/
+
 	template <class InputIterator>
 	typename InputIterator::difference_type operator-(const InputIterator &lhs, const InputIterator&rhs) {
 		return lhs.base() - rhs.base();
 	}
 
+	template <class InputIterator>
+	InputIterator operator+(const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
+		return rhs + lhs;
+	}
 	
-	// template <class I1, class I2>
-	// typename iterator<I1>::difference_type operator-(const iterator<I1> &lhs, const iterator<I2> &rhs)
+	// template <class One, class Two>
+	// typename iterator<One>::difference_type operator-(const iterator<One> &lhs, const iterator<Two> &rhs)
 	// {
 	// 	return lhs.base() - rhs.base();
 	// }
 
-	template <class InputIterator>
-	InputIterator operator+( const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
-		return rhs + lhs;
-	}
+	// template <class T>
+	// iterator<T> operator+(const typename iterator<T>::difference_type &lhs, const iterator<T> &rhs)
+	// {
+	// 	return rhs + lhs;
+	// }
+
 
 	//template <class InputIterator>
 	//std::ostream &operator<<(std::ostream &out, InputIterator const &temp)

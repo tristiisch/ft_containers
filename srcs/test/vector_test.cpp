@@ -314,6 +314,15 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	while (begin != last)
 		std::cout << " " << *begin++;
 	std::cout << std::endl;
+
+	std::cout << itName << "last <= " << itName << "last = " << (last <= last) << std::endl;
+	std::cout << itName << "last >= " << itName << "last = " << (last >= last) << std::endl;
+	std::cout << itName << "last <= " << itName << "last - 1 = " << (last <= last - 1) << std::endl;
+	std::cout << itName << "last >= " << itName << "last - 1 = " << (last >= last - 1) << std::endl;
+	std::cout << itName << "last < " << itName << "last = " << (last < last) << std::endl;
+	std::cout << itName << "last > " << itName << "last = " << (last > last) << std::endl;
+	std::cout << itName << "last < " << itName << "last - 1 = " << (last < last - 1) << std::endl;
+	std::cout << itName << "last > " << itName << "last - 1 = " << (last > last - 1) << std::endl;
 }
 
 static void swapTest()
@@ -354,7 +363,7 @@ static void iteratorTest()
 	std::cout << "*constVector.end() - 1 = " << *(constVector.end() - 1) << std::endl;
 	printIteratorTest("itConst", constVector.begin(), constVector.end());
 
-	std::cout << "Iterator const test :" << std::endl;
+	std::cout << "Reverse Iterator const test :" << std::endl;
 	std::cout << "*constVector.rbegin() = " << *constVector.rbegin() << std::endl;
 	std::cout << "*constVector.rend() - 1 = " << *(constVector.rend() - 1) << std::endl;
 	printIteratorTest("reverseitConst", constVector.rbegin(), constVector.rend());
@@ -374,14 +383,19 @@ static void compTest()
 	std::cout << "vector != vector = " << (vector != vector) << std::endl;
 	std::cout << "vector == vectorReverse = " << (vector == vectorReverse) << std::endl;
 	std::cout << "vector != vectorReverse = " << (vector != vectorReverse) << std::endl;
-	// std::cout << "vector <= vector = " << (vector <= vector) << std::endl;
-	// std::cout << "vector >= vector = " << (vector >= vector) << std::endl;
-	// std::cout << "vector <= vectorReverse = " << (vector <= vectorReverse) << std::endl;
-	// std::cout << "vector >= vectorReverse = " << (vector >= vectorReverse) << std::endl;
-	// std::cout << "vector < vector = " << (vector < vector) << std::endl;
-	// std::cout << "vector > vector = " << (vector > vector) << std::endl;
-	// std::cout << "vector < vectorReverse = " << (vector < vectorReverse) << std::endl;
-	// std::cout << "vector > vectorReverse = " << (vector > vectorReverse) << std::endl;
+}
+
+static void timeTest()
+{
+	ft::vector<int> vector(214748364, 42);
+	ft::vector<int>::iterator it = vector.begin();
+	while (it != vector.end())
+	{
+		*it = 122;
+		it++;
+	}
+	vector.clear();
+	(void)vector;
 }
 
 /*
@@ -404,6 +418,12 @@ int main()
 
 	std::cout << vector1.end() - vector1.begin() << std::endl;
 }*/
+
+// int main()
+// {
+
+// 	timeTest();
+// }
 
 int main()
 {
@@ -453,4 +473,6 @@ int main()
 	std::cout << std::endl << std::endl;
 	compTest();
 	(void)&compTest;
+
+	(void)&timeTest;
 }
