@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/02 23:00:45 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 00:33:51 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,16 @@ namespace ft
 		typedef	typename allocator_type::reference				reference;
 		typedef	typename allocator_type::const_reference		const_reference;
 		typedef typename allocator_type::pointer				pointer;
+		typedef typename allocator_type::const_pointer			const_pointer;
 
 		typedef ft::iterator<value_type>						iterator;
+		// typedef ft::const_iterator<const_pointer>				const_iterator;
+		// typedef ft::reverse_iterator<iterator>					reverse_iterator;
+		// typedef	ft::const_reverse_iterator<const_iterator>		const_reverse_iterator;
 		typedef ft::const_iterator<value_type>					const_iterator;
-		typedef ft::reverse_iterator<iterator>				reverse_iterator;
+		typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
+
 
 		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc..
 
@@ -147,7 +152,6 @@ namespace ft
 			return (iterator(p_first));
 		}
 
-
 		// iterator from start
 		iterator begin()
 		{
@@ -157,6 +161,16 @@ namespace ft
 		const_iterator begin() const
 		{
 			return _start;
+		}
+
+		reverse_iterator rbegin()
+		{
+			return _end - 1;
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return _end - 1;
 		}
 
 		// iterator at the end
@@ -176,14 +190,20 @@ namespace ft
 				return _start;
 		}
 
-		reverse_iterator rbegin()
-		{
-			return(reverse_iterator(_end - 1));
-		}
-
 		reverse_iterator rend()
 		{
-			return(reverse_iterator(_start - 1));
+			if (this->empty() == false)
+				return _start - 1;
+			else
+				return _start;
+		}
+
+		const_reverse_iterator rend() const
+		{
+			if (this->empty() == false)
+				return _start - 1;
+			else
+				return _start;
 		}
 
 		// Number of elements
@@ -545,18 +565,18 @@ namespace ft
 	template<class T, class Alloc>
 	bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return !(rhs <= lhs);
+		return !(lhs > rhs);
 	}
 
 	template<class T, class Alloc>
 	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs) {
-		return (rhs < lhs);
+		return (lhs > rhs);
 	}
 
 	template<class T, class Alloc>
 	bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return !(rhs > lhs);
+		return !(lhs < rhs);
 	}
 
 	template <class T, class Alloc>
