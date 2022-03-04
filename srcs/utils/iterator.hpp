@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/03 20:27:49 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 00:57:37 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,13 @@ public:
 	typename InputIterator::difference_type operator-(const InputIterator &lhs, const InputIterator&rhs) {
 		return lhs.base() - rhs.base();
 	}
+
+	
+	// template <class I1, class I2>
+	// typename iterator<I1>::difference_type operator-(const iterator<I1> &lhs, const iterator<I2> &rhs)
+	// {
+	// 	return lhs.base() - rhs.base();
+	// }
 
 	template <class InputIterator>
 	InputIterator operator+( const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {

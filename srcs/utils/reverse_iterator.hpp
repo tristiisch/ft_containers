@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 00:04:40 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 00:57:40 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,8 @@ public:
 		pointer _ptr;
 };
 
+	// template <class I1, class I2>
+	// typename reverse_iterator<I1>::difference_type operator-(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) {
+	// 	return rhs.base() - lhs.base();
+	// }
 }

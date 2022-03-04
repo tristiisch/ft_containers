@@ -316,20 +316,33 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << std::endl;
 }
 
+static void swapTest()
+{
+	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6, 96, 432, 555};
+	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
+	ft::vector<int> vectorReverse(vector.rbegin(), vector.rend());
+
+	std::cout << "Vector Swap test :" << std::endl;
+	std::cout << vector << std::endl;
+	std::cout << vectorReverse << std::endl;
+	ft::swap(vector, vectorReverse);
+	std::cout << vector << std::endl;
+	std::cout << vectorReverse << std::endl;
+}
+
 static void iteratorTest()
 {
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6, 96, 432, 555};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
 
-	std::cout << "Iterator test :" << std::endl;
 	std::cout << vector << std::endl;
+	std::cout << "Iterator test :" << std::endl;
 	std::cout << "*vector.begin() = " << *vector.begin() << std::endl;
 	std::cout << "*vector.end() - 1 = " << *(vector.end() - 1) << std::endl;
 	printIteratorTest("it", vector.begin(), vector.end());
 
 	ft::vector<int>::reverse_iterator rIt = vector.rbegin();
 	std::cout << "Reverse Iterator test :" << std::endl;
-	std::cout << vector << std::endl;
 	std::cout << "*vector.rbegin() = " << *vector.rbegin() << std::endl;
 	std::cout << "*vector.rend() - 1 = " << *(vector.rend() - 1) << std::endl;
 	printIteratorTest("reverseIt", vector.rbegin(), vector.rend());
@@ -337,16 +350,38 @@ static void iteratorTest()
 	const ft::vector<int> constVector(vector);
 	ft::vector<int>::const_iterator itConst(constVector.begin());
 	std::cout << "Iterator const test :" << std::endl;
-	std::cout << constVector << std::endl;
 	std::cout << "*constVector.begin() = " << *constVector.begin() << std::endl;
 	std::cout << "*constVector.end() - 1 = " << *(constVector.end() - 1) << std::endl;
 	printIteratorTest("itConst", constVector.begin(), constVector.end());
 
 	std::cout << "Iterator const test :" << std::endl;
-	std::cout << constVector << std::endl;
 	std::cout << "*constVector.rbegin() = " << *constVector.rbegin() << std::endl;
 	std::cout << "*constVector.rend() - 1 = " << *(constVector.rend() - 1) << std::endl;
 	printIteratorTest("reverseitConst", constVector.rbegin(), constVector.rend());
+
+	const ft::vector<int>::const_reverse_iterator constIt = vector.rbegin();
+	(void)constIt;
+}
+
+static void compTest()
+{
+	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6, 96, 432, 555};
+	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
+	ft::vector<int> vectorReverse(vector.rbegin(), vector.rend());
+
+	std::cout << "Vector Comp test :" << std::endl;
+	std::cout << "vector == vector = " << (vector == vector) << std::endl;
+	std::cout << "vector != vector = " << (vector != vector) << std::endl;
+	std::cout << "vector == vectorReverse = " << (vector == vectorReverse) << std::endl;
+	std::cout << "vector != vectorReverse = " << (vector != vectorReverse) << std::endl;
+	// std::cout << "vector <= vector = " << (vector <= vector) << std::endl;
+	// std::cout << "vector >= vector = " << (vector >= vector) << std::endl;
+	// std::cout << "vector <= vectorReverse = " << (vector <= vectorReverse) << std::endl;
+	// std::cout << "vector >= vectorReverse = " << (vector >= vectorReverse) << std::endl;
+	// std::cout << "vector < vector = " << (vector < vector) << std::endl;
+	// std::cout << "vector > vector = " << (vector > vector) << std::endl;
+	// std::cout << "vector < vectorReverse = " << (vector < vectorReverse) << std::endl;
+	// std::cout << "vector > vectorReverse = " << (vector > vectorReverse) << std::endl;
 }
 
 /*
@@ -408,6 +443,14 @@ int main()
 	(void)&reserveTest;
 
 	std::cout << std::endl << std::endl;
+	swapTest();
+	(void)&swapTest;
+
+	std::cout << std::endl << std::endl;
 	iteratorTest();
 	(void)&iteratorTest;
+
+	std::cout << std::endl << std::endl;
+	compTest();
+	(void)&compTest;
 }

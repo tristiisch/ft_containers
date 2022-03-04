@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 00:05:18 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 00:33:51 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ namespace ft
 		// typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		// typedef	ft::const_reverse_iterator<const_iterator>		const_reverse_iterator;
 		typedef ft::const_iterator<value_type>					const_iterator;
-		typedef ft::reverse_iterator<iterator>				reverse_iterator;
+		typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
 
 
@@ -565,18 +565,18 @@ namespace ft
 	template<class T, class Alloc>
 	bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return !(rhs <= lhs);
+		return !(lhs > rhs);
 	}
 
 	template<class T, class Alloc>
 	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs) {
-		return (rhs < lhs);
+		return (lhs > rhs);
 	}
 
 	template<class T, class Alloc>
 	bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return !(rhs > lhs);
+		return !(lhs < rhs);
 	}
 
 	template <class T, class Alloc>
