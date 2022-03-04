@@ -263,7 +263,7 @@ static void resizeTest()
 	vector.resize(2, 42);
 	std::cout << "vector.resize(2, 42)" << std::endl;
 	std::cout << vector << std::endl;
-	
+
 	std::cout << "vector push_back" << std::endl;
 	vector.push_back(863);
 	vector.push_back(3);
@@ -272,7 +272,7 @@ static void resizeTest()
 	std::cout << vector << std::endl;
 
 	vector.resize(10, 42);
-	std::cout << "vector.resize(10, 42)" << std::endl; 
+	std::cout << "vector.resize(10, 42)" << std::endl;
 	std::cout << vector << std::endl;
 }
 
@@ -317,12 +317,12 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 
 	std::cout << itName << "last <= " << itName << "last = " << (last <= last) << std::endl;
 	std::cout << itName << "last >= " << itName << "last = " << (last >= last) << std::endl;
-	std::cout << itName << "last <= " << itName << "last - 1 = " << (last <= last - 1) << std::endl;
-	std::cout << itName << "last >= " << itName << "last - 1 = " << (last >= last - 1) << std::endl;
+	std::cout << itName << "last <= " << itName << "last - 1 = " << (last <= (last - 1)) << std::endl;
+	std::cout << itName << "last >= " << itName << "last - 1 = " << (last >= (last - 1)) << std::endl;
 	std::cout << itName << "last < " << itName << "last = " << (last < last) << std::endl;
 	std::cout << itName << "last > " << itName << "last = " << (last > last) << std::endl;
-	std::cout << itName << "last < " << itName << "last - 1 = " << (last < last - 1) << std::endl;
-	std::cout << itName << "last > " << itName << "last - 1 = " << (last > last - 1) << std::endl;
+	std::cout << itName << "last < " << itName << "last - 1 = " << (last < (last - 1)) << std::endl;
+	std::cout << itName << "last > " << itName << "last - 1 = " << (last > (last - 1)) << std::endl;
 }
 
 static void swapTest()
@@ -441,10 +441,10 @@ int main()
 	std::cout << std::endl << std::endl;
 	insertTest();
 	(void)&insertTest;
-	
+
 	std::cout << std::endl << std::endl;
 	atTest();
-	(void)&atTest;	
+	(void)&atTest;
 
 	std::cout << std::endl << std::endl;
 	eraseTest();

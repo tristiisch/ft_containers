@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 03:28:04 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/04 09:34:43 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ public:
 	InputIterator operator+(const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
 		return rhs + lhs;
 	}
-	
+
 	// template <class One, class Two>
 	// typename iterator<One>::difference_type operator-(const iterator<One> &lhs, const iterator<Two> &rhs)
 	// {
