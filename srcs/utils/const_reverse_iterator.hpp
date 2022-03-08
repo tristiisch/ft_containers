@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:11:58 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 09:33:54 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/08 16:13:09 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ public:
 	const_reverse_iterator(void) {};
 	const_reverse_iterator(pointer ptr) { _ptr = ptr; };
 	const_reverse_iterator(const ft::reverse_iterator<iterator> &src) { _ptr = src.operator->(); } ;
-	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _ptr = src.operator->(); } ;
-	const_reverse_iterator(const ft::iterator<value_type> &src) { _ptr = src.operator->(); } ;
+	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _ptr = src.operator->() - 1; } ;
+	const_reverse_iterator(const ft::iterator<value_type> &src) { _ptr = src.operator->() - 1; } ;
 	const_reverse_iterator(const const_reverse_iterator &src) { *this = src; } ;
 
 
@@ -72,7 +72,7 @@ public:
 	const_reference operator [](difference_type b) const { return *(*this + b); };		// a[]
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	pointer base() const { return _ptr + 1; }
+	ft::const_iterator<value_type> base() const { return _ptr + 1; }
 
 	static const bool input_iter = true;
 

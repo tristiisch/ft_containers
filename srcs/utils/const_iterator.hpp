@@ -71,7 +71,7 @@ public:
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	pointer operator ->() const { return _ptr; };											// a->b
 
-	pointer base() const { return _ptr; }
+	const_iterator base() const {return _ptr;};
 
 	static const bool input_iter = true;
 

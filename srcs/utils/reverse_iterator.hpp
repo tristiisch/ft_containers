@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 09:34:02 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/08 16:12:16 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ public:
 	reverse_iterator(void) {};
 	reverse_iterator(pointer ptr) { _ptr = ptr; };
 	reverse_iterator(const reverse_iterator &src) { *this = src; } ;
-	reverse_iterator(const ft::iterator<value_type> &src) { _ptr = src.operator->(); } ;
+	reverse_iterator(const ft::iterator<value_type> &src) { _ptr = src.operator->() - 1; } ;
 
 
 	virtual ~reverse_iterator() {};
@@ -74,7 +74,7 @@ public:
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	pointer base() const { return _ptr + 1; }
+	ft::iterator<value_type> base() const { return _ptr + 1; }
 
 	static const bool input_iter = true;
 

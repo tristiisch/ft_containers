@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 00:33:51 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/08 15:26:19 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -548,7 +548,9 @@ namespace ft
 	template<class T, class Alloc>
 	bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()) != false)
+			return lhs.size() == rhs.size();
+		return false;
 	}
 
 	template<class T, class Alloc>
@@ -570,7 +572,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs) {
-		return (lhs > rhs);
+		return ft::lexicographical_compare2(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template<class T, class Alloc>
