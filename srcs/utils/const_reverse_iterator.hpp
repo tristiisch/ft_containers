@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   const_reverse_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:11:58 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/08 16:13:09 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 20:06:09 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ public:
 	const_reverse_iterator operator +(difference_type b) const { return (const_reverse_iterator(_ptr - b)); }; // a + n
 	const_reverse_iterator operator -(difference_type b) const { return (const_reverse_iterator(_ptr + b)); }; // a - n
 
-	difference_type operator +(const_reverse_iterator b) { return (_ptr - b._ptr); }; // a + b
-	difference_type operator -(const_reverse_iterator b) { return (_ptr + b._ptr); }; // a - b
+	difference_type operator +(const_reverse_iterator b) { return (b._ptr + _ptr); }; // a + b
+	difference_type operator -(const_reverse_iterator b) { return (b._ptr - _ptr); };
 
 	// INCREMENTERS
 	const_reverse_iterator& operator ++() { _ptr--; return (*this); };			// ++a
@@ -72,7 +72,7 @@ public:
 	const_reference operator [](difference_type b) const { return *(*this + b); };		// a[]
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	ft::const_iterator<value_type> base() const { return _ptr + 1; }
+	ft::iterator<value_type> base() const { return _ptr + 1; }
 
 	static const bool input_iter = true;
 
@@ -80,5 +80,4 @@ public:
 	private:
 		pointer _ptr;
 };
-
 }

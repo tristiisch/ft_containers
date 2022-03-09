@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/08 15:42:39 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 19:26:40 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,6 @@ namespace ft {
 		}
 
 		return (first2 != last2);
-	}
-
-	template<class InputIter1, class InputIter2>
-	bool lexicographical_compare2(InputIter1 first1, InputIter1 last1, InputIter2 first2, InputIter2 last2) {
-		while (first2 != last2) {
-			// Check if we reach the end of the second iterator or if
-			// the element in the first iterator is bigger than the one
-			// in the second.
-			if (first1 == last1 || *first2 > *first1) {
-				return false;
-			}
-
-			if (*first1 > *first2) {
-				return true;
-			}
-
-			++first1;
-			++first2;
-		}
-
-		return (first1 != last1);
 	}
 
 	template<bool Cond, class T = void> struct enable_if {};

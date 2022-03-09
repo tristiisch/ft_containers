@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/08 16:41:16 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 19:58:31 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ public:
 
 	template < class One, class Two>
 	bool operator==(const One &lhs, const Two &rhs) {
-		return lhs.operator->() == rhs.operator->();
+		return lhs.base() == rhs.base();
 	}
 
 	template < class One, class Two>
 	bool operator!=(const One &lhs, const Two &rhs) {
-		return lhs.operator->() != rhs.operator->();
+		return lhs.base() != rhs.base();
 	}
 
 /*********** USLESS : les comparaisons ne vont pas dedans ***********/
@@ -114,29 +114,29 @@ public:
 
 	template < class One, class Two>
 	bool operator<(const One &lhs, const Two &rhs) {
-		return lhs.operator->() < rhs.operator->();
+		return lhs.base() < rhs.base();
 	}
 
 	template < class One, class Two>
 	bool operator<=(const One &lhs, const Two &rhs) {
-		return lhs.operator->() <= rhs.operator->();
+		return lhs.base() <= rhs.base();
 	}
 
 	template < class One, class Two>
 	bool operator>(const One &lhs, const Two &rhs) {
-		return (lhs.operator->() > rhs.operator->());
+		return (lhs.base() > rhs.base());
 	}
 
 	template < class One, class Two>
 	bool operator>=(const One &lhs, const Two &rhs) {
-		return lhs.operator->() >= rhs.operator->();
+		return lhs.base() >= rhs.base();
 	}
 
 /********************************************************************/
 
 	template <class InputIterator>
 	typename InputIterator::difference_type operator-(const InputIterator &lhs, const InputIterator&rhs) {
-		return lhs.operator->() - rhs.operator->();
+		return lhs.base() - rhs.base();
 	}
 
 	template <class InputIterator>

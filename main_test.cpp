@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/08 16:15:44 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 18:47:36 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,5 @@ int		main(void)
 	std::cout << "(const_ite - it): " << (ite - it) << std::endl;
 	std::cout << "(ite + 3 == it): " << (ite + 3 == it) << std::endl;
 
-	//printSize(vct, true);
 	return (0);
 }

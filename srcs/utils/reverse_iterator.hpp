@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/08 16:12:16 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 19:47:53 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ public:
 	reverse_iterator operator +(difference_type b) const { return (reverse_iterator(_ptr - b)); }; // a + n
 	reverse_iterator operator -(difference_type b) const { return (reverse_iterator(_ptr + b)); }; // a - n
 
-	difference_type operator +(reverse_iterator b) { return (_ptr - b._ptr); }; // a + b
-	difference_type operator -(reverse_iterator b) { return (_ptr + b._ptr); }; // a - b
+	difference_type operator +(reverse_iterator b) { return (b._ptr + _ptr); }; // a + b
+	difference_type operator -(reverse_iterator b) { return (b._ptr - _ptr); }; // a - b
 
 	// INCREMENTERS
 	reverse_iterator& operator ++() { _ptr--; return (*this); };			// ++a
@@ -81,6 +81,9 @@ public:
 
 	private:
 		pointer _ptr;
+
+	
 };
+
 
 }
