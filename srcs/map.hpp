@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 22:32:21 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/05 22:37:19 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/08 18:45:13 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,16 @@ class map
 
 	public:
 		// Because all arguments have default value this also acts as a default constructor.
-		explicit map(const key_compare &comp = key_compare(), const allocator_type &allocator = allocator_type()) : _tree(comp, allocator) {
-		}
+		explicit map(const key_compare &comp = key_compare(), const allocator_type &allocator = allocator_type()) : _tree(comp, allocator) {}
 
-		template<class InputIter>
-		map(InputIter first, InputIter last, const key_compare &comp = key_compare(), const allocator_type &allocator = allocator_type()) : _tree(comp, allocator) {
+		template<class InputIterator>
+		map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &allocator = allocator_type()) : _tree(comp, allocator) {
 			_tree.insert(first, last);
 		}
 
-		map(const map &other) : _tree(other._tree) {
-		}
+		map(const map &other) : _tree(other._tree) {}
 
-		~map() {
-		}
+		~map() {}
 
 		map& operator=(const map &other) {
 			_tree = other._tree;
@@ -167,8 +164,8 @@ class map
 			return _tree.insert(hint, value);
 		}
 
-		template<class InputIter>
-		void insert(InputIter first, InputIter last) {
+		template<class InputIterator>
+		void insert(InputIterator first, InputIterator last) {
 			return _tree.insert(first, last);
 		}
 
