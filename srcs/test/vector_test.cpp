@@ -398,34 +398,7 @@ static void timeTest()
 	(void)vector;
 }
 
-/*
-int main()
-{
-	(void)&basicTest;
-	(void)&insertTest;
-	(void)&atTest;
-	(void)&segfault_test;
-	(void)&outRangePop;
-	(void)&assignTest;
-	(void)&eraseTest;
-
-
-	ft::vector<int> vector1;
-
-	vector1.push_back(95623);
-	vector1.push_back(8);
-	vector1.push_back(6);
-
-	std::cout << vector1.end() - vector1.begin() << std::endl;
-}*/
-
-// int main()
-// {
-
-// 	timeTest();
-// }
-
-int main()
+void vector_tests()
 {
 	(void)&pushPopTest;
 	pushPopTest();
