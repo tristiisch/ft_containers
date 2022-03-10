@@ -8,7 +8,7 @@ jobs:
     name: Own Tester Linux
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Progs for Tester
         run: |
           sudo apt update
@@ -39,7 +39,7 @@ jobs:
     name: Own Tester MacOS
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         continue-on-error: true
       - name: Environnement Informations
         run: |
