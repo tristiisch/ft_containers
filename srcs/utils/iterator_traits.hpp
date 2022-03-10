@@ -6,12 +6,14 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 11:28:05 by alganoun          #+#    #+#             */
-/*   Updated: 2022/02/28 17:12:54 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:56:04 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_TRAITS_HPP
 # define ITERATOR_TRAITS_HPP
+
+# include <cstddef>
 
 namespace ft
 {

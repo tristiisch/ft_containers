@@ -71,7 +71,7 @@ public:
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	pointer operator ->() const { return _ptr; };											// a->b
 
-	pointer base() const { return _ptr; }
+	ft::iterator<value_type> base() const {return _ptr;};
 
 	static const bool input_iter = true;
 
@@ -79,35 +79,4 @@ public:
 	private:
 		pointer _ptr;
 };
-
-	// template <class One, class Two>
-	// bool operator<(const const_iterator<One> &lhs, const const_iterator<Two> &rhs) {
-	// 	return lhs.base() < rhs.base();
-	// }
-
-	// template <class One, class Two>
-	// bool operator<=(const const_iterator<One> &lhs, const const_iterator<Two> &rhs) {
-	// 	return !(rhs < lhs);
-	// }
-
-	// template <class One, class Two>
-	// bool operator>(const const_iterator<One> &lhs, const const_iterator<Two> &rhs) {
-	// 	return (rhs < lhs);
-	// }
-
-	// template <class One, class Two>
-	// bool operator>=(const const_iterator<One> &lhs, const const_iterator<Two> &rhs) {
-	// 	return !(lhs < rhs);
-	// }
-
-	// template <class One, class Two>
-	// typename const_iterator<One>::difference_type operator-(const const_iterator<One> &lhs, const const_iterator<Two> &rhs)
-	// {
-	// 	return lhs.base() - rhs.base();
-	// }
-
-	// template <class T>
-	// const_iterator<T> operator+(const typename const_iterator<T>::difference_type &lhs, const const_iterator<T> &rhs) {
-	// 	return rhs + lhs;
-	// }
 }

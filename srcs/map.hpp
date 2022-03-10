@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 22:32:21 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/08 18:45:13 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/10 02:36:12 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class map
 {
 	public:
 		typedef Key key_type;
-		typedef T mapped_type;
+		typedef T _type;
 		typedef pair<const Key, T> value_type;
 		typedef Compare key_compare;
 		typedef Allocator allocator_type;
@@ -84,7 +84,7 @@ class map
 		// On cppreference we learn that it was retroactively applied to CPP98.
 		//
 		// tl;dr these methods weren't available at the beginning but are now in CPP98 so we decided to implement them.
-		mapped_type& at(const key_type &key) {
+		_type& at(const key_type &key) {
 			iterator it = find(key);
 
 			if (it == end()) {
@@ -94,7 +94,7 @@ class map
 			return it->second;
 		}
 
-		const mapped_type& at(const key_type &key) const {
+		const _type& at(const key_type &key) const {
 			const_iterator it = find(key);
 
 			if (it == end()) {
@@ -104,7 +104,7 @@ class map
 			return it->second;
 		}
 
-		mapped_type& operator[](const key_type &key) {
+		_type& operator[](const key_type &key) {
 			return insert(ft::make_pair(key, T())).first->second;
 		}
 

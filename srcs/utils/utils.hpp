@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/02/28 17:26:56 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/09 19:26:40 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ namespace ft {
 		ss << n;
 		return (ss.str());
 	}
+
 	template<class InputIter1, class InputIter2>
 	bool equal(InputIter1 first1, InputIter1 last1, InputIter2 first2) {
 		while (first1 != last1) {
@@ -38,7 +39,6 @@ namespace ft {
 				return false;
 			}
 		}
-
 		return true;
 	}
 

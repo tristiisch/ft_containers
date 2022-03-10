@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 03:28:04 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 19:58:31 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ public:
 	pointer operator ->() { return (_ptr); };											// a->b
 	pointer operator ->() const { return (_ptr); };											// a->b
 
-	pointer base() const { return _ptr; }
+	iterator base() const {return _ptr;};
 
 	static const bool input_iter = true;
 
@@ -143,7 +143,7 @@ public:
 	InputIterator operator+(const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
 		return rhs + lhs;
 	}
-	
+
 	// template <class One, class Two>
 	// typename iterator<One>::difference_type operator-(const iterator<One> &lhs, const iterator<Two> &rhs)
 	// {

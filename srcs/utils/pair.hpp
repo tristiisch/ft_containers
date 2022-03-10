@@ -1,32 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pair.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/10 02:38:50 by tglory            #+#    #+#             */
+/*   Updated: 2022/03/10 02:39:03 by tglory           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
-namespace ft {
+namespace ft
+{
 template <class T1, class T2>
-struct pair {
-	typedef T1 first_type;
-	typedef T2 second_type;
+class pair
+{
+	public:
+		typedef T1 first_type;
+		typedef T2 second_type;
 
-	T1 first;
-	T2 second;
+		pair() : first(), second() {
+		}
 
-	pair() : first(), second() {
-	}
+		~pair() {
+		}
 
-	~pair() {
-	}
+		pair(const first_type &x, const second_type &y) : first(x), second(y) {
+		}
 
-	pair(const T1 &x, const T2 &y) : first(x), second(y) {
-	}
+		template<class U1, class U2>
+		pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {
+		}
 
-	template<class U1, class U2>
-	pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {
-	}
+		pair& operator=(const pair &other) {
+			first = other.first;
+			second = other.second;
+			return *this;
+		}
 
-	pair& operator=(const pair &other) {
-		first = other.first;
-		second = other.second;
-		return *this;
-	}
+	private:
+		first_type first;
+		second_type second;
 };
 
 template<class T1, class T2>

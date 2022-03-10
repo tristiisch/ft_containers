@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/04 00:33:51 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/09 19:27:04 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ namespace ft
 		typedef typename allocator_type::const_pointer			const_pointer;
 
 		typedef ft::iterator<value_type>						iterator;
-		// typedef ft::const_iterator<const_pointer>				const_iterator;
-		// typedef ft::reverse_iterator<iterator>					reverse_iterator;
-		// typedef	ft::const_reverse_iterator<const_iterator>		const_reverse_iterator;
 		typedef ft::const_iterator<value_type>					const_iterator;
 		typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
@@ -109,13 +106,15 @@ namespace ft
 			_alloc.deallocate(_start, this->capacity());
 		}
 
-		vector &operator=(const vector& x)
+		vector &operator=(const vector& x) // il y a un souci avec cette fonction je pense que c'est un souci de size()
+											//c'est cette fonction qui ne fait pas passer les tests sur sizecd .. 
+
 		{
 			if (x != *this)
 			{
-				// this->clear(); // a CHECK
-				// this->insert(this->end(), x.begin(), x.end());
-				this->assign(x.begin(), x.end());
+				this->clear(); // a CHECK
+				this->insert(this->end(), x.begin(), x.end());
+				//this->assign(x.begin(), x.end());
 			}
 			return (*this);
 		}
@@ -548,7 +547,9 @@ namespace ft
 	template<class T, class Alloc>
 	bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()) != false)
+			return lhs.size() == rhs.size();
+		return false;
 	}
 
 	template<class T, class Alloc>
@@ -570,7 +571,7 @@ namespace ft
 
 	template<class T, class Alloc>
 	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs) {
-		return (lhs > rhs);
+		return ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end());
 	}
 
 	template<class T, class Alloc>
