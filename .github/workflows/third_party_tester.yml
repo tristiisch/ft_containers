@@ -33,7 +33,7 @@ jobs:
           diff --version
         shell: bash
       - name: Launch Script
-        run: cd containers_test && ./do.sh vector
+        run: cd containers_test && ./do.sh vector stack
         shell: bash
         continue-on-error: true
   launch_tester_macos:
@@ -55,6 +55,6 @@ jobs:
           echo DiffUtils version
           diff --version
       - name: Launch Script
-        run: cd containers_test && ./do.sh vector
+        run: cd containers_test && ./do.sh vector stack
         shell: bash
         continue-on-error: true
