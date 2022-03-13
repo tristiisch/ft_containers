@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 22:29:55 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/05 22:37:34 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/13 21:24:52 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,14 @@ namespace ft
 			typedef typename container_type::value_type value_type;
 			typedef typename container_type::size_type size_type;
 			
-			// References member types are not present on cplusplus.com but are on cppreference.com
 			typedef typename container_type::reference reference;
 			typedef typename container_type::const_reference const_reference;
 
-			explicit stack(const container_type &container = container_type()) : c(container) {
-			}
+			explicit stack(const container_type &container = container_type()) : c(container) {}
 
-			stack(const stack &other) : c(other.c) {
-			}
+			stack(const stack &other) : c(other.c) {}
 
-			~stack() {
-			}
+			~stack() {}
 
 			stack& operator=(const stack &other) {
 				c = other.c;
