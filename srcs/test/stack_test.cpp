@@ -77,22 +77,8 @@ static void stackPushPopTest()
 	std::cout << stack << std::endl;
 }
 
-static void stackOutRangePop()
-{
-	ft::stack<int> stack;
-
-	std::cout << "Out range pop Test :" << std::endl;
-
-	stack.pop();
-	std::cout << stack << std::endl;
-}
-
 void stack_tests()
 {
 	(void)&stackPushPopTest;
 	stackPushPopTest();
-
-	std::cout << std::endl << std::endl;
-	(void)&stackOutRangePop;
-	stackOutRangePop();
 }
