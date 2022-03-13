@@ -51,9 +51,9 @@ jobs:
       - name: Launch Script
         run: ./vector_test.sh
         shell: bash
-      - name: Launch Script with Capacity check
-        run: ./vector_test.sh capacity
-        shell: bash
-        continue-on-error: true
-      - name: Try fix github action post checkout
-        run: git config --local --get remote.origin.url
+      # - name: Launch Script with Capacity check
+      #   run: ./vector_test.sh capacity
+      #   shell: bash
+      #   continue-on-error: true
+      # - name: Try fix github action
+      #   run: git config --local --get remote.origin.url
