@@ -12,9 +12,6 @@
 # define IS_STL 0
 #endif
 
-#ifndef CAPACITY_TEST
-# define CAPACITY_TEST 0
-#endif
 
 #if IS_STL
 	#include <map>
@@ -27,15 +24,10 @@
 template <typename T, typename U>
 std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 {
-	if (CAPACITY_TEST == 1)
-		outputFile	<< "\033[1;36mSize|Capacity|Max_Size\t" << map.size()
-					<< "|" << map.capacity() << "|" << map.max_size()
-					<< "\033[0m" << std::endl;
-	else
-		outputFile	<< "\033[1;36mSize|Max_Size\t" << map.size()
-					<< "|" << map.max_size()
-					<< "\033[0m" << std::endl;
-	outputFile << "\033[1;36mContent ";
+	outputFile	<< "\033[1;36mSize|Max_Size\t" << map.size()
+				<< "|" << map.max_size()
+				<< "\033[0m" << std::endl
+				<< "\033[1;36mContent ";
 	if (map.empty())
 		outputFile << "<empty>";
 	else
@@ -62,5 +54,5 @@ int main()
 	map['c'] = 50;
 	map['d'] = 70;
 
-	std::cout << map  << std::endl;
+	std::cout << map << std::endl;
 }
