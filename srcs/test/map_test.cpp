@@ -9,7 +9,7 @@
   */
 
 #ifndef IS_STL
-# define IS_STL 0
+# define IS_STL 1
 #endif
 
 
@@ -32,13 +32,13 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 		outputFile << "<empty>";
 	else
 	{
-		typename ft::map<T, U>::const_iterator it = map.begin();
-		while (it != map.end())
+		for (typename ft::map<T, U>::const_iterator it = map.begin(); it != map.end(); ++it)
 		{
-			outputFile << *it;
+			outputFile << it->first << " " << it->second.first << " " << it->second.second << "\n";
+			/*outputFile << *it;
 			if (it + 1 != map.end())
-				outputFile << ", ";
-			++it;
+				outputFile << ", ";*/
+			outputFile << " ";
 		}
 	}
 	outputFile << "\033[0m";
@@ -47,12 +47,24 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 
 int main()
 {
-	ft::map<std::string, int> map;
+	ft::map<char, int> map;
 
-	map['a'] = 10;
-	map['b'] = 30;
-	map['c'] = 50;
-	map['d'] = 70;
+	map['a'] = 30;
+	map['c'] = 70;
+	map['b'] = 20;
+	map['d'] = 10;
+	map['e'] = 50;
+	map['f'] = 40;
+	map['g'] = 60;
+	map['0'] = 100;
+	map['2'] = 100;
 
-	std::cout << map << std::endl;
+	for (typename ft::map<char, int>::const_iterator it = map.begin(); it != map.end(); ++it)
+	{
+		// std::cout << it->first << " " << it->second << " " << it->second.second << "\n";
+		std::cout << it->first << " " << it->second << std::endl;
+
+		it._M_node;
+	}
+	//std::cout << map << std::endl;
 }
