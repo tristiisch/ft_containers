@@ -32,20 +32,22 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 		outputFile << "<empty>";
 	else
 	{
-		for (typename ft::map<T, U>::const_iterator it = map.begin(); it != map.end(); ++it)
+
+		ft::map<char, int>::const_iterator it = map.begin();
+		while (true)
 		{
-			outputFile << it->first << " " << it->second.first << " " << it->second.second << "\n";
-			/*outputFile << *it;
-			if (it + 1 != map.end())
-				outputFile << ", ";*/
-			outputFile << " ";
+			std::cout << it->first << "=" << it->second;
+			if (++it != map.end())
+				std::cout << ", ";
+			else
+				break;
 		}
 	}
 	outputFile << "\033[0m";
 	return outputFile;
 }
 
-int main()
+void mapOperatorInsert()
 {
 	ft::map<char, int> map;
 
@@ -54,17 +56,36 @@ int main()
 	map['b'] = 20;
 	map['d'] = 10;
 	map['e'] = 50;
+	map['0'] = 101;
 	map['f'] = 40;
 	map['g'] = 60;
-	map['0'] = 100;
 	map['2'] = 100;
 
-	for (typename ft::map<char, int>::const_iterator it = map.begin(); it != map.end(); ++it)
-	{
-		// std::cout << it->first << " " << it->second << " " << it->second.second << "\n";
-		std::cout << it->first << " " << it->second << std::endl;
+	std::cout << map << std::endl;
+}
 
-		it._M_node;
-	}
-	//std::cout << map << std::endl;
+void mapInsert()
+{
+	ft::map<char, int> map;
+
+	map.insert(ft::pair<char,int>('a', 30));
+	map.insert(ft::pair<char,int>('c', 70));
+	map.insert(ft::pair<char,int>('b', 20));
+	map.insert(ft::pair<char,int>('d', 10));
+	map.insert(ft::pair<char,int>('e', 50));
+	map.insert(ft::pair<char,int>('0', 101));
+	map.insert(ft::pair<char,int>('f', 40));
+	map.insert(ft::pair<char,int>('g', 60));
+	map.insert(ft::pair<char,int>('2', 100));
+
+	std::cout << map << std::endl;
+}
+
+int main()
+{
+	mapInsert();
+
+	std::cout << std::endl;
+	(void)&mapOperatorInsert;
+	//mapOperatorInsert();
 }
