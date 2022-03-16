@@ -66,19 +66,82 @@ void mapOperatorInsert()
 
 void mapInsert()
 {
-	ft::map<char, int> map;
+	ft::map<char, int> map1, map2;
 
-	map.insert(ft::pair<char,int>('a', 30));
-	map.insert(ft::pair<char,int>('c', 70));
-	map.insert(ft::pair<char,int>('b', 20));
-	map.insert(ft::pair<char,int>('d', 10));
-	map.insert(ft::pair<char,int>('e', 50));
-	map.insert(ft::pair<char,int>('0', 101));
-	map.insert(ft::pair<char,int>('f', 40));
-	map.insert(ft::pair<char,int>('g', 60));
-	map.insert(ft::pair<char,int>('2', 100));
+	std::cout << "Map Basic insert :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	std::cout << map1 << std::endl;
 
-	std::cout << map << std::endl;
+	std::cout << "Map Iterator insert :" << std::endl;
+  	ft::map<char,int>::iterator it = map1.begin();
+  	map1.insert(it, ft::pair<char,int>('Z', 300));
+	map1.insert(it, ft::pair<char,int>('5', 400));
+	std::cout << map1 << std::endl;
+
+	std::cout << "Map First/Last insert :" << std::endl;
+	map2.insert(map1.begin(), map1.find('e'));
+	std::cout << map2 << std::endl;
+}
+
+void mapErase()
+{
+	ft::map<char, int> map1, map2;
+
+	std::cout << "Map Erase :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	std::cout << map1 << std::endl;
+
+	ft::map<char,int>::iterator it = map1.find('b');
+	map1.erase(it);
+	std::cout << map1 << std::endl;
+
+	map1.erase('c');
+	std::cout << map1 << std::endl;
+
+	it = map1.find('e');
+	map1.erase(it, map1.end());
+	std::cout << map1 << std::endl;
+}
+
+void mapClear()
+{
+	ft::map<char, int> map1, map2;
+
+	std::cout << "Map Clear :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	std::cout << map1 << std::endl;
+
+	ft::map<char,int>::iterator it = map1.find('b');
+	map1.clear();
+	std::cout << map1 << std::endl;
+
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('c', 70));
+	std::cout << map1 << std::endl;
 }
 
 int main()
@@ -87,5 +150,13 @@ int main()
 
 	std::cout << std::endl;
 	(void)&mapOperatorInsert;
-	//mapOperatorInsert();
+	mapOperatorInsert();
+
+	std::cout << std::endl;
+	(void)&mapErase;
+	mapErase();
+
+	std::cout << std::endl;
+	(void)&mapErase;
+	mapClear();
 }

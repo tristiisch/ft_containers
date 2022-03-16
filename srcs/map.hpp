@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/15 19:59:35 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/16 01:05:51 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-# include "pair.hpp"
+# include "./utils/pair.hpp"
 # include <memory>
 # include <algorithm>
 # include <cstddef>
@@ -143,7 +143,7 @@ namespace ft
 
 		allocator_type get_allocator() const { return (_alloc); }
 
-		mapped_type& operator[](const key_type& k) {}
+		_type& operator[](const key_type& k) {}
 
 	private :
 		allocator_type _alloc;
@@ -160,7 +160,7 @@ namespace ft
 		unsigned int _nodeHeigh(_node &node)
 		{
 			unsigned int i = 0;
-			_node &tempNode;
+			_node tempNode;
 			do {
 				tempNode = node;
 				++i;
