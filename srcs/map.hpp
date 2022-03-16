@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/15 19:59:35 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:22:34 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-# include "pair.hpp"
+# include "./utils/pair.hpp"
 # include <memory>
 # include <algorithm>
 # include <cstddef>
@@ -28,10 +28,10 @@ namespace ft
 	class map
 	{
 	public :
-		typedef Key key_type;
-		typedef T _type;
-		typedef pair<const Key, T> value_type;
-		typedef Compare key_compare;
+		typedef Key 											key_type;
+		typedef T 												mapped_type;
+		typedef pair<const Key, T> 								value_type;
+		typedef Compare 										key_compare;
 		typedef Allocator										allocator_type;
 		typedef ft::_node										_node;
 		typedef typename allocator_type::size_type				size_type;
@@ -45,7 +45,6 @@ namespace ft
 		typedef ft::const_iterator<value_type>					const_iterator;
 		typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
-
 		
 
 		explicit map (const key_compare& comp = key_compare(),
@@ -93,41 +92,9 @@ namespace ft
 		template <class InputIterator>
   		void insert (InputIterator first, InputIterator last) {}
 	
-		void erase(iterator position) {}
-
-		size_type erase(const key_type& k) {}
-
-		void erase(iterator first, iterator last) {}
-
-		void clear() {}
-
-		bool empty() const {}
-
-		size_type size() const { return _node_count; }
-
-		size_type max_size() const { return allocator_type().max_size() }
-		
-		iterator begin() {}
-
-		const_iterator begin() const {}
-
-		iterator end() { return NULL; }
-
-		const_iterator end() const { return NULL; }
-
-		reverse_iterator rbegin() {}
-
-		const_reverse_iterator rbegin() const {}
-
-		reverse_iterator rend() { return NULL; }
-
-		const_reverse_iterator rend() const { return NULL; }
-		
 		iterator find(const key_type& k) {}
 		
 		const_iterator find(const key_type& k) const {}
-
-		size_type count(const key_type& k) const {}
 
 		iterator lower_bound(const key_type& k) {}
 
@@ -141,9 +108,47 @@ namespace ft
 
 		pair<iterator, iterator> equal_range(const key_type& k) {}
 
-		allocator_type get_allocator() const { return (_alloc); }
+		void erase(iterator position) {}
 
-		mapped_type& operator[](const key_type& k) {}
+		size_type erase(const key_type& k) {}
+
+		void erase(iterator first, iterator last) {}
+
+		void clear() {}
+
+		bool empty() const { return this->size > 0; }
+
+		size_type size() const { return _node_count; }
+
+		size_type max_size() const { return allocator_type().max_size(); }
+		
+		iterator begin() { return _start; }
+
+		const_iterator begin() const { return _start; }
+
+		iterator end() { return _end; }
+
+		const_iterator end() const { return _end; }
+
+		reverse_iterator rbegin() { return _start; }
+
+		const_reverse_iterator rbegin() const { return _start; }
+
+		reverse_iterator rend() { return _end; }
+
+		const_reverse_iterator rend() const { return _end; }
+		
+		size_type count(const key_type& k) const
+		{
+			if (this->find(k) != this->end())
+				return 1;
+			else
+				return 0;
+		}
+
+		allocator_type get_allocator() const { return _alloc; }
+
+		_type& operator[](const key_type& k) {}
 
 	private :
 		allocator_type _alloc;
@@ -160,7 +165,7 @@ namespace ft
 		unsigned int _nodeHeigh(_node &node)
 		{
 			unsigned int i = 0;
-			_node &tempNode;
+			_node tempNode;
 			do {
 				tempNode = node;
 				++i;

@@ -1,6 +1,8 @@
 
+#include <cstdlib>
 #include <iostream>
 #include <iterator>
+#include <stdlib.h>
 /**
   * Main de test pour les fonctions associé à Map
   * Permet d'effectuer le test avec notre code ou la STL
@@ -16,7 +18,6 @@
 #if IS_STL
 	#include <map>
 	namespace ft = std;
-	#warning "Using STL"
 #else
 	#include "../map.hpp"
 #endif
@@ -36,9 +37,9 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 		ft::map<char, int>::const_iterator it = map.begin();
 		while (true)
 		{
-			std::cout << it->first << "=" << it->second;
+			outputFile << it->first << "=" << it->second;
 			if (++it != map.end())
-				std::cout << ", ";
+				outputFile << ", ";
 			else
 				break;
 		}
@@ -66,6 +67,91 @@ void mapOperatorInsert()
 
 void mapInsert()
 {
+	ft::map<char, int> map1, map2, map3;
+
+	std::cout << "Map Basic insert :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	std::cout << map1 << std::endl;
+
+	std::cout << "Map Iterator insert :" << std::endl;
+  	ft::map<char,int>::iterator it = map1.begin();
+  	map1.insert(it, ft::pair<char,int>('Z', 300));
+	map1.insert(it, ft::pair<char,int>('5', 400));
+	std::cout << map1 << std::endl;
+
+	std::cout << "Map First/Last insert :" << std::endl;
+	map2.insert(map1.begin(), map1.find('e'));
+	std::cout << map2 << std::endl;
+
+	//srand(time(NULL));
+	std::cout << "Map Random Basic insert :" << std::endl;
+	for (int i = 0; i < 1000; ++i)
+		map3.insert(ft::pair<char,int>((rand() % ('~' - ' ')) + ' ', i));
+	std::cout << map3 << std::endl;
+}
+
+void mapErase()
+{
+	ft::map<char, int> map1, map2;
+
+	std::cout << "Map Erase :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	std::cout << map1 << std::endl;
+
+	ft::map<char,int>::iterator it = map1.find('b');
+	map1.erase(it);
+	std::cout << map1 << std::endl;
+
+	map1.erase('c');
+	std::cout << map1 << std::endl;
+
+	it = map1.find('e');
+	map1.erase(it, map1.end());
+	std::cout << map1 << std::endl;
+}
+
+void mapClear()
+{
+	ft::map<char, int> map1, map2;
+
+	std::cout << "Map Clear :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	std::cout << map1 << std::endl;
+
+	map1.clear();
+	std::cout << map1 << std::endl;
+
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('c', 70));
+	std::cout << map1 << std::endl;
+}
+
+void mapFind()
+{
 	ft::map<char, int> map;
 
 	map.insert(ft::pair<char,int>('a', 30));
@@ -78,7 +164,62 @@ void mapInsert()
 	map.insert(ft::pair<char,int>('g', 60));
 	map.insert(ft::pair<char,int>('2', 100));
 
-	std::cout << map << std::endl;
+	std::cout << "Map Find :" << std::endl;
+	ft::map<char, int>::iterator it = map.find('e');
+	if (it != map.end())
+		std::cout << it->first << "=" << it->second << std::endl;
+	else
+		std::cout << "Unable to find e" << std::endl;
+	if (map.count('e') > 0)
+		std::cout << "e find with map::count" << std::endl;
+	else
+		std::cout << "Unable to find e" << std::endl;
+
+	std::cout << "Map Find didnt contains:" << std::endl;
+	it = map.find('o');
+	if (it != map.end())
+		std::cout << it->first << "=" << it->second << std::endl;
+	else
+		std::cout << "Unable to find o" << std::endl;
+	if (map.count('o') > 0)
+		std::cout << "o find with map::count" << std::endl;
+	else
+		std::cout << "Unable to find o" << std::endl;
+
+	std::cout << "Map Find NULL:" << std::endl;
+	it = map.find(0);
+	if (it != map.end())
+		std::cout << it->first << "=" << it->second << std::endl;
+	else
+		std::cout << "Unable to find NULL" << std::endl;
+	if (map.count(0) > 0)
+		std::cout << "0 find with map::count" << std::endl;
+	else
+		std::cout << "Unable to find 0" << std::endl;
+}
+
+void mapEmpty()
+{
+	ft::map<char, int> map1, map2, map3;
+
+	std::cout << "Map Empty :" << std::endl;
+	std::cout << (map1.empty() ? "true" : "false") << std::endl;
+
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+
+	std::cout << (map1.empty() ? "true" : "false") << std::endl;
+
+	map1.clear();
+
+	std::cout << (map1.empty() ? "true" : "false") << std::endl;
 }
 
 int main()
@@ -87,5 +228,21 @@ int main()
 
 	std::cout << std::endl;
 	(void)&mapOperatorInsert;
-	//mapOperatorInsert();
+	mapOperatorInsert();
+
+	std::cout << std::endl;
+	(void)&mapErase;
+	mapErase();
+
+	std::cout << std::endl;
+	(void)&mapErase;
+	mapClear();
+
+	std::cout << std::endl;
+	(void)&mapEmpty;
+	mapEmpty();
+
+	std::cout << std::endl;
+	(void)&mapFind;
+	mapFind();
 }

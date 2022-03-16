@@ -19,7 +19,6 @@
 #if IS_STL
 	#include <vector>
 	namespace ft = std;
-	#warning "Using STL"
 #else
 	#include "../vector.hpp"
 #endif
@@ -351,6 +350,7 @@ static void iteratorTest()
 	printIteratorTest("it", vector.begin(), vector.end());
 
 	ft::vector<int>::reverse_iterator rIt = vector.rbegin();
+	(void)rIt;
 	std::cout << "Reverse Iterator test :" << std::endl;
 	std::cout << "*vector.rbegin() = " << *vector.rbegin() << std::endl;
 	std::cout << "*vector.rend() - 1 = " << *(vector.rend() - 1) << std::endl;
@@ -358,6 +358,7 @@ static void iteratorTest()
 
 	const ft::vector<int> constVector(vector);
 	ft::vector<int>::const_iterator itConst(constVector.begin());
+	(void)itConst;
 	std::cout << "Iterator const test :" << std::endl;
 	std::cout << "*constVector.begin() = " << *constVector.begin() << std::endl;
 	std::cout << "*constVector.end() - 1 = " << *(constVector.end() - 1) << std::endl;

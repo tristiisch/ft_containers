@@ -33,7 +33,7 @@ function compile_our {
 
 # Compile with STL containers
 function compile_STL {
-	$CC $PRECONCOMPIL_FLAGS -D IS_STL=1 $SRCS -o ./$EXEC\_STL &>/dev/null
+	$CC $PRECONCOMPIL_FLAGS -D IS_STL=1 $SRCS -o ./$EXEC\_STL
 	if [ $? != 0 ]; then
 		echo -e "\033[0;33mWARN: STL prog didn't compile\033[0m"
 		exit 1
