@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/16 19:25:03 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/17 14:50:26 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #include <cstddef>
 
 //fonction pour calculer les incrementations
+
+# define LEFT	true
+# define RIGHT	false
 
 template <class Node>
 bool _is_right_node(Node node)
@@ -105,16 +108,39 @@ Node _node_prev(Node node)
 		return _node_max(node->left);
 }
 
+template <class Node>
+Node _node_insert(Node to_insert, Node node, bool direction)
+{
+	to_insert->parent = node;
+	if (direction == LEFT)
+	{	
+		node->left = to_insert;
+		node->right = NULL;
+	}
+	else if (direction == RIGHT)
+	{	
+		node->right = to_insert;
+		node->left = NULL;
+	}
+	return to_insert;
+}
+
 namespace ft
 {
-	template <class Value>
-	struct	_node
-	{		
-			Value							data;
-			_node 							*parent;
-			_node							*right;
-			_node							*left;
-	};
+
+template <class Value>
+struct	_node
+{		
+		Value							data;
+		_node 							*parent;
+		_node							*right;
+		_node							*left;
+		_node(Value const &v)
+		:parent(NULL), right(NULL), left(NULL)
+		{
+			data = v;
+		};
+};
 
 template <typename T>
 class	tree_iterator
@@ -160,11 +186,11 @@ public:
 //
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (*_ptr); };											// *a
-	//const_reference operator *() const { return (*_ptr); };								// *a
+	const_reference operator *() const { return (*_ptr); };								// *a
 	reference operator [](difference_type b) { return (*(_ptr + b)); };					// a[]
-	//const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
+	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	pointer operator ->() { return (_ptr); };											// a->b
-	//pointer operator ->() const { return (_ptr); };											// a->b
+	pointer operator ->() const { return (_ptr); };											// a->b
 
 	tree_iterator base() const {return _ptr;};
 

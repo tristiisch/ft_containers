@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/16 19:25:17 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/17 15:42:07 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ namespace ft
 		:	_alloc(alloc),
 			_start(NULL), 
 			_end(NULL), 
-			_node_count(0)
+			_node_count(0),
+			_comp(comp)
 		{
 
 		}
@@ -63,28 +64,35 @@ namespace ft
 	 	:	_alloc(alloc),
 			_start(NULL),
 			_end(NULL),
-			_node_count(0)
+			_node_count(0),
+			_comp(comp)
 		{
 			
 		}
 
 		pair<iterator,bool> insert (const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
-			_node new_node;
-			_node *current;
-			new_node.p = val;
+			_node new_node(val);
 
-			while (current->right != NULL || current->left != NULL)
+			//_alloc.allocate(sizeof(new_node));
+			//_alloc.construct(new_node, val);
+			if (root == NULL)
 			{
-				if (key_compare(val, current->p))
-					current = current->left;
-				else if (iterator(val) == current->p)
-					return (make_pair(current->p, false));
-				else
-					current = current->right;
+				root = &new_node;
+				return (make_pair(iterator(root), true));
 			}
-			new_node->parent = current;
-			
+			iterator ite = this->begin();
+			while (_comp((*ite).data, val))
+				ite++;
+			// ici il faut inserer le cas d'égalité.
+			if (_comp((*(--ite)).data, val))
+			{
+				new_node = _node_insert(new_node, &ite, LEFT);
+			}
+			else
+			{
+				new_node = _node_insert(new_node, &ite, RIGHT);
+			}
 		}
 
 		// iterator insert (iterator position, const value_type& val) {}
@@ -122,11 +130,11 @@ namespace ft
 // 
 		// size_type max_size() const { return allocator_type().max_size(); }
 		// 
-		// iterator begin() { return _start; }
+		iterator begin() { return iterator(_node_min(root)); }
 // 
 		// const_iterator begin() const { return _start; }
 // 
-		// iterator end() { return _end; }
+		iterator end() { return NULL; }
 // 
 		// const_iterator end() const { return _end; }
 // 
@@ -156,6 +164,7 @@ namespace ft
 		_node *_end;
 		_node *root;
 		size_type _node_count;
+		key_compare _comp;
 // 
 		// /**
 		//  * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4

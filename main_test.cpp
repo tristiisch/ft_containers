@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/16 19:19:04 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/17 14:47:12 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@
 #include "srcs/utils/pair.hpp"
 
 
-#define TESTED_TYPE int
+#define TESTED_LIB ft
 
 int		main(void)
 {
-	ft::map<int, int> mp;
+	TESTED_LIB::map<int, int> mp;
+	TESTED_LIB::pair<int, int> p(12, 13);
+	TESTED_LIB::map<int, int>::iterator ite = mp.begin();
+
+	mp.insert(p);
+	//while (ite != mp.end())
+	//	std::cout << ite << std::endl;
 	return (0);
 }
