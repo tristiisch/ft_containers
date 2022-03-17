@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 22:29:55 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/13 21:24:52 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/16 16:13:12 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ namespace ft
 				c.pop_back();
 			}
 
-		private:
+		protected:
 			container_type c;
+		private:
 			template <class T2, class Container2>
 			friend bool operator==(const stack<T2, Container2>&, const stack<T2, Container2>&);
 
