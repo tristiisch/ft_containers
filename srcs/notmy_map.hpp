@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   notmy_map.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 22:32:21 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/15 15:25:39 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/16 19:03:31 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include "./utils/tree.hpp"
 #include "./utils/utils.hpp"
+# include "./utils/pair.hpp"
 
 namespace ft
 {
@@ -24,7 +25,7 @@ class map
 	public:
 		typedef Key key_type;
 		typedef T _type;
-		typedef pair<const Key, T> value_type;
+		typedef ft::pair<const Key, T> value_type;
 		typedef Compare key_compare;
 		typedef Allocator allocator_type;
 
