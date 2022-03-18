@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/19 00:20:52 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/19 00:31:49 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,89 +147,5 @@ namespace ft
 		allocator_type 					_alloc;
 		tree<value_type, key_type>		_tree;
 		key_compare 					_compare;
-
-		/**
-		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
-		 */
-		void _rotateRight(value_type node)
-		{
-			value_type a = node->left;
-			value_type b = node;
-			value_type c = node->right;
-			value_type d = node->parent;
-			value_type e = node->parent->left;
-
-			b->parent = d->parent;
-			b->right = d;
-			d->parent = b;
-			d->left = c;
-			c->parent = d;
-		}
-
-		void _rotateLeft(value_type node)
-		{
-			value_type a = node->parent->right;
-			value_type b = node->parent;
-			value_type c = node->left;
-			value_type d = node;
-			value_type e = node->right;
-
-			d->parent = b->parent;
-			d->left = b;
-			b->parent = d;
-			b->right = c;
-			c->parent = b;
-		}
-
-		unsigned int _nodeHeigh(value_type &node)
-		{
-			unsigned int i = 0;
-			value_type tempNode;
-			do {
-				tempNode = node;
-				++i;
-			} while (tempNode->parent);
-			return i;
-		}
-
-		/**
-		 * Does not work as intended, need height and
-		 * print all lvl as same time
-		 */ 
-		void _print()
-		{
-			bool hasLeft;
-			bool hasRight;
-
-			if (!_printOne(_tree._root))
-				return;
-			std::cout << std::endl;
-			_printNextNodes(_tree._root);
-		}
-
-		void _printNextNodes(value_type &node)
-		{
-			bool hasLeft;
-			bool hasRight;
-
-			hasLeft = _printOne(node->left);
-			hasRight = _printOne(node->right);
-			std::cout << std::endl;
-			if (hasLeft)
-				_printNextNodes(node->left);
-			if (hasRight)
-				_printNextNodes(node->right);
-		}
-
-		bool _printOne(value_type &node)
-		{
-			if (!node)
-			{
-				std::cout << "Empty" << std::endl;
-				return false;
-			}
-			std::cout << "        " << node.data << "\n      /    \\     ";
-			return true;
-		}
 	};
 }
