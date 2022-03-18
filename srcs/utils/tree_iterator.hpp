@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/17 14:50:26 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:25:20 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,18 +111,14 @@ Node _node_prev(Node node)
 template <class Node>
 Node _node_insert(Node to_insert, Node node, bool direction)
 {
-	to_insert->parent = node;
 	if (direction == LEFT)
 	{	
-		node->left = to_insert;
-		node->right = NULL;
+		return (Node(to_insert.data, node.left, NULL, NULL))
 	}
 	else if (direction == RIGHT)
 	{	
-		node->right = to_insert;
-		node->left = NULL;
+		return (Node(to_insert.data, node.right, NULL, NULL))
 	}
-	return to_insert;
 }
 
 namespace ft
@@ -135,11 +131,19 @@ struct	_node
 		_node 							*parent;
 		_node							*right;
 		_node							*left;
+		
 		_node(Value const &v)
-		:parent(NULL), right(NULL), left(NULL)
+		: value(v), parent(NULL), right(NULL), left(NULL)
 		{
-			data = v;
 		};
+
+		_node(Value const & v, const _node *parent, _node *right, _node *left)
+		: value(v), parent(parent), right(right), left(left)
+		{
+
+		}
+
+
 };
 
 template <typename T>
@@ -147,12 +151,13 @@ class	tree_iterator
 {
 public:
 
-	typedef T						value_type;
-	typedef value_type&				reference;
-	typedef const value_type&		const_reference;
-	typedef value_type*				pointer;
-	typedef const value_type*		const_pointer;
-	typedef typename std::ptrdiff_t difference_type;	
+	typedef T							data_type;
+	typedef ft::_node<data_type>		node;
+	typedef node&						reference;
+	typedef const node&					const_reference;
+	typedef node*						pointer;
+	typedef const node*					const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;	
 
 	
 	

@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/17 15:42:07 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:13:14 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "./utils/reverse_iterator.hpp"
 # include "./utils/const_reverse_iterator.hpp"
 # include "./utils/tree_iterator.hpp"
-
+# include "./utils/tree.hpp"
 namespace ft
 {
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
@@ -34,7 +34,6 @@ namespace ft
 		typedef ft::pair<const Key, T> 							value_type;
 		typedef Compare 										key_compare;
 		typedef Allocator										allocator_type;
-		typedef ft::_node<value_type>							_node;
 		typedef typename allocator_type::size_type				size_type;
 		typedef typename allocator_type::difference_type		difference_type;
 		typedef	typename allocator_type::reference				reference;
@@ -42,57 +41,33 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
 
-		typedef ft::tree_iterator<_node>						iterator;
+		typedef ft::tree_iterator<value_type>					iterator;
 
 
 		
 
-		explicit map (const key_compare& comp = key_compare(),
+		explicit map(const key_compare& comp = Compare(),
              const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
-			_start(NULL), 
-			_end(NULL), 
-			_node_count(0),
-			_comp(comp)
+			_tree(),
+			_compare(comp)
 		{
 
 		}
 
 		template <class InputIterator>
-  		map (InputIterator first, InputIterator last,
+  		map(InputIterator first, InputIterator last,
        			const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 	 	:	_alloc(alloc),
-			_start(NULL),
-			_end(NULL),
-			_node_count(0),
-			_comp(comp)
+			_tree(),
+			_compare(comp)
 		{
 			
 		}
 
-		pair<iterator,bool> insert (const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
+		pair<iterator,bool> insert(const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
-			_node new_node(val);
-
-			//_alloc.allocate(sizeof(new_node));
-			//_alloc.construct(new_node, val);
-			if (root == NULL)
-			{
-				root = &new_node;
-				return (make_pair(iterator(root), true));
-			}
-			iterator ite = this->begin();
-			while (_comp((*ite).data, val))
-				ite++;
-			// ici il faut inserer le cas d'égalité.
-			if (_comp((*(--ite)).data, val))
-			{
-				new_node = _node_insert(new_node, &ite, LEFT);
-			}
-			else
-			{
-				new_node = _node_insert(new_node, &ite, RIGHT);
-			}
+			return (_tree.insert(val));
 		}
 
 		// iterator insert (iterator position, const value_type& val) {}
@@ -130,7 +105,7 @@ namespace ft
 // 
 		// size_type max_size() const { return allocator_type().max_size(); }
 		// 
-		iterator begin() { return iterator(_node_min(root)); }
+		iterator begin() { return iterator(_tree.begin()); }
 // 
 		// const_iterator begin() const { return _start; }
 // 
@@ -159,12 +134,9 @@ namespace ft
 		// _type& operator[](const key_type& k) {}
 // 
 	private :
-		allocator_type _alloc;
-		_node *_start;
-		_node *_end;
-		_node *root;
-		size_type _node_count;
-		key_compare _comp;
+		allocator_type 					_alloc;
+		tree<value_type, key_type>		_tree;
+		key_compare 					_compare;
 // 
 		// /**
 		//  * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4

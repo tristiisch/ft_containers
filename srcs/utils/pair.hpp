@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pair.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 02:38:50 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/10 02:39:03 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/18 16:52:50 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ class pair
 			return *this;
 		}
 
-	private:
 		first_type first;
 		second_type second;
 };
