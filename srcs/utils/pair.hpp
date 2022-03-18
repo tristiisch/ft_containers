@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 02:38:50 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/18 00:14:51 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/18 17:30:51 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,13 @@ class pair
 		}
 
 		template<class U1, class U2>
-		pair(const pair<U1, U2> &p) : first(p.getKey()), second(p.getValue()) {
+		pair(const pair<U1, U2> &p) : first(p.first), second(p.second) {
 		}
 
 		pair& operator=(const pair &other) {
-			first = other.getKey();
-			second = other.getValue();
+			first = other.first;
+			second = other.second;
 			return *this;
-		}
-
-		// To verify
-		first_type getKey() const
-		{
-			return first;
-		}
-
-		// To verify
-		second_type getValue() const
-		{
-			return second;
 		}
 
 	private:
