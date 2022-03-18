@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 16:13:14 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/18 19:52:37 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
 
-		typedef ft::tree_iterator<value_type>					iterator;
+		typedef typename ft::tree<value_type, Key>::iterator	iterator;
 
 
-		
-
+	
 		explicit map(const key_compare& comp = Compare(),
              const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
@@ -105,11 +104,11 @@ namespace ft
 // 
 		// size_type max_size() const { return allocator_type().max_size(); }
 		// 
-		iterator begin() { return iterator(_tree.begin()); }
+		iterator begin() { return _tree.begin(); }
 // 
 		// const_iterator begin() const { return _start; }
 // 
-		iterator end() { return NULL; }
+		iterator end() { return _tree.end(); }
 // 
 		// const_iterator end() const { return _end; }
 // 

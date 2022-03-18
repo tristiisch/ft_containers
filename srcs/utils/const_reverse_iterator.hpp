@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:11:58 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/09 20:06:09 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/18 19:43:23 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,53 +31,53 @@ public:
 	typedef typename iterator::difference_type		difference_type;
 
 	const_reverse_iterator(void) {};
-	const_reverse_iterator(pointer ptr) { _ptr = ptr; };
-	const_reverse_iterator(const ft::reverse_iterator<iterator> &src) { _ptr = src.operator->(); } ;
-	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _ptr = src.operator->() - 1; } ;
-	const_reverse_iterator(const ft::iterator<value_type> &src) { _ptr = src.operator->() - 1; } ;
+	const_reverse_iterator(pointer ptr) { _node = ptr; };
+	const_reverse_iterator(const ft::reverse_iterator<iterator> &src) { _node = src.operator->(); } ;
+	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _node = src.operator->() - 1; } ;
+	const_reverse_iterator(const ft::iterator<value_type> &src) { _node = src.operator->() - 1; } ;
 	const_reverse_iterator(const const_reverse_iterator &src) { *this = src; } ;
 
 
 	virtual ~const_reverse_iterator() {};
 
-	const_reverse_iterator &operator=(const_reverse_iterator const &src) { _ptr = src.operator->(); return (*this); };
+	const_reverse_iterator &operator=(const_reverse_iterator const &src) { _node = src.operator->(); return (*this); };
 
 	// BOOLEANS
-	bool operator ==(const_reverse_iterator const& b) const { return (_ptr == b._ptr); };
-	bool operator !=(const_reverse_iterator const& b) const { return (_ptr != b._ptr); };
-	bool operator >(const_reverse_iterator const& b) const { return (_ptr < b._ptr); };//à verifier
-	bool operator <(const_reverse_iterator const& b) const { return (_ptr > b._ptr); };//à verifier
-	bool operator >=(const_reverse_iterator const& b) const { return (_ptr <= b._ptr); };//à verifier
-	bool operator <=(const_reverse_iterator const& b) const { return (_ptr >= b._ptr); };//à verifier
+	bool operator ==(const_reverse_iterator const& b) const { return (_node == b._node); };
+	bool operator !=(const_reverse_iterator const& b) const { return (_node != b._node); };
+	bool operator >(const_reverse_iterator const& b) const { return (_node < b._node); };//à verifier
+	bool operator <(const_reverse_iterator const& b) const { return (_node > b._node); };//à verifier
+	bool operator >=(const_reverse_iterator const& b) const { return (_node <= b._node); };//à verifier
+	bool operator <=(const_reverse_iterator const& b) const { return (_node >= b._node); };//à verifier
 
 	// ARITHMETICS
-	const_reverse_iterator operator +(difference_type b) const { return (const_reverse_iterator(_ptr - b)); }; // a + n
-	const_reverse_iterator operator -(difference_type b) const { return (const_reverse_iterator(_ptr + b)); }; // a - n
+	const_reverse_iterator operator +(difference_type b) const { return (const_reverse_iterator(_node - b)); }; // a + n
+	const_reverse_iterator operator -(difference_type b) const { return (const_reverse_iterator(_node + b)); }; // a - n
 
-	difference_type operator +(const_reverse_iterator b) { return (b._ptr + _ptr); }; // a + b
-	difference_type operator -(const_reverse_iterator b) { return (b._ptr - _ptr); };
+	difference_type operator +(const_reverse_iterator b) { return (b._node + _node); }; // a + b
+	difference_type operator -(const_reverse_iterator b) { return (b._node - _node); };
 
 	// INCREMENTERS
-	const_reverse_iterator& operator ++() { _ptr--; return (*this); };			// ++a
-	const_reverse_iterator operator ++(int) { return (const_reverse_iterator(_ptr--)); };	// a++
-	const_reverse_iterator& operator --() { _ptr++; return (*this); };			// --a
-	const_reverse_iterator operator --(int) { return (const_reverse_iterator(_ptr++)); };	// a--
+	const_reverse_iterator& operator ++() { _node--; return (*this); };			// ++a
+	const_reverse_iterator operator ++(int) { return (const_reverse_iterator(_node--)); };	// a++
+	const_reverse_iterator& operator --() { _node++; return (*this); };			// --a
+	const_reverse_iterator operator --(int) { return (const_reverse_iterator(_node++)); };	// a--
 
 	//COMPOUND ASSIGNMENTS
-	const_reverse_iterator& operator +=(difference_type b) {_ptr -= b; return *this; };	// a += b
-	const_reverse_iterator& operator -=(difference_type b) {_ptr += b; return *this; };	// a -= b
+	const_reverse_iterator& operator +=(difference_type b) {_node -= b; return *this; };	// a += b
+	const_reverse_iterator& operator -=(difference_type b) {_node += b; return *this; };	// a -= b
 
 	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (*_ptr); };								// *a
+	const_reference operator *() const { return (*_node); };								// *a
 	const_reference operator [](difference_type b) const { return *(*this + b); };		// a[]
-	pointer operator ->() const { return (_ptr); };											// a->b
+	pointer operator ->() const { return (_node); };											// a->b
 
-	ft::iterator<value_type> base() const { return _ptr + 1; }
+	ft::iterator<value_type> base() const { return _node + 1; }
 
 	static const bool input_iter = true;
 
 
 	private:
-		pointer _ptr;
+		pointer _node;
 };
 }
