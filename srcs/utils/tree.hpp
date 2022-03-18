@@ -68,6 +68,18 @@ namespace ft
 			}
 		}
 
+		iterator find(const Key& k)
+		{
+			Node node = _start;
+			while (node != NULL)
+			{
+				value_type pair = node->data;
+				if (pair.getKey() == k)
+					return it;
+			}
+			return _tree._end;
+		}
+
 		iterator begin() { return iterator(_node_min(_root)); }
 //	private :
 		node_pointer _end;

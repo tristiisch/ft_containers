@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 17:34:50 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/18 18:25:52 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ namespace ft
 		// 
 		// template <class InputIterator>
   		// void insert (InputIterator first, InputIterator last) {}
-	// 
-		iterator find(const key_type& k)
+
+		// Not working
+		/*iterator find(const key_type& k)
 		{
 			iterator it = _tree._start;
 			while (it != _tree._end)
@@ -88,7 +89,7 @@ namespace ft
 					return it;
 			}
 			return _tree._end;
-		}
+		}*/
 
 		// const_iterator find(const key_type& k) const {}
 
@@ -133,13 +134,13 @@ namespace ft
 
 		// const_reverse_iterator rend() const { return _end; }
 
-		size_type count(const key_type& k) const
+		/*size_type count(const key_type& k) const
 		{
 			if (this->find(k) != this->end())
 				return 1;
 			else
 				return 0;
-		}
+		}*/
 
 		allocator_type get_allocator() const { return _alloc; }
 
