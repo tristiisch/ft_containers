@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 18:25:52 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/19 00:20:52 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,10 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
 
-		typedef ft::tree_iterator<value_type>					iterator;
-		// typedef ft::const_iterator<value_type>					const_iterator;
-		// typedef ft::reverse_iterator<iterator>					reverse_iterator;
-		// typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
+		typedef typename ft::tree<value_type, Key>::iterator	iterator;
 
 
-		
-
+	
 		explicit map(const key_compare& comp = Compare(),
              const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
@@ -113,16 +109,17 @@ namespace ft
 
 		// void clear() {}
 
-		bool empty() const { return this->size > 0; }
+		// bool empty() const { return this->size > 0; }
 
-		size_type size() const { return _tree._node_count; }
+		// size_type size() const { return _node_count; }
 
 		size_type max_size() const { return allocator_type().max_size(); }
-		iterator begin() { return iterator(_tree.begin()); }
+		
+		iterator begin() { return _tree.begin(); }
 
 		// const_iterator begin() const { return _start; }
 
-		iterator end() { return NULL; }
+		iterator end() { return _tree.end(); }
 
 		// const_iterator end() const { return _end; }
 

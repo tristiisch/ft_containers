@@ -124,35 +124,35 @@ template <class T> struct _tree_iterator {
 	typedef typename ft::iterator_traits<T*>::reference reference;
 	typedef typename ft::iterator_traits<T*>::pointer pointer;
 
-	_node_base *_ptr;
+	_node_base *_node;
 
-	_tree_iterator() : _ptr(0) {
+	_tree_iterator() : _node(0) {
 	}
 
-	explicit _tree_iterator(_node_base *node) : _ptr(node) {
+	explicit _tree_iterator(_node_base *node) : _node(node) {
 	}
 
-	_tree_iterator(const _tree_iterator &other) : _ptr(other._ptr) {
+	_tree_iterator(const _tree_iterator &other) : _node(other._node) {
 	}
 
 	~_tree_iterator() {
 	}
 
 	_tree_iterator operator=(const _tree_iterator &other) {
-		_ptr = other._ptr;
+		_node = other._node;
 		return *this;
 	}
 
 	reference operator*() const {
-		return static_cast<_node<T>*>(_ptr)->value;
+		return static_cast<_node<T>*>(_node)->value;
 	}
 
 	pointer operator->() const {
-		return &static_cast<_node<T>*>(_ptr)->value;
+		return &static_cast<_node<T>*>(_node)->value;
 	}
 
 	_tree_iterator &operator++() {
-		_ptr = _node_next(_ptr);
+		_node = _node_next(_node);
 		return *this;
 	}
 
@@ -163,7 +163,7 @@ template <class T> struct _tree_iterator {
 	}
 
 	_tree_iterator &operator--() {
-		_ptr = _node_prev(_ptr);
+		_node = _node_prev(_node);
 		return *this;
 	}
 
@@ -174,7 +174,7 @@ template <class T> struct _tree_iterator {
 	}
 
 	bool operator==(const _tree_iterator &other) {
-		return _ptr == other._ptr;
+		return _node == other._node;
 	}
 
 	bool operator!=(const _tree_iterator &other) {
@@ -189,38 +189,38 @@ template <class T> struct _tree_const_iterator {
 	typedef typename ft::iterator_traits<const T*>::reference reference;
 	typedef typename ft::iterator_traits<const T*>::pointer pointer;
 
-	const _node_base *_ptr;
+	const _node_base *_node;
 
-	_tree_const_iterator() : _ptr() {
+	_tree_const_iterator() : _node() {
 	}
 
-	explicit _tree_const_iterator(const _node_base *node) : _ptr(node) {
+	explicit _tree_const_iterator(const _node_base *node) : _node(node) {
 	}
 
-	_tree_const_iterator(const _tree_const_iterator &other) : _ptr(other._ptr) {
+	_tree_const_iterator(const _tree_const_iterator &other) : _node(other._node) {
 	}
 
-	_tree_const_iterator(const _tree_iterator<T> &other) : _ptr(other._ptr) {
+	_tree_const_iterator(const _tree_iterator<T> &other) : _node(other._node) {
 	}
 
 	~_tree_const_iterator() {
 	}
 
 	_tree_const_iterator operator=(const _tree_const_iterator &other) {
-		_ptr = other._ptr;
+		_node = other._node;
 		return *this;
 	}
 
 	reference operator*() const {
-		return static_cast<const _node<T>*>(_ptr)->value;
+		return static_cast<const _node<T>*>(_node)->value;
 	}
 
 	pointer operator->() const {
-		return &static_cast<const _node<T>*>(_ptr)->value;
+		return &static_cast<const _node<T>*>(_node)->value;
 	}
 
 	_tree_const_iterator &operator++() {
-		_ptr = _node_next(_ptr);
+		_node = _node_next(_node);
 		return *this;
 	}
 
@@ -231,7 +231,7 @@ template <class T> struct _tree_const_iterator {
 	}
 
 	_tree_const_iterator &operator--() {
-		_ptr = _node_prev(_ptr);
+		_node = _node_prev(_node);
 		return *this;
 	}
 
@@ -242,7 +242,7 @@ template <class T> struct _tree_const_iterator {
 	}
 
 	bool operator==(const _tree_const_iterator &other) {
-		return _ptr == other._ptr;
+		return _node == other._node;
 	}
 
 	bool operator!=(const _tree_const_iterator &other) {
@@ -354,7 +354,7 @@ template <class Value, class Compare, class Allocator> class _tree {
 		}
 
 		iterator lower_bound(const key_type &key) {
-			return iterator(const_cast<_node_base*>(const_cast<const _tree*>(this)->lower_bound(key)._ptr));
+			return iterator(const_cast<_node_base*>(const_cast<const _tree*>(this)->lower_bound(key)._node));
 		}
 
 		const_iterator upper_bound(const key_type &key) const {
@@ -376,7 +376,7 @@ template <class Value, class Compare, class Allocator> class _tree {
 		}
 
 		iterator upper_bound(const key_type &key) {
-			return iterator(const_cast<_node_base*>(const_cast<const _tree*>(this)->upper_bound(key)._ptr));
+			return iterator(const_cast<_node_base*>(const_cast<const _tree*>(this)->upper_bound(key)._node));
 		}
 
 		pair<const_iterator, const_iterator> equal_range(const key_type &key) const {
@@ -411,8 +411,8 @@ template <class Value, class Compare, class Allocator> class _tree {
 			pair<const_iterator, const_iterator> iterators = const_cast<const _tree*>(this)->equal_range(key);
 
 			return ft::make_pair(
-				iterator(const_cast<_node_base *>(iterators.first._ptr)),
-				iterator(const_cast<_node_base *>(iterators.second._ptr))
+				iterator(const_cast<_node_base *>(iterators.first._node)),
+				iterator(const_cast<_node_base *>(iterators.second._node))
 			);
 		}
 
@@ -504,7 +504,7 @@ template <class Value, class Compare, class Allocator> class _tree {
 		void erase(iterator pos) {
 			if (pos == end()) return;
 
-			_node_base * node = pos._ptr;
+			_node_base * node = pos._node;
 
 			if (_begin_node == node) {
 				_begin_node = _node_next(node);
@@ -536,7 +536,7 @@ template <class Value, class Compare, class Allocator> class _tree {
 		}
 
 		iterator find(const key_type &key) {
-			return iterator(const_cast<_node_base*>(const_cast<const _tree *>(this)->find(key)._ptr));
+			return iterator(const_cast<_node_base*>(const_cast<const _tree *>(this)->find(key)._node));
 		}
 
 	private:

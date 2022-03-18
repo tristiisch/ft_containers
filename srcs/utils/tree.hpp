@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 17:34:23 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/19 00:19:40 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ namespace ft
 		typedef Value							data_type;
 		typedef Node_alloc						node_alloc;
 		typedef Node							node_type;
-		typedef node_type *						node_pointer;
-		typedef ft::tree_iterator<data_type>	iterator;
+		typedef Node *							node_pointer;
+		typedef ft::tree_iterator<node_type>	iterator;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _node_alloc(alloc), _end(NULL), _start(NULL), _root(NULL), _comp(comp)
@@ -44,6 +44,8 @@ namespace ft
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
 			node_pointer new_node;
+			node_pointer current;
+			node_pointer tmp;
 
 			new_node = _node_alloc.allocate(1);
 			if (_root == NULL)
@@ -52,20 +54,58 @@ namespace ft
 				_root = new_node;
 				_start = new_node;
 				return (make_pair(iterator(_root), true));
-			}
-			iterator ite = this->begin();
-			while (_comp((*ite).data.first, val.first))
-				ite++;
-			// ici il faut inserer le cas d'égalité.
-			if (this->_comp((*(--ite)).data.first, val.first))
-			{
-				_node_alloc.construct(new_node, _node_insert<Node>(*new_node, &ite, LEFT)); // il faut revoir les pointeurs wet tout parce que rien ne va
 				
+			}
+			current = _node_min(_root);
+			std::cout << "OK1" << std::endl;
+			while (_comp(current->data.first, val.first))
+			{
+
+				tmp = _node_next(current);
+				if (tmp != NULL)
+					current = tmp;
+				else
+					break;
+			}
+
+			while (!_node_has_leaf(current))
+			{
+
+				current = _node_prev(current);
+			}
+			//current = _node_prev(current);
+			std::cout << current->data.first << std::endl;
+			if (this->_comp(current->data.first, val.first))
+			{
+				_node_alloc.construct(new_node, Node(val));
+
+				current->right = new_node;
+				new_node->parent = current;
 			}
 			else
 			{
-				new_node = _node_insert<Node>(new_node, &ite, RIGHT);
+				_node_alloc.construct(new_node, Node(val));
+
+				current->left = new_node;
+				new_node->parent = current;
 			}
+			current = current->right;
+			std::cout << current->data.first << std::endl;
+			return make_pair(iterator(new_node), true);
+				
+		}
+
+		iterator begin() 
+		{
+			if (_root)
+				// return iterator(_node_min(_root));
+				return iterator(_start);
+			return iterator(_end);
+		}
+
+		iterator end() 
+		{
+			return iterator(_end);
 		}
 
 		iterator find(const Key& k)
@@ -80,8 +120,7 @@ namespace ft
 			return _tree._end;
 		}
 
-		iterator begin() { return iterator(_node_min(_root)); }
-//	private :
+	private :
 		node_pointer _end;
 		node_pointer _start;
 		node_pointer _root;
