@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 00:12:58 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/18 17:34:50 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "./utils/reverse_iterator.hpp"
 # include "./utils/const_reverse_iterator.hpp"
 # include "./utils/tree_iterator.hpp"
-
+# include "./utils/tree.hpp"
 namespace ft
 {
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
@@ -34,7 +34,6 @@ namespace ft
 		typedef ft::pair<const Key, T> 							value_type;
 		typedef Compare 										key_compare;
 		typedef Allocator										allocator_type;
-		typedef ft::_node<value_type>							_node;
 		typedef typename allocator_type::size_type				size_type;
 		typedef typename allocator_type::difference_type		difference_type;
 		typedef	typename allocator_type::reference				reference;
@@ -42,7 +41,7 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
 
-		typedef ft::tree_iterator<_node>						iterator;
+		typedef ft::tree_iterator<value_type>					iterator;
 		// typedef ft::const_iterator<value_type>					const_iterator;
 		// typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		// typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
@@ -50,52 +49,28 @@ namespace ft
 
 		
 
-		explicit map (const key_compare& comp = key_compare(),
+		explicit map(const key_compare& comp = Compare(),
              const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
-			_start(NULL), 
-			_end(NULL), 
-			_node_count(0),
-			_comp(comp)
+			_tree(),
+			_compare(comp)
 		{
 
 		}
 
 		template <class InputIterator>
-  		map (InputIterator first, InputIterator last,
+  		map(InputIterator first, InputIterator last,
        			const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 	 	:	_alloc(alloc),
-			_start(NULL),
-			_end(NULL),
-			_node_count(0),
-			_comp(comp)
+			_tree(),
+			_compare(comp)
 		{
 			
 		}
 
-		pair<iterator,bool> insert (const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
+		pair<iterator,bool> insert(const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
-			_node new_node(val);
-
-			//_alloc.allocate(sizeof(new_node));
-			//_alloc.construct(new_node, val);
-			if (root == NULL)
-			{
-				root = &new_node;
-				return (make_pair(iterator(root), true));
-			}
-			iterator ite = this->begin();
-			while (_comp((*ite).data, val))
-				ite++;
-			// ici il faut inserer le cas d'égalité.
-			if (_comp((*(--ite)).data, val))
-			{
-				new_node = _node_insert(new_node, &ite, LEFT);
-			}
-			else
-			{
-				new_node = _node_insert(new_node, &ite, RIGHT);
-			}
+			return (_tree.insert(val));
 		}
 
 		// iterator insert (iterator position, const value_type& val) {}
@@ -105,14 +80,14 @@ namespace ft
 	// 
 		iterator find(const key_type& k)
 		{
-			iterator it = _start;
-			while (it != _end)
+			iterator it = _tree._start;
+			while (it != _tree._end)
 			{
 				value_type pair = it->data;
 				if (pair.getKey() == k)
 					return it;
 			}
-			return _end;
+			return _tree._end;
 		}
 
 		// const_iterator find(const key_type& k) const {}
@@ -139,11 +114,10 @@ namespace ft
 
 		bool empty() const { return this->size > 0; }
 
-		size_type size() const { return _node_count; }
+		size_type size() const { return _tree._node_count; }
 
 		size_type max_size() const { return allocator_type().max_size(); }
- 
-		iterator begin() { return iterator(_node_min(root)); }
+		iterator begin() { return iterator(_tree.begin()); }
 
 		// const_iterator begin() const { return _start; }
 
@@ -172,23 +146,20 @@ namespace ft
 		// _type& operator[](const key_type& k) {}
 
 	private :
-		allocator_type _alloc;
-		_node *_start;
-		_node *_end;
-		_node *root;
-		size_type _node_count;
-		key_compare _comp;
+		allocator_type 					_alloc;
+		tree<value_type, key_type>		_tree;
+		key_compare 					_compare;
 
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
-		void _rotateRight(_node node)
+		void _rotateRight(value_type node)
 		{
-			_node a = node->left;
-			_node b = node;
-			_node c = node->right;
-			_node d = node->parent;
-			_node e = node->parent->left;
+			value_type a = node->left;
+			value_type b = node;
+			value_type c = node->right;
+			value_type d = node->parent;
+			value_type e = node->parent->left;
 
 			b->parent = d->parent;
 			b->right = d;
@@ -197,13 +168,13 @@ namespace ft
 			c->parent = d;
 		}
 
-		void _rotateLeft(_node node)
+		void _rotateLeft(value_type node)
 		{
-			_node a = node->parent->right;
-			_node b = node->parent;
-			_node c = node->left;
-			_node d = node;
-			_node e = node->right;
+			value_type a = node->parent->right;
+			value_type b = node->parent;
+			value_type c = node->left;
+			value_type d = node;
+			value_type e = node->right;
 
 			d->parent = b->parent;
 			d->left = b;
@@ -212,10 +183,10 @@ namespace ft
 			c->parent = b;
 		}
 
-		unsigned int _nodeHeigh(_node &node)
+		unsigned int _nodeHeigh(value_type &node)
 		{
 			unsigned int i = 0;
-			_node tempNode;
+			value_type tempNode;
 			do {
 				tempNode = node;
 				++i;
@@ -232,13 +203,13 @@ namespace ft
 			bool hasLeft;
 			bool hasRight;
 
-			if (!_printOne(root))
+			if (!_printOne(_tree._root))
 				return;
 			std::cout << std::endl;
-			_printNextNodes(root);
+			_printNextNodes(_tree._root);
 		}
 
-		void _printNextNodes(_node &node)
+		void _printNextNodes(value_type &node)
 		{
 			bool hasLeft;
 			bool hasRight;
@@ -252,7 +223,7 @@ namespace ft
 				_printNextNodes(node->right);
 		}
 
-		bool _printOne(_node &node)
+		bool _printOne(value_type &node)
 		{
 			if (!node)
 			{

@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 02:38:50 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/18 17:30:51 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/18 17:31:49 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ class pair
 			return *this;
 		}
 
-	private:
 		first_type first;
 		second_type second;
 };
