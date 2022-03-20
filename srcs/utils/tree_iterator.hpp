@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/20 21:50:02 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/20 23:44:06 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ Node _node_prev(Node node)
 }
 
 
-
 namespace ft
 {
 
@@ -143,6 +142,13 @@ struct	_node
 
 
 };
+
+template <class Value>
+ft::_node<Value> _node_insert(ft::_node<Value> *to_insert, ft::_node<Value> *node, bool direction)
+{
+
+	return (ft::_node<Value>(to_insert->data, node, NULL, NULL));
+}
 
 template <typename T>
 class	tree_iterator
@@ -211,9 +217,3 @@ public:
 
 }
 
-template <class Value>
-ft::_node<Value> _node_insert(ft::_node<Value> *to_insert, ft::_node<Value> *node, bool direction)
-{
-
-	return (ft::_node<Value>(to_insert->data, node, NULL, NULL));
-}

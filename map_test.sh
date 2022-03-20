@@ -6,8 +6,8 @@
 # - Compare le resultat de la sortie standard avec la STL (le main doit gérer le #define IS_STL)
 
 CC="c++ -Wall -Wextra -std=c++98"
-SRCS="srcs/test/main_test.cpp"
-EXEC=vector_test.out
+SRCS="srcs/test/map_test.cpp"
+EXEC=map_test.out
 MAX_NB_LINE=4
 
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
@@ -33,7 +33,7 @@ function compile_our {
 
 # Compile with STL containers
 function compile_STL {
-	$CC $PRECONCOMPIL_FLAGS -D IS_STL=1 $SRCS -o ./$EXEC\_STL
+	$CC $PRECONCOMPIL_FLAGS -D IS_STL=1 $SRCS -o ./$EXEC\_STL &>/dev/null
 	if [ $? != 0 ]; then
 		echo -e "\033[0;33mWARN: STL prog didn't compile\033[0m"
 		exit 1
