@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/18 21:09:44 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/20 21:50:02 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ template <class Node>
 Node _node_min(Node node) {
 	if (!node)
 		return (NULL);
-	while (node->right != NULL) {
-		node = node->right;
+	while (node->left != NULL) {
+		node = node->left;
 	}
 	return node;
 }
 
 template <class Node>
 Node _node_max(Node node) {
-	while (node->left != NULL) {
-		node = node->left;
+	while (node->right != NULL) {
+		node = node->right;
 	}
 	return node;
 }
@@ -95,33 +95,25 @@ bool _node_is_root(Node node)
 template <class Node>
 Node _node_next(Node node)
 {
-	if (_node_is_root(node))
-		return node->right;
-	while (_is_right_node(node))
-		node = node->parent;
-	if (_is_left_node(node) && node->right == NULL)
-		return node->parent;
-	else if (_is_left_node(node) && _node_exists_alone(node->right))
-		return node->right;
-	else if (_is_left_node(node) && _node_exists_with(node->right))
+	if (node->right != NULL) {
 		return _node_min(node->right);
-	return (NULL);
+	}
+	while (_is_right_node(node)) {
+		node = node->parent;
+	}
+	return node->parent;
 }
 
 template <class Node>
 Node _node_prev(Node node)
 {
-	if (_node_is_root(node))
-		return node->left;
-	while (_is_left_node(node))
-		node = node->parent;
-	if (_is_right_node(node) && node->left == NULL)
-		return node->parent;
-	else if (_is_right_node(node) && _node_exists_alone(node->left))
-		return node->left;
-	else if (_is_right_node(node) && _node_exists_with(node->left))
+	if (node->left != NULL) {
 		return _node_max(node->left);
-	return (NULL);
+	}
+	while (_is_left_node(node)) {
+		node = node->parent;
+	}
+	return node->parent;
 }
 
 
@@ -131,13 +123,13 @@ namespace ft
 
 template <class Value>
 struct	_node
-{		
+{
 		typedef Value						value_type;
 		Value							data;
 		_node 							*parent;
 		_node							*right;
 		_node							*left;
-		
+
 		_node(Value const &v)
 		: data(v), parent(NULL), right(NULL), left(NULL)
 		{
@@ -163,10 +155,10 @@ public:
 	typedef const pair&					const_reference;
 	typedef pair*						pointer;
 	typedef const pair*					const_pointer;
-	typedef typename std::ptrdiff_t 	difference_type;	
+	typedef typename std::ptrdiff_t 	difference_type;
 
-	
-	
+
+
 	tree_iterator(void) {}
 	tree_iterator(T* other) : _node(other) {}
 	//tree_iterator(Node* other) { _node = other->_node; };

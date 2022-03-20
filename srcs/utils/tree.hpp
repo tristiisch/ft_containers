@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 21:01:20 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/20 23:41:40 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,50 +52,40 @@ namespace ft
 			{
 				_node_alloc.construct(new_node, Node(val));
 				_root = new_node;
-				_start = new_node;
 				return (make_pair(iterator(_root), true));
-				
 			}
 			current = _node_min(_root);
-			std::cout << "OK1" << std::endl;
 			while (_comp(current->data.first, val.first))
 			{
-
 				tmp = _node_next(current);
 				if (tmp != NULL)
 					current = tmp;
 				else
 					break;
 			}
-
-			while (!_node_has_leaf(current))
-			{
-
+			if (current->data.first == val.first)
+				return make_pair(iterator(current), false);
+			while (current !=_start && !_node_has_leaf(current))
 				current = _node_prev(current);
-			}
-			//current = _node_prev(current);
-			std::cout << current->data.first << std::endl;
 			if (this->_comp(current->data.first, val.first))
 			{
 				_node_alloc.construct(new_node, Node(val));
-
 				current->right = new_node;
 				new_node->parent = current;
 			}
 			else
 			{
 				_node_alloc.construct(new_node, Node(val));
-
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			current = current->right;
-			std::cout << current->data.first << std::endl;
+			_start = _node_min(_root);
 			return make_pair(iterator(new_node), true);
-				
 		}
+		iterator insert (iterator position, const data_type& val)
+		{}
 
-		iterator begin() 
+		iterator begin()
 		{
 			if (_root)
 				// return iterator(_node_min(_root));
@@ -103,7 +93,7 @@ namespace ft
 			return iterator(_end);
 		}
 
-		iterator end() 
+		iterator end()
 		{
 			return iterator(_end);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/18 21:02:34 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/20 22:12:25 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		main(void)
 {
 	TESTED_LIB::map<int, int> mp;
 	TESTED_LIB::pair<int, int> p(12, 13);
-	
+
 
 	mp.insert(p);
 	TESTED_LIB::map<int, int>::iterator ite = mp.begin();
@@ -35,8 +35,9 @@ int		main(void)
 	mp.insert(TESTED_LIB::pair<int, int>(15, 13));
 	mp.insert(TESTED_LIB::pair<int, int>(17, 13));
 	mp.insert(TESTED_LIB::pair<int, int>(19, 13));
-	// mp.insert(TESTED_LIB::pair<int, int>(15, 13));
-	// mp.insert(TESTED_LIB::pair<int, int>(15, 13));
+	mp.insert(TESTED_LIB::pair<int, int>(2, 13));
+	mp.insert(TESTED_LIB::pair<int, int>(15, 13));
+	mp.insert(TESTED_LIB::pair<int, int>(150, 13));
 	ite = mp.begin();
 	while (ite != mp.end())
 	{
