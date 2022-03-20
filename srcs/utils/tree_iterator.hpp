@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/18 21:09:44 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/19 00:20:15 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ Node _node_prev(Node node)
 }
 
 
-
 namespace ft
 {
 
@@ -151,6 +150,13 @@ struct	_node
 
 
 };
+
+template <class Value>
+ft::_node<Value> _node_insert(ft::_node<Value> *to_insert, ft::_node<Value> *node, bool direction)
+{
+
+	return (ft::_node<Value>(to_insert->data, node, NULL, NULL));
+}
 
 template <typename T>
 class	tree_iterator
@@ -219,9 +225,3 @@ public:
 
 }
 
-template <class Value>
-ft::_node<Value> _node_insert(ft::_node<Value> *to_insert, ft::_node<Value> *node, bool direction)
-{
-
-	return (ft::_node<Value>(to_insert->data, node, NULL, NULL));
-}

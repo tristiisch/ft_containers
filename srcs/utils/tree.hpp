@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 21:01:20 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/19 00:32:36 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <cstddef>
-# include <memory>
-# include <algorithm>
-# include "tree_iterator.hpp"
+#include <memory>
+#include <algorithm>
+#include <iostream>
+#include "tree_iterator.hpp"
 
 namespace ft
 {
@@ -57,7 +58,7 @@ namespace ft
 				
 			}
 			current = _node_min(_root);
-			std::cout << "OK1" << std::endl;
+			//std::cout << "OK1" << std::endl;
 			while (_comp(current->data.first, val.first))
 			{
 
@@ -106,6 +107,102 @@ namespace ft
 		iterator end() 
 		{
 			return iterator(_end);
+		}
+
+		iterator find(const Key& k)
+		{
+			Node node = _start;
+			while (node != NULL)
+			{
+				data_type pair = node->data;
+				if (pair.getKey() == k)
+					return iterator(node);
+			}
+			return iterator(_end);
+		}
+
+		/**
+		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
+		 */
+		void _rotateRight(node_type node)
+		{
+			node_type a = node->left;
+			node_type b = node;
+			node_type c = node->right;
+			node_type d = node->parent;
+			node_type e = node->parent->left;
+
+			b->parent = d->parent;
+			b->right = d;
+			d->parent = b;
+			d->left = c;
+			c->parent = d;
+		}
+
+		void _rotateLeft(node_type node)
+		{
+			node_type a = node->parent->right;
+			node_type b = node->parent;
+			node_type c = node->left;
+			node_type d = node;
+			node_type e = node->right;
+
+			d->parent = b->parent;
+			d->left = b;
+			b->parent = d;
+			b->right = c;
+			c->parent = b;
+		}
+
+		unsigned int _nodeHeigh(node_type &node)
+		{
+			unsigned int i = 0;
+			node_type tempNode;
+			do {
+				tempNode = node;
+				++i;
+			} while (tempNode->parent);
+			return i;
+		}
+
+		/**
+		 * Does not work as intended, need height and
+		 * print all lvl as same time
+		 */ 
+		void _print()
+		{
+			bool hasLeft;
+			bool hasRight;
+
+			if (!_printOne(_root))
+				return;
+			std::cout << std::endl;
+			_printNextNodes(_root);
+		}
+
+		void _printNextNodes(node_type &node)
+		{
+			bool hasLeft;
+			bool hasRight;
+
+			hasLeft = _printOne(node->left);
+			hasRight = _printOne(node->right);
+			std::cout << std::endl;
+			if (hasLeft)
+				_printNextNodes(node->left);
+			if (hasRight)
+				_printNextNodes(node->right);
+		}
+
+		bool _printOne(node_type &node)
+		{
+			if (!node)
+			{
+				std::cout << "Empty" << std::endl;
+				return false;
+			}
+			std::cout << "        " << node.data << "\n      /    \\     ";
+			return true;
 		}
 
 	private :

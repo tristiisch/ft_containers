@@ -21,7 +21,7 @@ VECTOR
 - assign
 - push_back ✓
 - pop_back ✓
-- insert (à refaire)
+- insert ✓
 - erase
 - swap
 - clear ✓
