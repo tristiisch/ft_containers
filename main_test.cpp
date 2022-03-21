@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/21 16:05:39 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:07:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <map>
 #include "./srcs/map.hpp"
 #include "srcs/utils/iterator.hpp"
 #include "srcs/utils/pair.hpp"
 
-
-#define TESTED_LIB ft
+#ifndef TESTED_LIB
+# define TESTED_LIB ft
+#endif
 
 int		main(void)
 {
