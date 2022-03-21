@@ -74,18 +74,7 @@ namespace ft
 		// template <class InputIterator>
   		// void insert (InputIterator first, InputIterator last) {}
 
-		// Not working
-		/*iterator find(const key_type& k)
-		{
-			iterator it = _tree._start;
-			while (it != _tree._end)
-			{
-				value_type pair = it->data;
-				if (pair.getKey() == k)
-					return it;
-			}
-			return _tree._end;
-		}*/
+		iterator find(const key_type& k) { return _tree.find(k); }
 
 		// const_iterator find(const key_type& k) const {}
 
@@ -107,7 +96,7 @@ namespace ft
 
 		// void erase(iterator first, iterator last) {}
 
-		// void clear() {}
+		void clear() { _tree.clear(); }
 
 		bool empty() const { return this->size() == 0; }
 
@@ -131,13 +120,7 @@ namespace ft
 
 		// const_reverse_iterator rend() const { return _end; }
 
-		/*size_type count(const key_type& k) const
-		{
-			if (this->find(k) != this->end())
-				return 1;
-			else
-				return 0;
-		}*/
+		size_type count(const key_type& k) const { return _tree.count(k); }
 
 		allocator_type get_allocator() const { return _alloc; }
 

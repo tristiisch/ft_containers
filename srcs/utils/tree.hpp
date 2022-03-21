@@ -58,6 +58,11 @@ namespace ft
 				++_size;
 				return (make_pair(iterator(_root), true));
 			}
+			iterator find_it = find(val.first);
+			if (find_it != iterator(_end))
+			{
+				return make_pair(find_it, false);
+			}
 			current = _node_min(_root);
 			while (_comp(current->data.first, val.first))
 			{
@@ -103,18 +108,6 @@ namespace ft
 			return iterator(_end);
 		}
 
-		iterator find(const Key& k)
-		{
-			Node node = _start;
-			while (node != NULL)
-			{
-				data_type pair = node->data;
-				if (pair.getKey() == k)
-					return iterator(node);
-			}
-			return iterator(_end);
-		}
-
 		size_type size() const
 		{
 			return _size;
@@ -147,8 +140,40 @@ namespace ft
 				_node_alloc.deallocate(*it, 1);
 				it++;
 			}
+			_size = 0;
 		}
 
+		iterator find(const Key& k)
+		{
+			node_pointer node = _start;
+			while (node != NULL)
+			{
+				data_type pair = node->data;
+				if (pair.first == k)
+					return iterator(node);
+				node = _node_next(node);
+			}
+			return iterator(_end);
+		}
+			
+		size_type count(const Key& k) const
+		{
+			if (find(k) != iterator(end()))
+				return 1;
+			else
+				return 0;
+		}
+		
+		size_type erase(const Key& k)
+		{
+			iterator it = find(k);
+			node_pointer node;
+			if (it == iterator(end()))
+				return 0;
+			// TODO Need to remove address in childrens & parents
+			_node_alloc.deallocate(*it, 1);
+		}
+	
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
