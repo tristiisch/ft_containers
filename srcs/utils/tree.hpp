@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 17:26:33 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 17:33:51 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
-			node_pointer new_node;
+			node_pointer new_node; 
 			node_pointer current;
 			node_pointer tmp;
 
@@ -62,32 +62,27 @@ namespace ft
 				++_size;
 				return (make_pair(iterator(_root), true));
 			}
-			current = _start;
-			while (_comp(current->data.first, val.first))
+			current = _root;
+			while (current != NULL)
 			{
-				tmp = _node_next(current);
-				if (tmp != NULL)
-					current = tmp;
-				else
+				if (_comp(val.first, current->data.first) && current->left != NULL)
+					current = current->left;
+				else if (current->data.first == val.first)
+					return make_pair(iterator(current), false);
+				else if (_comp(current->data.first, val.first) && current->right != NULL)
+					current = current->right;
+				else 
 					break;
 			}
-			if (current->data.first == val.first)
-				return make_pair(iterator(current), false);
 			new_node = _node_alloc.allocate(1);
-			while (current !=_start && current->left != NULL && current->right != NULL)
-					current = _node_prev(current);
 			if (this->_comp(current->data.first, val.first))
 			{
-				while (current !=_start && current->right != NULL)
-					current = _node_prev(current);
 				_node_alloc.construct(new_node, Node(val));
 				current->right = new_node;
 				new_node->parent = current;
 			}
 			else
 			{
-				while (current !=_start && current->left != NULL)
-					current = _node_prev(current);
 				_node_alloc.construct(new_node, Node(val));
 				current->left = new_node;
 				new_node->parent = current;

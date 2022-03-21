@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/21 16:07:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 16:56:01 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,17 @@ int		main(void)
    	mp.insert(ft::pair<char,int>('0', 101));
     mp.insert(ft::pair<char,int>('f', 40));
     mp.insert(ft::pair<char,int>('g', 60));
-    mp.insert(ft::pair<char,int>('2', 100));
-	
+    mp.insert(ft::pair<char,int>('3', 100));
+	mp.insert(ft::pair<char,int>('6', 100));
+	mp.insert(ft::pair<char,int>('4', 100));
+	mp.insert(ft::pair<char,int>('1', 100));
+	mp.insert(ft::pair<char,int>('2', 100));
+	mp.insert(ft::pair<char,int>('%', 100));
+	mp.insert(ft::pair<char,int>('1', 100));
+	mp.insert(ft::pair<char,int>('E', 100));
+	mp.insert(ft::pair<char,int>('B', 100));
+	mp.insert(ft::pair<char,int>('D', 100));
+	mp.insert(ft::pair<char,int>('A', 100));	
 	//mp2.insert(mp.begin(), mp.end());
 	TESTED_LIB::map<char, int>::iterator ite = mp.begin();
 	while (ite != mp2.end())
