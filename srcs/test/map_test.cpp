@@ -207,7 +207,7 @@ void mapClear()
 		std::cout << "0 find with map::count" << std::endl;
 	else
 		std::cout << "Unable to find 0" << std::endl;
-}
+}*/
 
 void mapEmpty()
 {
@@ -228,6 +228,7 @@ void mapEmpty()
 	std::cout << map1 << std::endl;
 
 	ft::map<char,int>::iterator it = map1.find('b');
+	std::cout << it->first << " " << it->second << std::endl;
 	map1.clear();
 	std::cout << map1 << std::endl;
 
@@ -241,7 +242,7 @@ void mapEmpty()
 
 	std::cout << (map1.empty() ? "true" : "false") << std::endl;
 }
-*/
+
 int main()
 {
 	mapInsert();
@@ -252,17 +253,17 @@ int main()
 
 	std::cout << std::endl;
 	(void)&mapErase;
-	mapErase();
+	mapErase();*/
 
-	std::cout << std::endl;
-	(void)&mapErase;
-	mapClear();
+	// std::cout << std::endl;
+	// (void)&mapClear;
+	// mapClear();
 
 	std::cout << std::endl;
 	(void)&mapEmpty;
 	mapEmpty();
 
-	std::cout << std::endl;
+	/*std::cout << std::endl;
 	(void)&mapFind;
 	mapFind();*/
 }

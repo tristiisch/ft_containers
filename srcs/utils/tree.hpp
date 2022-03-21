@@ -141,6 +141,8 @@ namespace ft
 				it++;
 			}
 			_size = 0;
+			_start = NULL;
+			_root = NULL;
 		}
 
 		iterator find(const Key& k)
@@ -158,7 +160,7 @@ namespace ft
 			
 		size_type count(const Key& k) const
 		{
-			if (find(k) != iterator(end()))
+			if (this->find(k) != iterator(_end))
 				return 1;
 			else
 				return 0;

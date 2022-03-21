@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/19 00:31:49 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 11:51:58 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,9 @@ namespace ft
 		allocator_type get_allocator() const { return _alloc; }
 
 		// _type& operator[](const key_type& k) {}
+
+		// temp function
+		tree<value_type, key_type> get_tree() const { return _tree; }
 
 	private :
 		allocator_type 					_alloc;
