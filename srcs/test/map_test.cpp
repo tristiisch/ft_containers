@@ -62,6 +62,7 @@ void mapInsert()
 	map1.insert(ft::pair<char,int>('f', 40));
 	map1.insert(ft::pair<char,int>('g', 60));
 	map1.insert(ft::pair<char,int>('2', 100));
+	
 	std::cout << map1 << std::endl;
 
 	std::cout << "Map Iterator insert :" << std::endl;
