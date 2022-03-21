@@ -109,9 +109,9 @@ namespace ft
 
 		// void clear() {}
 
-		// bool empty() const { return this->size > 0; }
+		bool empty() const { return this->size() == 0; }
 
-		// size_type size() const { return _node_count; }
+		size_type size() const { return _tree.size(); }
 
 		size_type max_size() const { return allocator_type().max_size(); }
 		

@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <iostream>
 #include "tree_iterator.hpp"
+#include "../vector.hpp"
 
 namespace ft
 {
@@ -29,17 +30,18 @@ namespace ft
 		typedef Node_alloc						node_alloc;
 		typedef Node							node_type;
 		typedef Node *							node_pointer;
+		typedef typename node_alloc::size_type	size_type;
 		typedef ft::tree_iterator<node_type>	iterator;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
-		: _node_alloc(alloc), _end(NULL), _start(NULL), _root(NULL), _comp(comp)
+		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
 		{
 
 		}
 
 		~tree()
 		{
-
+			clear();
 		}
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
@@ -53,6 +55,7 @@ namespace ft
 			{
 				_node_alloc.construct(new_node, Node(val));
 				_root = new_node;
+				++_size;
 				return (make_pair(iterator(_root), true));
 			}
 			current = _node_min(_root);
@@ -81,6 +84,7 @@ namespace ft
 				new_node->parent = current;
 			}
 			_start = _node_min(_root);
+			++_size;
 			return make_pair(iterator(new_node), true);
 		}
 		iterator insert (iterator position, const data_type& val)
@@ -111,16 +115,50 @@ namespace ft
 			return iterator(_end);
 		}
 
+		size_type size() const
+		{
+			return _size;
+		}
+
+		// clear degeux qui fonctionne avec vector
+		void clear()
+		{
+			/*node_pointer tmp1 = _start, tmp2;
+			while (tmp1 != NULL)
+			{
+				std::cout << "Hey" << std::endl;
+				tmp2 = _node_next(tmp1);
+				_node_alloc.deallocate(tmp1, 1);
+				tmp1 = tmp2;
+			}*/
+			ft::vector<node_pointer> vector;
+
+			node_pointer tmp1 = _start, tmp2;
+			while (tmp1 != NULL)
+			{
+				tmp2 = _node_next(tmp1);
+				vector.push_back(tmp1);
+				//_node_alloc.deallocate(tmp1, 1);
+				tmp1 = tmp2;
+			}
+			typename ft::vector<node_pointer>::iterator it = vector.begin();
+			while (it != vector.end())
+			{
+				_node_alloc.deallocate(*it, 1);
+				it++;
+			}
+		}
+
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
-		void _rotateRight(node_type node)
+		void _rotateRight(node_pointer node)
 		{
-			node_type a = node->left;
-			node_type b = node;
-			node_type c = node->right;
-			node_type d = node->parent;
-			node_type e = node->parent->left;
+			node_pointer a = node->left;
+			node_pointer b = node;
+			node_pointer c = node->right;
+			node_pointer d = node->parent;
+			node_pointer e = node->parent->left;
 
 			b->parent = d->parent;
 			b->right = d;
@@ -129,13 +167,13 @@ namespace ft
 			c->parent = d;
 		}
 
-		void _rotateLeft(node_type node)
+		void _rotateLeft(node_pointer node)
 		{
-			node_type a = node->parent->right;
-			node_type b = node->parent;
-			node_type c = node->left;
-			node_type d = node;
-			node_type e = node->right;
+			node_pointer a = node->parent->right;
+			node_pointer b = node->parent;
+			node_pointer c = node->left;
+			node_pointer d = node;
+			node_pointer e = node->right;
 
 			d->parent = b->parent;
 			d->left = b;
@@ -144,10 +182,10 @@ namespace ft
 			c->parent = b;
 		}
 
-		unsigned int _nodeHeigh(node_type &node)
+		unsigned int _nodeHeigh(node_pointer node)
 		{
 			unsigned int i = 0;
-			node_type tempNode;
+			node_pointer tempNode;
 			do {
 				tempNode = node;
 				++i;
@@ -170,7 +208,7 @@ namespace ft
 			_printNextNodes(_root);
 		}
 
-		void _printNextNodes(node_type &node)
+		void _printNextNodes(node_pointer node)
 		{
 			bool hasLeft;
 			bool hasRight;
@@ -184,14 +222,14 @@ namespace ft
 				_printNextNodes(node->right);
 		}
 
-		bool _printOne(node_type &node)
+		bool _printOne(node_pointer node)
 		{
 			if (!node)
 			{
 				std::cout << "Empty" << std::endl;
 				return false;
 			}
-			std::cout << "        " << node.data << "\n      /    \\     ";
+			std::cout << "        " << node->data << "\n      /    \\     ";
 			return true;
 		}
 
@@ -201,5 +239,6 @@ namespace ft
 		node_pointer _root;
 		node_alloc	_node_alloc;
 		Compare		_comp;
+		size_type	_size;
 	};
 }

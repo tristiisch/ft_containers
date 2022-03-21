@@ -11,18 +11,19 @@
 /* ************************************************************************** */
 
 #include <iostream>
+#include <map>
 #include "./srcs/map.hpp"
 #include "srcs/utils/iterator.hpp"
 #include "srcs/utils/pair.hpp"
 
-
-#define TESTED_LIB ft
+#ifndef TESTED_LIB
+# define TESTED_LIB ft
+#endif
 
 int		main(void)
 {
 	TESTED_LIB::map<int, int> mp;
 	TESTED_LIB::pair<int, int> p(12, 13);
-
 
 	mp.insert(p);
 	TESTED_LIB::map<int, int>::iterator ite = mp.begin();

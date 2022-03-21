@@ -23,7 +23,7 @@
 #endif
 
 template <typename T, typename U>
-std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
+std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> &map)
 {
 	outputFile	<< "\033[1;36mSize|Max_Size\t" << map.size()
 				<< "|" << map.max_size()
@@ -34,7 +34,7 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 	else
 	{
 
-		ft::map<char, int>::const_iterator it = map.begin();
+		ft::map<char, int>::iterator it = map.begin();
 		while (true)
 		{
 			outputFile << it->first << "=" << it->second;
@@ -46,23 +46,6 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> const &map)
 	}
 	outputFile << "\033[0m";
 	return outputFile;
-}
-
-void mapOperatorInsert()
-{
-	ft::map<char, int> map;
-
-	map['a'] = 30;
-	map['c'] = 70;
-	map['b'] = 20;
-	map['d'] = 10;
-	map['e'] = 50;
-	map['0'] = 101;
-	map['f'] = 40;
-	map['g'] = 60;
-	map['2'] = 100;
-
-	std::cout << map << std::endl;
 }
 
 void mapInsert()
@@ -81,7 +64,7 @@ void mapInsert()
 	map1.insert(ft::pair<char,int>('2', 100));
 	std::cout << map1 << std::endl;
 
-	std::cout << "Map Iterator insert :" << std::endl;
+	/*std::cout << "Map Iterator insert :" << std::endl;
   	ft::map<char,int>::iterator it = map1.begin();
   	map1.insert(it, ft::pair<char,int>('Z', 300));
 	map1.insert(it, ft::pair<char,int>('5', 400));
@@ -95,7 +78,24 @@ void mapInsert()
 	std::cout << "Map Random Basic insert :" << std::endl;
 	for (int i = 0; i < 1000; ++i)
 		map3.insert(ft::pair<char,int>((rand() % ('~' - ' ')) + ' ', i));
-	std::cout << map3 << std::endl;
+	std::cout << map3 << std::endl;*/
+}
+/*
+void mapOperatorInsert()
+{
+	ft::map<char, int> map;
+
+	map['a'] = 30;
+	map['c'] = 70;
+	map['b'] = 20;
+	map['d'] = 10;
+	map['e'] = 50;
+	map['0'] = 101;
+	map['f'] = 40;
+	map['g'] = 60;
+	map['2'] = 100;
+
+	std::cout << map << std::endl;
 }
 
 void mapErase()
@@ -241,12 +241,12 @@ void mapEmpty()
 
 	std::cout << (map1.empty() ? "true" : "false") << std::endl;
 }
-
+*/
 int main()
 {
 	mapInsert();
 
-	std::cout << std::endl;
+	/*std::cout << std::endl;
 	(void)&mapOperatorInsert;
 	mapOperatorInsert();
 
@@ -264,5 +264,5 @@ int main()
 
 	std::cout << std::endl;
 	(void)&mapFind;
-	mapFind();
+	mapFind();*/
 }
