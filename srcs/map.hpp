@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 15:21:44 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 15:46:33 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ namespace ft
 		:	_alloc(alloc),
 			_tree(),
 			_compare(comp)
-		{
-
-		}
+		{}
 
 		template <class InputIterator>
   		map(InputIterator first, InputIterator last,
@@ -61,7 +59,7 @@ namespace ft
 			_tree(),
 			_compare(comp)
 		{
-			
+			insert(first, last);
 		}
 
 		pair<iterator,bool> insert(const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
@@ -89,7 +87,7 @@ namespace ft
 
 		// const_iterator find(const key_type& k) const {}
 
-		// iterator lower_bound(const key_type& k) {}
+		iterator lower_bound(const key_type& k) { return _tree.lower_bound(k); }
 
 		// const_iterator lower_bound(const key_type& k) const {}
 
@@ -103,7 +101,7 @@ namespace ft
 
 		// void erase(iterator position) {}
 
-		// size_type erase(const key_type& k) {}
+		size_type erase(const key_type& k) { return _tree.erase(k); }
 
 		// void erase(iterator first, iterator last) {}
 

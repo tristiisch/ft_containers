@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 15:22:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 15:58:35 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>
+#include "reverse_iterator.hpp"
 #include "tree_iterator.hpp"
+#include "reverse_tree_iterator.hpp"
 #include "../vector.hpp"
 
 namespace ft
@@ -26,12 +28,13 @@ namespace ft
 	class tree
 	{
 	public :
-		typedef Value							data_type;
-		typedef Node_alloc						node_alloc;
-		typedef Node							node_type;
-		typedef Node *							node_pointer;
-		typedef typename node_alloc::size_type	size_type;
-		typedef ft::tree_iterator<node_type>	iterator;
+		typedef Value									data_type;
+		typedef Node_alloc								node_alloc;
+		typedef Node									node_type;
+		typedef Node *									node_pointer;
+		typedef typename node_alloc::size_type			size_type;
+		typedef ft::tree_iterator<node_type>			iterator;
+		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -102,16 +105,27 @@ namespace ft
 			for(iterator ite = first ; ite != last ; ite++)
 				insert((*ite));
 		}
-		
+
 		iterator begin()
 		{
 			if (_root)
-				// return iterator(_node_min(_root));
 				return iterator(_start);
-			return iterator(_end);
+			return NULL;
 		}
 
 		iterator end()
+		{
+			return iterator(_end);
+		}
+
+		reverse_iterator rbegin()
+		{
+			if (_root)
+				return reverse_iterator(_node_max(_root));
+			return NULL;
+		}
+
+		reverse_iterator rend()
 		{
 			return iterator(_end);
 		}
@@ -173,6 +187,20 @@ namespace ft
 			}
 			return iterator(_end);
 		}
+
+		// should return const ite
+		iterator find(const Key& k) const
+		{
+			node_pointer node = _start;
+			while (node != NULL)
+			{
+				data_type pair = node->data;
+				if (pair.first == k)
+					return iterator(node);
+				node = _node_next(node);
+			}
+			return iterator(_end);
+		}
 			
 		size_type count(const Key& k) const
 		{
@@ -182,9 +210,10 @@ namespace ft
 				return 0;
 		}
 		
-		// A check
+		// A faire
 		size_type erase(const Key& k)
 		{
+			size_type i = 1;
 			node_pointer node = _start;
 			while (node != NULL)
 			{
@@ -195,18 +224,31 @@ namespace ft
 			}
 			if (!node)
 				return 0;
-			_destroy(node);
-			/*iterator it = find(k);
-			node_pointer node;
-			if (it == iterator(end()))
-				return 0;
+			//_destroy(node);
 			// TODO Need to remove address in childrens & parents
-			_node_alloc.deallocate(*it, 1);*/
+			_node_alloc.deallocate(node, 1);
+			_size -= i;
+			return i;
+		}
+
+		iterator lower_bound(const Key& k)
+		{
+			node_pointer node = _start;
+			while (node != NULL)
+			{
+				data_type pair = node->data;
+				if (pair.first == k)
+					break;
+				node = _node_next(node);
+			}
+			if (!node)
+				return NULL;
+			return (_node_prev(node));
 		}
 	
 	private :
 
-		void _destroy(node_type node)
+		void _destroy(node_pointer node)
 		{
 			if (_is_left_node(node))
 			{
@@ -224,7 +266,7 @@ namespace ft
 			{
 				_destroy(node->left);
 			}
-			insert(node->value);
+			insert(node->data);
 			_deallocate(node);
 		}
 

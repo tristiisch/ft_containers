@@ -64,7 +64,7 @@ void mapInsert()
 	map1.insert(ft::pair<char,int>('2', 100));
 	std::cout << map1 << std::endl;
 
-	/*std::cout << "Map Iterator insert :" << std::endl;
+	std::cout << "Map Iterator insert :" << std::endl;
   	ft::map<char,int>::iterator it = map1.begin();
   	map1.insert(it, ft::pair<char,int>('Z', 300));
 	map1.insert(it, ft::pair<char,int>('5', 400));
@@ -75,7 +75,7 @@ void mapInsert()
 	std::cout << map2 << std::endl;
 
 	//srand(time(NULL));
-	std::cout << "Map Random Basic insert :" << std::endl;
+	/*std::cout << "Map Random Basic insert :" << std::endl;
 	for (int i = 0; i < 1000; ++i)
 		map3.insert(ft::pair<char,int>((rand() % ('~' - ' ')) + ' ', i));
 	std::cout << map3 << std::endl;*/
@@ -152,6 +152,7 @@ void mapFind()
 	map2.insert(map1.begin(), map1.find('e'));
 	std::cout << map2 << std::endl;
 }
+*/
 
 void mapClear()
 {
@@ -207,8 +208,8 @@ void mapClear()
 		std::cout << "0 find with map::count" << std::endl;
 	else
 		std::cout << "Unable to find 0" << std::endl;
-}*/
-
+}
+/*
 void mapEmpty()
 {
 	ft::map<char, int> map1, map2, map3;
@@ -228,7 +229,7 @@ void mapEmpty()
 	std::cout << map1 << std::endl;
 
 	ft::map<char,int>::iterator it = map1.find('b');
-	std::cout << it->first << " " << it->second << std::endl;
+	std::cout << it->first << "=" << it->second << std::endl;
 	map1.clear();
 	std::cout << map1 << std::endl;
 
@@ -242,26 +243,26 @@ void mapEmpty()
 
 	std::cout << (map1.empty() ? "true" : "false") << std::endl;
 }
-
+*/
 int main()
 {
 	mapInsert();
 
 	/*std::cout << std::endl;
 	(void)&mapOperatorInsert;
-	mapOperatorInsert();
+	mapOperatorInsert();*/
 
-	std::cout << std::endl;
+	/*std::cout << std::endl;
 	(void)&mapErase;
 	mapErase();*/
 
-	// std::cout << std::endl;
-	// (void)&mapClear;
-	// mapClear();
-
 	std::cout << std::endl;
+	(void)&mapClear;
+	mapClear();
+
+	/*std::cout << std::endl;
 	(void)&mapEmpty;
-	mapEmpty();
+	mapEmpty();*/
 
 	/*std::cout << std::endl;
 	(void)&mapFind;
