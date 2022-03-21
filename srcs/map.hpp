@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 15:46:33 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 17:33:03 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 # include "./utils/utils.hpp"
 # include "./utils/iterator.hpp"
 # include "./utils/tree_iterator.hpp"
-# include "./utils/const_iterator.hpp"
-# include "./utils/reverse_iterator.hpp"
-# include "./utils/const_reverse_iterator.hpp"
 # include "./utils/tree_iterator.hpp"
 # include "./utils/tree.hpp"
 namespace ft
@@ -29,19 +26,21 @@ namespace ft
 	class map
 	{
 	public :
-		typedef Key 											key_type;
-		typedef T 												mapped_type;
-		typedef ft::pair<const Key, T> 							value_type;
-		typedef Compare 										key_compare;
-		typedef Allocator										allocator_type;
-		typedef typename allocator_type::size_type				size_type;
-		typedef typename allocator_type::difference_type		difference_type;
-		typedef	typename allocator_type::reference				reference;
-		typedef	typename allocator_type::const_reference		const_reference;
-		typedef typename allocator_type::pointer				pointer;
-		typedef typename allocator_type::const_pointer			const_pointer;
+		typedef Key 													key_type;
+		typedef T 														mapped_type;
+		typedef ft::pair<const Key, T> 									value_type;
+		typedef Compare 												key_compare;
+		typedef Allocator												allocator_type;
+		typedef typename allocator_type::size_type						size_type;
+		typedef typename allocator_type::difference_type				difference_type;
+		typedef	typename allocator_type::reference						reference;
+		typedef	typename allocator_type::const_reference				const_reference;
+		typedef typename allocator_type::pointer						pointer;
+		typedef typename allocator_type::const_pointer					const_pointer;
 
-		typedef typename ft::tree<value_type, Key>::iterator	iterator;
+		typedef typename ft::tree<value_type, Key>::iterator			iterator;
+		typedef typename ft::tree<value_type, Key>::reverse_iterator	reverse_iterator;
+		typedef typename ft::tree<value_type, Key>::const_iterator		const_iterator;
 
 
 	
@@ -60,6 +59,11 @@ namespace ft
 			_compare(comp)
 		{
 			insert(first, last);
+		}
+
+		~map()
+		{
+
 		}
 
 		pair<iterator,bool> insert(const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
@@ -116,17 +120,17 @@ namespace ft
 		
 		iterator begin() { return _tree.begin(); }
 
-		// const_iterator begin() const { return _start; }
+		const_iterator begin() const { return _tree.begin(); }
 
 		iterator end() { return _tree.end(); }
 
-		// const_iterator end() const { return _end; }
+		const_iterator end() const { return _tree.end(); }
 
-		// reverse_iterator rbegin() { return _start; }
+		reverse_iterator rbegin() { return _tree.rbegin(); }
 
 		// const_reverse_iterator rbegin() const { return _start; }
 
-		// reverse_iterator rend() { return _end; }
+		reverse_iterator rend() { return _tree.rend(); }
 
 		// const_reverse_iterator rend() const { return _end; }
 

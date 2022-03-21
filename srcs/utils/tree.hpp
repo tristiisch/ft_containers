@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 16:15:15 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 17:26:33 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <iostream>
 #include "reverse_iterator.hpp"
 #include "tree_iterator.hpp"
-#include "reverse_tree_iterator.hpp"
 #include "../vector.hpp"
 
 namespace ft
@@ -35,6 +34,7 @@ namespace ft
 		typedef typename node_alloc::size_type			size_type;
 		typedef ft::tree_iterator<node_type>			iterator;
 		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
+		typedef ft::const_tree_iterator<node_type>		const_iterator;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -117,9 +117,21 @@ namespace ft
 			return NULL;
 		}
 
+		const_iterator begin() const
+		{
+			if (_root)
+				return const_iterator(_start);
+			return NULL;
+		}
+
 		iterator end()
 		{
 			return iterator(_end);
+		}
+
+		const_iterator end() const
+		{
+			return const_iterator(_end);
 		}
 
 		reverse_iterator rbegin()
@@ -131,7 +143,7 @@ namespace ft
 
 		reverse_iterator rend()
 		{
-			return iterator(_end);
+			return reverse_iterator(_end);
 		}
 
 		size_type size() const
