@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 19:26:16 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 19:46:49 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include "reverse_iterator.hpp"
 #include "tree_iterator.hpp"
 #include "../vector.hpp"

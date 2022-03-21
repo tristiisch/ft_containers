@@ -45,8 +45,8 @@ jobs:
           echo Clang version
           clang++ --version
 
-      - name: Launch Own test Vector
-        run: ./vector_test.sh
+      - name: Launch own test
+        run: ./test.sh
         shell: bash
 
       - name: Launch Own test Vector with Capacity check
@@ -54,10 +54,6 @@ jobs:
         run: ./vector_test.sh capacity
         shell: bash
         continue-on-error: true
-
-      - name: Launch Own test Map
-        run: ./map_test.sh
-        shell: bash
 
   third_party_tester:
     name: Third party tester
