@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 16:10:34 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:34:06 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ namespace ft
 		:	_alloc(alloc),
 			_tree(),
 			_compare(comp)
-		{
-
-		}
+		{}
 
 		template <class InputIterator>
   		map(InputIterator first, InputIterator last,
@@ -85,22 +83,11 @@ namespace ft
 		// template <class InputIterator>
   		// void insert (InputIterator first, InputIterator last) {}
 
-		// Not working
-		/*iterator find(const key_type& k)
-		{
-			iterator it = _tree._start;
-			while (it != _tree._end)
-			{
-				value_type pair = it->data;
-				if (pair.getKey() == k)
-					return it;
-			}
-			return _tree._end;
-		}*/
+		iterator find(const key_type& k) { return _tree.find(k); }
 
 		// const_iterator find(const key_type& k) const {}
 
-		// iterator lower_bound(const key_type& k) {}
+		iterator lower_bound(const key_type& k) { return _tree.lower_bound(k); }
 
 		// const_iterator lower_bound(const key_type& k) const {}
 
@@ -114,17 +101,18 @@ namespace ft
 
 		// void erase(iterator position) {}
 
-		// size_type erase(const key_type& k) {}
+		size_type erase(const key_type& k) { return _tree.erase(k); }
 
 		// void erase(iterator first, iterator last) {}
 
-		// void clear() {}
+		void clear() { _tree.clear(); }
 
-		// bool empty() const { return this->size > 0; }
+		bool empty() const { return this->size() == 0; }
 
-		// size_type size() const { return _node_count; }
+		size_type size() const { return _tree.size(); }
 
-		size_type max_size() const { return allocator_type().max_size(); }
+		// A check
+		size_type max_size() const { return allocator_type().max_size() / 5; }
 		
 		iterator begin() { return _tree.begin(); }
 
@@ -142,17 +130,14 @@ namespace ft
 
 		// const_reverse_iterator rend() const { return _end; }
 
-		/*size_type count(const key_type& k) const
-		{
-			if (this->find(k) != this->end())
-				return 1;
-			else
-				return 0;
-		}*/
+		size_type count(const key_type& k) const { return _tree.count(k); }
 
 		allocator_type get_allocator() const { return _alloc; }
 
 		// _type& operator[](const key_type& k) {}
+
+		// temp function
+		tree<value_type, key_type> get_tree() const { return _tree; }
 
 	private :
 		allocator_type 					_alloc;
