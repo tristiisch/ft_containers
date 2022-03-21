@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/20 23:44:01 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 15:20:13 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,23 @@ namespace ft
 		// clear degeux qui fonctionne avec vector
 		void clear()
 		{
+			if (!_root)
+				return;
+			_deallocate(_root);
+			//_iterator_all_under(_root, &tree::clear2);
 			/*node_pointer tmp1 = _start, tmp2;
 			while (tmp1 != NULL)
 			{
-				std::cout << "Hey" << std::endl;
+				while (!_node_has_leaf(tmp1))
+				{
+					
+				}
+				//std::cout << "Hey" << std::endl;
 				tmp2 = _node_next(tmp1);
 				_node_alloc.deallocate(tmp1, 1);
 				tmp1 = tmp2;
 			}*/
-			ft::vector<node_pointer> vector;
+			/*ft::vector<node_pointer> vector;
 
 			node_pointer tmp1 = _start, tmp2;
 			while (tmp1 != NULL)
@@ -139,7 +147,7 @@ namespace ft
 			{
 				_node_alloc.deallocate(*it, 1);
 				it++;
-			}
+			}*/
 			_size = 0;
 			_start = NULL;
 			_root = NULL;
@@ -166,16 +174,61 @@ namespace ft
 				return 0;
 		}
 		
+		// A check
 		size_type erase(const Key& k)
 		{
-			iterator it = find(k);
+			node_pointer node = _start;
+			while (node != NULL)
+			{
+				data_type pair = node->data;
+				if (pair.first == k)
+					break;
+				node = _node_next(node);
+			}
+			if (!node)
+				return 0;
+			_destroy(node);
+			/*iterator it = find(k);
 			node_pointer node;
 			if (it == iterator(end()))
 				return 0;
 			// TODO Need to remove address in childrens & parents
-			_node_alloc.deallocate(*it, 1);
+			_node_alloc.deallocate(*it, 1);*/
 		}
 	
+	private :
+
+		void _destroy(node_type node)
+		{
+			if (_is_left_node(node))
+			{
+				node->parent->left = NULL;
+			}
+			else if (_is_right_node(node))
+			{
+				node->parent->right = NULL;
+			}
+			if (!node->right)
+			{
+				_destroy(node->right);
+			}
+			if (!node->left)
+			{
+				_destroy(node->left);
+			}
+			insert(node->value);
+			_deallocate(node);
+		}
+
+		void _deallocate(node_pointer node) 
+		{
+			if (node->left)
+				_deallocate(node->left);
+			if (node->right)
+				_deallocate(node->right);
+			_node_alloc.deallocate(node, 1);
+		}
+
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
@@ -220,46 +273,6 @@ namespace ft
 			return i;
 		}
 
-		/**
-		 * Does not work as intended, need height and
-		 * print all lvl as same time
-		 */
-		void _print()
-		{
-			bool hasLeft;
-			bool hasRight;
-
-			if (!_printOne(_root))
-				return;
-			std::cout << std::endl;
-			_printNextNodes(_root);
-		}
-
-		void _printNextNodes(node_pointer node)
-		{
-			bool hasLeft;
-			bool hasRight;
-
-			hasLeft = _printOne(node->left);
-			hasRight = _printOne(node->right);
-			std::cout << std::endl;
-			if (hasLeft)
-				_printNextNodes(node->left);
-			if (hasRight)
-				_printNextNodes(node->right);
-		}
-
-		bool _printOne(node_pointer node)
-		{
-			if (!node)
-			{
-				std::cout << "Empty" << std::endl;
-				return false;
-			}
-			std::cout << "        " << node->data << "\n      /    \\     ";
-			return true;
-		}
-
 	private :
 		node_pointer _end;
 		node_pointer _start;
@@ -268,4 +281,18 @@ namespace ft
 		Compare		_comp;
 		size_type	_size;
 	};
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
+{
+	outputFile << node->first << "=" << node->second;
+	return outputFile;
+}
+
+template <typename T, typename U>
+std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
+{
+	outputFile << pair->first << "=" << pair->second;
+	return outputFile;
 }

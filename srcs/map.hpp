@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 11:51:58 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 15:20:36 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ namespace ft
 
 		size_type size() const { return _tree.size(); }
 
-		size_type max_size() const { return allocator_type().max_size(); }
+		// A check
+		size_type max_size() const { return allocator_type().max_size() / 5; }
 		
 		iterator begin() { return _tree.begin(); }
 
