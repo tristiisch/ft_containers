@@ -45,15 +45,19 @@ jobs:
           echo Clang version
           clang++ --version
 
-      - name: Launch Script
+      - name: Launch Own test Vector
         run: ./vector_test.sh
         shell: bash
 
-      - name: Launch Script with Capacity check
+      - name: Launch Own test Vector with Capacity check
         if: matrix.os == 'ubuntu-latest'
         run: ./vector_test.sh capacity
         shell: bash
         continue-on-error: true
+
+      - name: Launch Own test Map
+        run: ./map_test.sh
+        shell: bash
 
   third_party_tester:
     name: Third party tester
