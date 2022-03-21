@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 13:59:13 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:06:01 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ namespace ft
 			}
 			if (current->data.first == val.first)
 				return make_pair(iterator(current), false);
+			while (current !=_start && current->left != NULL && current->right != NULL)
+					current = _node_prev(current);
 			if (this->_comp(current->data.first, val.first))
 			{
 				while (current !=_start && current->right != NULL)
