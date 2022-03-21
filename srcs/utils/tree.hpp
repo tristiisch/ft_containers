@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 19:46:49 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 19:59:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 		typedef ft::tree_iterator<node_type>			iterator;
 		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
 		typedef ft::const_tree_iterator<node_type>		const_iterator;
-		typedef std::ptrdiff_t difference_type;
+		typedef typename Value_alloc::difference_type difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -257,7 +257,10 @@ namespace ft
 			return (_node_prev(node));
 		}
 
-		size_type max_size() const { return (std::numeric_limits<size_type>::max() / (sizeof(*this))); }
+		// TODO Verify
+		size_type max_size() const {
+			return std::min<size_type>(_node_alloc.max_size(), std::numeric_limits<difference_type>::max());
+		}
 		
 	private :
 

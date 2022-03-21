@@ -11,7 +11,7 @@
   */
 
 #ifndef IS_STL
-# define IS_STL 0
+# define IS_STL 1
 #endif
 
 
@@ -25,8 +25,7 @@
 template <typename T, typename U>
 std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 {
-	outputFile	<< "\033[1;36mSize|Max_Size\t" << map.size()
-				<< "|" << map.max_size()
+	outputFile	<< "\033[1;36mSize\t" << map.size()
 				<< "\033[0m" << std::endl
 				<< "\033[1;36mContent ";
 	if (map.empty())
