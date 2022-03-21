@@ -11,7 +11,7 @@
   */
 
 #ifndef IS_STL
-# define IS_STL 1
+# define IS_STL 0
 #endif
 
 
@@ -75,10 +75,10 @@ void mapInsert()
 	std::cout << map2 << std::endl;
 
 	//srand(time(NULL));
-	/*std::cout << "Map Random Basic insert :" << std::endl;
-	for (int i = 0; i < 1000; ++i)
+	std::cout << "Map Random Basic insert :" << std::endl;
+	for (int i = 0; i < 15; ++i)
 		map3.insert(ft::pair<char,int>((rand() % ('~' - ' ')) + ' ', i));
-	std::cout << map3 << std::endl;*/
+	std::cout << map3 << std::endl;
 }
 /*
 void mapOperatorInsert()

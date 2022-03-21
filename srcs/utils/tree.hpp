@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 15:58:35 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 16:15:15 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ namespace ft
 			node_pointer current;
 			node_pointer tmp;
 
-			new_node = _node_alloc.allocate(1);
 			if (_root == NULL)
 			{
+				new_node = _node_alloc.allocate(1);
 				_node_alloc.construct(new_node, Node(val));
 				_root = new_node;
 				_start = _root;
+				++_size;
 				return (make_pair(iterator(_root), true));
 			}
 			current = _start;
@@ -72,6 +73,9 @@ namespace ft
 			}
 			if (current->data.first == val.first)
 				return make_pair(iterator(current), false);
+			new_node = _node_alloc.allocate(1);
+			while (current !=_start && current->left != NULL && current->right != NULL)
+					current = _node_prev(current);
 			if (this->_comp(current->data.first, val.first))
 			{
 				while (current !=_start && current->right != NULL)
