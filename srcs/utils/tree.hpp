@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 17:33:51 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 19:26:16 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ namespace ft
 		typedef ft::tree_iterator<node_type>			iterator;
 		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
 		typedef ft::const_tree_iterator<node_type>		const_iterator;
+		typedef std::ptrdiff_t difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -51,7 +52,6 @@ namespace ft
 		{
 			node_pointer new_node; 
 			node_pointer current;
-			node_pointer tmp;
 
 			if (_root == NULL)
 			{
@@ -199,23 +199,22 @@ namespace ft
 			return iterator(_end);
 		}
 
-		// should return const ite
-		iterator find(const Key& k) const
+		const_iterator find(const Key& k) const
 		{
 			node_pointer node = _start;
 			while (node != NULL)
 			{
 				data_type pair = node->data;
 				if (pair.first == k)
-					return iterator(node);
+					return const_iterator(node);
 				node = _node_next(node);
 			}
-			return iterator(_end);
+			return const_iterator(_end);
 		}
 			
 		size_type count(const Key& k) const
 		{
-			if (this->find(k) != iterator(_end))
+			if (this->find(k) != const_iterator(_end))
 				return 1;
 			else
 				return 0;
@@ -256,7 +255,9 @@ namespace ft
 				return NULL;
 			return (_node_prev(node));
 		}
-	
+
+		size_type max_size() const { return (std::numeric_limits<size_type>::max() / (sizeof(*this))); }
+		
 	private :
 
 		void _destroy(node_pointer node)
@@ -281,7 +282,7 @@ namespace ft
 			_deallocate(node);
 		}
 
-		void _deallocate(node_pointer node) 
+		void _deallocate(node_pointer node)
 		{
 			if (node->left)
 				_deallocate(node->left);

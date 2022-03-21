@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/21 17:22:44 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 19:26:23 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,13 +143,6 @@ struct	_node
 
 };
 
-template <class Value>
-ft::_node<Value> _node_insert(ft::_node<Value> *to_insert, ft::_node<Value> *node, bool direction)
-{
-
-	return (ft::_node<Value>(to_insert->data, node, NULL, NULL));
-}
-
 template <typename T>
 class	tree_iterator
 {
@@ -284,7 +277,8 @@ public:
 	const_tree_iterator(void) : _node(NULL) {}
 	const_tree_iterator(T* other) : _node(other) {}
 	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
-	const_tree_iterator(const tree_iterator<T> &src) : _node(src._node) {}
+	// TODO
+	//const_tree_iterator(const tree_iterator<T> &src) : _node(src._node) {}
 
 	virtual ~const_tree_iterator() {}
 

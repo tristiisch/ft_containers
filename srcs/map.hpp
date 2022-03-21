@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 17:33:47 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 19:25:37 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,9 @@ namespace ft
 			_tree.insert(first, last);
 		}
 
-		// iterator insert (iterator position, const value_type& val) {}
-		// 
-		// template <class InputIterator>
-  		// void insert (InputIterator first, InputIterator last) {}
-
 		iterator find(const key_type& k) { return _tree.find(k); }
 
-		// const_iterator find(const key_type& k) const {}
+		const_iterator find(const key_type& k) const { return _tree.find(k); }
 
 		iterator lower_bound(const key_type& k) { return _tree.lower_bound(k); }
 
@@ -115,8 +110,7 @@ namespace ft
 
 		size_type size() const { return _tree.size(); }
 
-		// A check
-		size_type max_size() const { return allocator_type().max_size() / 5; }
+		size_type max_size() const { return _tree.max_size(); }
 		
 		iterator begin() { return _tree.begin(); }
 
@@ -138,10 +132,8 @@ namespace ft
 
 		allocator_type get_allocator() const { return _alloc; }
 
-		// _type& operator[](const key_type& k) {}
-
-		// temp function
-		tree<value_type, key_type> get_tree() const { return _tree; }
+		mapped_type& operator[](const key_type &key) { return insert(ft::make_pair(key, mapped_type())).first->second; }
+		
 
 	private :
 		allocator_type 					_alloc;

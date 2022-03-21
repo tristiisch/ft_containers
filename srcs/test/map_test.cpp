@@ -23,7 +23,7 @@
 #endif
 
 template <typename T, typename U>
-std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> &map)
+std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 {
 	outputFile	<< "\033[1;36mSize|Max_Size\t" << map.size()
 				<< "|" << map.max_size()
@@ -34,7 +34,7 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> &map)
 	else
 	{
 
-		ft::map<char, int>::iterator it = map.begin();
+		typename ft::map<T, U>::const_iterator it = map.begin();
 		while (true)
 		{
 			outputFile << it->first << "=" << it->second;
@@ -50,7 +50,8 @@ std::ostream &operator<<(std::ostream &outputFile, ft::map<T, U> &map)
 
 static void mapInsert()
 {
-	ft::map<char, int> map1, map2, map3;
+	ft::map<char, int> map1, map2;
+	ft::map<int, int> map3;
 
 	std::cout << "Map Basic insert :" << std::endl;
 	map1.insert(ft::pair<char,int>('a', 30));
@@ -77,11 +78,11 @@ static void mapInsert()
 
 	//srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
-	for (int i = 0; i < 10; ++i)
-		map3.insert(ft::pair<char,int>((rand() % ('~' - ' ')) + ' ', i));
+	for (int i = 0; i < 200; ++i)
+		map3.insert(ft::pair<int,int>((rand() % 1000), i));
 	std::cout << map3 << std::endl;
 }
-/*
+
 void mapOperatorInsert()
 {
 	ft::map<char, int> map;
@@ -89,15 +90,15 @@ void mapOperatorInsert()
 	map['a'] = 30;
 	map['c'] = 70;
 	map['b'] = 20;
+	map['f'] = 40;
 	map['d'] = 10;
 	map['e'] = 50;
 	map['0'] = 101;
-	map['f'] = 40;
 	map['g'] = 60;
 	map['2'] = 100;
 
 	std::cout << map << std::endl;
-}*/
+}
 
 static void mapErase()
 {
@@ -253,7 +254,7 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << "--" << itName << " = " << (--begin)->second << std::endl;
 	std::cout << itName << "-- = " << (begin--)->second << std::endl;
 	std::cout << " ++(++" << itName << ") = " << (++(++begin))->first << std::endl;
-	//std::cout << itName << "[3] = " << begin[3] << std::endl;
+	//std::cout << itName << "[3] = " << begin[3] << std::endl; // A voir si demander
 	std::cout << itName << " to last >";
 	while (begin != last)
 		std::cout << " " << (begin++)->first;
@@ -261,14 +262,6 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 
 	std::cout << itName << "last == " << itName << "last = " << (last == last) << std::endl;
 	std::cout << itName << "last != " << itName << "last = " << (last != last) << std::endl;
-	/*std::cout << itName << "last <= " << itName << "last = " << (last <= last) << std::endl;
-	std::cout << itName << "last >= " << itName << "last = " << (last >= last) << std::endl;
-	std::cout << itName << "last <= " << itName << "last - 1 = " << (last <= (last - 1)) << std::endl;
-	std::cout << itName << "last >= " << itName << "last - 1 = " << (last >= (last - 1)) << std::endl;
-	std::cout << itName << "last < " << itName << "last = " << (last < last) << std::endl;
-	std::cout << itName << "last > " << itName << "last = " << (last > last) << std::endl;
-	std::cout << itName << "last < " << itName << "last - 1 = " << (last < (last - 1)) << std::endl;
-	std::cout << itName << "last > " << itName << "last - 1 = " << (last > (last - 1)) << std::endl;*/
 }
 
 static void iteratorTest()
@@ -315,9 +308,9 @@ int main()
 {
 	mapInsert();
 
-	/*std::cout << std::endl;
+	std::cout << std::endl;
 	(void)&mapOperatorInsert;
-	mapOperatorInsert();*/
+	mapOperatorInsert();
 
 	std::cout << std::endl;
 	(void)&mapErase;
