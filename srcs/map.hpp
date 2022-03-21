@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/19 00:31:49 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 11:47:57 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,17 @@ namespace ft
 		pair<iterator,bool> insert(const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
 			return (_tree.insert(val));
+		}
+
+		iterator insert (iterator position, const value_type& val)
+		{
+			return _tree.insert(position, val);
+		}
+
+		template <class InputIterator>
+  		void insert (InputIterator first, InputIterator last)
+		{
+			_tree.insert(first, last);
 		}
 
 		// iterator insert (iterator position, const value_type& val) {}

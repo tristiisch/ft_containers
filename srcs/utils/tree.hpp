@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/20 23:44:01 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 13:59:13 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ namespace ft
 			{
 				_node_alloc.construct(new_node, Node(val));
 				_root = new_node;
+				_start = _root;
 				return (make_pair(iterator(_root), true));
 			}
-			current = _node_min(_root);
+			current = _start;
 			while (_comp(current->data.first, val.first))
 			{
 				tmp = _node_next(current);
@@ -66,16 +67,18 @@ namespace ft
 			}
 			if (current->data.first == val.first)
 				return make_pair(iterator(current), false);
-			while (current !=_start && !_node_has_leaf(current))
-				current = _node_prev(current);
 			if (this->_comp(current->data.first, val.first))
 			{
+				while (current !=_start && current->right != NULL)
+					current = _node_prev(current);
 				_node_alloc.construct(new_node, Node(val));
 				current->right = new_node;
 				new_node->parent = current;
 			}
 			else
 			{
+				while (current !=_start && current->left != NULL)
+					current = _node_prev(current);
 				_node_alloc.construct(new_node, Node(val));
 				current->left = new_node;
 				new_node->parent = current;
@@ -83,9 +86,20 @@ namespace ft
 			_start = _node_min(_root);
 			return make_pair(iterator(new_node), true);
 		}
+		
 		iterator insert (iterator position, const data_type& val)
-		{}
+		{
+			(void)position;
+			return(insert(val).first);
+		}
 
+		template <class InputIterator>
+  		void insert (InputIterator first, InputIterator last)
+		{
+			for(iterator ite = first ; ite != last ; ite++)
+				insert((*ite));
+		}
+		
 		iterator begin()
 		{
 			if (_root)

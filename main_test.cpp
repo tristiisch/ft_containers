@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/20 22:12:25 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/21 13:59:25 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,28 @@
 
 int		main(void)
 {
-	TESTED_LIB::map<int, int> mp;
-	TESTED_LIB::pair<int, int> p(12, 13);
-
-
-	mp.insert(p);
-	TESTED_LIB::map<int, int>::iterator ite = mp.begin();
+	TESTED_LIB::map<char, int> mp;
+	TESTED_LIB::map<char, int> mp2;
+	
 	/*while (ite != mp.end())
 	{
 		std::cout << "Key = " << ite->first << " && Value = " << ite->second <<  std::endl;
 		// ++ite;
 		ite++;
 	}*/
-	mp.insert(TESTED_LIB::pair<int, int>(15, 13));
-	mp.insert(TESTED_LIB::pair<int, int>(17, 13));
-	mp.insert(TESTED_LIB::pair<int, int>(19, 13));
-	mp.insert(TESTED_LIB::pair<int, int>(2, 13));
-	mp.insert(TESTED_LIB::pair<int, int>(15, 13));
-	mp.insert(TESTED_LIB::pair<int, int>(150, 13));
-	ite = mp.begin();
-	while (ite != mp.end())
+	mp.insert(ft::pair<char,int>('a', 30));
+    mp.insert(ft::pair<char,int>('c', 70));
+    mp.insert(ft::pair<char,int>('b', 20));
+    mp.insert(ft::pair<char,int>('d', 10));
+    mp.insert(ft::pair<char,int>('e', 50));
+    mp.insert(ft::pair<char,int>('0', 101));
+    mp.insert(ft::pair<char,int>('f', 40));
+    mp.insert(ft::pair<char,int>('g', 60));
+    mp.insert(ft::pair<char,int>('2', 100));
+	
+	//mp2.insert(mp.begin(), mp.end());
+	TESTED_LIB::map<char, int>::iterator ite = mp.begin();
+	while (ite != mp2.end())
 	{
 		std::cout << "Key = " << ite->first << " && Value = " << ite->second <<  std::endl;
 		 ++ite;
