@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/21 17:49:36 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/22 14:12:27 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ public:
 
 	tree_iterator(void) {}
 	tree_iterator(T* other) : _node(other) {}
-	//tree_iterator(Node* other) { _node = other->_node; };
 	tree_iterator(const tree_iterator &src) { *this = src; }
 
 
@@ -193,10 +192,6 @@ public:
 		return tree_iterator(tmp);
 	}
 
-	//COMPOUND ASSIGNMENTS
-	//tree_iterator& operator +=(difference_type b) {_node += b; return *this; };	// a += b
-	//tree_iterator& operator -=(difference_type b) {_node -= b; return *this; };	// a -= b
-//
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (_node->data); }											// *a
 	const_reference operator *() const { return (_node->data); }								// *a

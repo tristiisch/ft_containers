@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 21:38:18 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/22 11:30:59 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
 		typedef typename ft::tree<value_type, Key>::iterator	iterator;
 
 
-	
+
 		explicit map(const key_compare& comp = Compare(),
              const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
@@ -78,10 +78,6 @@ namespace ft
 			_tree.insert(first, last);
 		}
 
-		// iterator insert (iterator position, const value_type& val) {}
-		// 
-		// template <class InputIterator>
-  		// void insert (InputIterator first, InputIterator last) {}
 
 		iterator find(const key_type& k) { return _tree.find(k); }
 
@@ -103,7 +99,7 @@ namespace ft
 
 		size_type erase(const key_type& k) { return _tree.erase(k); }
 
-		void erase(iterator first, iterator last) 
+		void erase(iterator first, iterator last)
 		{
 			while (first != last)
 				_tree.erase(((*first)++).first);
@@ -117,7 +113,7 @@ namespace ft
 
 		// A check
 		size_type max_size() const { return allocator_type().max_size() / 5; }
-		
+
 		iterator begin() { return _tree.begin(); }
 
 		// const_iterator begin() const { return _start; }
