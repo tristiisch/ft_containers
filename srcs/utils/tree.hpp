@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/22 18:22:45 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/22 23:20:18 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ namespace ft
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
-			node_pointer new_node; 
+			node_pointer new_node;
 			node_pointer current;
 
 			if (_root == NULL)
@@ -73,7 +73,7 @@ namespace ft
 					return ft::make_pair(iterator(current), false);
 				else if (_comp(current->data.first, val.first) && current->right != NULL)
 					current = current->right;
-				else 
+				else
 					break;
 			}
 			new_node = _node_alloc.allocate(1);
@@ -93,7 +93,7 @@ namespace ft
 			++_size;
 			return ft::make_pair(iterator(new_node), true);
 		}
-		
+
 		iterator insert (iterator position, const data_type& val)
 		{
 			(void)position;
@@ -159,7 +159,7 @@ namespace ft
 			{
 				while (!_node_has_leaf(tmp1))
 				{
-					
+
 				}
 				//std::cout << "Hey" << std::endl;
 				tmp2 = _node_next(tmp1);
@@ -212,7 +212,7 @@ namespace ft
 			}
 			return const_iterator(_end);
 		}
-			
+
 		size_type count(const Key& k) const
 		{
 			if (this->find(k) != const_iterator(_end))
@@ -220,7 +220,7 @@ namespace ft
 			else
 				return 0;
 		}
-		
+
 		size_type erase(const Key& k)
 		{
 			node_pointer current = _start;
@@ -257,32 +257,33 @@ namespace ft
 			erase((*position).first);
 		}
 
-		void erase(iterator first, iterator last) 
+		void erase(iterator first, iterator last)
 		{
 			while (first != last)
 				erase((first++)->first);
 		}
 
-		iterator lower_bound(const Key& k)
+		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
 		{
-			node_pointer node = _start;
-			while (node != NULL)
-			{
-				data_type pair = node->data;
-				if (pair.first == k)
-					break;
-				node = _node_next(node);
-			}
-			if (!node)
-				return NULL;
-			return (_node_prev(node));
+			node_pointer current = _start;
+			while (current && _comp(k, _node_next(current)))
+				current = _node_next(current);
+			return (iterator(current));
+		}
+
+		iterator upper_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			node_pointer current = _start;
+			while (current && _comp(k, current->data.first))
+				current = _node_next(current);
+			return (iterator(current));
 		}
 
 		// TODO Verify
 		size_type max_size() const {
 			return std::min<size_type>(_node_alloc.max_size(), std::numeric_limits<difference_type>::max());
 		}
-		
+
 	private :
 
 		void _destroy(node_pointer node)

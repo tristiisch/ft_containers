@@ -139,10 +139,14 @@ namespace ft
 
 		size_type count(const key_type& k) const { return _tree.count(k); }
 
+		iterator lower_bound (const key_type& k) { return _tree.lower_bound(k); }
+
+		const_iterator lower_bound (const key_type& k) const { return _tree.upper_bound(k); }
+
 		allocator_type get_allocator() const { return _alloc; }
 
 		mapped_type& operator[](const key_type &key) { return insert(ft::make_pair(key, mapped_type())).first->second; }
-		
+
 
 	private :
 		allocator_type 					_alloc;
