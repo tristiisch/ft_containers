@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 21:38:21 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/22 18:22:45 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include "reverse_iterator.hpp"
 #include "tree_iterator.hpp"
-#include "reverse_tree_iterator.hpp"
 #include "../vector.hpp"
 
 namespace ft
@@ -35,6 +35,8 @@ namespace ft
 		typedef typename node_alloc::size_type			size_type;
 		typedef ft::tree_iterator<node_type>			iterator;
 		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
+		typedef ft::const_tree_iterator<node_type>		const_iterator;
+		typedef typename Value_alloc::difference_type difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -44,6 +46,7 @@ namespace ft
 
 		~tree()
 		{
+			//erase(_start, _end);
 			clear();
 		}
 
@@ -111,9 +114,21 @@ namespace ft
 			return NULL;
 		}
 
+		const_iterator begin() const
+		{
+			if (_root)
+				return const_iterator(_start);
+			return NULL;
+		}
+
 		iterator end()
 		{
 			return iterator(_end);
+		}
+
+		const_iterator end() const
+		{
+			return const_iterator(_end);
 		}
 
 		reverse_iterator rbegin()
@@ -125,7 +140,7 @@ namespace ft
 
 		reverse_iterator rend()
 		{
-			return iterator(_end);
+			return reverse_iterator(_end);
 		}
 
 		size_type size() const
@@ -133,7 +148,6 @@ namespace ft
 			return _size;
 		}
 
-		// clear degeux qui fonctionne avec vector
 		void clear()
 		{
 			if (!_root)
@@ -186,23 +200,22 @@ namespace ft
 			return iterator(_end);
 		}
 
-		// should return const ite
-		iterator find(const Key& k) const
+		const_iterator find(const Key& k) const
 		{
 			node_pointer node = _start;
 			while (node != NULL)
 			{
 				data_type pair = node->data;
 				if (pair.first == k)
-					return iterator(node);
+					return const_iterator(node);
 				node = _node_next(node);
 			}
-			return iterator(_end);
+			return const_iterator(_end);
 		}
 			
 		size_type count(const Key& k) const
 		{
-			if (this->find(k) != iterator(_end))
+			if (this->find(k) != const_iterator(_end))
 				return 1;
 			else
 				return 0;
@@ -240,6 +253,16 @@ namespace ft
 			return (1);
 		}
 
+		void erase(iterator position) {
+			erase((*position).first);
+		}
+
+		void erase(iterator first, iterator last) 
+		{
+			while (first != last)
+				erase((first++)->first);
+		}
+
 		iterator lower_bound(const Key& k)
 		{
 			node_pointer node = _start;
@@ -254,7 +277,12 @@ namespace ft
 				return NULL;
 			return (_node_prev(node));
 		}
-	
+
+		// TODO Verify
+		size_type max_size() const {
+			return std::min<size_type>(_node_alloc.max_size(), std::numeric_limits<difference_type>::max());
+		}
+		
 	private :
 
 		void _destroy(node_pointer node)
@@ -279,7 +307,7 @@ namespace ft
 			_deallocate(node);
 		}
 
-		void _deallocate(node_pointer node) 
+		void _deallocate(node_pointer node)
 		{
 			if (node->left)
 				_deallocate(node->left);
