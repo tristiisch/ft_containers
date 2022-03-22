@@ -160,7 +160,6 @@ public:
 
 	tree_iterator(void) : _node(NULL) {}
 	tree_iterator(T* other) : _node(other) {}
-	//tree_iterator(Node* other) { _node = other->_node; };
 	tree_iterator(const tree_iterator &src) { *this = src; }
 
 
@@ -193,10 +192,6 @@ public:
 		return tree_iterator(tmp);
 	}
 
-	//COMPOUND ASSIGNMENTS
-	//tree_iterator& operator +=(difference_type b) {_node += b; return *this; };	// a += b
-	//tree_iterator& operator -=(difference_type b) {_node -= b; return *this; };	// a -= b
-//
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator *() { return (_node->data); }											// *a
 	const_reference operator *() const { return (_node->data); }								// *a

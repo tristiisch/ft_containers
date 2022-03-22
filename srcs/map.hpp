@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
 /*   Updated: 2022/03/22 18:24:14 by tglory           ###   ########lyon.fr   */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +44,7 @@ namespace ft
 		typedef typename ft::tree<value_type, Key>::const_iterator		const_iterator;
 
 
-	
+
 		explicit map(const key_compare& comp = Compare(),
              const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
@@ -102,7 +103,13 @@ namespace ft
 
 		size_type erase(const key_type& k) { return _tree.erase(k); }
 
-		void erase(iterator first, iterator last) { _tree.erase(first, last); }
+
+		void erase(iterator first, iterator last)
+		{
+			while (first != last)
+				_tree.erase(((*first)++).first);
+		}
+
 
 		void clear() { _tree.clear(); }
 
@@ -110,8 +117,10 @@ namespace ft
 
 		size_type size() const { return _tree.size(); }
 
-		size_type max_size() const { return _tree.max_size(); }
-		
+
+		// A check
+		size_type max_size() const { return allocator_type().max_size() / 5; }
+
 		iterator begin() { return _tree.begin(); }
 
 		const_iterator begin() const { return _tree.begin(); }
