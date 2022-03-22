@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 19:25:37 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/22 15:42:30 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,15 @@ namespace ft
 
 		// pair<iterator, iterator> equal_range(const key_type& k) {}
 
-		// void erase(iterator position) {}
+		void erase(iterator position) {_tree.erase((*position).first); }
 
 		size_type erase(const key_type& k) { return _tree.erase(k); }
 
-		// void erase(iterator first, iterator last) {}
+		void erase(iterator first, iterator last) 
+		{
+			while (first != last)
+				_tree.erase(((*first)++).first);
+		}
 
 		void clear() { _tree.clear(); }
 

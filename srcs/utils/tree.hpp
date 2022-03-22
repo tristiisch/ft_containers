@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/21 19:59:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/22 15:42:46 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ namespace ft
 				_root = new_node;
 				_start = _root;
 				++_size;
-				return (make_pair(iterator(_root), true));
+				return (ft::make_pair(iterator(_root), true));
 			}
 			current = _root;
 			while (current != NULL)
@@ -69,7 +69,7 @@ namespace ft
 				if (_comp(val.first, current->data.first) && current->left != NULL)
 					current = current->left;
 				else if (current->data.first == val.first)
-					return make_pair(iterator(current), false);
+					return ft::make_pair(iterator(current), false);
 				else if (_comp(current->data.first, val.first) && current->right != NULL)
 					current = current->right;
 				else 
@@ -90,7 +90,7 @@ namespace ft
 			}
 			_start = _node_min(_root);
 			++_size;
-			return make_pair(iterator(new_node), true);
+			return ft::make_pair(iterator(new_node), true);
 		}
 		
 		iterator insert (iterator position, const data_type& val)
@@ -221,25 +221,36 @@ namespace ft
 				return 0;
 		}
 		
-		// A faire
 		size_type erase(const Key& k)
 		{
-			size_type i = 1;
-			node_pointer node = _start;
-			while (node != NULL)
+			node_pointer current = _start;
+			node_pointer next;
+			while (current && current->data.first != k)
 			{
-				data_type pair = node->data;
-				if (pair.first == k)
-					break;
-				node = _node_next(node);
+				current = _node_next(current);
+				if (current == NULL)
+					return (0);
 			}
-			if (!node)
-				return 0;
-			//_destroy(node);
-			// TODO Need to remove address in childrens & parents
-			_node_alloc.deallocate(node, 1);
-			_size -= i;
-			return i;
+			if (!_node_has_leaf(current))
+			{
+				next = _node_next(current);
+				next->parent = current->parent;
+				if (current->left)
+					current->left->parent = next;
+				if (_is_left_node(current))
+					current->parent->left = next;
+				else
+					current->parent->right = next;
+			}
+			else
+			{
+				if (_is_left_node(current))
+					current->parent->left = NULL;
+				if (_is_right_node(current))
+					current->parent->right = NULL;
+			}
+			_node_alloc.deallocate(current, 1);
+			return (1);
 		}
 
 		iterator lower_bound(const Key& k)

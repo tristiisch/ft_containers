@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/21 16:56:01 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:29:27 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,12 @@ int		main(void)
 	mp.insert(ft::pair<char,int>('B', 100));
 	mp.insert(ft::pair<char,int>('D', 100));
 	mp.insert(ft::pair<char,int>('A', 100));	
-	//mp2.insert(mp.begin(), mp.end());
-	TESTED_LIB::map<char, int>::iterator ite = mp.begin();
+	mp2.insert(mp.begin(), mp.end());
+	TESTED_LIB::map<char, int>::iterator ite = mp2.begin();
+	mp2.erase('A');
+	mp2.erase('2');
+	mp2.erase('E');
+	mp2.erase('U');
 	while (ite != mp2.end())
 	{
 		std::cout << "Key = " << ite->first << " && Value = " << ite->second <<  std::endl;
