@@ -115,16 +115,16 @@ static void mapErase()
 	map1.insert(ft::pair<char,int>('2', 100));
 	std::cout << map1 << std::endl;
 
-	/*ft::map<char,int>::iterator it = map1.find('b');
+	ft::map<char,int>::iterator it = map1.find('b');
 	map1.erase(it);
-	std::cout << map1 << std::endl;*/
+	std::cout << map1 << std::endl;
 
 	map1.erase('c');
 	std::cout << map1 << std::endl;
 
-	/*it = map1.find('e');
+	it = map1.find('e');
 	map1.erase(it, map1.end());
-	std::cout << map1 << std::endl;*/
+	std::cout << map1 << std::endl;
 }
 
 static void mapFind()

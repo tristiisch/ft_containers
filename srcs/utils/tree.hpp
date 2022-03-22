@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/22 15:42:46 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/22 18:22:45 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ namespace ft
 
 		~tree()
 		{
+			//erase(_start, _end);
 			clear();
 		}
 
@@ -147,7 +148,6 @@ namespace ft
 			return _size;
 		}
 
-		// clear degeux qui fonctionne avec vector
 		void clear()
 		{
 			if (!_root)
@@ -251,6 +251,16 @@ namespace ft
 			}
 			_node_alloc.deallocate(current, 1);
 			return (1);
+		}
+
+		void erase(iterator position) {
+			erase((*position).first);
+		}
+
+		void erase(iterator first, iterator last) 
+		{
+			while (first != last)
+				erase((first++)->first);
 		}
 
 		iterator lower_bound(const Key& k)
