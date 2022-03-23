@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/23 17:05:34 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/23 22:54:29 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,16 @@ namespace ft
 	class tree
 	{
 	public :
-		typedef Value									data_type;
-		typedef Node_alloc								node_alloc;
-		typedef Node									node_type;
-		typedef Node *									node_pointer;
-		typedef typename node_alloc::size_type			size_type;
-		typedef ft::tree_iterator<node_type>			iterator;
-		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
-		typedef ft::const_tree_iterator<node_type>		const_iterator;
-		typedef typename Value_alloc::difference_type difference_type;
+		typedef Value											data_type;
+		typedef Node_alloc										node_alloc;
+		typedef Node											node_type;
+		typedef Node *											node_pointer;
+		typedef typename node_alloc::size_type					size_type;
+		typedef ft::tree_iterator<node_type>					iterator;
+		typedef ft::reverse_tree_iterator<node_type>			reverse_iterator;
+		typedef ft::const_tree_iterator<node_type>				const_iterator;
+		typedef ft::const_reverse_tree_iterator<node_type>		const_reverse_iterator;
+		typedef typename Value_alloc::difference_type 			difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -139,6 +140,18 @@ namespace ft
 		}
 
 		reverse_iterator rend()
+		{
+			return reverse_iterator(_end);
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			if (_root)
+				return reverse_iterator(_node_max(_root));
+			return NULL;
+		}
+
+		const_reverse_iterator rend() const
 		{
 			return reverse_iterator(_end);
 		}
@@ -270,7 +283,7 @@ namespace ft
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
 		{
 			node_pointer current = _start;
-			while (current && _comp(k, _node_next(current)))
+			while (current && _comp(k, _node_next(current)->data.first))
 				current = _node_next(current);
 			return (iterator(current));
 		}

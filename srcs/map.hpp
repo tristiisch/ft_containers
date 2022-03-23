@@ -42,6 +42,7 @@ namespace ft
 		typedef typename ft::tree<value_type, Key>::iterator			iterator;
 		typedef typename ft::tree<value_type, Key>::reverse_iterator	reverse_iterator;
 		typedef typename ft::tree<value_type, Key>::const_iterator		const_iterator;
+		typedef typename ft::tree<value_type, Key>::const_reverse_iterator		const_reverse_iterator;
 
 		explicit map(const key_compare& comp = Compare(), const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
@@ -122,11 +123,11 @@ namespace ft
 
 		reverse_iterator rbegin() { return _tree.rbegin(); }
 
-		// const_reverse_iterator rbegin() const { return _start; }
+		const_reverse_iterator rbegin() const { return _tree.rbegin(); }
 
 		reverse_iterator rend() { return _tree.rend(); }
 
-		// const_reverse_iterator rend() const { return _end; }
+		const_reverse_iterator rend() const { return _tree.rend(); }
 
 		size_type count(const key_type& k) const { return _tree.count(k); }
 

@@ -305,7 +305,7 @@ static void iteratorTest()
 
 static void mapVarious()
 {
-	ft::map<char, int> map;
+	/*ft::map<char, int> map;
 	ft::map<char, int>::iterator itlow, itup;
 
 	map.insert(ft::pair<char,int>('a', 30));
@@ -325,7 +325,7 @@ static void mapVarious()
 	itup = map.upper_bound('0');
 	std::cout << itup->first << "=" << itup->second << std::endl;
 	//itup = map.upper_bound('-');
-	//std::cout << itup->first << "=" << itup->second << std::endl;
+	//std::cout << itup->first << "=" << itup->second << std::endl;*/
 }
 
 int main()
