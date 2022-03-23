@@ -303,6 +303,31 @@ static void iteratorTest()
 	(void)constIt;*/
 }
 
+static void mapVarious()
+{
+	ft::map<char, int> map;
+	ft::map<char, int>::iterator itlow, itup;
+
+	map.insert(ft::pair<char,int>('a', 30));
+	map.insert(ft::pair<char,int>('c', 70));
+	map.insert(ft::pair<char,int>('b', 20));
+	map.insert(ft::pair<char,int>('d', 10));
+	map.insert(ft::pair<char,int>('e', 50));
+	map.insert(ft::pair<char,int>('0', 101));
+	map.insert(ft::pair<char,int>('f', 40));
+	map.insert(ft::pair<char,int>('g', 60));
+	map.insert(ft::pair<char,int>('2', 100));
+
+	itlow = map.lower_bound('b');
+	std::cout << itlow->first << "=" << itlow->second << std::endl;
+	//itlow = map.lower_bound('-');
+	//std::cout << itlow->first << "=" << itlow->second << std::endl;
+	itup = map.upper_bound('0');
+	std::cout << itup->first << "=" << itup->second << std::endl;
+	//itup = map.upper_bound('-');
+	//std::cout << itup->first << "=" << itup->second << std::endl;
+}
+
 int main()
 {
 	mapInsert();
@@ -330,4 +355,8 @@ int main()
 	std::cout << std::endl;
 	(void)&iteratorTest;
 	iteratorTest();
+
+	std::cout << std::endl;
+	(void)&mapVarious;
+	mapVarious();
 }
