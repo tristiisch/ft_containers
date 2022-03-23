@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/22 23:20:18 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/23 17:05:34 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ namespace ft
 		template <class InputIterator>
   		void insert (InputIterator first, InputIterator last)
 		{
-			for(iterator ite = first ; ite != last ; ite++)
+			for(InputIterator ite = first ; ite != last ; ite++)
 				insert((*ite));
 		}
 
@@ -148,11 +148,18 @@ namespace ft
 			return _size;
 		}
 
+		bool empty() const
+		{
+			return size() == 0;
+		}
+
 		void clear()
 		{
-			if (!_root)
-				return;
-			_deallocate(_root);
+			if (_root)
+				_deallocate(_root);
+			_size = 0;
+			_start = NULL;
+			_root = NULL;
 			//_iterator_all_under(_root, &tree::clear2);
 			/*node_pointer tmp1 = _start, tmp2;
 			while (tmp1 != NULL)
@@ -182,9 +189,6 @@ namespace ft
 				_node_alloc.deallocate(*it, 1);
 				it++;
 			}*/
-			_size = 0;
-			_start = NULL;
-			_root = NULL;
 		}
 
 		iterator find(const Key& k)
@@ -285,28 +289,6 @@ namespace ft
 		}
 
 	private :
-
-		void _destroy(node_pointer node)
-		{
-			if (_is_left_node(node))
-			{
-				node->parent->left = NULL;
-			}
-			else if (_is_right_node(node))
-			{
-				node->parent->right = NULL;
-			}
-			if (!node->right)
-			{
-				_destroy(node->right);
-			}
-			if (!node->left)
-			{
-				_destroy(node->left);
-			}
-			insert(node->data);
-			_deallocate(node);
-		}
 
 		void _deallocate(node_pointer node)
 		{

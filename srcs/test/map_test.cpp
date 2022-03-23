@@ -11,7 +11,7 @@
   */
 
 #ifndef IS_STL
-# define IS_STL 1
+# define IS_STL 0
 #endif
 
 
@@ -287,8 +287,8 @@ static void iteratorTest()
 	std::cout << "*vector.rbegin() = " << map.rbegin()->first << std::endl;
 	printIteratorTest("reverseIt", map.rbegin(), map.rend());
 
-	/*const ft::map<char, int> constMap(map);
-	ft::map<char, int>::const_iterator itConst(constMap.begin());
+	//const ft::map<char, int> constMap(map);
+	/*ft::map<char, int>::const_iterator itConst(constMap.begin());
 	(void)itConst;
 	std::cout << "Iterator const test :" << std::endl;
 	std::cout << "*constVector.begin() = " << constMap.begin()->second << std::endl;
