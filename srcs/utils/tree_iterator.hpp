@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 16:53:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 17:27:44 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <cstddef>
 #include "pair.hpp"
 #include "iterator.hpp"
+#include <iostream>
 #include <memory>
 #include <algorithm>
 #include <cstddef>
@@ -124,6 +125,29 @@ Node _node_prev(Node node)
 	return NULL;
 }
 
+template <class Node>
+bool _verify_node(Node node)
+{
+	if (node && node->parent && !(_is_right_node(node) || _is_left_node(node)))
+	{
+		std::cerr << "Node " << node << " error verify : parent not linked correctly" << std::endl;
+		exit(1);
+		return false;
+	}
+	if (node->right && node->right->parent != node)
+	{
+		std::cerr << "Node " << node << " error verify : right not linked correctly" << std::endl;
+		exit(1);
+		return false;
+	}
+	if (node->left && node->left->parent != node)
+	{
+		std::cerr << "Node " << node << " error verify : left not linked correctly" << std::endl;
+		exit(1);
+		return false;
+	}
+	return true;
+}
 
 namespace ft
 {
