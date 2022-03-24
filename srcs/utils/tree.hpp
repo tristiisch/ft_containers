@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 17:43:19 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/24 18:06:24 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,16 @@ namespace ft
 			{
 				next = _node_next(current);
 				if (next && current->parent)
+				{	
+					if (_is_left_node(next))
+						current->parent->left = NULL;
+					else if (_is_right_node(next))
+						current->parent->right = NULL;
 					next->parent = current->parent;
+				}
 				else
 					next->parent = NULL;
+
 				if (current->left)
 				{	
 					current->left->parent = next;
@@ -212,7 +219,7 @@ namespace ft
 			{
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
-				_size--;
+				_size = 0;
 				_start = NULL;
 				_root = NULL;
 				return (1);

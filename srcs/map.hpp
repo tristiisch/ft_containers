@@ -93,6 +93,15 @@ namespace ft
 
 		}
 
+		map& operator=(const map& x)
+		{
+			if (&x == this)
+				return (*this);
+			this->clear();
+			this->insert(x.begin(), x.end());
+			return (*this);
+		}
+
 		pair<iterator,bool> insert(const value_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
 			return (_tree.insert(val));
