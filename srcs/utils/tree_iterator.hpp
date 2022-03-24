@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/23 22:51:47 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 16:08:15 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 template <class Node>
 bool _is_right_node(Node node)
 {
-	if (node->parent && node->parent->right == node)
+	if (node && node->parent && node->parent->right == node)
 		return true;
 	return false;
 }
@@ -37,7 +37,7 @@ bool _is_right_node(Node node)
 template <class Node>
 bool _is_left_node(Node node)
 {
-	if (node->parent && node->parent->left == node)
+	if (node && node->parent && node->parent->left == node)
 		return true;
 	return false;
 }
@@ -63,7 +63,7 @@ Node _node_max(Node node) {
 template <class Node>
 bool _node_has_leaf(Node node)
 {
-	if (node->right== NULL && node->left == NULL)
+	if (node->right == NULL && node->left == NULL)
 		return true;
 	return false;
 }
@@ -95,25 +95,33 @@ bool _node_is_root(Node node)
 template <class Node>
 Node _node_next(Node node)
 {
-	if (node->right != NULL) {
-		return _node_min(node->right);
+	if (node)
+	{
+		if (node->right != NULL) {
+			return _node_min(node->right);
+		}
+		while (_is_right_node(node)) {
+			node = node->parent;
+		}
+		return node->parent;
 	}
-	while (_is_right_node(node)) {
-		node = node->parent;
-	}
-	return node->parent;
+	return NULL;
 }
 
 template <class Node>
 Node _node_prev(Node node)
 {
-	if (node->left != NULL) {
-		return _node_max(node->left);
+	if (node)
+	{
+		if (node->left != NULL) {
+			return _node_max(node->right);
+		}
+		while (_is_left_node(node)) {
+			node = node->parent;
+		}
+		return node->parent;
 	}
-	while (_is_left_node(node)) {
-		node = node->parent;
-	}
-	return node->parent;
+	return NULL;
 }
 
 
@@ -177,7 +185,7 @@ public:
 
 
 	// INCREMENTERS
-	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
+	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a // 
 	tree_iterator operator ++(int) 															// a++
 	{
 		T* tmp = _node;
@@ -198,6 +206,59 @@ public:
 	pointer operator ->() { return &(_node->data); }											// a->b
 	pointer operator ->() const { return &(_node->data); }											// a->b
 
+	T* base() const {return _node;};
+	
+	private:
+		T* _node;
+};
+
+template <typename T>
+class	const_tree_iterator
+{
+public:
+
+	typedef T							data_type;
+	typedef typename T::value_type    	pair;
+	typedef pair&						reference;
+	typedef const pair&					const_reference;
+	typedef pair*						pointer;
+	typedef const pair*					const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
+
+	const_tree_iterator(void) : _node(NULL) {}
+	const_tree_iterator(T* other) : _node(other) {}
+	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
+	const_tree_iterator(const tree_iterator<data_type> &src) { _node = src.base(); }
+	
+	virtual ~const_tree_iterator() {}
+
+	const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
+
+	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(const_tree_iterator const& b) const { return (_node == b._node); }
+	bool operator !=(const_tree_iterator const& b) const { return (!(_node == b._node)); }
+
+	// INCREMENTERS
+	const_tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
+	const_tree_iterator operator ++(int) 														// a++
+	{
+		T* tmp = _node;
+		_node = _node_next(_node);
+		return const_tree_iterator(tmp);
+	}
+	const_tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }			// --a
+	const_tree_iterator operator --(int)														// a--
+	{
+		T* tmp = _node;
+		_node = _node_prev(_node);
+		return const_tree_iterator(tmp);
+	}
+
+	//DEREFERENCING & ADDRESS STUFF
+	const_reference operator *() const { return (_node->data); }								// *a
+	pointer operator ->() const { return &(_node->data); }
+	
+	T* base() const {return _node;};									// a->b
 
 	private:
 		T* _node;
@@ -251,58 +312,6 @@ public:
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() { return &(_node->data); }											// a->b
 	pointer operator ->() const { return &(_node->data); }											// a->b
-
-	private:
-		T* _node;
-};
-
-template <typename T>
-class	const_tree_iterator
-{
-public:
-
-	typedef T							data_type;
-	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
-	typedef typename std::ptrdiff_t 	difference_type;
-
-	const_tree_iterator(void) : _node(NULL) {}
-	const_tree_iterator(T* other) : _node(other) {}
-	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
-	// TODO
-	//const_tree_iterator(const tree_iterator<T> &src) : _node(src._node) {}
-
-	virtual ~const_tree_iterator() {}
-
-	const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
-
-	// BOOLEANS : pas besoin dans ce cas
-	bool operator ==(const_tree_iterator const& b) const { return (_node == b._node); }
-	bool operator !=(const_tree_iterator const& b) const { return (!(_node == b._node)); }
-
-
-	// INCREMENTERS
-	const_tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
-	const_tree_iterator operator ++(int) 														// a++
-	{
-		T* tmp = _node;
-		_node = _node_next(_node);
-		return const_tree_iterator(tmp);
-	}
-	const_tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }			// --a
-	const_tree_iterator operator --(int)														// a--
-	{
-		T* tmp = _node;
-		_node = _node_prev(_node);
-		return const_tree_iterator(tmp);
-	}
-
-	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() const { return &(_node->data); }										// a->b
 
 	private:
 		T* _node;
