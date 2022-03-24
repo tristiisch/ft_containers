@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 17:27:44 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 19:43:18 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ Node _node_prev(Node node)
 	if (node)
 	{
 		if (node->left != NULL) {
-			return _node_max(node->right);
+			return _node_max(node->left);
 		}
 		while (_is_left_node(node)) {
 			node = node->parent;
@@ -304,7 +304,8 @@ public:
 
 	reverse_tree_iterator(void) : _node(NULL) {}
 	reverse_tree_iterator(T* other) : _node(other) {}
-	reverse_tree_iterator(const reverse_tree_iterator &src) { *this = src; }
+	//reverse_tree_iterator(const reverse_tree_iterator &src) { *this = src; }
+	reverse_tree_iterator(const reverse_tree_iterator &src) { _node = src.base(); }
 
 	virtual ~reverse_tree_iterator() {}
 
@@ -358,7 +359,9 @@ public:
 
 
 	const_reverse_tree_iterator(void) : _node(NULL) {}
-	const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { *this = src; }
+	const_reverse_tree_iterator(T* other) : _node(other) {}
+	//const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { *this = src; }
+	const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { _node = src.base(); }
 
 	virtual ~const_reverse_tree_iterator() {}
 

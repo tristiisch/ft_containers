@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 18:08:07 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 19:37:22 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ namespace ft
 
 		~tree()
 		{
-			clear();
+			//clear();
 			_root = NULL;
 			_start = NULL;
 			_end = NULL;
@@ -157,7 +157,7 @@ namespace ft
 
 		const_reverse_iterator rend() const
 		{
-			return reverse_iterator(_end);
+			return const_reverse_iterator(_end);
 		}
 
 		size_type size() const

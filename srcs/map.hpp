@@ -158,11 +158,11 @@ namespace ft
 
 		const_iterator end() const { return _tree.end(); }
 
-		reverse_iterator rbegin() { return _tree.rend(); }
+		reverse_iterator rbegin() { return _tree.rbegin(); }
 
 		const_reverse_iterator rbegin() const { return _tree.rbegin(); }
 
-		reverse_iterator rend() { return _tree.rbegin(); }
+		reverse_iterator rend() { return _tree.rend(); }
 
 		const_reverse_iterator rend() const { return _tree.rend(); }
 
@@ -175,6 +175,12 @@ namespace ft
 		allocator_type get_allocator() const { return _alloc; }
 
 		mapped_type& operator[](const key_type &key) { return insert(ft::make_pair(key, mapped_type())).first->second; }
+
+		void check_nodes()
+		{
+			for (iterator ite = begin(); ite != end(); ite++)
+				_verify_node(ite.base());
+		}
 
 	private :
 		allocator_type 					_alloc;

@@ -128,15 +128,12 @@ function diff_our_STL {
 		rm -f output output_STL
 		exit 1
 	else
-		echo -e "\033[0;32mOK\033[0m"
+		echo -e "\033[0;32mOK diff\033[0m"
 	fi
 }
 
 compile_our
 launch_our
-
-memory_check
-rm -f $EXEC
 
 compile_STL
 launch_STL
@@ -144,3 +141,6 @@ launch_STL
 diff_our_STL
 
 rm -f output output_STL
+
+memory_check
+rm -f $EXEC
