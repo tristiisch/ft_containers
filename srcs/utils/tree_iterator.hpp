@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 19:43:18 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 20:34:08 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,30 +125,6 @@ Node _node_prev(Node node)
 	return NULL;
 }
 
-template <class Node>
-bool _verify_node(Node node)
-{
-	if (node && node->parent && !(_is_right_node(node) || _is_left_node(node)))
-	{
-		std::cerr << "Node " << node << " error verify : parent not linked correctly" << std::endl;
-		exit(1);
-		return false;
-	}
-	if (node->right && node->right->parent != node)
-	{
-		std::cerr << "Node " << node << " error verify : right not linked correctly" << std::endl;
-		exit(1);
-		return false;
-	}
-	if (node->left && node->left->parent != node)
-	{
-		std::cerr << "Node " << node << " error verify : left not linked correctly" << std::endl;
-		exit(1);
-		return false;
-	}
-	return true;
-}
-
 namespace ft
 {
 
@@ -172,6 +148,10 @@ struct	_node
 
 		}
 
+		~_node()
+		{
+			
+		}
 
 };
 
@@ -397,4 +377,54 @@ public:
 		T* _node;
 };
 
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
+{
+	outputFile << node->first << "=" << node->second;
+	return outputFile;
+}
+
+template <typename T, typename U>
+std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
+{
+	outputFile << pair.first << "=" << pair.second;
+	return outputFile;
+}
+
+template <class Node>
+bool _verify_node(Node node)
+{
+	if (node && node->parent)
+	{
+		if (_is_right_node(node) && node->parent->right != node)
+		{
+			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
+			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in right (has " << node->parent->right->data << ")\033[0m" << std::endl;
+			exit(1);
+		}
+		else if (_is_left_node(node) && node->parent->left != node)
+		{
+			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
+			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in left (has " << node->parent->left->data << ")\033[0m" << std::endl;
+			exit(1);
+			return false;
+		}
+	}
+	if (node->right && node->right->parent != node)
+	{
+		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
+		if (node->right->parent)
+			std::cerr << "\033[0;31mNode child right " << node->right->data << " has not this node in right (has " << node->right->parent->data << ")\033[0m" << std::endl;
+		exit(1);
+		return false;
+	}
+	if (node->left && node->left->parent != node)
+	{
+		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
+		exit(1);
+		return false;
+	}
+	return true;
 }

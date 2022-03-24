@@ -10,6 +10,7 @@ SRCS="srcs/test/map_test.cpp"
 EXEC=map_test.out
 MAX_NB_LINE=4
 
+WORK=0
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
 DIFF_VERSION=`diff --version | head -n 1 | sed 's/|/ /' | awk '{print $4}' | sed -e 's/\./000/g' -e 's/000/\./1'`
 if [ $(echo "$DIFF_VERSION >= 3.4" | bc -l) == 1 ]; then
@@ -105,7 +106,7 @@ function memory_check {
 			rm -f $EXEC output
 			compile_STL
 			memory_check_STL
-			exit 1
+			WORK=1
 		fi
 	elif command -v leaks &>/dev/null ; then
 		if ! leaks -atExit --q -- ./$EXEC &>/dev/null ; then
@@ -113,7 +114,7 @@ function memory_check {
 			leaks -atExit --q -- ./$EXEC
 			echo -e "\033[0;31mKO : leaks\033[0m"
 			rm -f $EXEC output
-			exit 1
+			WORK=1
 		fi
 	else
 		echo -e "\033[0;33mWARN: can't do memory check, unable to find valgrind or leaks\033[0m"
@@ -126,7 +127,7 @@ function diff_our_STL {
 		echo -e "\033[0;31mKO : prog works not like STL\033[0m"
 		diff $DIFF_FLAGS output output_STL
 		rm -f output output_STL
-		exit 1
+		WORK=1
 	else
 		echo -e "\033[0;32mOK diff\033[0m"
 	fi
@@ -144,3 +145,5 @@ rm -f output output_STL
 
 memory_check
 rm -f $EXEC
+
+exit $WORK

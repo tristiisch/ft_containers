@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 19:37:22 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 21:32:25 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ namespace ft
 
 		~tree()
 		{
-			//clear();
+			clear();
 			_root = NULL;
 			_start = NULL;
 			_end = NULL;
@@ -220,15 +220,16 @@ namespace ft
 				if (current == NULL)
 					return (0);
 			}
+			//_verify_node(current);
 			if (!_node_has_leaf(current))
 			{
 				next = _node_next(current);
 				if (next && current->parent)
 				{	
 					if (_is_left_node(next))
-						current->parent->left = NULL;
+						next->parent->left = NULL;
 					else if (_is_right_node(next))
-						current->parent->right = NULL;
+						next->parent->right = NULL;
 					next->parent = current->parent;
 				}
 				else
@@ -245,11 +246,13 @@ namespace ft
 					current->parent->right = next;
 				if (_node_is_root(next))
 					_root = next;
+				//_verify_node(next);
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
-				_node_alloc.destroy(current);
-				_node_alloc.deallocate(current, 1);
+				//std::cout << "Clear" << std::endl;
+				_node_alloc.destroy(static_cast<node_type*>(current));
+				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
 				_size = 0;
 				_start = NULL;
 				_root = NULL;
@@ -262,8 +265,10 @@ namespace ft
 				else if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
-			_node_alloc.destroy(current);
-			_node_alloc.deallocate(current, 1);
+			_node_alloc.destroy(static_cast<node_type*>(current));
+			_node_alloc.deallocate(static_cast<node_type*>(current), 1);
+
+			//std::cout << "Clear" << std::endl;
 			_size--;
 			_start = _node_min(_root);
 			return (1);
@@ -404,18 +409,4 @@ namespace ft
 		Compare		_comp;
 		size_type	_size;
 	};
-}
-
-template <typename T>
-std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
-{
-	outputFile << node->first << "=" << node->second;
-	return outputFile;
-}
-
-template <typename T, typename U>
-std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
-{
-	outputFile << pair->first << "=" << pair->second;
-	return outputFile;
 }
