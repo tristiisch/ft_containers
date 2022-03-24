@@ -82,12 +82,12 @@ namespace ft
 			insert(first, last);
 		}
 
-		map(const map &x)
+		map (const map& x) 
 		:	_alloc(x._alloc),
-			_tree(x._tree),
+			_tree(),
 			_compare(x._compare)
-		{
-			_tree.insert(x.begin(), x.end());
+		{ 
+			insert(x.begin(), x.end());
 		}
 
 		~map()
@@ -149,11 +149,11 @@ namespace ft
 
 		const_iterator end() const { return _tree.end(); }
 
-		reverse_iterator rbegin() { return _tree.rbegin(); }
+		reverse_iterator rbegin() { return reverse_iterator(_tree.end()); }
 
 		const_reverse_iterator rbegin() const { return _tree.rbegin(); }
 
-		reverse_iterator rend() { return _tree.rend(); }
+		reverse_iterator rend() { return reverse_iterator(_tree.begin()); }
 
 		const_reverse_iterator rend() const { return _tree.rend(); }
 

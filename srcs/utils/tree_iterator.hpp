@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 16:08:15 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 16:53:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool _is_right_node(Node node)
 }
 
 template <class Node>
-bool _is_left_node(Node node)
+bool  _is_left_node(Node node)
 {
 	if (node && node->parent && node->parent->left == node)
 		return true;
@@ -311,7 +311,9 @@ public:
 	reference operator *() { return (_node->data); }											// *a
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() { return &(_node->data); }											// a->b
-	pointer operator ->() const { return &(_node->data); }											// a->b
+	pointer operator ->() const { return &(_node->data); }		
+
+	T* base() const {return _node;};											// a->b
 
 	private:
 		T* _node;
@@ -342,7 +344,6 @@ public:
 	bool operator ==(const_reverse_tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(const_reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
 
-
 	// INCREMENTERS
 	const_reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
 	const_reverse_tree_iterator operator --(int) 															// a++
@@ -361,7 +362,9 @@ public:
 
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() const { return &(_node->data); }											// a->b
+	pointer operator ->() const { return &(_node->data); }
+	
+	T* base() const {return _node;};									// a->b
 
 	private:
 		T* _node;
