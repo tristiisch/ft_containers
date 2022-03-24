@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 16:54:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 16:55:17 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,11 +254,11 @@ namespace ft
 			erase((*position).first);
 		}
 
-		//void erase(iterator first, iterator last)
-		//{
-		//	while (first != last)
-		//		erase((++first)->first);
-		//}
+		void erase(iterator first, iterator last)
+		{
+			while (first != last)
+				erase((++first)->first);
+		}
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
 		{
