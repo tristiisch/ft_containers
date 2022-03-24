@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 16:55:17 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 17:48:29 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,6 @@ namespace ft
 			
 			while (current && current->data.first != k)
 			{
-				//std::cout << "coucou" << std::endl;
 				current = _node_next(current);
 				if (current == NULL)
 					return (0);
@@ -229,23 +228,36 @@ namespace ft
 				else
 					next->parent = NULL;
 				if (current->left)
+				{	
 					current->left->parent = next;
+					next->left = current->left;
+				}
 				if (_is_left_node(current))
 					current->parent->left = next;
 				else if (current->parent)
 					current->parent->right = next;
+				if (_node_is_root(next))
+					_root = next;
+			}
+			else if (_node_is_root(current) && _node_has_leaf(current))
+			{
+				_node_alloc.destroy(current);
+				_node_alloc.deallocate(current, 1);
+				_size--;
+				_start = NULL;
+				_root = NULL;
+				return (1);
 			}
 			else
 			{
 				if (_is_left_node(current))
 					current->parent->left = NULL;
-				if (_is_right_node(current))
+				else if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
-			if (_node_is_root(current))
-				_root = next;
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
+			_size--;
 			_start = _node_min(_root);
 			return (1);
 		}
@@ -257,7 +269,7 @@ namespace ft
 		void erase(iterator first, iterator last)
 		{
 			while (first != last)
-				erase((++first)->first);
+				erase((first++)->first);
 		}
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
@@ -301,6 +313,37 @@ namespace ft
 		Compare key_comp() const { return _comp ; }
 
 	private :
+
+		void _destroy(node_pointer node)
+		{
+			if (_is_left_node(node))
+			{
+				node->parent->left = NULL;
+			}
+			else if (_is_right_node(node))
+			{
+				node->parent->right = NULL;
+			}
+			if (!node->right)
+			{
+				_destroy(node->right);
+			}
+			if (!node->left)
+			{
+				_destroy(node->left);
+			}
+			insert(node->data);
+			_deallocate(node);
+		}
+
+		void _deallocate(node_pointer node)
+		{
+			if (node->left)
+				_deallocate(node->left);
+			if (node->right)
+				_deallocate(node->right);
+			_node_alloc.deallocate(node, 1);
+		}
 
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
