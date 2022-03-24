@@ -1,66 +1,37 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main_test.cpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 13:53:21 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/21 20:29:27 by alganoun         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "common.hpp"
 
-#include <iostream>
-#include <map>
-#include "./srcs/map.hpp"
-#include "srcs/utils/iterator.hpp"
-#include "srcs/utils/pair.hpp"
+#define T1 char
+#define T2 foo<float>
+typedef TESTED_NAMESPACE::map<T1, T2> _map;
+typedef _map::const_iterator const_it;
 
-#ifndef TESTED_LIB
-# define TESTED_LIB ft
-#endif
+static unsigned int i = 0;
+
+void	ft_comp(const _map &mp, const const_it &it1, const const_it &it2)
+{
+	bool res[2];
+
+	std::cout << "\t-- [" << ++i << "] --" << std::endl;
+	res[0] = mp.key_comp()(it1->first, it2->first);
+	res[1] = mp.value_comp()(*it1, *it2);
+	std::cout << "with [" << it1->first << " and " << it2->first << "]: ";
+	std::cout << "key_comp: " << res[0] << " | " << "value_comp: " << res[1] << std::endl;
+}
 
 int		main(void)
 {
-	TESTED_LIB::map<char, int> mp;
-	TESTED_LIB::map<char, int> mp2;
-	
-	/*while (ite != mp.end())
-	{
-		std::cout << "Key = " << ite->first << " && Value = " << ite->second <<  std::endl;
-		// ++ite;
-		ite++;
-	}*/
-	mp.insert(ft::pair<char,int>('a', 30));
-    mp.insert(ft::pair<char,int>('c', 70));
-    mp.insert(ft::pair<char,int>('b', 20));
-    mp.insert(ft::pair<char,int>('d', 10));
-   	mp.insert(ft::pair<char,int>('e', 50));
-   	mp.insert(ft::pair<char,int>('0', 101));
-    mp.insert(ft::pair<char,int>('f', 40));
-    mp.insert(ft::pair<char,int>('g', 60));
-    mp.insert(ft::pair<char,int>('3', 100));
-	mp.insert(ft::pair<char,int>('6', 100));
-	mp.insert(ft::pair<char,int>('4', 100));
-	mp.insert(ft::pair<char,int>('1', 100));
-	mp.insert(ft::pair<char,int>('2', 100));
-	mp.insert(ft::pair<char,int>('%', 100));
-	mp.insert(ft::pair<char,int>('1', 100));
-	mp.insert(ft::pair<char,int>('E', 100));
-	mp.insert(ft::pair<char,int>('B', 100));
-	mp.insert(ft::pair<char,int>('D', 100));
-	mp.insert(ft::pair<char,int>('A', 100));	
-	mp2.insert(mp.begin(), mp.end());
-	TESTED_LIB::map<char, int>::iterator ite = mp2.begin();
-	mp2.erase('A');
-	mp2.erase('2');
-	mp2.erase('E');
-	mp2.erase('U');
-	while (ite != mp2.end())
-	{
-		std::cout << "Key = " << ite->first << " && Value = " << ite->second <<  std::endl;
-		 ++ite;
-		//ite++;
-	}
+	_map	mp;
+
+	mp['a'] = 2.3;
+	mp['b'] = 1.4;
+	mp['c'] = 0.3;
+	mp['d'] = 4.2;
+	printSize(mp);
+
+	for (const_it it1 = mp.begin(); it1 != mp.end(); ++it1)
+		for (const_it it2 = mp.begin(); it2 != mp.end(); ++it2)
+			ft_comp(mp, it1, it2);
+
+	printSize(mp);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/22 23:20:18 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 11:02:24 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 namespace ft
 {
-	template <class Value, class Key, class Compare = std::less<Key>, class Value_alloc = std::allocator<Value>
+	template <class Value, class Key, class Compare, class Value_alloc = std::allocator<Value>
 				, class Node = ft::_node<Value>, class Node_alloc = std::allocator<Node> >
 	class tree
 	{
@@ -34,7 +34,6 @@ namespace ft
 		typedef Node *									node_pointer;
 		typedef typename node_alloc::size_type			size_type;
 		typedef ft::tree_iterator<node_type>			iterator;
-		typedef ft::reverse_tree_iterator<node_type>	reverse_iterator;
 		typedef ft::const_tree_iterator<node_type>		const_iterator;
 		typedef typename Value_alloc::difference_type difference_type;
 
@@ -46,8 +45,12 @@ namespace ft
 
 		~tree()
 		{
-			//erase(_start, _end);
 			clear();
+			_root = NULL;
+			_start = NULL;
+			_end = NULL;
+			_size = 0;
+			
 		}
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
@@ -103,7 +106,7 @@ namespace ft
 		template <class InputIterator>
   		void insert (InputIterator first, InputIterator last)
 		{
-			for(iterator ite = first ; ite != last ; ite++)
+			for(InputIterator ite = first ; ite != last ; ite++)
 				insert((*ite));
 		}
 
@@ -123,24 +126,12 @@ namespace ft
 
 		iterator end()
 		{
-			return iterator(_end);
+			return NULL;
 		}
 
 		const_iterator end() const
 		{
-			return const_iterator(_end);
-		}
-
-		reverse_iterator rbegin()
-		{
-			if (_root)
-				return reverse_iterator(_node_max(_root));
 			return NULL;
-		}
-
-		reverse_iterator rend()
-		{
-			return reverse_iterator(_end);
 		}
 
 		size_type size() const
@@ -150,41 +141,8 @@ namespace ft
 
 		void clear()
 		{
-			if (!_root)
-				return;
-			_deallocate(_root);
-			//_iterator_all_under(_root, &tree::clear2);
-			/*node_pointer tmp1 = _start, tmp2;
-			while (tmp1 != NULL)
-			{
-				while (!_node_has_leaf(tmp1))
-				{
-
-				}
-				//std::cout << "Hey" << std::endl;
-				tmp2 = _node_next(tmp1);
-				_node_alloc.deallocate(tmp1, 1);
-				tmp1 = tmp2;
-			}*/
-			/*ft::vector<node_pointer> vector;
-
-			node_pointer tmp1 = _start, tmp2;
-			while (tmp1 != NULL)
-			{
-				tmp2 = _node_next(tmp1);
-				vector.push_back(tmp1);
-				//_node_alloc.deallocate(tmp1, 1);
-				tmp1 = tmp2;
-			}
-			typename ft::vector<node_pointer>::iterator it = vector.begin();
-			while (it != vector.end())
-			{
-				_node_alloc.deallocate(*it, 1);
-				it++;
-			}*/
-			_size = 0;
-			_start = NULL;
-			_root = NULL;
+			for (iterator ite = begin() ; ite != end() ; ite++)
+				erase((*ite).first);
 		}
 
 		iterator find(const Key& k)
@@ -225,6 +183,7 @@ namespace ft
 		{
 			node_pointer current = _start;
 			node_pointer next;
+			
 			while (current && current->data.first != k)
 			{
 				current = _node_next(current);
@@ -239,7 +198,7 @@ namespace ft
 					current->left->parent = next;
 				if (_is_left_node(current))
 					current->parent->left = next;
-				else
+				else if (current->parent)
 					current->parent->right = next;
 			}
 			else
@@ -249,6 +208,7 @@ namespace ft
 				if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
+			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
 			return (1);
 		}
@@ -265,24 +225,43 @@ namespace ft
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
 		{
-			node_pointer current = _start;
-			while (current && _comp(k, _node_next(current)))
-				current = _node_next(current);
-			return (iterator(current));
+			iterator ite = this->begin();
+			while (ite != this->end() && _comp((*ite).first, k))
+				ite++;
+			return (ite);
+		}
+
+		const_iterator lower_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			const_iterator ite = this->begin();
+			while (ite != this->end() && _comp((*ite).first, k))
+				ite++;
+			return (ite);
 		}
 
 		iterator upper_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
 		{
-			node_pointer current = _start;
-			while (current && _comp(k, current->data.first))
-				current = _node_next(current);
-			return (iterator(current));
+			iterator ite = this->begin();
+			while (ite != this->end() && !(_comp(k, (*ite).first)))
+				ite++;
+			return (ite++); // pourquoi est ce que ++ite ne marche pas ?
 		}
+
+		const_iterator upper_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			const_iterator ite = this->begin();
+			while (ite != this->end() && !(_comp(k, (*ite).first)))
+				ite++;
+			return (ite++);
+		}
+
 
 		// TODO Verify
 		size_type max_size() const {
-			return std::min<size_type>(_node_alloc.max_size(), std::numeric_limits<difference_type>::max());
+			return _node_alloc.max_size();
 		}
+
+		Compare key_comp() const { return _comp ; }
 
 	private :
 
