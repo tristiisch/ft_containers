@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 11:23:00 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:15:50 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool _is_right_node(Node node)
 }
 
 template <class Node>
-bool _is_left_node(Node node)
+bool  _is_left_node(Node node)
 {
 	if (node && node->parent && node->parent->left == node)
 		return true;
@@ -103,9 +103,10 @@ Node _node_next(Node node)
 		while (_is_right_node(node)) {
 			node = node->parent;
 		}
-		return node->parent;
+		if (node->parent)
+			return node->parent;
 	}
-	return NULL;
+	return (NULL);
 }
 
 template <class Node>
@@ -119,9 +120,10 @@ Node _node_prev(Node node)
 		while (_is_left_node(node)) {
 			node = node->parent;
 		}
-		return node->parent;
+		if (node->parent)
+			return node->parent;
 	}
-	return NULL;
+	return (NULL);
 }
 
 

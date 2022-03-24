@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 11:02:24 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:46:47 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,9 @@ namespace ft
 
 		void clear()
 		{
-			for (iterator ite = begin() ; ite != end() ; ite++)
-				erase((*ite).first);
+			iterator ite = begin();
+			while (ite != end())
+				erase((*(ite++)).first);
 		}
 
 		iterator find(const Key& k)
@@ -184,8 +185,10 @@ namespace ft
 			node_pointer current = _start;
 			node_pointer next;
 			
+			std::cout << "KEY = " << current->data.first << std::endl;
 			while (current && current->data.first != k)
 			{
+				std::cout << "coucou" << std::endl;
 				current = _node_next(current);
 				if (current == NULL)
 					return (0);
@@ -193,7 +196,10 @@ namespace ft
 			if (!_node_has_leaf(current))
 			{
 				next = _node_next(current);
-				next->parent = current->parent;
+				if (next && current->parent)
+					next->parent = current->parent;
+				else
+					next->parent = NULL;
 				if (current->left)
 					current->left->parent = next;
 				if (_is_left_node(current))
@@ -208,8 +214,11 @@ namespace ft
 				if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
+			if (_node_is_root(current))
+				_root = next;
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
+			_start = _node_min(_root);
 			return (1);
 		}
 
@@ -217,11 +226,11 @@ namespace ft
 			erase((*position).first);
 		}
 
-		void erase(iterator first, iterator last)
-		{
-			while (first != last)
-				erase((first++)->first);
-		}
+		//void erase(iterator first, iterator last)
+		//{
+		//	while (first != last)
+		//		erase((++first)->first);
+		//}
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
 		{
@@ -265,37 +274,6 @@ namespace ft
 
 	private :
 
-		void _destroy(node_pointer node)
-		{
-			if (_is_left_node(node))
-			{
-				node->parent->left = NULL;
-			}
-			else if (_is_right_node(node))
-			{
-				node->parent->right = NULL;
-			}
-			if (!node->right)
-			{
-				_destroy(node->right);
-			}
-			if (!node->left)
-			{
-				_destroy(node->left);
-			}
-			insert(node->data);
-			_deallocate(node);
-		}
-
-		void _deallocate(node_pointer node)
-		{
-			if (node->left)
-				_deallocate(node->left);
-			if (node->right)
-				_deallocate(node->right);
-			_node_alloc.deallocate(node, 1);
-		}
-
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
@@ -329,7 +307,7 @@ namespace ft
 			c->parent = b;
 		}
 
-		unsigned int _nodeHeigh(node_pointer node)
+		unsigned int _treeHeigh(node_pointer node)
 		{
 			unsigned int i = 0;
 			node_pointer tempNode;

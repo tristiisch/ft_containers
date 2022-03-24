@@ -80,6 +80,14 @@ namespace ft
 			insert(first, last);
 		}
 
+		map (const map& x) 
+		:	_alloc(x._alloc),
+			_tree(),
+			_compare(x._compare)
+		{ 
+			insert(x.begin(), x.end());
+		}
+
 		~map()
 		{
 
