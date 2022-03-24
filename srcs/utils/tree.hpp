@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 16:15:08 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 16:51:04 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,7 @@ namespace ft
 
 		void clear()
 		{
-			for (iterator ite = begin() ; ite != end() ; ite++)
-				erase((*ite).first);
+			erase(_start, _end);
 		}
 
 		iterator find(const Key& k)
