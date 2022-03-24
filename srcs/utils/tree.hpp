@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 17:48:29 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/24 18:07:48 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ namespace ft
 
 		void clear()
 		{
-			erase(_start, _end);
+			erase(this->begin(), this->end());
 		}
 
 		iterator find(const Key& k)
@@ -213,7 +213,7 @@ namespace ft
 		{
 			node_pointer current = _start;
 			node_pointer next;
-			
+
 			while (current && current->data.first != k)
 			{
 				current = _node_next(current);

@@ -122,6 +122,9 @@ static void mapErase()
 	map1.erase('c');
 	std::cout << map1 << std::endl;
 
+	map1.erase('W');
+	std::cout << map1 << std::endl;
+
 	it = map1.find('e');
 	map1.erase(it, map1.end());
 	std::cout << map1 << std::endl;
@@ -169,6 +172,7 @@ static void mapClear()
 	map.insert(ft::pair<char,int>('g', 60));
 	map.insert(ft::pair<char,int>('2', 100));
 
+	std::cout << map << std::endl;
 	map.clear();
 	std::cout << map << std::endl;
 
@@ -338,7 +342,7 @@ int main()
 
 	std::cout << std::endl;
 	(void)&mapErase;
-	// mapErase();
+	mapErase();
 
 	std::cout << std::endl;
 	(void)&mapClear;
