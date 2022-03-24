@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 18:06:24 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/24 23:14:19 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft
 		typedef typename Value_alloc::difference_type difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
-		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
+		: _end(NULL), _end_node(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
 		{
 
 		}
@@ -48,6 +48,7 @@ namespace ft
 			clear();
 			_root = NULL;
 			_start = NULL;
+			_end_node = NULL;
 			_end = NULL;
 			_size = 0;
 			
@@ -57,19 +58,27 @@ namespace ft
 		{
 			node_pointer new_node;
 			node_pointer current;
-
+			
+			
 			if (_root == NULL)
 			{
+				_end_node =_node_alloc.allocate(1);
 				new_node = _node_alloc.allocate(1);
 				_node_alloc.construct(new_node, Node(val));
+				_node_alloc.construct(_end_node, Node());
 				_root = new_node;
 				_start = _root;
+				_root->right = _end_node;
+				_end_node->parent = _root;
 				++_size;
 				return (ft::make_pair(iterator(_root), true));
 			}
+			_end_node->parent->right = NULL;
+			_end_node->parent = NULL;
 			current = _root;
 			while (current != NULL)
 			{
+				
 				if (_comp(val.first, current->data.first) && current->left != NULL)
 					current = current->left;
 				else if (current->data.first == val.first)
@@ -79,6 +88,7 @@ namespace ft
 				else
 					break;
 			}
+			
 			new_node = _node_alloc.allocate(1);
 			if (this->_comp(current->data.first, val.first))
 			{
@@ -92,6 +102,9 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
+			
+			(_node_true_max(_root))->right = _end_node;
+			_end_node->parent = _node_max(_root);
 			_start = _node_min(_root);
 			++_size;
 			return ft::make_pair(iterator(new_node), true);
@@ -126,11 +139,15 @@ namespace ft
 
 		iterator end()
 		{
+			if (_root)
+				return iterator(_node_max(_root)->right);
 			return NULL;
 		}
 
 		const_iterator end() const
 		{
+			if (_root)
+				return iterator(_node_max(_root)->right);
 			return NULL;
 		}
 
@@ -149,7 +166,7 @@ namespace ft
 			node_pointer node = _start;
 			while (node != NULL)
 			{
-				data_type pair = node->data;
+				data_type &pair = node->data;
 				if (pair.first == k)
 					return iterator(node);
 				node = _node_next(node);
@@ -162,7 +179,7 @@ namespace ft
 			node_pointer node = _start;
 			while (node != NULL)
 			{
-				data_type pair = node->data;
+				data_type &pair = node->data;
 				if (pair.first == k)
 					return const_iterator(node);
 				node = _node_next(node);
@@ -195,9 +212,9 @@ namespace ft
 				if (next && current->parent)
 				{	
 					if (_is_left_node(next))
-						current->parent->left = NULL;
+						next->parent->left = NULL;
 					else if (_is_right_node(next))
-						current->parent->right = NULL;
+						next->parent->right = NULL;
 					next->parent = current->parent;
 				}
 				else
@@ -283,44 +300,13 @@ namespace ft
 
 		// TODO Verify
 		size_type max_size() const {
-			return _node_alloc.max_size();
+			return Node_alloc().max_size();
 		}
 
 		Compare key_comp() const { return _comp ; }
 
 	private :
-
-		void _destroy(node_pointer node)
-		{
-			if (_is_left_node(node))
-			{
-				node->parent->left = NULL;
-			}
-			else if (_is_right_node(node))
-			{
-				node->parent->right = NULL;
-			}
-			if (!node->right)
-			{
-				_destroy(node->right);
-			}
-			if (!node->left)
-			{
-				_destroy(node->left);
-			}
-			insert(node->data);
-			_deallocate(node);
-		}
-
-		void _deallocate(node_pointer node)
-		{
-			if (node->left)
-				_deallocate(node->left);
-			if (node->right)
-				_deallocate(node->right);
-			_node_alloc.deallocate(node, 1);
-		}
-
+	
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
@@ -367,6 +353,7 @@ namespace ft
 
 	private :
 		node_pointer _end;
+		node_pointer _end_node;
 		node_pointer _start;
 		node_pointer _root;
 		node_alloc	_node_alloc;

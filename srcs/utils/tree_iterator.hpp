@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 16:15:50 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/24 23:02:22 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,17 @@ Node _node_max(Node node) {
 	while (node->right != NULL) {
 		node = node->right;
 	}
+	return node->parent;
+}
+
+template <class Node>
+Node _node_true_max(Node node) {
+	while (node->right != NULL) {
+		node = node->right;
+	}
 	return node;
 }
+
 
 template <class Node>
 bool _node_has_leaf(Node node)
@@ -95,35 +104,25 @@ bool _node_is_root(Node node)
 template <class Node>
 Node _node_next(Node node)
 {
-	if (node)
-	{
-		if (node->right != NULL) {
-			return _node_min(node->right);
-		}
-		while (_is_right_node(node)) {
-			node = node->parent;
-		}
-		if (node->parent)
-			return node->parent;
+	if (node->right != NULL) {
+		return _node_min(node->right);
 	}
-	return (NULL);
+	while (_is_right_node(node)) {
+		node = node->parent;
+	}
+	return node->parent;
 }
 
 template <class Node>
 Node _node_prev(Node node)
 {
-	if (node)
-	{
-		if (node->left != NULL) {
-			return _node_max(node->right);
-		}
-		while (_is_left_node(node)) {
-			node = node->parent;
-		}
-		if (node->parent)
-			return node->parent;
+	if (node->left != NULL) {
+		return _node_max(node->left);
 	}
-	return (NULL);
+	while (_is_left_node(node)) {
+		node = node->parent;
+	}
+	return node->parent;
 }
 
 
@@ -133,23 +132,39 @@ namespace ft
 template <class Value>
 struct	_node
 {
-		typedef Value						value_type;
-		Value							data;
+		typedef Value					value_type;
+
+		value_type						data;
 		_node 							*parent;
 		_node							*right;
 		_node							*left;
 
+		_node()
+		:	data(),
+			parent(NULL),
+			right(NULL),
+			left(NULL)
+		{
+
+		}
 		_node(Value const &v)
-		: data(v), parent(NULL), right(NULL), left(NULL)
+		:	data(v),
+			parent(NULL),
+			right(NULL),
+			left(NULL)
 		{
 		};
 
 		_node(Value const & v, _node *parent, _node *right, _node *left)
-		: data(v), parent(parent), right(right), left(left)
+		:	data(v),
+			parent(parent),
+			right(right),
+			left(left)
 		{
 
 		}
 
+		~_node() {}
 
 };
 
