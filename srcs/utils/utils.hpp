@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/09 19:26:40 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/28 20:55:19 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,5 @@ namespace ft {
 
 	template<typename T>
 	struct is_integral : public is_integral_type<T> { };
+
 }

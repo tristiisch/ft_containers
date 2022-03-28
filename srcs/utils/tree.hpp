@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/28 17:57:46 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 23:58:59 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 //#include "reverse_iterator.hpp"
 #include "tree_iterator.hpp"
 #include "../vector.hpp"
+#include "utils.hpp"
 
 namespace ft
 {
@@ -38,8 +39,6 @@ namespace ft
 		typedef ft::reverse_tree_iterator<node_type>			reverse_iterator;
 		typedef ft::const_reverse_tree_iterator<node_type>		const_reverse_iterator;
 		typedef typename Value_alloc::difference_type 			difference_type;
-
-		node_pointer _root;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _end_node(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -194,27 +193,27 @@ namespace ft
 		iterator find(const Key& k)
 		{
 			node_pointer node = _node_min(_root);
-			while (node != NULL)
+			while (node != _end_node)
 			{
 				data_type &pair = node->data;
 				if (pair.first == k)
 					return iterator(node);
 				node = _node_next(node);
 			}
-			return iterator(_end);
+			return end();
 		}
 
 		const_iterator find(const Key& k) const
 		{
 			node_pointer node = _node_min(_root);
-			while (node != NULL)
+			while (node != _end_node)
 			{
 				data_type &pair = node->data;
 				if (pair.first == k)
 					return const_iterator(node);
 				node = _node_next(node);
 			}
-			return const_iterator(_end);
+			return end();
 		}
 
 		size_type count(const Key& k) const
@@ -229,7 +228,7 @@ namespace ft
 		{
 			node_pointer current = _node_min(_root);
 			node_pointer next;
-      
+
 			while (current != _end_node && current->data.first != k)
 			{
 				current = _node_next(current);
@@ -237,7 +236,30 @@ namespace ft
 					return (0);
 			}
 			_end_node->parent->right = NULL;
-			if (!_node_has_leaf(current))
+
+			if (_node_is_root(current) && current->right)
+			{
+				next = _node_next(current)
+				if (_is_left_node(next))
+				{
+					next->right = current->right;
+					current->right->parent = next;
+				}
+				next->left = current->left;
+				current->left->parent = next;
+				next->parent = NULL;
+				_root = next;
+			}
+			else if (_node_is_root(current) && _node_has_leaf(current))
+			{
+				_node_alloc.destroy(current);
+				_node_alloc.deallocate(current, 1);
+				_size = 0;
+				_root = NULL;
+				_end_node = NULL;
+				return (1);
+			}
+			else if (!_node_has_leaf(current)) // il faut reprendre ici
 			{
 				next = _node_next(current);
 				if (next && current->parent)
@@ -250,28 +272,22 @@ namespace ft
 				}
 				else
 					next->parent = NULL;
-
 				if (current->left)
 				{
 					current->left->parent = next;
 					next->left = current->left;
 				}
+				if (_node_is_root(current) && current->right)
+				{
+					current->right->parent = next;
+					next->right = current->right;
+				}
 				if (_is_left_node(current))
 					current->parent->left = next;
 				else if (current->parent)
 					current->parent->right = next;
-				if (_node_is_root(next))
-					_root = next;
 			}
-			else if (_node_is_root(current) && _node_has_leaf(current))
-			{
-				_node_alloc.destroy(current);
-				_node_alloc.deallocate(current, 1);
-				_size = 0;
-				_root = NULL;
-				_end_node = NULL;
-				return (1);
-			}
+
 			else
 			{
 				if (_is_left_node(current))
@@ -340,7 +356,7 @@ namespace ft
 		Compare key_comp() const { return _comp ; }
 
 	private :
-    
+
 		size_type _erase(const node_pointer current)
 		{
 			node_pointer next;
@@ -349,7 +365,7 @@ namespace ft
 			{
 				next = _node_next(current);
 				if (next && current->parent)
-				{	
+				{
 					if (_is_left_node(next))
 						next->parent->left = NULL;
 					else if (_is_right_node(next))
@@ -360,7 +376,7 @@ namespace ft
 					next->parent = NULL;
 
 				if (current->left)
-				{	
+				{
 					current->left->parent = next;
 					next->left = current->left;
 				}
@@ -377,7 +393,6 @@ namespace ft
 				_node_alloc.destroy(static_cast<node_type*>(current));
 				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
 				_size = 0;
-				_start = NULL;
 				_root = NULL;
 				return (1);
 			}
@@ -392,7 +407,6 @@ namespace ft
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
 			_size--;
-			_start = _node_min(_root);
 			return (1);
 		}
 

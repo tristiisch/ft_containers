@@ -1,0 +1,120 @@
+   1	Map Basic insert :
+   2	[1;36mSize	9[0m
+   3	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+   4	Map Iterator insert :
+   5	[1;36mSize	11[0m
+   6	[1;36mContent 0=101, 2=100, 5=400, Z=300, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+   7	Map First/Last insert :
+   8	[1;36mSize	8[0m
+   9	[1;36mContent 0=101, 2=100, 5=400, Z=300, a=30, b=20, c=70, d=10[0m
+  10	Map Random Basic insert :
+  11	[1;36mSize	174[0m
+  12	[1;36mContent 1=50, 6=128, 8=123, 11=197, 13=73, 24=63, 42=13, 57=143, 63=76, 73=2, 82=132, 91=47, 94=81, 95=152, 97=30, 98=151, 99=26, 105=86, 113=126, 115=80, 123=91, 124=56, 126=159, 137=104, 142=116, 144=99, 149=37, 152=199, 153=51, 157=23, 159=177, 165=11, 169=21, 175=113, 177=106, 188=90, 194=48, 195=85, 196=57, 217=181, 220=166, 223=155, 226=170, 228=46, 231=111, 238=164, 247=184, 249=1, 260=120, 267=33, 272=5, 278=27, 289=156, 294=108, 298=70, 303=20, 319=153, 327=16, 335=29, 336=43, 337=97, 357=49, 358=105, 363=172, 365=131, 366=168, 385=180, 393=42, 394=171, 395=124, 397=107, 399=117, 404=87, 408=67, 412=119, 420=189, 425=78, 438=98, 440=10, 451=88, 454=154, 485=44, 490=55, 492=12, 496=186, 501=83, 503=15, 505=92, 506=161, 512=32, 517=84, 530=58, 534=169, 536=77, 539=183, 544=6, 549=62, 550=176, 557=121, 560=24, 566=95, 579=38, 590=140, 594=122, 609=110, 612=19, 616=144, 623=178, 625=194, 629=82, 633=35, 635=72, 640=146, 658=3, 666=61, 668=54, 669=79, 671=138, 672=41, 679=147, 695=136, 708=52, 709=9, 712=137, 716=96, 722=60, 729=17, 735=192, 738=142, 745=45, 752=94, 760=157, 767=134, 770=163, 790=145, 801=64, 807=0, 810=34, 813=162, 814=75, 816=28, 821=39, 826=31, 828=103, 831=141, 840=18, 844=167, 852=133, 853=65, 865=74, 871=102, 878=7, 882=93, 885=187, 897=101, 901=139, 903=59, 904=109, 905=158, 915=193, 923=8, 930=4, 933=25, 942=130, 944=53, 947=179, 962=129, 967=40, 968=118, 972=150, 977=66, 979=36, 981=71, 987=14[0m
+    	
+  13	[1;36mSize	9[0m
+  14	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+    	
+  15	Map Erase :
+  16	[1;36mSize	9[0m
+  17	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+  18	[1;36mSize	8[0m
+  19	[1;36mContent 0=101, 2=100, a=30, c=70, d=10, e=50, f=40, g=60[0m
+  20	[1;36mSize	7[0m
+  21	[1;36mContent 0=101, 2=100, a=30, d=10, e=50, f=40, g=60[0m
+  22	[1;36mSize	7[0m
+  23	[1;36mContent 0=101, 2=100, a=30, d=10, e=50, f=40, g=60[0m
+  24	[1;36mSize	6[0m
+  25	[1;36mContent 2=100, a=30, d=10, e=50, f=40, g=60[0m
+  26	[1;36mSize	3[0m
+  27	[1;36mContent 2=100, a=30, d=10[0m
+    	
+  28	Map Clear :
+  29	[1;36mSize	9[0m
+  30	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+  31	[1;36mSize	0[0m
+  32	[1;36mContent <empty>[0m
+  33	[1;36mSize	2[0m
+  34	[1;36mContent c=70, e=50[0m
+  35	Map Find :
+  36	e=50
+  37	e find with map::count
+  38	Map Find didnt contains:
+  39	Unable to find o
+  40	Unable to find o
+  41	Map Find NULL:
+  42	Unable to find NULL
+  43	Unable to find 0
+    	
+  44	Map Empty :
+  45	true
+  46	[1;36mSize	9[0m
+  47	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+  48	b=20
+  49	[1;36mSize	0[0m
+  50	[1;36mContent <empty>[0m
+  51	[1;36mSize	2[0m
+  52	[1;36mContent c=70, e=50[0m
+  53	false
+  54	true
+    	
+  55	Map Basic insert :
+  56	[1;36mSize	9[0m
+  57	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+  58	Map Iterator insert :
+  59	[1;36mSize	11[0m
+  60	[1;36mContent 0=101, 2=100, 5=400, Z=300, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+  61	Map First/Last insert :
+  62	[1;36mSize	8[0m
+  63	[1;36mContent 0=101, 2=100, 5=400, Z=300, a=30, b=20, c=70, d=10[0m
+    	
+  64	[1;36mSize	9[0m
+  65	[1;36mContent 0=101, 2=100, a=30, b=20, c=70, d=10, e=50, f=40, g=60[0m
+  66	Iterator test :
+  67	*map.begin() = 0
+  68	it = 0
+  69	++it = 2
+  70	it++ = 2
+  71	--it = 2
+  72	it-- = 2
+  73	 ++(++it) = a
+  74	it to last > a b c d e f g
+  75	itlast == itlast = 1
+  76	itlast != itlast = 0
+  77	Reverse Iterator test :
+  78	*map.rbegin() = g
+  79	reverseIt = g
+  80	++reverseIt = f
+  81	reverseIt++ = f
+  82	--reverseIt = f
+  83	reverseIt-- = f
+  84	 ++(++reverseIt) = e
+  85	reverseIt to last > e d c b a 2 0
+  86	reverseItlast == reverseItlast = 1
+  87	reverseItlast != reverseItlast = 0
+  88	Iterator const test :
+  89	*constVector.begin() = 101
+  90	itConst = 0
+  91	++itConst = 2
+  92	itConst++ = 2
+  93	--itConst = 2
+  94	itConst-- = 2
+  95	 ++(++itConst) = a
+  96	itConst to last > a b c d e f g
+  97	itConstlast == itConstlast = 1
+  98	itConstlast != itConstlast = 0
+  99	Reverse Iterator const test :
+ 100	*constVector.rbegin() = 60
+ 101	reverseitConst = g
+ 102	++reverseitConst = f
+ 103	reverseitConst++ = f
+ 104	--reverseitConst = f
+ 105	reverseitConst-- = f
+ 106	 ++(++reverseitConst) = e
+ 107	reverseitConst to last > e d c b a 2 0
+ 108	reverseitConstlast == reverseitConstlast = 1
+ 109	reverseitConstlast != reverseitConstlast = 0
+    	
+ 110	b=20
+ 111	0=101
+ 112	2=100
+ 113	0=101

@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/28 16:24:24 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 18:34:39 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ template <class Node>
 Node _node_prev(Node node)
 {
 	if (node->left != NULL) {
-		return _node_max(node->left);
+		return _node_true_max(node->left);
 	}
 	while (_is_left_node(node)) {
 		node = node->parent;
@@ -163,19 +163,18 @@ struct	_node
 		{
 
 		}
-  
+
 		~_node()
 		{
-			
+
 		}
-  
+
 		int max_depth() const {
 			const int left_depth = left ? left->max_depth() : 0;
 			const int right_depth = right ? right->max_depth() : 0;
 			return (left_depth > right_depth ? left_depth : right_depth) + 1;
 		}
-  
-		~_node() {}
+
 
 };
 
@@ -340,7 +339,7 @@ public:
 	reference operator *() { return (_node->data); }											// *a
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() { return &(_node->data); }											// a->b
-	pointer operator ->() const { return &(_node->data); }		
+	pointer operator ->() const { return &(_node->data); }
 
 	T* base() const {return _node;};											// a->b
 
@@ -394,7 +393,7 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() const { return &(_node->data); }
-	
+
 	T* base() const {return _node;};									// a->b
 
 	private:
