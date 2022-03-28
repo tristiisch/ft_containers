@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/28 18:12:16 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 19:56:47 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,32 +193,32 @@ namespace ft
 		iterator find(const Key& k)
 		{
 			node_pointer node = _node_min(_root);
-			while (node != NULL)
+			while (node != _end_node)
 			{
 				data_type &pair = node->data;
 				if (pair.first == k)
 					return iterator(node);
 				node = _node_next(node);
 			}
-			return iterator(_end);
+			return iterator(end());
 		}
 
 		const_iterator find(const Key& k) const
 		{
 			node_pointer node = _node_min(_root);
-			while (node != NULL)
+			while (node != _end_node)
 			{
 				data_type &pair = node->data;
 				if (pair.first == k)
 					return const_iterator(node);
 				node = _node_next(node);
 			}
-			return const_iterator(_end);
+			return const_iterator(end());
 		}
 
 		size_type count(const Key& k) const
 		{
-			if (this->find(k) != const_iterator(_end))
+			if (this->find(k) != const_iterator(end()))
 				return 1;
 			else
 				return 0;
@@ -264,6 +264,7 @@ namespace ft
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
+				//std::cout << "Delete " << current->data << std::endl;
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
 				_size = 0;
@@ -278,6 +279,7 @@ namespace ft
 				else if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
+			//std::cout << "Erase " << current->data << std::endl;
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
 			_end_node->parent = _node_true_max(_root);
@@ -330,7 +332,6 @@ namespace ft
 			return (ite++);
 		}
 
-
 		// TODO Verify
 		size_type max_size() const {
 			return Node_alloc().max_size();
@@ -338,6 +339,15 @@ namespace ft
 
 		Compare key_comp() const { return _comp ; }
 
+		void swap(tree &tree) {
+			std::swap(_start, tree._start);
+			std::swap(_end, tree._end);
+			std::swap(_end_node, tree._end_node);
+			std::swap(_node_alloc, tree._node_alloc);
+			std::swap(_comp, tree._comp);
+			std::swap(_size, tree._size);
+		}
+	
 		node_pointer get_root() const { return _root ; }
 
 	private :

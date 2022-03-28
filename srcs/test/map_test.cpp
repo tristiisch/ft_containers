@@ -1,4 +1,5 @@
 
+#include <cstddef>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
@@ -25,7 +26,7 @@
 template <typename T, typename U>
 std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 {
-	outputFile	<< "\033[1;36mSize\t" << map.size()
+	outputFile	<< "\033[1;36mSize\t" << map.size() << "\t\tMax Size\t" << map.max_size()
 				<< "\033[0m" << std::endl
 				<< "\033[1;36mContent ";
 	if (map.empty())
@@ -285,6 +286,7 @@ static void iteratorTest()
 
 	std::cout << map << std::endl;
 	std::cout << "Iterator test :" << std::endl;
+	//std::cout << "DEBUG " << map.get_tree() << std::endl;
 	std::cout << "*map.begin() = " << map.begin()->first << std::endl;
 	printIteratorTest("it", map.begin(), map.end());
 
@@ -311,27 +313,60 @@ static void iteratorTest()
 
 static void mapVarious()
 {
-	ft::map<char, int> map;
+	ft::map<char, int> map1, map2;
 	ft::map<char, int>::iterator itlow, itup;
+	ft::pair<ft::map<char, int>::iterator, ft::map<char, int>::iterator> pair;
 
-	map.insert(ft::pair<char,int>('a', 30));
-	map.insert(ft::pair<char,int>('c', 70));
-	map.insert(ft::pair<char,int>('b', 20));
-	map.insert(ft::pair<char,int>('d', 10));
-	map.insert(ft::pair<char,int>('e', 50));
-	map.insert(ft::pair<char,int>('0', 101));
-	map.insert(ft::pair<char,int>('f', 40));
-	map.insert(ft::pair<char,int>('g', 60));
-	map.insert(ft::pair<char,int>('2', 100));
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
 
-	itlow = map.lower_bound('b');
+	map2.insert(ft::pair<char,int>('O', 30));
+	map2.insert(ft::pair<char,int>('F', 70));
+	map2.insert(ft::pair<char,int>('Z', 20));
+	map2.insert(ft::pair<char,int>('R', 10));
+
+	itlow = map1.lower_bound('b');
 	std::cout << itlow->first << "=" << itlow->second << std::endl;
-	itlow = map.lower_bound('-');
+	itlow = map1.lower_bound('-');
 	std::cout << itlow->first << "=" << itlow->second << std::endl;
-	itup = map.upper_bound('0');
+	itup = map1.upper_bound('0');
 	std::cout << itup->first << "=" << itup->second << std::endl;
-	itup = map.upper_bound('-');
+	itup = map1.upper_bound('-');
 	std::cout << itup->first << "=" << itup->second << std::endl;
+
+	pair = map1.equal_range('f');
+	std::cout << pair.first->first << std::endl;
+	std::cout << pair.first->second << std::endl;
+	std::cout << pair.second->first << std::endl;
+	std::cout << pair.second->second << std::endl;
+
+	pair = map1.equal_range('%');
+	std::cout << pair.first->first << std::endl;
+	std::cout << pair.first->second << std::endl;
+	std::cout << pair.second->first << std::endl;
+	std::cout << pair.second->second << std::endl;
+
+	ft::map<char,int>::iterator it = map1.begin();
+	do {
+		std::cout << it->first << " => " << it->second << '\n';
+	} while (map1.key_comp()((*it++).first, map1.rbegin()->first));
+	std::cout << map1.key_comp()(map1.begin()->first, '\0') << std::endl;
+	std::cout << map1.key_comp()('\0', map1.begin()->first) << std::endl;
+	std::cout << map1.key_comp()('\0', '\0') << std::endl;
+
+	std::cout << map1 << std::endl;
+	std::cout << map2 << std::endl;
+
+	//map1.swap(map2);
+	std::cout << map1 << std::endl;
+	std::cout << map2 << std::endl;
 }
 
 int main()

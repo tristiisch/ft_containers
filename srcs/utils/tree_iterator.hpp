@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/28 18:12:39 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 19:20:06 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ template <class Node>
 Node _node_prev(Node node)
 {
 	if (node->left != NULL) {
-		return _node_max(node->left);
+		return _node_true_max(node->left);
 	}
 	while (_is_left_node(node)) {
 		node = node->parent;
@@ -138,6 +138,7 @@ struct	_node
 		_node 							*parent;
 		_node							*right;
 		_node							*left;
+		_node							*to_have_same_max_size;
 
 		_node()
 		:	data(),

@@ -187,9 +187,15 @@ int main() {
 	map.insert(ft::pair<char,int>('c', 70));
 	map.insert(ft::pair<char,int>('b', 20));
 	map.insert(ft::pair<char,int>('d', 10));
-	map.insert(ft::pair<char,int>('e', 50));
+	map.insert(ft::pair<char,int>('f', 50));
 	map.insert(ft::pair<char,int>('0', 101));
-	map.insert(ft::pair<char,int>('f', 40));
+	map.insert(ft::pair<char,int>('i', 40));
+	map.insert(ft::pair<char,int>('%', 74727));
+	map.insert(ft::pair<char,int>('&', 40));
+	map.insert(ft::pair<char,int>('!', 1475));
+	map.insert(ft::pair<char,int>('1', 9));
+	map.insert(ft::pair<char,int>('e', 6));
+	map.insert(ft::pair<char,int>('g', 6));
 	// map.insert(ft::pair<char,int>('g', 60));
 	// map.insert(ft::pair<char,int>('2', 100));
 	// map.insert(ft::pair<char,int>('W', 30));

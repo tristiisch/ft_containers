@@ -176,6 +176,8 @@ namespace ft
 
 		mapped_type& operator[](const key_type &key) { return insert(ft::make_pair(key, mapped_type())).first->second; }
 
+		void swap(map &map) { _tree.swap(map._tree); }
+
 		tree<value_type, key_type, key_compare>* get_tree()
 		{
 			return &_tree;
@@ -187,7 +189,7 @@ namespace ft
 				_verify_node(ite.base());
 		}
 
-	private :
+	protected :
 		allocator_type 					_alloc;
 		tree<value_type, key_type, key_compare>		_tree;
 		key_compare 					_compare;
