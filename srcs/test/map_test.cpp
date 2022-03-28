@@ -50,23 +50,24 @@ std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 
 static void mapInsert()
 {
-	ft::map<char, int> map1, map2;
+	ft::map<char, int> map1;
+	ft::map<char, int> map2;
 	ft::map<int, int> map3;
 
 	std::cout << "Map Basic insert :" << std::endl;
 	map1.insert(ft::pair<char,int>('a', 30));
-	map1.insert(ft::pair<char,int>('c', 70));
-	map1.insert(ft::pair<char,int>('b', 20));
-	map1.insert(ft::pair<char,int>('d', 10));
-	map1.insert(ft::pair<char,int>('e', 50));
-	map1.insert(ft::pair<char,int>('0', 101));
-	map1.insert(ft::pair<char,int>('f', 40));
-	map1.insert(ft::pair<char,int>('g', 60));
-	map1.insert(ft::pair<char,int>('2', 100));
+	// map1.insert(ft::pair<char,int>('c', 70));
+	// map1.insert(ft::pair<char,int>('b', 20));
+	// map1.insert(ft::pair<char,int>('d', 10));
+	// map1.insert(ft::pair<char,int>('e', 50));
+	// map1.insert(ft::pair<char,int>('0', 101));
+	// map1.insert(ft::pair<char,int>('f', 40));
+	// map1.insert(ft::pair<char,int>('g', 60));
+	// map1.insert(ft::pair<char,int>('2', 100));
 	
 	std::cout << map1 << std::endl;
 
-	std::cout << "Map Iterator insert :" << std::endl;
+	/*std::cout << "Map Iterator insert :" << std::endl;
   	ft::map<char,int>::iterator it = map1.begin();
   	map1.insert(it, ft::pair<char,int>('Z', 300));
 	map1.insert(it, ft::pair<char,int>('5', 400));
@@ -76,11 +77,11 @@ static void mapInsert()
 	map2.insert(map1.begin(), map1.find('e'));
 	std::cout << map2 << std::endl;
 
-	//srand(time(NULL));
+	srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
-	for (int i = 0; i < 200; ++i)
+	for (int i = 0; i < 100; ++i)
 		map3.insert(ft::pair<int,int>((rand() % 1000), i));
-	std::cout << map3 << std::endl;
+	std::cout << map3 << std::endl;*/
 }
 
 void mapOperatorInsert()
@@ -253,7 +254,7 @@ static void mapEmpty()
 }
 
 template<class InputIterator>
-static void printIteratorTest(std::string itName, InputIterator begin, InputIterator last)
+static void printIteratorMapTest(std::string itName, InputIterator begin, InputIterator last)
 {
 	std::cout << itName << " = " << begin->first << std::endl;
 	std::cout << "++" << itName << " = " << (++begin)->first << std::endl;
@@ -271,7 +272,7 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << itName << "last != " << itName << "last = " << (last != last) << std::endl;
 }
 
-static void iteratorTest()
+static void iteratorMapTest()
 {
 	ft::map<char, int> map;
 	map.insert(ft::pair<char,int>('a', 30));
@@ -288,24 +289,24 @@ static void iteratorTest()
 	std::cout << "Iterator test :" << std::endl;
 	//std::cout << "DEBUG " << map.get_tree() << std::endl;
 	std::cout << "*map.begin() = " << map.begin()->first << std::endl;
-	printIteratorTest("it", map.begin(), map.end());
+	printIteratorMapTest("it", map.begin(), map.end());
 
 	ft::map<char, int>::reverse_iterator rIt = map.rbegin();
 	(void)rIt;
 	std::cout << "Reverse Iterator test :" << std::endl;
 	std::cout << "*map.rbegin() = " << map.rbegin()->first << std::endl;
-	printIteratorTest("reverseIt", map.rbegin(), map.rend());
+	printIteratorMapTest("reverseIt", map.rbegin(), map.rend());
 
 	const ft::map<char, int> constMap(map);
 	ft::map<char, int>::const_iterator itConst(constMap.begin());
 	(void)itConst;
 	std::cout << "Iterator const test :" << std::endl;
 	std::cout << "*constVector.begin() = " << constMap.begin()->second << std::endl;
-	printIteratorTest("itConst", constMap.begin(), constMap.end());
+	printIteratorMapTest("itConst", constMap.begin(), constMap.end());
 
 	std::cout << "Reverse Iterator const test :" << std::endl;
 	std::cout << "*constVector.rbegin() = " << constMap.rbegin()->second << std::endl;
-	printIteratorTest("reverseitConst", constMap.rbegin(), constMap.rend());
+	printIteratorMapTest("reverseitConst", constMap.rbegin(), constMap.rend());
 
 	const ft::map<char, int>::const_reverse_iterator constIt = constMap.rbegin();
 	(void)constIt;
@@ -313,7 +314,8 @@ static void iteratorTest()
 
 static void mapVarious()
 {
-	ft::map<char, int> map1, map2;
+	ft::map<char, int> map1;
+	ft::map<char, int> map2;
 	ft::map<char, int>::iterator itlow, itup;
 	ft::pair<ft::map<char, int>::iterator, ft::map<char, int>::iterator> pair;
 
@@ -365,12 +367,13 @@ static void mapVarious()
 	std::cout << map2 << std::endl;
 
 	//map1.swap(map2);
-	std::cout << map1 << std::endl;
 	std::cout << map2 << std::endl;
+	std::cout << map1 << std::endl;
 }
 
-int main()
+void map_tests()
 {
+	(void)&mapInsert;
 	mapInsert();
 
 	std::cout << std::endl;
@@ -394,10 +397,16 @@ int main()
 	mapFind();
 
 	std::cout << std::endl;
-	(void)&iteratorTest;
-	iteratorTest();
+	(void)&iteratorMapTest;
+	iteratorMapTest();
 
 	std::cout << std::endl;
 	(void)&mapVarious;
 	mapVarious();
+}
+
+int main()
+{
+	map_tests();
+	return 0;
 }

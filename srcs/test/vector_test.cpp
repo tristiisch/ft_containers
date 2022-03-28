@@ -292,7 +292,7 @@ static void reserveTest()
 }
 
 template<class InputIterator>
-static void printIteratorTest(std::string itName, InputIterator begin, InputIterator last)
+static void printIteratorVectorTest(std::string itName, InputIterator begin, InputIterator last)
 {
 	std::cout << itName << " a + b = " << *(2 + begin) << std::endl;
 	std::cout << itName << " = " << *begin << std::endl;
@@ -338,7 +338,7 @@ static void swapTest()
 	std::cout << vectorReverse << std::endl;
 }
 
-static void iteratorTest()
+static void iteratorVectorTest()
 {
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6, 96, 432, 555};
 	ft::vector<int> vector(tab, tab + sizeof(tab) / sizeof(int));
@@ -347,14 +347,14 @@ static void iteratorTest()
 	std::cout << "Iterator test :" << std::endl;
 	std::cout << "*vector.begin() = " << *vector.begin() << std::endl;
 	std::cout << "*vector.end() - 1 = " << *(vector.end() - 1) << std::endl;
-	printIteratorTest("it", vector.begin(), vector.end());
+	printIteratorVectorTest("it", vector.begin(), vector.end());
 
 	ft::vector<int>::reverse_iterator rIt = vector.rbegin();
 	(void)rIt;
 	std::cout << "Reverse Iterator test :" << std::endl;
 	std::cout << "*vector.rbegin() = " << *vector.rbegin() << std::endl;
 	std::cout << "*vector.rend() - 1 = " << *(vector.rend() - 1) << std::endl;
-	printIteratorTest("reverseIt", vector.rbegin(), vector.rend());
+	printIteratorVectorTest("reverseIt", vector.rbegin(), vector.rend());
 
 	const ft::vector<int> constVector(vector);
 	ft::vector<int>::const_iterator itConst(constVector.begin());
@@ -362,12 +362,12 @@ static void iteratorTest()
 	std::cout << "Iterator const test :" << std::endl;
 	std::cout << "*constVector.begin() = " << *constVector.begin() << std::endl;
 	std::cout << "*constVector.end() - 1 = " << *(constVector.end() - 1) << std::endl;
-	printIteratorTest("itConst", constVector.begin(), constVector.end());
+	printIteratorVectorTest("itConst", constVector.begin(), constVector.end());
 
 	std::cout << "Reverse Iterator const test :" << std::endl;
 	std::cout << "*constVector.rbegin() = " << *constVector.rbegin() << std::endl;
 	std::cout << "*constVector.rend() - 1 = " << *(constVector.rend() - 1) << std::endl;
-	printIteratorTest("reverseitConst", constVector.rbegin(), constVector.rend());
+	printIteratorVectorTest("reverseitConst", constVector.rbegin(), constVector.rend());
 
 	const ft::vector<int>::const_reverse_iterator constIt = vector.rbegin();
 	(void)constIt;
@@ -441,8 +441,8 @@ void vector_tests()
 	(void)&swapTest;
 
 	std::cout << std::endl << std::endl;
-	iteratorTest();
-	(void)&iteratorTest;
+	iteratorVectorTest();
+	(void)&iteratorVectorTest;
 
 	std::cout << std::endl << std::endl;
 	compTest();
