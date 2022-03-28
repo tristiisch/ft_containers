@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/28 03:49:47 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 18:04:26 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ namespace ft
 		typedef ft::const_reverse_tree_iterator<node_type>		const_reverse_iterator;
 		typedef typename Value_alloc::difference_type 			difference_type;
 
-		node_pointer _root;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -277,6 +276,8 @@ namespace ft
 
 		Compare key_comp() const { return _comp ; }
 
+		node_pointer get_root() const { return _root ; }
+
 	private :
 
 		size_type _erase(const node_pointer current)
@@ -379,6 +380,7 @@ namespace ft
 		}
 
 	private :
+		node_pointer _root;
 		node_pointer _end;
 		node_pointer _start;
 		node_alloc	_node_alloc;
