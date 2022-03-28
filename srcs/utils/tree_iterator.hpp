@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/24 23:02:22 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:24:24 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ public:
 
 
 	// INCREMENTERS
-	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a // 
+	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a //
 	tree_iterator operator ++(int) 															// a++
 	{
 		T* tmp = _node;
@@ -224,7 +224,7 @@ public:
 	pointer operator ->() const { return &(_node->data); }											// a->b
 
 	T* base() const {return _node;};
-	
+
 	private:
 		T* _node;
 };
@@ -246,7 +246,7 @@ public:
 	const_tree_iterator(T* other) : _node(other) {}
 	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
 	const_tree_iterator(const tree_iterator<data_type> &src) { _node = src.base(); }
-	
+
 	virtual ~const_tree_iterator() {}
 
 	const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
@@ -274,7 +274,7 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() const { return &(_node->data); }
-	
+
 	T* base() const {return _node;};									// a->b
 
 	private:

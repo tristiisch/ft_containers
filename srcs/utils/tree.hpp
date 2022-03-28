@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 23:14:19 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:57:46 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,28 @@ namespace ft
 		typedef typename Value_alloc::difference_type difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
-		: _end(NULL), _end_node(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
+		: _end(NULL), _end_node(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
 		{
 
 		}
 
 		~tree()
 		{
-			clear();
+			if (_root != NULL)
+				clear();
 			_root = NULL;
-			_start = NULL;
 			_end_node = NULL;
 			_end = NULL;
 			_size = 0;
-			
+
 		}
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{
 			node_pointer new_node;
 			node_pointer current;
-			
-			
+
+
 			if (_root == NULL)
 			{
 				_end_node =_node_alloc.allocate(1);
@@ -67,18 +67,17 @@ namespace ft
 				_node_alloc.construct(new_node, Node(val));
 				_node_alloc.construct(_end_node, Node());
 				_root = new_node;
-				_start = _root;
 				_root->right = _end_node;
 				_end_node->parent = _root;
 				++_size;
 				return (ft::make_pair(iterator(_root), true));
 			}
 			_end_node->parent->right = NULL;
-			_end_node->parent = NULL;
+			//_end_node->parent = NULL;
 			current = _root;
 			while (current != NULL)
 			{
-				
+
 				if (_comp(val.first, current->data.first) && current->left != NULL)
 					current = current->left;
 				else if (current->data.first == val.first)
@@ -88,7 +87,7 @@ namespace ft
 				else
 					break;
 			}
-			
+
 			new_node = _node_alloc.allocate(1);
 			if (this->_comp(current->data.first, val.first))
 			{
@@ -102,10 +101,8 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			
+			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
-			_end_node->parent = _node_max(_root);
-			_start = _node_min(_root);
 			++_size;
 			return ft::make_pair(iterator(new_node), true);
 		}
@@ -126,14 +123,14 @@ namespace ft
 		iterator begin()
 		{
 			if (_root)
-				return iterator(_start);
+				return iterator(_node_min(_root));
 			return NULL;
 		}
 
 		const_iterator begin() const
 		{
 			if (_root)
-				return const_iterator(_start);
+				return const_iterator(_node_min(_root));
 			return NULL;
 		}
 
@@ -147,7 +144,7 @@ namespace ft
 		const_iterator end() const
 		{
 			if (_root)
-				return iterator(_node_max(_root)->right);
+				return const_iterator(_node_max(_root)->right);
 			return NULL;
 		}
 
@@ -163,7 +160,7 @@ namespace ft
 
 		iterator find(const Key& k)
 		{
-			node_pointer node = _start;
+			node_pointer node = _node_min(_root);
 			while (node != NULL)
 			{
 				data_type &pair = node->data;
@@ -176,7 +173,7 @@ namespace ft
 
 		const_iterator find(const Key& k) const
 		{
-			node_pointer node = _start;
+			node_pointer node = _node_min(_root);
 			while (node != NULL)
 			{
 				data_type &pair = node->data;
@@ -197,20 +194,21 @@ namespace ft
 
 		size_type erase(const Key& k)
 		{
-			node_pointer current = _start;
+			node_pointer current = _node_min(_root);
 			node_pointer next;
-			
-			while (current && current->data.first != k)
+
+			while (current != _end_node && current->data.first != k)
 			{
 				current = _node_next(current);
-				if (current == NULL)
+				if (current == _end_node)
 					return (0);
 			}
+			_end_node->parent->right = NULL;
 			if (!_node_has_leaf(current))
 			{
 				next = _node_next(current);
 				if (next && current->parent)
-				{	
+				{
 					if (_is_left_node(next))
 						next->parent->left = NULL;
 					else if (_is_right_node(next))
@@ -221,7 +219,7 @@ namespace ft
 					next->parent = NULL;
 
 				if (current->left)
-				{	
+				{
 					current->left->parent = next;
 					next->left = current->left;
 				}
@@ -237,8 +235,8 @@ namespace ft
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
 				_size = 0;
-				_start = NULL;
 				_root = NULL;
+				_end_node = NULL;
 				return (1);
 			}
 			else
@@ -250,8 +248,9 @@ namespace ft
 			}
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
+			_end_node->parent = _node_true_max(_root);
+			(_node_true_max(_root))->right = _end_node;
 			_size--;
-			_start = _node_min(_root);
 			return (1);
 		}
 
@@ -261,8 +260,10 @@ namespace ft
 
 		void erase(iterator first, iterator last)
 		{
-			while (first != last)
-				erase((first++)->first);
+			iterator one = first;
+			iterator two = last;
+			while (one != two)
+				erase((one++)->first);
 		}
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
@@ -306,7 +307,7 @@ namespace ft
 		Compare key_comp() const { return _comp ; }
 
 	private :
-	
+
 		/**
 		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
 		 */
@@ -354,7 +355,6 @@ namespace ft
 	private :
 		node_pointer _end;
 		node_pointer _end_node;
-		node_pointer _start;
 		node_pointer _root;
 		node_alloc	_node_alloc;
 		Compare		_comp;
