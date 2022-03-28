@@ -1,41 +1,31 @@
-#include "common.hpp"
+#include <map>
+#include <iostream>
+#include <cstddef>
 #include <list>
 
-#define T1 int
+#include "srcs/map.hpp"
+
+#define T1 char
 #define T2 int
-typedef _pair<const T1, T2> T3;
+typedef ft::pair<const T1, T2> T3;
 
 int		main(void)
 {
-	std::list<T3> lst;
-	unsigned int lst_size = 7;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		lst.push_back(T3(lst_size - i, i));
+	ft::map<char, int> mp;
 
-	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
-	TESTED_NAMESPACE::map<T1, T2>::iterator it = mp.begin(), ite = mp.end();
+	mp.insert(T3('a', 2));
+	mp.insert(T3('b', 2));
+	mp.insert(T3('d', 2));
+	mp.insert(T3('e', 2));
+	mp.insert(T3('f', 2));
+	mp.insert(T3('g', 2));
+	mp.insert(T3('h', 2));
 
-	TESTED_NAMESPACE::map<T1, T2> mp_range(it, --(--ite));
-	for (int i = 0; it != ite; ++it)
-		it->second = ++i * 5;
+	ft::map<T1, T2>::iterator it = mp.begin(), ite = mp.end();
+	while (ite != it)
+		std::cout << (*(--ite)).first << std::endl;
 
-	it = mp.begin(); ite = --(--mp.end());
-	TESTED_NAMESPACE::map<T1, T2> mp_copy(mp);
-	for (int i = 0; it != ite; ++it)
-		it->second = ++i * 7;
+	mp.clear();
+	//std::map<T1, T2> mp_range(it, --(--ite));
 
-	std::cout << "\t-- PART ONE --" << std::endl;
-	printSize(mp);
-	printSize(mp_range);
-	printSize(mp_copy);
-	
-	mp = mp_copy;
-	mp_copy = mp_range;
-	mp_range.clear();
-
-	std::cout << "\t-- PART TWO --" << std::endl;
-	printSize(mp);
-	printSize(mp_range);
-	printSize(mp_copy);
-	return (0);
 }
