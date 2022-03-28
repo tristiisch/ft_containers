@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/28 16:24:24 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 18:12:39 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,6 @@ struct	_node
 			const int right_depth = right ? right->max_depth() : 0;
 			return (left_depth > right_depth ? left_depth : right_depth) + 1;
 		}
-  
-		~_node() {}
-
 };
 
 template <typename T>
