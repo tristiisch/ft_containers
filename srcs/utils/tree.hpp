@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 21:32:25 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/28 03:49:47 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ namespace ft
 		typedef ft::reverse_tree_iterator<node_type>			reverse_iterator;
 		typedef ft::const_reverse_tree_iterator<node_type>		const_reverse_iterator;
 		typedef typename Value_alloc::difference_type 			difference_type;
+
+		node_pointer _root;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _start(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -220,7 +222,67 @@ namespace ft
 				if (current == NULL)
 					return (0);
 			}
-			//_verify_node(current);
+			return (_erase(current));
+		}
+
+		void erase(iterator position) {
+			erase(position->first);
+		}
+
+		void erase(iterator first, iterator last)
+		{
+			while (first != last)
+			{
+				erase(first++);
+			}
+		}
+
+		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			iterator ite = this->begin();
+			while (ite != this->end() && _comp(ite->first, k))
+				ite++;
+			return (ite);
+		}
+
+		const_iterator lower_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			const_iterator ite = this->begin();
+			while (ite != this->end() && _comp(ite->first, k))
+				ite++;
+			return (ite);
+		}
+
+		iterator upper_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			iterator ite = this->begin();
+			while (ite != this->end() && !(_comp(k, ite->first)))
+				ite++;
+			return (ite++); // pourquoi est ce que ++ite ne marche pas ?
+		}
+
+		const_iterator upper_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		{
+			const_iterator ite = this->begin();
+			while (ite != this->end() && !(_comp(k, ite->first)))
+				ite++;
+			return (ite++);
+		}
+
+
+		// TODO Verify
+		size_type max_size() const {
+			return _node_alloc.max_size();
+		}
+
+		Compare key_comp() const { return _comp ; }
+
+	private :
+
+		size_type _erase(const node_pointer current)
+		{
+			node_pointer next;
+
 			if (!_node_has_leaf(current))
 			{
 				next = _node_next(current);
@@ -246,11 +308,10 @@ namespace ft
 					current->parent->right = next;
 				if (_node_is_root(next))
 					_root = next;
-				//_verify_node(next);
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
-				//std::cout << "Clear" << std::endl;
+				//std::cout << "Clear1" << std::endl;
 				_node_alloc.destroy(static_cast<node_type*>(current));
 				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
 				_size = 0;
@@ -265,96 +326,12 @@ namespace ft
 				else if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
-			_node_alloc.destroy(static_cast<node_type*>(current));
-			_node_alloc.deallocate(static_cast<node_type*>(current), 1);
-
-			//std::cout << "Clear" << std::endl;
+			//std::cout << "Clear2" << std::endl;
+			_node_alloc.destroy(current);
+			_node_alloc.deallocate(current, 1);
 			_size--;
 			_start = _node_min(_root);
 			return (1);
-		}
-
-		void erase(iterator position) {
-			erase((*position).first);
-		}
-
-		void erase(iterator first, iterator last)
-		{
-			while (first != last)
-				erase((first++)->first);
-		}
-
-		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
-		{
-			iterator ite = this->begin();
-			while (ite != this->end() && _comp((*ite).first, k))
-				ite++;
-			return (ite);
-		}
-
-		const_iterator lower_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
-		{
-			const_iterator ite = this->begin();
-			while (ite != this->end() && _comp((*ite).first, k))
-				ite++;
-			return (ite);
-		}
-
-		iterator upper_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
-		{
-			iterator ite = this->begin();
-			while (ite != this->end() && !(_comp(k, (*ite).first)))
-				ite++;
-			return (ite++); // pourquoi est ce que ++ite ne marche pas ?
-		}
-
-		const_iterator upper_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
-		{
-			const_iterator ite = this->begin();
-			while (ite != this->end() && !(_comp(k, (*ite).first)))
-				ite++;
-			return (ite++);
-		}
-
-
-		// TODO Verify
-		size_type max_size() const {
-			return _node_alloc.max_size();
-		}
-
-		Compare key_comp() const { return _comp ; }
-
-	private :
-
-		void _destroy(node_pointer node)
-		{
-			if (_is_left_node(node))
-			{
-				node->parent->left = NULL;
-			}
-			else if (_is_right_node(node))
-			{
-				node->parent->right = NULL;
-			}
-			if (!node->right)
-			{
-				_destroy(node->right);
-			}
-			if (!node->left)
-			{
-				_destroy(node->left);
-			}
-			insert(node->data);
-			_deallocate(node);
-		}
-
-		void _deallocate(node_pointer node)
-		{
-			if (node->left)
-				_deallocate(node->left);
-			if (node->right)
-				_deallocate(node->right);
-			_node_alloc.deallocate(node, 1);
 		}
 
 		/**
@@ -404,7 +381,6 @@ namespace ft
 	private :
 		node_pointer _end;
 		node_pointer _start;
-		node_pointer _root;
 		node_alloc	_node_alloc;
 		Compare		_comp;
 		size_type	_size;
