@@ -99,8 +99,8 @@ namespace ft
 		{
 			if (&x == this)
 				return (*this);
-			this->clear();
-			this->insert(x.begin(), x.end());
+			clear();
+			insert(x.begin(), x.end());
 			return (*this);
 		}
 
