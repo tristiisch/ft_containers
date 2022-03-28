@@ -11,7 +11,7 @@
   */
 
 #ifndef IS_STL
-# define IS_STL 1
+# define IS_STL 0
 #endif
 
 
@@ -122,6 +122,12 @@ static void mapErase()
 	map1.erase('c');
 	std::cout << map1 << std::endl;
 
+	map1.erase('W');
+	std::cout << map1 << std::endl;
+
+	map1.erase('0');
+	std::cout << map1 << std::endl;
+
 	it = map1.find('e');
 	map1.erase(it, map1.end());
 	std::cout << map1 << std::endl;
@@ -169,6 +175,7 @@ static void mapClear()
 	map.insert(ft::pair<char,int>('g', 60));
 	map.insert(ft::pair<char,int>('2', 100));
 
+	std::cout << map << std::endl;
 	map.clear();
 	std::cout << map << std::endl;
 
@@ -250,8 +257,8 @@ static void printIteratorTest(std::string itName, InputIterator begin, InputIter
 	std::cout << itName << " = " << begin->first << std::endl;
 	std::cout << "++" << itName << " = " << (++begin)->first << std::endl;
 	std::cout << itName << "++ = " << (begin++)->first << std::endl;
-	std::cout << "--" << itName << " = " << (--begin)->second << std::endl;
-	std::cout << itName << "-- = " << (begin--)->second << std::endl;
+	std::cout << "--" << itName << " = " << (--begin)->first << std::endl;
+	std::cout << itName << "-- = " << (begin--)->first << std::endl;
 	std::cout << " ++(++" << itName << ") = " << (++(++begin))->first << std::endl;
 	//std::cout << itName << "[3] = " << begin[3] << std::endl; // A voir si demander
 	std::cout << itName << " to last >";
@@ -278,29 +285,53 @@ static void iteratorTest()
 
 	std::cout << map << std::endl;
 	std::cout << "Iterator test :" << std::endl;
-	std::cout << "*vector.begin() = " << map.begin()->first << std::endl;
+	std::cout << "*map.begin() = " << map.begin()->first << std::endl;
 	printIteratorTest("it", map.begin(), map.end());
 
 	ft::map<char, int>::reverse_iterator rIt = map.rbegin();
 	(void)rIt;
 	std::cout << "Reverse Iterator test :" << std::endl;
-	std::cout << "*vector.rbegin() = " << map.rbegin()->first << std::endl;
+	std::cout << "*map.rbegin() = " << map.rbegin()->first << std::endl;
 	printIteratorTest("reverseIt", map.rbegin(), map.rend());
 
-	/*const ft::map<char, int> constMap(map);
+	const ft::map<char, int> constMap(map);
 	ft::map<char, int>::const_iterator itConst(constMap.begin());
 	(void)itConst;
 	std::cout << "Iterator const test :" << std::endl;
 	std::cout << "*constVector.begin() = " << constMap.begin()->second << std::endl;
-	printIteratorTest("itConst", constMap.begin(), constMap.end());*/
+	printIteratorTest("itConst", constMap.begin(), constMap.end());
 
-	/*std::cout << "Reverse Iterator const test :" << std::endl;
-	std::cout << "*constVector.rbegin() = " << *constVector.rbegin() << std::endl;
-	std::cout << "*constVector.rend() - 1 = " << *(constVector.rend() - 1) << std::endl;
-	printIteratorTest("reverseitConst", constVector.rbegin(), constVector.rend());
+	std::cout << "Reverse Iterator const test :" << std::endl;
+	std::cout << "*constVector.rbegin() = " << constMap.rbegin()->second << std::endl;
+	printIteratorTest("reverseitConst", constMap.rbegin(), constMap.rend());
 
-	const ft::vector<int>::const_reverse_iterator constIt = vector.rbegin();
-	(void)constIt;*/
+	const ft::map<char, int>::const_reverse_iterator constIt = constMap.rbegin();
+	(void)constIt;
+}
+
+static void mapVarious()
+{
+	ft::map<char, int> map;
+	ft::map<char, int>::iterator itlow, itup;
+
+	map.insert(ft::pair<char,int>('a', 30));
+	map.insert(ft::pair<char,int>('c', 70));
+	map.insert(ft::pair<char,int>('b', 20));
+	map.insert(ft::pair<char,int>('d', 10));
+	map.insert(ft::pair<char,int>('e', 50));
+	map.insert(ft::pair<char,int>('0', 101));
+	map.insert(ft::pair<char,int>('f', 40));
+	map.insert(ft::pair<char,int>('g', 60));
+	map.insert(ft::pair<char,int>('2', 100));
+
+	itlow = map.lower_bound('b');
+	std::cout << itlow->first << "=" << itlow->second << std::endl;
+	itlow = map.lower_bound('-');
+	std::cout << itlow->first << "=" << itlow->second << std::endl;
+	itup = map.upper_bound('0');
+	std::cout << itup->first << "=" << itup->second << std::endl;
+	itup = map.upper_bound('-');
+	std::cout << itup->first << "=" << itup->second << std::endl;
 }
 
 int main()
@@ -313,7 +344,7 @@ int main()
 
 	std::cout << std::endl;
 	(void)&mapErase;
-	// mapErase();
+	mapErase();
 
 	std::cout << std::endl;
 	(void)&mapClear;
@@ -330,4 +361,8 @@ int main()
 	std::cout << std::endl;
 	(void)&iteratorTest;
 	iteratorTest();
+
+	std::cout << std::endl;
+	(void)&mapVarious;
+	mapVarious();
 }

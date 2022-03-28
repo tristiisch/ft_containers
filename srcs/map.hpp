@@ -42,8 +42,10 @@ namespace ft
 
 		typedef typename ft::tree<value_type, Key, Compare>::iterator			iterator;
 		typedef typename ft::tree<value_type, Key, Compare>::const_iterator		const_iterator;
-		typedef typename ft::reverse_iterator<iterator>							reverse_iterator;
-		typedef typename ft::const_reverse_iterator<iterator>					const_reverse_iterator;
+		//typedef typename ft::reverse_iterator<iterator>							reverse_iterator;
+		//typedef typename ft::const_reverse_iterator<iterator>					const_reverse_iterator;
+		typedef typename ft::tree<value_type, Key, Compare>::reverse_iterator			reverse_iterator;
+		typedef typename ft::tree<value_type, Key, Compare>::const_reverse_iterator		const_reverse_iterator;
 
 
 		
@@ -138,22 +140,14 @@ namespace ft
 
 		size_type erase(const key_type& k) { return _tree.erase(k); }
 
-
-		void erase(iterator first, iterator last)
-		{
-			while (first != last)
-				_tree.erase((*(first++)).first);
-		}
-
+		void erase(iterator first, iterator last)  { return _tree.erase(first, last); }
 
 		void clear() { _tree.clear(); }
 
-		bool empty() const { return this->size() == 0; }
+		bool empty() const { return _tree.empty(); }
 
 		size_type size() const { return _tree.size(); }
 
-
-		// A check
 		size_type max_size() const { return _tree.max_size(); }
 
 		iterator begin() { return _tree.begin(); }
@@ -164,13 +158,13 @@ namespace ft
 
 		const_iterator end() const { return _tree.end(); }
 
-		reverse_iterator rbegin() { return reverse_iterator(_tree.end()); }
+		reverse_iterator rbegin() { return _tree.rbegin(); }
 
-		const_reverse_iterator rbegin() const { return const_reverse_iterator(_tree.end()); }
+		const_reverse_iterator rbegin() const { return _tree.rbegin(); }
 
-		reverse_iterator rend() { return reverse_iterator(_tree.begin()); }
+		reverse_iterator rend() { return _tree.rend(); }
 
-		const_reverse_iterator rend() const { return const_reverse_iterator(_tree.begin()); }
+		const_reverse_iterator rend() const { return _tree.rend(); }
 
 		size_type count(const key_type& k) const { return _tree.count(k); }
 
@@ -182,6 +176,16 @@ namespace ft
 
 		mapped_type& operator[](const key_type &key) { return insert(ft::make_pair(key, mapped_type())).first->second; }
 
+		tree<value_type, key_type, key_compare>* get_tree()
+		{
+			return &_tree;
+		}
+
+		void check_nodes()
+		{
+			for (iterator ite = begin(); ite != end(); ite++)
+				_verify_node(ite.base());
+		}
 
 	private :
 		allocator_type 					_alloc;

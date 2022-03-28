@@ -17,6 +17,7 @@
 #include <cstddef>
 #include "pair.hpp"
 #include "iterator.hpp"
+#include <iostream>
 #include <memory>
 #include <algorithm>
 #include <cstddef>
@@ -125,7 +126,6 @@ Node _node_prev(Node node)
 	return node->parent;
 }
 
-
 namespace ft
 {
 
@@ -163,7 +163,18 @@ struct	_node
 		{
 
 		}
-
+  
+		~_node()
+		{
+			
+		}
+  
+		int max_depth() const {
+			const int left_depth = left ? left->max_depth() : 0;
+			const int right_depth = right ? right->max_depth() : 0;
+			return (left_depth > right_depth ? left_depth : right_depth) + 1;
+		}
+  
 		~_node() {}
 
 };
@@ -281,4 +292,163 @@ public:
 		T* _node;
 };
 
+template <typename T>
+class	reverse_tree_iterator
+{
+public:
+
+	typedef T							data_type;
+	typedef typename T::value_type    	pair;
+	typedef pair&						reference;
+	typedef const pair&					const_reference;
+	typedef pair*						pointer;
+	typedef const pair*					const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
+
+
+	reverse_tree_iterator(void) : _node(NULL) {}
+	reverse_tree_iterator(T* other) : _node(other) {}
+	//reverse_tree_iterator(const reverse_tree_iterator &src) { *this = src; }
+	reverse_tree_iterator(const reverse_tree_iterator &src) { _node = src.base(); }
+
+	virtual ~reverse_tree_iterator() {}
+
+	reverse_tree_iterator &operator=(reverse_tree_iterator const &src) { _node = src._node; return (*this); }
+
+	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(reverse_tree_iterator const& b) const { return (_node == b._node); }
+	bool operator !=(reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
+
+
+	// INCREMENTERS
+	reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
+	reverse_tree_iterator operator --(int) 															// a++
+	{
+		T* tmp = _node;
+		_node = _node_next(_node);
+		return reverse_tree_iterator(tmp);
+	}
+	reverse_tree_iterator& operator ++() { _node = _node_prev(_node); return ((*this)); }			// --a
+	reverse_tree_iterator operator ++(int)															// a--
+	{
+		T* tmp = _node;
+		_node = _node_prev(_node);
+		return reverse_tree_iterator(tmp);
+	}
+
+	//DEREFERENCING & ADDRESS STUFF
+	reference operator *() { return (_node->data); }											// *a
+	const_reference operator *() const { return (_node->data); }								// *a
+	pointer operator ->() { return &(_node->data); }											// a->b
+	pointer operator ->() const { return &(_node->data); }		
+
+	T* base() const {return _node;};											// a->b
+
+	private:
+		T* _node;
+};
+
+template <typename T>
+class	const_reverse_tree_iterator
+{
+public:
+
+	typedef T							data_type;
+	typedef typename T::value_type    	pair;
+	typedef pair&						reference;
+	typedef const pair&					const_reference;
+	typedef pair*						pointer;
+	typedef const pair*					const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
+
+
+	const_reverse_tree_iterator(void) : _node(NULL) {}
+	const_reverse_tree_iterator(T* other) : _node(other) {}
+	//const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { *this = src; }
+	const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { _node = src.base(); }
+
+	virtual ~const_reverse_tree_iterator() {}
+
+	const_reverse_tree_iterator &operator=(const_reverse_tree_iterator const &src) { _node = src._node; return (*this); }
+
+	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(const_reverse_tree_iterator const& b) const { return (_node == b._node); }
+	bool operator !=(const_reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
+
+	// INCREMENTERS
+	const_reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
+	const_reverse_tree_iterator operator --(int) 															// a++
+	{
+		T* tmp = _node;
+		_node = _node_next(_node);
+		return const_reverse_tree_iterator(tmp);
+	}
+	const_reverse_tree_iterator& operator ++() { _node = _node_prev(_node); return ((*this)); }			// --a
+	const_reverse_tree_iterator operator ++(int)															// a--
+	{
+		T* tmp = _node;
+		_node = _node_prev(_node);
+		return const_reverse_tree_iterator(tmp);
+	}
+
+	//DEREFERENCING & ADDRESS STUFF
+	const_reference operator *() const { return (_node->data); }								// *a
+	pointer operator ->() const { return &(_node->data); }
+	
+	T* base() const {return _node;};									// a->b
+
+	private:
+		T* _node;
+};
+
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
+{
+	outputFile << node->first << "=" << node->second;
+	return outputFile;
+}
+
+template <typename T, typename U>
+std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
+{
+	outputFile << pair.first << "=" << pair.second;
+	return outputFile;
+}
+
+template <class Node>
+bool _verify_node(Node node)
+{
+	if (node && node->parent)
+	{
+		if (_is_right_node(node) && node->parent->right != node)
+		{
+			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
+			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in right (has " << node->parent->right->data << ")\033[0m" << std::endl;
+			exit(1);
+		}
+		else if (_is_left_node(node) && node->parent->left != node)
+		{
+			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
+			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in left (has " << node->parent->left->data << ")\033[0m" << std::endl;
+			exit(1);
+			return false;
+		}
+	}
+	if (node->right && node->right->parent != node)
+	{
+		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
+		if (node->right->parent)
+			std::cerr << "\033[0;31mNode child right " << node->right->data << " has not this node in right (has " << node->right->parent->data << ")\033[0m" << std::endl;
+		exit(1);
+		return false;
+	}
+	if (node->left && node->left->parent != node)
+	{
+		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
+		exit(1);
+		return false;
+	}
+	return true;
 }
