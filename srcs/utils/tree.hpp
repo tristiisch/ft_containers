@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/29 21:56:26 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 22:29:42 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ namespace ft
 					return iterator(node);
 				node = _node_next(node);
 			}
-			return iterator(end());
+			return end();
 		}
 
 		const_iterator find(const Key& k) const
@@ -213,12 +213,12 @@ namespace ft
 					return const_iterator(node);
 				node = _node_next(node);
 			}
-			return const_iterator(end());
+			return end();
 		}
 
 		size_type count(const Key& k) const
 		{
-			if (this->find(k) != const_iterator(end()))
+			if (this->find(k) != end())
 				return 1;
 			else
 				return 0;

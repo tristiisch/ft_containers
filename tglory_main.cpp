@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 21:35:17 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/29 21:34:39 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 22:19:04 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ T	dec(T it, int n)
 }
 
 #define TESTED_NAMESPACE ft
-#define T1 char
-#define T2 int
+#define T1 int
+#define T2 std::string
 typedef ft::pair<const T1, T2> T3;
 
 template <typename T>
@@ -208,34 +208,34 @@ void	printReverse(TESTED_NAMESPACE::multiset<T> &st)
 }*/
 
 
+typedef TESTED_NAMESPACE::map<T1, T2>::value_type T3;
+
 int		main(void)
 {
 	std::list<T3> lst;
-	unsigned int lst_size = 5;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		lst.push_back(T3('a' + i, (i + 1) * 7));
+	std::list<T3>::iterator itlst;
+
+	lst.push_back(T3(42, "lol"));
+	lst.push_back(T3(50, "mdr"));
+	lst.push_back(T3(35, "funny"));
+	lst.push_back(T3(45, "bunny"));
+	lst.push_back(T3(21, "fizz"));
+	lst.push_back(T3(35, "this key is already inside"));
+	lst.push_back(T3(55, "fuzzy"));
+	lst.push_back(T3(38, "buzz"));
+	lst.push_back(T3(55, "inside too"));
+
+	std::cout << "List contains: " << lst.size() << " elements." << std::endl;
+	for (itlst = lst.begin(); itlst != lst.end(); ++itlst)
+		printPair(itlst);
+	std::cout << "---------------------------------------------" << std::endl;
 
 	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
-	TESTED_NAMESPACE::map<T1, T2>::iterator it_ = mp.begin();
-	TESTED_NAMESPACE::map<T1, T2>::reverse_iterator it(it_), ite;
+	lst.clear();
+
 	printSize(mp);
-
-	std::cout << (it_ == it.base()) << std::endl;
-	std::cout << (it_ == dec(it, 3).base()) << std::endl;
-
-	std::cout << it.base() << std::endl;
-	std::cout << inc(it.base(), 1) << std::endl;
-
-	std::cout << "TEST OFFSET" << std::endl;
-	--it;
-	std::cout << *it << std::endl;
-	std::cout << it.base() << std::endl;
-
-	it = mp.rbegin(); ite = mp.rend();
-	while (it != ite)
-		std::cout << "[rev] " << *it++ << std::endl;
-	printReverse(mp);
 
 	return (0);
 }
+
 
