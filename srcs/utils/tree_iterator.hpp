@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/28 18:34:39 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 21:17:01 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,16 @@ Node _node_prev(Node node)
 		node = node->parent;
 	}
 	return node->parent;
+}
+
+template <class Node>
+bool _check_node(Node node)
+{
+	Node parent;
+	parent = node->parent;
+	if (parent && (parent->right == NULL || parent->left == NULL) && !_node_has_leaf(node))
+		return (false);
+	return (true);
 }
 
 namespace ft
