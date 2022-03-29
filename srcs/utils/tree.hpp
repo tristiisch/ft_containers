@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/28 19:56:47 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 19:45:26 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,8 @@ namespace ft
 				//std::cout << "Delete " << current->data << std::endl;
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
+				_node_alloc.destroy(_end_node);
+				_node_alloc.deallocate(_end_node, 1);
 				_size = 0;
 				_root = NULL;
 				_end_node = NULL;
@@ -297,7 +299,10 @@ namespace ft
 			iterator one = first;
 			iterator two = last;
 			while (one != two)
+			{
+				//std::cout << (one)->first << std::endl;
 				erase((one++)->first);
+			}
 		}
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait

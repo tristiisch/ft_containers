@@ -6,13 +6,14 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 21:35:17 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/28 21:47:30 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 21:23:23 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include <deque>
+#include <list>
 
 #if IS_STL
 	#include <map>
@@ -86,10 +87,10 @@ static void mapInsert()
 		map3.insert(ft::pair<int,int>((rand() % 1000), i));
 	std::cout << map3 << std::endl;
 }
-
+/*
 int main()
 {
-	/*ft::map<char, int> map;
+	ft::map<char, int> map;
 
 	map.insert(ft::pair<char,int>('a', 30));
 	map.insert(ft::pair<char,int>('c', 70));
@@ -100,7 +101,7 @@ int main()
 	map.insert(ft::pair<char,int>('f', 40));
 	map.insert(ft::pair<char,int>('g', 60));
 	map.insert(ft::pair<char,int>('2', 100));
-	std::cout << map << std::endl;*/
+	std::cout << map << std::endl;
 	//mapInsert();
 
 	ft::map<char,int> mymap;
@@ -135,4 +136,93 @@ int main()
 		std::cout << it->first << " => " << it->second << '\n';
 
 	return 0;
+}*/
+
+template <typename T>
+T	inc(T it, int n)
+{
+	while (n-- > 0)
+		++it;
+	return (it);
 }
+
+template <typename T>
+T	dec(T it, int n)
+{
+	while (n-- > 0)
+		--it;
+	return (it);
+}
+
+#define TESTED_NAMESPACE ft
+#define T1 char
+#define T2 int
+typedef ft::pair<const T1, T2> T3;
+
+template <typename T>
+std::string	printPair(const T &iterator, bool nl = true, std::ostream &o = std::cout)
+{
+	o << "value: " << iterator->first;
+	if (nl)
+		o << std::endl;
+	return ("");
+}
+
+template <typename T_SET>
+void	printSize(T_SET const &st, bool print_content = 1)
+{
+	std::cout << "size: " << st.size() << std::endl;
+	std::cout << "max_size: " << st.max_size() << std::endl;
+	if (print_content)
+	{
+		typename T_SET::const_iterator it = st.begin(), ite = st.end();
+		std::cout << std::endl << "Content is:" << std::endl;
+		for (; it != ite; ++it)
+			std::cout << "- " << printPair(it, false) << std::endl;
+	}
+	std::cout << "###############################################" << std::endl;
+}
+/*
+template <typename T>
+void	printReverse(TESTED_NAMESPACE::multiset<T> &st)
+{
+	typename TESTED_NAMESPACE::multiset<T>::iterator it = st.end(), ite = st.begin();
+
+	std::cout << "printReverse:" << std::endl;
+	while (it-- != ite)
+		std::cout << "-> " << printPair(it, false) << std::endl;
+	std::cout << "_______________________________________________" << std::endl;
+}*/
+
+
+int		main(void)
+{
+	std::list<T3> lst;
+	unsigned int lst_size = 5;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(T3('a' + i, (i + 1) * 7));
+
+	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
+	TESTED_NAMESPACE::map<T1, T2>::iterator it_ = mp.begin();
+	TESTED_NAMESPACE::map<T1, T2>::reverse_iterator it(it_), ite;
+	printSize(mp);
+
+	std::cout << (it_ == it.base()) << std::endl;
+	std::cout << (it_ == dec(it, 3).base()) << std::endl;
+
+	std::cout << it.base() << std::endl;
+	std::cout << inc(it.base(), 1) << std::endl;
+
+	std::cout << "TEST OFFSET" << std::endl;
+	--it;
+	std::cout << *it << std::endl;
+	std::cout << it.base() << std::endl;
+
+	it = mp.rbegin(); ite = mp.rend();
+	while (it != ite)
+		std::cout << "[rev] " << *it++ << std::endl;
+	//printReverse(mp);
+
+	return (0);
+}
+

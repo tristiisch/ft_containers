@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/28 19:20:06 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 21:14:31 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,18 +190,16 @@ public:
 	typedef const pair*					const_pointer;
 	typedef typename std::ptrdiff_t 	difference_type;
 
-
-
 	tree_iterator(void) : _node(NULL) {}
 	tree_iterator(T* other) : _node(other) {}
 	tree_iterator(const tree_iterator &src) { *this = src; }
-
 
 	virtual ~tree_iterator() {}
 
 	tree_iterator &operator=(tree_iterator const &src) { _node = src._node; return (*this); }
 
 	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(T* const base) const { return (_node == base); }
 	bool operator ==(tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(tree_iterator const& b) const { return (!(_node == b._node)); }
 	//bool operator >(tree_iterator const& b) const { return (_node > b._node); };
@@ -261,6 +259,7 @@ public:
 	const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
 
 	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(T* const base) const { return (_node == base); }
 	bool operator ==(const_tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(const_tree_iterator const& b) const { return (!(_node == b._node)); }
 
@@ -307,6 +306,7 @@ public:
 	reverse_tree_iterator(void) : _node(NULL) {}
 	reverse_tree_iterator(T* other) : _node(other) {}
 	//reverse_tree_iterator(const reverse_tree_iterator &src) { *this = src; }
+	reverse_tree_iterator(const tree_iterator<T> &src) { _node = src.base(); }
 	reverse_tree_iterator(const reverse_tree_iterator &src) { _node = src.base(); }
 
 	virtual ~reverse_tree_iterator() {}
@@ -314,6 +314,7 @@ public:
 	reverse_tree_iterator &operator=(reverse_tree_iterator const &src) { _node = src._node; return (*this); }
 
 	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(T* const base) const { return _node == base; }
 	bool operator ==(reverse_tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
 
@@ -364,12 +365,16 @@ public:
 	const_reverse_tree_iterator(T* other) : _node(other) {}
 	//const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { *this = src; }
 	const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { _node = src.base(); }
+	const_reverse_tree_iterator(const tree_iterator<T> &src) { _node = src.base(); }
+	const_reverse_tree_iterator(const const_tree_iterator<T> &src) { _node = src.base(); }
+	const_reverse_tree_iterator(const reverse_tree_iterator<T> &src) { _node = src.base(); }
 
 	virtual ~const_reverse_tree_iterator() {}
 
 	const_reverse_tree_iterator &operator=(const_reverse_tree_iterator const &src) { _node = src._node; return (*this); }
 
 	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(T* const base) const { return _node == base; }
 	bool operator ==(const_reverse_tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(const_reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
 
