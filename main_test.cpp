@@ -58,13 +58,13 @@ int		main(void)
 	map1.insert(it, ft::pair<char,int>('5', 400));
 	std::cout << map1 << std::endl;
 //
-	//std::cout << "Map First/Last insert :" << std::endl;
-	//map2.insert(map1.begin(), map1.find('e'));
-	//std::cout << map2 << std::endl;
-	//srand(time(NULL));
-	//std::cout << "Map Random Basic insert :" << std::endl;
-	//for (int i = 0; i < 15; ++i)
-	//	map3.insert(ft::pair<int,int>((rand() % 1000), i));
-	//std::cout << map3 << std::endl;
+	std::cout << "Map First/Last insert :" << std::endl;
+	map2.insert(map1.begin(), map1.find('e'));
+	std::cout << map2 << std::endl;
+	srand(time(NULL));
+	std::cout << "Map Random Basic insert :" << std::endl;
+	for (int i = 0; i < 15; ++i)
+		map3.insert(ft::pair<int,int>((rand() % 1000), i));
+	std::cout << map3 << std::endl;
 
 }
