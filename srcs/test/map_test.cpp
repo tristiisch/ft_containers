@@ -404,9 +404,9 @@ void map_tests()
 	(void)&mapVarious;
 	mapVarious();
 }
-
+/*
 int main()
 {
 	map_tests();
 	return 0;
-}
+}*/

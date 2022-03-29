@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/29 23:33:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 23:37:08 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace ft
 			node = pre_organize_tree(node);
 			if (_is_right_node(node))
 			{
-				std::cout << "ENTER = "<< node->data.first << std::endl;
+				//std::cout << "ENTER = "<< node->data.first << std::endl;
 				if (node->parent != _root)
 				{
 					if (_is_right_node(node->parent))	
@@ -122,13 +122,13 @@ namespace ft
 			//int i = 0;
 			while (current != NULL )
 			{
-				std::cout << current->data.first << std::endl;
+				//std::cout << current->data.first << std::endl;
 				if (!_check_node(current))
 				{	
-					std::cout << "CHECK = " << current->data.first << std::endl;
+					//std::cout << "CHECK = " << current->data.first << std::endl;
 					organise_tree(current);
 					current = _node_min(_root);
-					std::cout << "MIN = " << current->data.first << std::endl;
+					/*std::cout << "MIN = " << current->data.first << std::endl;
 					std::cout << "MIN PARENT= " << current->parent->data.first << std::endl;
 					std::cout << "ROOT = " << _root->data.first << std::endl;
 					std::cout << "ROOT LEFT = " << _root->left->data.first << std::endl;
@@ -143,7 +143,7 @@ namespace ft
 					if (current->parent->left != NULL)
 						std::cout << "CHILD L = " << current->parent->left->data << std::endl;
 					if (current->parent->right != NULL)
-						std::cout << "CHILD R = " << current->parent->right->data << std::endl;
+						std::cout << "CHILD R = " << current->parent->right->data << std::endl;*/
 					//std::cout << "SURPRISE = " << current->right->data.first << std::endl;
 				}
 				else
