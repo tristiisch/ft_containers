@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/29 22:34:55 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 22:50:34 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -449,7 +449,7 @@ bool _verify_node(Node node)
 			return false;
 		}
 	}
-	if (node->right && node->right->parent != node)
+	if (node->right && node->right->parent != NULL && node->right->parent != node)
 	{
 		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
 		if (node->right->parent)
@@ -457,7 +457,7 @@ bool _verify_node(Node node)
 		exit(1);
 		return false;
 	}
-	if (node->left && node->left->parent != node)
+	if (node->left && node->left->parent != NULL && node->left->parent != node)
 	{
 		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
 		exit(1);

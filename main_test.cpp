@@ -51,13 +51,13 @@ int		main(void)
 	map1.insert(ft::pair<char,int>('2', 100));
 	
 	std::cout << map1 << std::endl;
-//
+
 	std::cout << "Map Iterator insert :" << std::endl;
   	ft::map<char,int>::iterator it = map1.begin();
-  	map1.insert(it, ft::pair<char,int>('Z', 300));
-	map1.insert(it, ft::pair<char,int>('5', 400));
+  	map1.insert(ft::pair<char,int>('Z', 300));
+	map1.insert(ft::pair<char,int>('5', 400));
 	std::cout << map1 << std::endl;
-//
+
 	//std::cout << "Map First/Last insert :" << std::endl;
 	//map2.insert(map1.begin(), map1.find('e'));
 	//std::cout << map2 << std::endl;

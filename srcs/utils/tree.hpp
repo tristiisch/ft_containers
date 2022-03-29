@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/29 22:34:42 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 23:33:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,13 @@ namespace ft
 			if (_is_right_node(node))
 			{
 				std::cout << "ENTER = "<< node->data.first << std::endl;
-				if (node->parent != _root)	
-					node->parent->parent->right = node;
+				if (node->parent != _root)
+				{
+					if (_is_right_node(node->parent))	
+						node->parent->parent->right = node;
+					else if (_is_left_node(node->parent))	
+						node->parent->parent->left = node;
+				}
 				node->left = node->parent;
 				node->parent->right = NULL;
 				node->parent = node->left->parent;
@@ -95,8 +100,13 @@ namespace ft
 			}
 			else if (_is_left_node(node))
 			{
-				if (node->parent != _root)	
-					node->parent->parent->left = node;
+				if (node->parent != _root)
+				{
+					if (_is_right_node(node->parent))	
+						node->parent->parent->right = node;
+					else if (_is_left_node(node->parent))	
+						node->parent->parent->left = node;
+				}
 				node->right = node->parent;
 				node->parent->left = NULL;
 				node->parent = node->right->parent;
@@ -119,10 +129,21 @@ namespace ft
 					organise_tree(current);
 					current = _node_min(_root);
 					std::cout << "MIN = " << current->data.first << std::endl;
+					std::cout << "MIN PARENT= " << current->parent->data.first << std::endl;
 					std::cout << "ROOT = " << _root->data.first << std::endl;
+					std::cout << "ROOT LEFT = " << _root->left->data.first << std::endl;
+					if (_root->left->left != NULL)
+						std::cout << "ROOT LEFT LEFT = " << _root->left->left->data.first << std::endl;
+					if (_root->left->right != NULL)
+						std::cout << "ROOT LEFT RIGHT = " << _root->left->right->data.first << std::endl;
 					std::cout << "NEXT = " << _node_next(current)->data.first << std::endl;
+					std::cout << "NEXT = " << _node_next(current)->data.first << std::endl;
+					
 					std::cout << "PARENT = " << current->parent->data.first << std::endl;
-					std::cout << "CHILD = " << current->parent->left->data.first << std::endl;
+					if (current->parent->left != NULL)
+						std::cout << "CHILD L = " << current->parent->left->data << std::endl;
+					if (current->parent->right != NULL)
+						std::cout << "CHILD R = " << current->parent->right->data << std::endl;
 					//std::cout << "SURPRISE = " << current->right->data.first << std::endl;
 				}
 				else
@@ -178,7 +199,17 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			check_tree();
+			//if (val.first != '5')
+				check_tree();
+			/*else
+			{
+				std::cout << "verif " << new_node->data << std::endl;
+				std::cout << "verif " << new_node->parent->data.first << std::endl;
+				// std::cout << "verif " << new_node->parent->right << std::endl;
+				std::cout << "verif " << new_node->parent->left->data.first << std::endl;
+				std::cout << "verif " << new_node->parent->data << std::endl;
+				//_verify_node(current);
+			}*/
 			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
 			++_size;
