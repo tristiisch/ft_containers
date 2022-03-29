@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/29 22:29:42 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 22:34:42 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 //#include "reverse_iterator.hpp"
 #include "tree_iterator.hpp"
 #include "../vector.hpp"
+#include "utils.hpp"
 
 namespace ft
 {
@@ -39,7 +40,6 @@ namespace ft
 		typedef ft::const_reverse_tree_iterator<node_type>		const_reverse_iterator;
 		typedef typename Value_alloc::difference_type 			difference_type;
 
-
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _end_node(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
 		{
@@ -55,6 +55,80 @@ namespace ft
 			_end = NULL;
 			_size = 0;
 
+		}
+
+		node_pointer pre_organize_tree(node_pointer node)
+		{
+			if (_is_right_node(node) && node->left)
+			{
+				node->left->parent = node->parent;
+				node->parent->right = node->left;
+				node->left->right = node;
+				node->parent = node->left;
+				node->left = NULL;
+				return (node->parent);
+			}
+			else if (_is_left_node(node) && node->right)
+			{
+				node->right->parent = node->parent;
+				node->parent->left = node->right;
+				node->right->left = node;
+				node->parent = node->right;
+				node->right = NULL;
+				return (node->parent);
+			}
+			return node;
+		}
+
+		void organise_tree(node_pointer node)
+		{
+			node = pre_organize_tree(node);
+			if (_is_right_node(node))
+			{
+				std::cout << "ENTER = "<< node->data.first << std::endl;
+				if (node->parent != _root)	
+					node->parent->parent->right = node;
+				node->left = node->parent;
+				node->parent->right = NULL;
+				node->parent = node->left->parent;
+				node->left->parent = node;
+			}
+			else if (_is_left_node(node))
+			{
+				if (node->parent != _root)	
+					node->parent->parent->left = node;
+				node->right = node->parent;
+				node->parent->left = NULL;
+				node->parent = node->right->parent;
+				node->right->parent = node;
+			}
+			if (node->parent == NULL)
+				_root = node;
+		}
+
+		void check_tree()
+		{
+			node_pointer current = _node_min(_root);
+			//int i = 0;
+			while (current != NULL )
+			{
+				std::cout << current->data.first << std::endl;
+				if (!_check_node(current))
+				{	
+					std::cout << "CHECK = " << current->data.first << std::endl;
+					organise_tree(current);
+					current = _node_min(_root);
+					std::cout << "MIN = " << current->data.first << std::endl;
+					std::cout << "ROOT = " << _root->data.first << std::endl;
+					std::cout << "NEXT = " << _node_next(current)->data.first << std::endl;
+					std::cout << "PARENT = " << current->parent->data.first << std::endl;
+					std::cout << "CHILD = " << current->parent->left->data.first << std::endl;
+					//std::cout << "SURPRISE = " << current->right->data.first << std::endl;
+				}
+				else
+					current = _node_next(current);
+				//i++;
+			}
 		}
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
@@ -104,6 +178,7 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
+			check_tree();
 			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
 			++_size;
@@ -228,7 +303,7 @@ namespace ft
 		{
 			node_pointer current = _node_min(_root);
 			node_pointer next;
-      
+
 			while (current != _end_node && current->data.first != k)
 			{
 				current = _node_next(current);
@@ -236,31 +311,26 @@ namespace ft
 					return (0);
 			}
 			_end_node->parent->right = NULL;
-			if (!_node_has_leaf(current))
+			if (_node_is_root(current) && current->right)
 			{
+				//std::cout << "ROOT IS " << current->data.first << std::endl;
+				//std::cout << "CHILD IS " << current->right->data.first << std::endl;
+				//std::cout << "NEXT IS " << (_node_next(current))->data.first << std::endl;
+				//std::cout << "MIN IS " << (_node_min(current->right))->data.first << std::endl;
 				next = _node_next(current);
-				if (next && current->parent)
+				if (_is_left_node(next))
 				{
-					if (_is_left_node(next))
-						next->parent->left = NULL;
-					else if (_is_right_node(next))
-						next->parent->right = NULL;
-					next->parent = current->parent;
+					next->right = current->right;
+					current->right->parent = next;
+					next->parent->left = NULL;
 				}
-				else
-					next->parent = NULL;
-
 				if (current->left)
 				{
-					current->left->parent = next;
 					next->left = current->left;
+					current->left->parent = next;
 				}
-				if (_is_left_node(current))
-					current->parent->left = next;
-				else if (current->parent)
-					current->parent->right = next;
-				if (_node_is_root(next))
-					_root = next;
+				next->parent = NULL;
+				_root = next;
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
@@ -273,6 +343,29 @@ namespace ft
 				_root = NULL;
 				_end_node = NULL;
 				return (1);
+			}
+			else if (!_node_has_leaf(current)) // il faut reprendre ici
+			{
+				next = _node_next(current);
+				if (_is_right_node(next))
+					next->parent->right = NULL;
+				else
+					next->parent->left = NULL;
+				if (_is_right_node(current))
+					current->parent->right = next;
+				else
+					current->parent->left = next;
+				next->parent = current->parent;
+				if (current->right)
+				{
+					next->right = current->right;
+					current->right->parent = next;
+				}
+				if (current->left)
+				{
+					next->left = current->left;
+					current->left->parent = next;
+				}
 			}
 			else
 			{
@@ -299,8 +392,8 @@ namespace ft
 			iterator one = first;
 			iterator two = last;
 			while (one != two)
-			{
-				//std::cout << (one)->first << std::endl;
+			{	
+				//std::cout << "ERASING = " << one->first << std::endl;
 				erase((one++)->first);
 			}
 		}
@@ -357,7 +450,7 @@ namespace ft
 		node_pointer get_root() const { return _root ; }
 
 	private :
-    
+
 		size_type _erase(const node_pointer current)
 		{
 			node_pointer next;
@@ -366,7 +459,7 @@ namespace ft
 			{
 				next = _node_next(current);
 				if (next && current->parent)
-				{	
+				{
 					if (_is_left_node(next))
 						next->parent->left = NULL;
 					else if (_is_right_node(next))
@@ -377,7 +470,7 @@ namespace ft
 					next->parent = NULL;
 
 				if (current->left)
-				{	
+				{
 					current->left->parent = next;
 					next->left = current->left;
 				}
@@ -394,7 +487,6 @@ namespace ft
 				_node_alloc.destroy(static_cast<node_type*>(current));
 				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
 				_size = 0;
-				_start = NULL;
 				_root = NULL;
 				return (1);
 			}
@@ -409,7 +501,6 @@ namespace ft
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
 			_size--;
-			_start = _node_min(_root);
 			return (1);
 		}
 

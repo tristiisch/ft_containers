@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/29 21:14:31 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 22:34:55 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,16 @@ Node _node_prev(Node node)
 	return node->parent;
 }
 
+template <class Node>
+bool _check_node(Node node)
+{
+	Node parent;
+	parent = node->parent;
+	if (parent && (parent->right == NULL || parent->left == NULL) && !_node_has_leaf(node))
+		return (false);
+	return (true);
+}
+
 namespace ft
 {
 
@@ -164,12 +174,12 @@ struct	_node
 		{
 
 		}
-  
+
 		~_node()
 		{
-			
+
 		}
-  
+
 		int max_depth() const {
 			const int left_depth = left ? left->max_depth() : 0;
 			const int right_depth = right ? right->max_depth() : 0;
@@ -339,7 +349,7 @@ public:
 	reference operator *() { return (_node->data); }											// *a
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() { return &(_node->data); }											// a->b
-	pointer operator ->() const { return &(_node->data); }		
+	pointer operator ->() const { return &(_node->data); }
 
 	T* base() const {return _node;};											// a->b
 
@@ -397,7 +407,7 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() const { return &(_node->data); }
-	
+
 	T* base() const {return _node;};									// a->b
 
 	private:
