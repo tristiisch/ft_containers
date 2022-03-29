@@ -160,9 +160,20 @@ namespace ft
 
 		allocator_type get_allocator() const { return _alloc; }
 
-		mapped_type& operator[](const key_type &key) { return insert(ft::make_pair(key, mapped_type())).first->second; }
+		mapped_type& operator[](const Key &key)
+		{
+			const_iterator it = find(key);
 
-		void swap(map &map) { _tree.swap(map._tree); }
+			if (it != const_iterator(end()))
+				return it->second;
+			return insert(ft::make_pair(key, mapped_type())).first->second;
+		}
+
+		void swap(map &map) {
+			std::swap(_alloc, map._alloc);
+			_tree.swap(map._tree);
+			std::swap(_compare, map._compare);
+		}
 
 		// Temp functions
 		tree<value_type, key_type, key_compare>* get_tree()
@@ -178,9 +189,9 @@ namespace ft
 		// End Temp functions
 
 	protected :
-		allocator_type 					_alloc;
+		allocator_type 								_alloc;
 		tree<value_type, key_type, key_compare>		_tree;
-		key_compare 					_compare;
+		key_compare 								_compare;
 	};
 
 	template <class Key, class T, class Alloc>

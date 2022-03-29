@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 21:35:17 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/29 21:23:23 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 21:34:39 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,19 @@ std::string	printPair(const T &iterator, bool nl = true, std::ostream &o = std::
 	return ("");
 }
 
+void	printReverse(TESTED_NAMESPACE::map<T1, T2> &mp)
+{
+	TESTED_NAMESPACE::map<T1, T2>::iterator it = mp.end(), ite = mp.begin();
+
+	std::cout << "printReverse:" << std::endl;
+	while (it != ite) {
+		it--;
+		std::cout << "-> " << printPair(it, false) << std::endl;
+	}
+	std::cout << "_______________________________________________" << std::endl;
+}
+
+
 template <typename T_SET>
 void	printSize(T_SET const &st, bool print_content = 1)
 {
@@ -221,7 +234,7 @@ int		main(void)
 	it = mp.rbegin(); ite = mp.rend();
 	while (it != ite)
 		std::cout << "[rev] " << *it++ << std::endl;
-	//printReverse(mp);
+	printReverse(mp);
 
 	return (0);
 }

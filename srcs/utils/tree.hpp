@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/29 19:45:26 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/03/29 21:56:26 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,6 +347,7 @@ namespace ft
 		void swap(tree &tree) {
 			std::swap(_start, tree._start);
 			std::swap(_end, tree._end);
+			std::swap(_root, tree._root);
 			std::swap(_end_node, tree._end_node);
 			std::swap(_node_alloc, tree._node_alloc);
 			std::swap(_comp, tree._comp);
