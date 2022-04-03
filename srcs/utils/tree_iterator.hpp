@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/29 22:50:34 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 01:17:56 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ class	tree_iterator
 {
 public:
 
-	typedef T							data_type;
+	typedef T							value_type;
 	typedef typename T::value_type    	pair;
 	typedef pair&						reference;
 	typedef const pair&					const_reference;
@@ -251,18 +251,16 @@ class	const_tree_iterator
 {
 public:
 
-	typedef T							data_type;
+	typedef T							value_type;
 	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
+	typedef const pair&					reference;
+	typedef const pair*					pointer;
 	typedef typename std::ptrdiff_t 	difference_type;
 
 	const_tree_iterator(void) : _node(NULL) {}
 	const_tree_iterator(T* other) : _node(other) {}
 	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
-	const_tree_iterator(const tree_iterator<data_type> &src) { _node = src.base(); }
+	const_tree_iterator(const tree_iterator<value_type> &src) { _node = src.base(); }
 
 	virtual ~const_tree_iterator() {}
 
@@ -288,133 +286,93 @@ public:
 		_node = _node_prev(_node);
 		return const_tree_iterator(tmp);
 	}
-
-	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() const { return &(_node->data); }
-
-	T* base() const {return _node;};									// a->b
-
-	private:
-		T* _node;
 };
 
-template <typename T>
-class	reverse_tree_iterator
-{
-public:
+	template <class Iterator>
+    class tree_reverse_iterator
+    {
+        public:
+            typedef Iterator    iterator_type;
+            typedef typename Iterator::value_type      value_type;
+            typedef typename Iterator::difference_type     difference_type;
+            typedef typename Iterator::pointer				pointer;
 
-	typedef T							data_type;
-	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
-	typedef typename std::ptrdiff_t 	difference_type;
+            typedef typename Iterator::reference   reference;
 
-
-	reverse_tree_iterator(void) : _node(NULL) {}
-	reverse_tree_iterator(T* other) : _node(other) {}
-	//reverse_tree_iterator(const reverse_tree_iterator &src) { *this = src; }
-	reverse_tree_iterator(const tree_iterator<T> &src) { _node = src.base(); }
-	reverse_tree_iterator(const reverse_tree_iterator &src) { _node = src.base(); }
-
-	virtual ~reverse_tree_iterator() {}
-
-	reverse_tree_iterator &operator=(reverse_tree_iterator const &src) { _node = src._node; return (*this); }
-
-	// BOOLEANS : pas besoin dans ce cas
-	bool operator ==(T* const base) const { return _node == base; }
-	bool operator ==(reverse_tree_iterator const& b) const { return (_node == b._node); }
-	bool operator !=(reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
+            tree_reverse_iterator(): _elem() {}
 
 
-	// INCREMENTERS
-	reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
-	reverse_tree_iterator operator --(int) 															// a++
-	{
-		T* tmp = _node;
-		_node = _node_next(_node);
-		return reverse_tree_iterator(tmp);
-	}
-	reverse_tree_iterator& operator ++() { _node = _node_prev(_node); return ((*this)); }			// --a
-	reverse_tree_iterator operator ++(int)															// a--
-	{
-		T* tmp = _node;
-		_node = _node_prev(_node);
-		return reverse_tree_iterator(tmp);
-	}
+            explicit tree_reverse_iterator (iterator_type it)
+            :
+                _elem(it)
+            {}
 
-	//DEREFERENCING & ADDRESS STUFF
-	reference operator *() { return (_node->data); }											// *a
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() { return &(_node->data); }											// a->b
-	pointer operator ->() const { return &(_node->data); }
+            template <class Iter>
+                tree_reverse_iterator (const tree_reverse_iterator<Iter>& rev_it)
+                :
+                    _elem(rev_it.base())
+                {}
 
-	T* base() const {return _node;};											// a->b
+            virtual ~tree_reverse_iterator() {}
+      
+            iterator_type base() const
+            { return (_elem); }
 
-	private:
-		T* _node;
-};
+            reference operator*() const
+            {
+                iterator_type tmp = _elem;
+                return (*(--tmp));
+            }
 
-template <typename T>
-class	const_reverse_tree_iterator
-{
-public:
+            tree_reverse_iterator operator+ (difference_type n) const { return (tree_reverse_iterator(_elem - n)); }
+      
+            tree_reverse_iterator& operator++()
+            {
+                --_elem;
+                return (*this);
+            }
 
-	typedef T							data_type;
-	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
-	typedef typename std::ptrdiff_t 	difference_type;
+            tree_reverse_iterator operator++(int)
+            {
+                tree_reverse_iterator tmp = *this;
+                ++(*this);
+                return (tmp);
+            }
+      
+            tree_reverse_iterator& operator+= (difference_type n)
+            {
+                _elem -= n;
+                return (*this);
+            }
 
+            tree_reverse_iterator operator- (difference_type n) const { return (tree_reverse_iterator(_elem + n)); }
 
-	const_reverse_tree_iterator(void) : _node(NULL) {}
-	const_reverse_tree_iterator(T* other) : _node(other) {}
-	//const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { *this = src; }
-	const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { _node = src.base(); }
-	const_reverse_tree_iterator(const tree_iterator<T> &src) { _node = src.base(); }
-	const_reverse_tree_iterator(const const_tree_iterator<T> &src) { _node = src.base(); }
-	const_reverse_tree_iterator(const reverse_tree_iterator<T> &src) { _node = src.base(); }
+            tree_reverse_iterator& operator--()
+            {
+                ++_elem;
+                return (*this);
+            }
+      
+            tree_reverse_iterator operator--(int)
+            {
+                tree_reverse_iterator tmp = *this;
+                --(*this);
+                return (tmp);
+            }
+      
+            tree_reverse_iterator& operator-= (difference_type n)
+            {
+                _elem += n;
+                return (*this);
+            }
+      
+            pointer operator->() const { return &(operator*()); }
 
-	virtual ~const_reverse_tree_iterator() {}
+            reference operator[] (difference_type n) const { return (this->base()[-n - 1]); }
 
-	const_reverse_tree_iterator &operator=(const_reverse_tree_iterator const &src) { _node = src._node; return (*this); }
-
-	// BOOLEANS : pas besoin dans ce cas
-	bool operator ==(T* const base) const { return _node == base; }
-	bool operator ==(const_reverse_tree_iterator const& b) const { return (_node == b._node); }
-	bool operator !=(const_reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
-
-	// INCREMENTERS
-	const_reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
-	const_reverse_tree_iterator operator --(int) 															// a++
-	{
-		T* tmp = _node;
-		_node = _node_next(_node);
-		return const_reverse_tree_iterator(tmp);
-	}
-	const_reverse_tree_iterator& operator ++() { _node = _node_prev(_node); return ((*this)); }			// --a
-	const_reverse_tree_iterator operator ++(int)															// a--
-	{
-		T* tmp = _node;
-		_node = _node_prev(_node);
-		return const_reverse_tree_iterator(tmp);
-	}
-
-	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() const { return &(_node->data); }
-
-	T* base() const {return _node;};									// a->b
-
-	private:
-		T* _node;
-};
-
-}
+        private:
+            iterator_type     _elem;
+    };
 
 template <typename T>
 std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
@@ -464,4 +422,6 @@ bool _verify_node(Node node)
 		return false;
 	}
 	return true;
+}
+
 }

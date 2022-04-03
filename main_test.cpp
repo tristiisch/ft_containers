@@ -1,44 +1,43 @@
-#include <map>
-#include <iostream>
-#include <cstddef>
+#include "common.hpp"
 #include <list>
 
-#include "srcs/map.hpp"
-
-#define T1 char
-#define T2 int
-typedef ft::pair<const T1, T2> T3;
-
-template <typename T, typename U>
-std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
-{
-	outputFile	<< "\033[1;36mSize\t" << map.size()
-				<< "\033[0m" << std::endl
-				<< "\033[1;36mContent ";
-	if (map.empty())
-		outputFile << "<empty>";
-	else
-	{
-
-		typename ft::map<T, U>::const_iterator it = map.begin();
-		while (true)
-		{
-			outputFile << it->first << "=" << it->second;
-			if (++it != map.end())
-				outputFile << ", ";
-			else
-				break;
-		}
-	}
-	outputFile << "\033[0m";
-	return outputFile;
-}
+#define T1 float
+#define T2 foo<int>
+typedef _pair<const T1, T2> T3;
 
 int		main(void)
 {
-	ft::map<char, int> map1, map2;
-	ft::map<int, int> map3;
+	std::list<T3> lst;
+	unsigned int lst_size = 5;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(T3(2.5 - i, (i + 1) * 7));
 
+	TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
+	TESTED_NAMESPACE::map<T1, T2>::reverse_iterator it(mp.rbegin());
+	TESTED_NAMESPACE::map<T1, T2>::const_reverse_iterator ite(mp.rbegin());
+	printSize(mp);
+
+	printPair(++ite);
+	printPair(ite++);
+	printPair(ite++);
+	printPair(++ite);
+
+	it->second.m();
+	ite->second.m();
+
+	printPair(++it);
+	printPair(it++);
+	printPair(it++);
+	printPair(++it);
+
+	printPair(--ite);
+	printPair(ite--);
+	printPair(--ite);
+	printPair(ite--);
+
+	(*it).second.m();
+	(*ite).second.m();
+  
 	std::cout << "Map Basic insert :" << std::endl;
 	map1.insert(ft::pair<char,int>('a', 30));
 	map1.insert(ft::pair<char,int>('c', 70));
@@ -67,4 +66,6 @@ int		main(void)
 		map3.insert(ft::pair<int,int>((rand() % 1000), i));
 	std::cout << map3 << std::endl;
 
+
+	return (0);
 }

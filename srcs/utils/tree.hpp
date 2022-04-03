@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/03 18:30:42 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 01:16:17 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ namespace ft
 		typedef typename node_alloc::size_type					size_type;
 		typedef ft::tree_iterator<node_type>					iterator;
 		typedef ft::const_tree_iterator<node_type>				const_iterator;
-		typedef ft::reverse_tree_iterator<node_type>			reverse_iterator;
-		typedef ft::const_reverse_tree_iterator<node_type>		const_reverse_iterator;
 		typedef typename Value_alloc::difference_type 			difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _end_node(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
 		{
-
+			_end_node =_node_alloc.allocate(1);
+			_node_alloc.construct(_end_node, Node());
+			_root  = _end_node;
 		}
 
 		~tree()
@@ -51,9 +51,10 @@ namespace ft
 			if (_root != NULL)
 				clear();
 			_root = NULL;
-			_end_node = NULL;
 			_end = NULL;
 			_size = 0;
+			_node_alloc.destroy(_end_node);
+			_node_alloc.deallocate(_end_node, 1);
 
 		}
 
@@ -118,10 +119,22 @@ namespace ft
 		void check_tree()
 		{
 			node_pointer current = _node_min(_root);
+			if (_root->left && _root->right == NULL)
+			{
+				node_pointer previous = _node_prev(_root);
+				previous->right = _root;
+				previous->parent = NULL;
+				previous->left = NULL;
+				_root->parent = previous;
+				_root->left = NULL;
+				_root->right = NULL;
+				_root = previous;
+				return;
+			}
 			while (current != NULL )
 			{
 				if (!_check_node(current))
-				{	
+				{
 					organise_tree(current);
 					current = _node_min(_root);
 				}
@@ -135,13 +148,10 @@ namespace ft
 			node_pointer new_node;
 			node_pointer current;
 
-
-			if (_root == NULL)
+			if (_root == _end_node)
 			{
-				_end_node =_node_alloc.allocate(1);
 				new_node = _node_alloc.allocate(1);
 				_node_alloc.construct(new_node, Node(val));
-				_node_alloc.construct(_end_node, Node());
 				_root = new_node;
 				_root->right = _end_node;
 				_end_node->parent = _root;
@@ -149,7 +159,6 @@ namespace ft
 				return (ft::make_pair(iterator(_root), true));
 			}
 			_end_node->parent->right = NULL;
-			//_end_node->parent = NULL;
 			current = _root;
 			while (current != NULL)
 			{
@@ -157,7 +166,11 @@ namespace ft
 				if (_comp(val.first, current->data.first) && current->left != NULL)
 					current = current->left;
 				else if (current->data.first == val.first)
+				{
+					_end_node->parent = _node_true_max(_root);
+					(_node_true_max(_root))->right = _end_node;
 					return ft::make_pair(iterator(current), false);
+				}
 				else if (_comp(current->data.first, val.first) && current->right != NULL)
 					current = current->right;
 				else
@@ -224,39 +237,15 @@ namespace ft
 		iterator end()
 		{
 			if (_root)
-				return iterator(_node_max(_root)->right);
+				return iterator(_end_node);
 			return NULL;
 		}
 
 		const_iterator end() const
 		{
 			if (_root)
-				return const_iterator(_node_max(_root)->right);
+				return const_iterator(_end_node);
 			return NULL;
-		}
-
-		reverse_iterator rbegin()
-		{
-			if (_root)
-				return reverse_iterator(_node_max(_root));
-			return NULL;
-		}
-
-		reverse_iterator rend()
-		{
-			return reverse_iterator(_end);
-		}
-
-		const_reverse_iterator rbegin() const
-		{
-			if (_root)
-				return const_reverse_iterator(_node_max(_root));
-			return NULL;
-		}
-
-		const_reverse_iterator rend() const
-		{
-			return const_reverse_iterator(_end);
 		}
 
 		size_type size() const
@@ -276,28 +265,28 @@ namespace ft
 
 		iterator find(const Key& k)
 		{
-			node_pointer node = _node_min(_root);
-			while (node != _end_node)
+			if (_root)
 			{
-				data_type &pair = node->data;
-				if (pair.first == k)
-					return iterator(node);
-				node = _node_next(node);
+				node_pointer current = _node_min(_root);
+				while (current != _end_node && current->data.first != k)
+					current = _node_next(current);
+				if (current != _end_node)
+					return iterator(current);
 			}
-			return end();
+			return iterator(this->end());
 		}
 
 		const_iterator find(const Key& k) const
 		{
-			node_pointer node = _node_min(_root);
-			while (node != _end_node)
+			if (_root)
 			{
-				data_type &pair = node->data;
-				if (pair.first == k)
-					return const_iterator(node);
-				node = _node_next(node);
+				node_pointer current = _node_min(_root);
+				while (current != _end_node && current->data.first != k)
+					current = _node_next(current);
+				if (current != _end_node)
+					return const_iterator(current);
 			}
-			return end();
+			return const_iterator(this->end());
 		}
 
 		size_type count(const Key& k) const
@@ -320,12 +309,10 @@ namespace ft
 					return (0);
 			}
 			_end_node->parent->right = NULL;
+			if (_node_next(current) == _root && !_node_has_leaf(current))
+					pre_organize_tree(current);
 			if (_node_is_root(current) && current->right)
 			{
-				//std::cout << "ROOT IS " << current->data.first << std::endl;
-				//std::cout << "CHILD IS " << current->right->data.first << std::endl;
-				//std::cout << "NEXT IS " << (_node_next(current))->data.first << std::endl;
-				//std::cout << "MIN IS " << (_node_min(current->right))->data.first << std::endl;
 				next = _node_next(current);
 				if (_is_left_node(next))
 				{
@@ -343,14 +330,10 @@ namespace ft
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
-				//std::cout << "Delete " << current->data << std::endl;
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
-				_node_alloc.destroy(_end_node);
-				_node_alloc.deallocate(_end_node, 1);
 				_size = 0;
-				_root = NULL;
-				_end_node = NULL;
+				_root = _end_node;
 				return (1);
 			}
 			else if (!_node_has_leaf(current)) // il faut reprendre ici
@@ -386,6 +369,7 @@ namespace ft
 			//std::cout << "Erase " << current->data << std::endl;
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
+			check_tree();
 			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
 			_size--;
@@ -404,6 +388,8 @@ namespace ft
 			{	
 				//std::cout << "ERASING = " << one->first << std::endl;
 				erase((one++)->first);
+				//std::cout << "ROOT = " <<_root->data.first << std::endl;
+
 			}
 		}
 
@@ -439,7 +425,6 @@ namespace ft
 			return (ite++);
 		}
 
-		// TODO Verify
 		size_type max_size() const {
 			return Node_alloc().max_size();
 		}
@@ -492,7 +477,6 @@ namespace ft
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
-				//std::cout << "Clear1" << std::endl;
 				_node_alloc.destroy(static_cast<node_type*>(current));
 				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
 				_size = 0;
@@ -506,55 +490,10 @@ namespace ft
 				else if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
-			//std::cout << "Clear2" << std::endl;
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
 			_size--;
 			return (1);
-		}
-
-		/**
-		 * Based on https://stephane.glondu.net/projets/tipe/transparents.pdf#page=4
-		 */
-		void _rotateRight(node_pointer node)
-		{
-			node_pointer a = node->left;
-			node_pointer b = node;
-			node_pointer c = node->right;
-			node_pointer d = node->parent;
-			node_pointer e = node->parent->left;
-
-			b->parent = d->parent;
-			b->right = d;
-			d->parent = b;
-			d->left = c;
-			c->parent = d;
-		}
-
-		void _rotateLeft(node_pointer node)
-		{
-			node_pointer a = node->parent->right;
-			node_pointer b = node->parent;
-			node_pointer c = node->left;
-			node_pointer d = node;
-			node_pointer e = node->right;
-
-			d->parent = b->parent;
-			d->left = b;
-			b->parent = d;
-			b->right = c;
-			c->parent = b;
-		}
-
-		unsigned int _treeHeigh(node_pointer node)
-		{
-			unsigned int i = 0;
-			node_pointer tempNode;
-			do {
-				tempNode = node;
-				++i;
-			} while (tempNode->parent);
-			return i;
 		}
 
 	private :
