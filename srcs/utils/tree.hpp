@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/29 23:37:08 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/03 18:30:42 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,12 @@ namespace ft
 			node = pre_organize_tree(node);
 			if (_is_right_node(node))
 			{
-				//std::cout << "ENTER = "<< node->data.first << std::endl;
 				if (node->parent != _root)
 				{
-					if (_is_right_node(node->parent))	
-						node->parent->parent->right = node;
-					else if (_is_left_node(node->parent))	
+					if (_is_left_node(node->parent))
 						node->parent->parent->left = node;
+					else if (_is_right_node(node->parent))
+						node->parent->parent->right = node;
 				}
 				node->left = node->parent;
 				node->parent->right = NULL;
@@ -102,10 +101,10 @@ namespace ft
 			{
 				if (node->parent != _root)
 				{
-					if (_is_right_node(node->parent))	
-						node->parent->parent->right = node;
-					else if (_is_left_node(node->parent))	
+					if (_is_left_node(node->parent))
 						node->parent->parent->left = node;
+					else if (_is_right_node(node->parent))
+						node->parent->parent->right = node;
 				}
 				node->right = node->parent;
 				node->parent->left = NULL;
@@ -119,36 +118,15 @@ namespace ft
 		void check_tree()
 		{
 			node_pointer current = _node_min(_root);
-			//int i = 0;
 			while (current != NULL )
 			{
-				//std::cout << current->data.first << std::endl;
 				if (!_check_node(current))
 				{	
-					//std::cout << "CHECK = " << current->data.first << std::endl;
 					organise_tree(current);
 					current = _node_min(_root);
-					/*std::cout << "MIN = " << current->data.first << std::endl;
-					std::cout << "MIN PARENT= " << current->parent->data.first << std::endl;
-					std::cout << "ROOT = " << _root->data.first << std::endl;
-					std::cout << "ROOT LEFT = " << _root->left->data.first << std::endl;
-					if (_root->left->left != NULL)
-						std::cout << "ROOT LEFT LEFT = " << _root->left->left->data.first << std::endl;
-					if (_root->left->right != NULL)
-						std::cout << "ROOT LEFT RIGHT = " << _root->left->right->data.first << std::endl;
-					std::cout << "NEXT = " << _node_next(current)->data.first << std::endl;
-					std::cout << "NEXT = " << _node_next(current)->data.first << std::endl;
-					
-					std::cout << "PARENT = " << current->parent->data.first << std::endl;
-					if (current->parent->left != NULL)
-						std::cout << "CHILD L = " << current->parent->left->data << std::endl;
-					if (current->parent->right != NULL)
-						std::cout << "CHILD R = " << current->parent->right->data << std::endl;*/
-					//std::cout << "SURPRISE = " << current->right->data.first << std::endl;
 				}
 				else
 					current = _node_next(current);
-				//i++;
 			}
 		}
 
