@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   const_reverse_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:11:58 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/18 19:43:23 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/03 15:13:31 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 namespace ft
 {
-template <typename iterator>
+template <class iterator>
 class	const_reverse_iterator
 {
 public:
@@ -34,7 +34,7 @@ public:
 	const_reverse_iterator(pointer ptr) { _node = ptr; };
 	const_reverse_iterator(const ft::reverse_iterator<iterator> &src) { _node = src.operator->(); } ;
 	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _node = src.operator->() - 1; } ;
-	const_reverse_iterator(const ft::iterator<value_type> &src) { _node = src.operator->() - 1; } ;
+	const_reverse_iterator(const iterator &src) { _node = src.operator->() - 1; } ;
 	const_reverse_iterator(const const_reverse_iterator &src) { *this = src; } ;
 
 

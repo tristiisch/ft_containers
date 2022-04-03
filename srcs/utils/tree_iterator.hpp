@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/29 21:17:01 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/04 01:17:56 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ class	tree_iterator
 {
 public:
 
-	typedef T							data_type;
+	typedef T							value_type;
 	typedef typename T::value_type    	pair;
 	typedef pair&						reference;
 	typedef const pair&					const_reference;
@@ -254,18 +254,16 @@ class	const_tree_iterator
 {
 public:
 
-	typedef T							data_type;
+	typedef T							value_type;
 	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
+	typedef const pair&					reference;
+	typedef const pair*					pointer;
 	typedef typename std::ptrdiff_t 	difference_type;
 
 	const_tree_iterator(void) : _node(NULL) {}
 	const_tree_iterator(T* other) : _node(other) {}
 	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
-	const_tree_iterator(const tree_iterator<data_type> &src) { _node = src.base(); }
+	const_tree_iterator(const tree_iterator<value_type> &src) { _node = src.base(); }
 
 	virtual ~const_tree_iterator() {}
 
@@ -292,7 +290,7 @@ public:
 	}
 
 	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (_node->data); }								// *a
+	reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() const { return &(_node->data); }
 
 	T* base() const {return _node;};									// a->b
@@ -301,116 +299,218 @@ public:
 		T* _node;
 };
 
-template <typename T>
-class	reverse_tree_iterator
-{
-public:
+	template <class Iterator>
+    class tree_reverse_iterator
+    {
+        public:
 
-	typedef T							data_type;
-	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
-	typedef typename std::ptrdiff_t 	difference_type;
+            /* Iterator's type. */
+            typedef Iterator    iterator_type;
+
+            /* Preserves Iterator's value type. */
+            typedef typename Iterator::value_type      value_type;
+
+            /* Preserves Iterator's difference type. */
+            typedef typename Iterator::difference_type     difference_type;
+
+            /* Preserves Iterator's pointer. */
+            typedef typename Iterator::pointer				pointer;
+
+            /* Preserves Iterator's reference. */
+            typedef typename Iterator::reference   reference;
+
+            /*
+            ** @brief Default.
+            ** Construct a reverse iterator object.
+            ** This will points to no object.
+            */
+            tree_reverse_iterator()
+            :
+                _elem()
+            {}
+
+            /*
+            ** @brief Initialization.
+            ** Construct a reverse iterator object from
+            ** an original iteretor "it".
+            ** The behavior of the constructed object
+            ** replicate the orignal, but he iterates
+            ** in the reverse order.
+            **
+            ** @param it The iterator to replicate.
+            */
+            explicit tree_reverse_iterator (iterator_type it)
+            :
+                _elem(it)
+            {}
+
+            /*
+            ** @brief Copy.
+            ** Contruct a reverse iterator from other reverse iterator.
+            ** Save the sense of iterateration as "rev_it".
+            **
+            ** @param rev_it original reverse iterator.
+            */
+            template <class Iter>
+                tree_reverse_iterator (const tree_reverse_iterator<Iter>& rev_it)
+                :
+                    _elem(rev_it.base())
+                {}
+
+            /* Added to follow subject obligation */
+            virtual ~tree_reverse_iterator() {}
+
+            /*
+            ** @brief Return a copy of the base iterator.
+            ** Same type as the usert to construct the tree_reverse_iterator.
+            ** But pointing to the element next of this.
+            ** (A reverse iterator always pointing to an element at
+            ** an offset of -1).
+            **
+            ** @return A copy of the base iterator.
+            */
+            iterator_type base() const
+            { return (_elem); }
+
+            /*
+            ** @brief Return a reference to the element pointed
+            ** by the iterator.
+            **
+            ** @return The reference.
+            */
+            reference operator*() const
+            {
+                iterator_type tmp = _elem;
+                return (*(--tmp));
+            }
 
 
-	reverse_tree_iterator(void) : _node(NULL) {}
-	reverse_tree_iterator(T* other) : _node(other) {}
-	//reverse_tree_iterator(const reverse_tree_iterator &src) { *this = src; }
-	reverse_tree_iterator(const reverse_tree_iterator &src) { _node = src.base(); }
+            /*
+            ** @brief Return a reverse iterator pointing to
+            ** the element at n position away from the pointed
+            ** element of the iterator.
+            ** This function need the base iterator to be a
+            ** "random-access iterator".
+            **
+            ** @param "n" Number of elements to offset.
+            ** @return An iterator pointing to the element at "n"
+            ** position away.
+            */
+            tree_reverse_iterator operator+ (difference_type n) const { return (tree_reverse_iterator(_elem - n)); }
 
-	virtual ~reverse_tree_iterator() {}
+            /*
+            ** @brief Advances the tree_reverse_iterator by one position.
+            ** Pre-increment.
+            **
+            ** @return return "(*this)" incremented.
+            */
+            tree_reverse_iterator& operator++()
+            {
+                --_elem;
+                return (*this);
+            }
 
-	reverse_tree_iterator &operator=(reverse_tree_iterator const &src) { _node = src._node; return (*this); }
+            /*
+            ** @brief Advances the tree_reverse_iterator by one position.
+            ** Post-increment.
+            **
+            ** @return the value "(*this)" value had before the
+            ** call.
+            */
+            tree_reverse_iterator operator++(int)
+            {
+                tree_reverse_iterator tmp = *this;
+                ++(*this);
+                return (tmp);
+            }
 
-	// BOOLEANS : pas besoin dans ce cas
-	bool operator ==(reverse_tree_iterator const& b) const { return (_node == b._node); }
-	bool operator !=(reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
+            /*
+            ** @brief Advances the "tree_reverse_iterator" by n element positions.
+            ** This function need the base iterator to be a
+            ** "random-access iterator".
+            **
+            ** @param n the number of element.
+            ** @return the reverse iterator itself (*this).
+            */
+            tree_reverse_iterator& operator+= (difference_type n)
+            {
+                _elem -= n;
+                return (*this);
+            }
 
+            /*
+            ** @brief Return a reverse iterator pointing to the element
+            ** located n positions before the element the iterator
+            ** currently points to.
+            ** This function need the base iterator to be a
+            ** "random-access iterator".
+            **
+            ** @param n the number of element.
+            ** @return An iterator pointing to the element
+            ** n position before the currently pointed one.
+            */
+            tree_reverse_iterator operator- (difference_type n) const { return (tree_reverse_iterator(_elem + n)); }
 
-	// INCREMENTERS
-	reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
-	reverse_tree_iterator operator --(int) 															// a++
-	{
-		T* tmp = _node;
-		_node = _node_next(_node);
-		return reverse_tree_iterator(tmp);
-	}
-	reverse_tree_iterator& operator ++() { _node = _node_prev(_node); return ((*this)); }			// --a
-	reverse_tree_iterator operator ++(int)															// a--
-	{
-		T* tmp = _node;
-		_node = _node_prev(_node);
-		return reverse_tree_iterator(tmp);
-	}
+            /*
+            ** @brief Decreases the reverse iterator by one position.
+            **
+            ** @return "(*this)".
+            */
+            tree_reverse_iterator& operator--()
+            {
+                ++_elem;
+                return (*this);
+            }
 
-	//DEREFERENCING & ADDRESS STUFF
-	reference operator *() { return (_node->data); }											// *a
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() { return &(_node->data); }											// a->b
-	pointer operator ->() const { return &(_node->data); }
+            /*
+            ** @brief Decreases the reverse iterator by one position.
+            **
+            ** @retun "(*this)" value before the call.
+            */
+            tree_reverse_iterator operator--(int)
+            {
+                tree_reverse_iterator tmp = *this;
+                --(*this);
+                return (tmp);
+            }
 
-	T* base() const {return _node;};											// a->b
+            /*
+            ** @brief Decreases the reverse iterator by "n" element
+            ** postion.
+            ** This function need the base iterator to be a
+            ** "random-access iterator".
+            **
+            ** @param n Number of elements to offset.
+            ** @return "(*this)".
+            */
+            tree_reverse_iterator& operator-= (difference_type n)
+            {
+                _elem += n;
+                return (*this);
+            }
 
-	private:
-		T* _node;
-};
+            /*
+            ** @brief Give a pointer to the element
+            ** pointed.
+            **
+            ** @return A pointer to the element pointed.
+            */
+            pointer operator->() const { return &(operator*()); }
 
-template <typename T>
-class	const_reverse_tree_iterator
-{
-public:
+            /*
+            ** @brief Accesse the element at "n" positions
+            ** away from the element currently pointed.
+            ** Cause undefined behavior if the element
+            ** does not exist.
+            **
+            ** @param n The number of positions.
+            ** @return A reference at "n".
+            */
+            reference operator[] (difference_type n) const { return (this->base()[-n - 1]); }
 
-	typedef T							data_type;
-	typedef typename T::value_type    	pair;
-	typedef pair&						reference;
-	typedef const pair&					const_reference;
-	typedef pair*						pointer;
-	typedef const pair*					const_pointer;
-	typedef typename std::ptrdiff_t 	difference_type;
-
-
-	const_reverse_tree_iterator(void) : _node(NULL) {}
-	const_reverse_tree_iterator(T* other) : _node(other) {}
-	//const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { *this = src; }
-	const_reverse_tree_iterator(const const_reverse_tree_iterator &src) { _node = src.base(); }
-
-	virtual ~const_reverse_tree_iterator() {}
-
-	const_reverse_tree_iterator &operator=(const_reverse_tree_iterator const &src) { _node = src._node; return (*this); }
-
-	// BOOLEANS : pas besoin dans ce cas
-	bool operator ==(const_reverse_tree_iterator const& b) const { return (_node == b._node); }
-	bool operator !=(const_reverse_tree_iterator const& b) const { return (!(_node == b._node)); }
-
-	// INCREMENTERS
-	const_reverse_tree_iterator& operator --() { _node = _node_next(_node); return ((*this)); }			// ++a
-	const_reverse_tree_iterator operator --(int) 															// a++
-	{
-		T* tmp = _node;
-		_node = _node_next(_node);
-		return const_reverse_tree_iterator(tmp);
-	}
-	const_reverse_tree_iterator& operator ++() { _node = _node_prev(_node); return ((*this)); }			// --a
-	const_reverse_tree_iterator operator ++(int)															// a--
-	{
-		T* tmp = _node;
-		_node = _node_prev(_node);
-		return const_reverse_tree_iterator(tmp);
-	}
-
-	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() const { return &(_node->data); }
-
-	T* base() const {return _node;};									// a->b
-
-	private:
-		T* _node;
-};
-
-}
+        private:
+            iterator_type     _elem;
+    };
 
 template <typename T>
 std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
@@ -460,4 +560,6 @@ bool _verify_node(Node node)
 		return false;
 	}
 	return true;
+}
+
 }

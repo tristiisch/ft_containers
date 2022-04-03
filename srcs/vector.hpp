@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/24 20:52:58 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 00:52:55 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ namespace ft
 		}
 
 		vector &operator=(const vector& x) // il y a un souci avec cette fonction je pense que c'est un souci de size()
-											//c'est cette fonction qui ne fait pas passer les tests sur sizecd .. 
+											//c'est cette fonction qui ne fait pas passer les tests sur sizecd ..
 
 		{
 			if (x != *this)
