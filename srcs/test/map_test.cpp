@@ -404,9 +404,12 @@ void map_tests()
 	(void)&mapVarious;
 	mapVarious();
 }
-/*
+
+// #define MAP_MAIN
+#ifndef MAP_MAIN
 int main()
 {
 	map_tests();
 	return 0;
-}*/
+}
+#endif
