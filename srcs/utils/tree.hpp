@@ -190,7 +190,17 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			check_tree();
+			//if (val.first != '5')
+				check_tree();
+			/*else
+			{
+				std::cout << "verif " << new_node->data << std::endl;
+				std::cout << "verif " << new_node->parent->data.first << std::endl;
+				// std::cout << "verif " << new_node->parent->right << std::endl;
+				std::cout << "verif " << new_node->parent->left->data.first << std::endl;
+				std::cout << "verif " << new_node->parent->data << std::endl;
+				//_verify_node(current);
+			}*/
 			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
 			++_size;
@@ -320,7 +330,6 @@ namespace ft
 			}
 			else if (_node_is_root(current) && _node_has_leaf(current))
 			{
-
 				_node_alloc.destroy(current);
 				_node_alloc.deallocate(current, 1);
 				_size = 0;
@@ -357,6 +366,7 @@ namespace ft
 				else if (_is_right_node(current))
 					current->parent->right = NULL;
 			}
+			//std::cout << "Erase " << current->data << std::endl;
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
 			check_tree();
@@ -375,7 +385,7 @@ namespace ft
 			iterator one = first;
 			iterator two = last;
 			while (one != two)
-			{
+			{	
 				//std::cout << "ERASING = " << one->first << std::endl;
 				erase((one++)->first);
 				//std::cout << "ROOT = " <<_root->data.first << std::endl;
@@ -420,6 +430,18 @@ namespace ft
 		}
 
 		Compare key_comp() const { return _comp ; }
+
+		void swap(tree &tree) {
+			std::swap(_start, tree._start);
+			std::swap(_end, tree._end);
+			std::swap(_root, tree._root);
+			std::swap(_end_node, tree._end_node);
+			std::swap(_node_alloc, tree._node_alloc);
+			std::swap(_comp, tree._comp);
+			std::swap(_size, tree._size);
+		}
+	
+		node_pointer get_root() const { return _root ; }
 
 	private :
 
@@ -475,6 +497,7 @@ namespace ft
 		}
 
 	private :
+		node_pointer _start;
 		node_pointer _end;
 		node_pointer _end_node;
 		node_pointer _root;

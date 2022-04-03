@@ -23,10 +23,10 @@ $(NAME_STL): $(OBJS) $(INCLUDES)
 	$(CXX) $(CXXFLAGS) $(OBJS) -D $(DEFINE_IS_STL)=1 -o $(NAME_STL)
 
 clean:
-	$(RM) -f $(OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) -rf $(NAME_FT) $(NAME_STL)
+	$(RM) -r $(NAME_FT) $(NAME_STL)
 
 re: fclean all
 

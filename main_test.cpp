@@ -37,11 +37,35 @@ int		main(void)
 
 	(*it).second.m();
 	(*ite).second.m();
+  
+	std::cout << "Map Basic insert :" << std::endl;
+	map1.insert(ft::pair<char,int>('a', 30));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
+	
+	std::cout << map1 << std::endl;
 
-	printPair(--it);
-	printPair(it--);
-	printPair(it--);
-	printPair(--it);
+	std::cout << "Map Iterator insert :" << std::endl;
+  	ft::map<char,int>::iterator it = map1.begin();
+  	map1.insert(ft::pair<char,int>('Z', 300));
+	map1.insert(ft::pair<char,int>('5', 400));
+	std::cout << map1 << std::endl;
+
+	std::cout << "Map First/Last insert :" << std::endl;
+	map2.insert(map1.begin(), map1.find('e'));
+	std::cout << map2 << std::endl;
+	srand(time(NULL));
+	std::cout << "Map Random Basic insert :" << std::endl;
+	for (int i = 0; i < 15; ++i)
+		map3.insert(ft::pair<int,int>((rand() % 1000), i));
+	std::cout << map3 << std::endl;
+
 
 	return (0);
 }
