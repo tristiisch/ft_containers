@@ -176,7 +176,7 @@ namespace ft
 		}
 
 		// Temp functions
-		tree<value_type, key_type, key_compare>* get_tree()
+		tree<value_type, key_type, key_compare>* get_tree() const
 		{
 			return &_tree;
 		}

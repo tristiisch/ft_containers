@@ -55,18 +55,18 @@ static void mapInsert()
 
 	std::cout << "Map Basic insert :" << std::endl;
 	map1.insert(ft::pair<char,int>('a', 30));
-	// map1.insert(ft::pair<char,int>('c', 70));
-	// map1.insert(ft::pair<char,int>('b', 20));
-	// map1.insert(ft::pair<char,int>('d', 10));
-	// map1.insert(ft::pair<char,int>('e', 50));
-	// map1.insert(ft::pair<char,int>('0', 101));
-	// map1.insert(ft::pair<char,int>('f', 40));
-	// map1.insert(ft::pair<char,int>('g', 60));
-	// map1.insert(ft::pair<char,int>('2', 100));
+	map1.insert(ft::pair<char,int>('c', 70));
+	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('0', 101));
+	map1.insert(ft::pair<char,int>('f', 40));
+	map1.insert(ft::pair<char,int>('g', 60));
+	map1.insert(ft::pair<char,int>('2', 100));
 	
 	std::cout << map1 << std::endl;
 
-	/*std::cout << "Map Iterator insert :" << std::endl;
+	std::cout << "Map Iterator insert :" << std::endl;
   	ft::map<char,int>::iterator it = map1.begin();
   	map1.insert(it, ft::pair<char,int>('Z', 300));
 	map1.insert(it, ft::pair<char,int>('5', 400));
@@ -80,7 +80,7 @@ static void mapInsert()
 	std::cout << "Map Random Basic insert :" << std::endl;
 	for (int i = 0; i < 100; ++i)
 		map3.insert(ft::pair<int,int>((rand() % 1000), i));
-	std::cout << map3 << std::endl;*/
+	std::cout << map3 << std::endl;
 }
 
 void mapOperatorInsert()
@@ -108,12 +108,15 @@ static void mapErase()
 	map1.insert(ft::pair<char,int>('a', 30));
 	map1.insert(ft::pair<char,int>('c', 70));
 	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('P', 20));
 	map1.insert(ft::pair<char,int>('d', 10));
 	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('Y', 50));
 	map1.insert(ft::pair<char,int>('0', 101));
 	map1.insert(ft::pair<char,int>('f', 40));
 	map1.insert(ft::pair<char,int>('g', 60));
 	map1.insert(ft::pair<char,int>('2', 100));
+	map1.insert(ft::pair<char,int>('9', 100));
 	std::cout << map1 << std::endl;
 
 	ft::map<char,int>::iterator it = map1.find('b');
@@ -127,6 +130,10 @@ static void mapErase()
 	std::cout << map1 << std::endl;
 
 	map1.erase('0');
+	std::cout << map1 << std::endl;
+
+	it = map1.find('e');
+	map1.erase(it, map1.end());
 	std::cout << map1 << std::endl;
 
 	it = map1.find('e');
@@ -379,22 +386,22 @@ static void mapVarious()
 
 void map_tests()
 {
-	(void)&mapInsert;
+	/*(void)&mapInsert;
 	mapInsert();
 
 	std::cout << std::endl;
 	(void)&mapOperatorInsert;
-	mapOperatorInsert();
+	mapOperatorInsert();*/
 
 	std::cout << std::endl;
 	(void)&mapErase;
 	mapErase();
 
-	std::cout << std::endl;
+	/*std::cout << std::endl;
 	(void)&mapClear;
-	mapClear();
+	mapClear();*/
 
-	std::cout << std::endl;
+	/*std::cout << std::endl;
 	(void)&mapEmpty;
 	mapEmpty();
 
@@ -408,7 +415,7 @@ void map_tests()
 
 	std::cout << std::endl;
 	(void)&mapVarious;
-	mapVarious();
+	mapVarious();*/
 }
 
 #ifdef MAIN
