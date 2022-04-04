@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 00:52:55 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 21:15:45 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "./utils/iterator.hpp"
 # include "./utils/const_iterator.hpp"
 # include "./utils/reverse_iterator.hpp"
-# include "./utils/const_reverse_iterator.hpp"
 
 namespace ft
 {
@@ -40,7 +39,7 @@ namespace ft
 		typedef ft::iterator<value_type>						iterator;
 		typedef ft::const_iterator<value_type>					const_iterator;
 		typedef ft::reverse_iterator<iterator>					reverse_iterator;
-		typedef	ft::const_reverse_iterator<iterator>			const_reverse_iterator;
+		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 
 		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc..
@@ -165,12 +164,12 @@ namespace ft
 
 		reverse_iterator rbegin()
 		{
-			return _end - 1;
+			return reverse_iterator(_end);
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return _end - 1;
+			return const_reverse_iterator(_end);
 		}
 
 		// iterator at the end
@@ -193,17 +192,17 @@ namespace ft
 		reverse_iterator rend()
 		{
 			if (this->empty() == false)
-				return _start - 1;
+				return reverse_iterator(_start);
 			else
-				return _start;
+				return reverse_iterator(_start);
 		}
 
 		const_reverse_iterator rend() const
 		{
 			if (this->empty() == false)
-				return _start - 1;
+				return const_reverse_iterator(_start);
 			else
-				return _start;
+				return const_reverse_iterator(_start);
 		}
 
 		// Number of elements

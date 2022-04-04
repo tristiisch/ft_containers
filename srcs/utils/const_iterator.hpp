@@ -25,23 +25,21 @@ class	const_iterator
 public:
 
 	typedef T							value_type;
-	typedef value_type&					reference;
-	typedef const value_type&			const_reference;
-	typedef value_type*					pointer;
-	typedef const value_type*			const_pointer;
+	typedef const value_type&					reference;
+	typedef const value_type*					pointer;
 	typedef typename std::ptrdiff_t 	difference_type;
 
-	const_iterator(void) {};
-	const_iterator(pointer ptr) { _ptr = ptr; };
-	const_iterator(ft::iterator<T> const &src) { _ptr = src.operator->(); } ;
-	const_iterator(const_iterator const &src) { *this = src; } ;
+	const_iterator(void) : _ptr(NULL) {}
+	const_iterator(T* other) : _ptr(other) {}
+	const_iterator(const const_iterator &src) { *this = src; }
+	const_iterator(const iterator<value_type> &src) { _ptr = src.base(); }
 
+	virtual ~const_iterator() {}
 
-	virtual ~const_iterator() {};
+	const_iterator &operator=(const_iterator const &src) { _ptr = src._ptr; return (*this); }
 
-	const_iterator &operator=(const_iterator const &src) { _ptr = src.operator->(); return (*this); };
-
-	// BOOLEANS
+	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(T* const base) const { return (_ptr == base); }
 	bool operator ==(const_iterator const& b) const { return (_ptr == b._ptr); };
 	bool operator !=(const_iterator const& b) const { return (_ptr != b._ptr); };
 	bool operator >(const_iterator const& b) const { return (_ptr > b._ptr); };
@@ -49,34 +47,40 @@ public:
 	bool operator >=(const_iterator const& b) const { return (_ptr >= b._ptr); };
 	bool operator <=(const_iterator const& b) const { return (_ptr <= b._ptr); };
 
-	// ARITHMETICS
-	const_iterator operator +(difference_type b) const { return (const_iterator(_ptr + b)); }; // a + n
-	const_iterator operator -(difference_type b) const { return (const_iterator(_ptr - b)); }; // a - n
+	const_iterator operator +(difference_type b) const { return const_iterator(_ptr + b); }; // a + n
+	const_iterator operator -(difference_type b) const { return const_iterator(_ptr - b); }; // a - n
 
 	difference_type operator +(const_iterator b) { return (_ptr + b._ptr); }; // a + b
 	difference_type operator -(const_iterator b) { return (_ptr - b._ptr); }; // a - b
 
+	const_iterator& operator +=(difference_type b) {_ptr += b; return *this; };	// a += b
+	const_iterator& operator -=(difference_type b) {_ptr -= b; return *this; };	// a -= b
 	// INCREMENTERS
-	const_iterator& operator ++() { _ptr++; return (*this); };			// ++a
-	const_iterator operator ++(int) { return (const_iterator(_ptr++)); };	// a++
-	const_iterator& operator --() { _ptr--; return (*this); };			// --a
-	const_iterator operator --(int) { return (const_iterator( _ptr--)); };	// a--
+	const_iterator& operator ++() { _ptr++; return ((*this)); }			// ++a
+	const_iterator operator ++(int) 														// a++
+	{
+		T* tmp = _ptr;
+		_ptr++;
+		return const_iterator(tmp);
+	}
+	const_iterator& operator --() { _ptr--; return ((*this)); }			// --a
+	const_iterator operator --(int)														// a--
+	{
+		T* tmp = _ptr;
+		_ptr--;
+		return const_iterator(tmp);
+	}
 
-	//COMPOUND ASSIGNMENTS
-	const_iterator& operator +=(difference_type b) { _ptr += b; return *this; };	// a += b
-	const_iterator& operator -=(difference_type b) { _ptr -= b; return *this; };	// a -= b
+	reference operator [](difference_type b) { return (*(_ptr + b)); }
+	reference operator *() const { return *_ptr; }								// *a
+ 	pointer operator ->() const { return _ptr; }
 
-	//DEREFERENCING & ADDRESS STUFF
-	const_reference operator *() const { return (*_ptr); };								// *a
-	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
-	pointer operator ->() const { return _ptr; };											// a->b
-
-	ft::iterator<value_type> base() const {return _ptr;};
+ 	T* base() const {return _ptr;};									// a->b
 
 	static const bool input_iter = true;
 
+ 	private:
+ 		T* _ptr;
 
-	private:
-		pointer _ptr;
 };
 }

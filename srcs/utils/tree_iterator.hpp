@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/04 02:01:25 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 15:25:15 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ public:
 	reference operator *() { return (_node->data); }											// *a
 	const_reference operator *() const { return (_node->data); }								// *a
 	pointer operator ->() { return &(_node->data); }											// a->b
-	pointer operator ->() const { return &(_node->data); }											// a->b
+	const_pointer operator ->() const { return &(_node->data); }											// a->b
 
 	T* base() const {return _node;};
 
@@ -301,67 +301,34 @@ public:
     class tree_reverse_iterator
     {
         public:
-            typedef Iterator    iterator_type;
-            typedef typename Iterator::value_type      value_type;
-            typedef typename Iterator::difference_type     difference_type;
-            typedef typename Iterator::pointer				pointer;
-
-            typedef typename Iterator::reference   reference;
+            typedef Iterator							iterator_type;
+            typedef typename Iterator::value_type		value_type;
+            typedef typename Iterator::difference_type	difference_type;
+            typedef typename Iterator::pointer			pointer;
+            typedef typename Iterator::reference		reference;
 
             tree_reverse_iterator(): _elem() {}
-
-
-            explicit tree_reverse_iterator (iterator_type it)
-            :
-                _elem(it)
-            {}
+			
+            explicit tree_reverse_iterator (iterator_type it): _elem(it) {}
 
             template <class Iter>
-                tree_reverse_iterator (const tree_reverse_iterator<Iter>& rev_it)
-                :
-                    _elem(rev_it.base())
-                {}
+            tree_reverse_iterator (const tree_reverse_iterator<Iter>& rev_it): _elem(rev_it.base()) {}
 
             virtual ~tree_reverse_iterator() {}
 
-            iterator_type base() const
-            { return (_elem); }
-
-            reference operator*() const
-            {
-                iterator_type tmp = _elem;
-                return (*(--tmp));
-            }
-
+            iterator_type base() const { return (_elem); }
+            reference operator*() const { iterator_type tmp = _elem; return (*(--tmp)); }
             tree_reverse_iterator operator+ (difference_type n) const { return (tree_reverse_iterator(_elem - n)); }
-
-            tree_reverse_iterator& operator++()
-            {
-                --_elem;
-                return (*this);
-            }
-
+            tree_reverse_iterator& operator++() { --_elem; return (*this); }
             tree_reverse_iterator operator++(int)
             {
                 tree_reverse_iterator tmp = *this;
                 ++(*this);
                 return (tmp);
             }
-
-            tree_reverse_iterator& operator+= (difference_type n)
-            {
-                _elem -= n;
-                return (*this);
-            }
-
+            tree_reverse_iterator& operator+= (difference_type n) { _elem -= n; return (*this); }
             tree_reverse_iterator operator- (difference_type n) const { return (tree_reverse_iterator(_elem + n)); }
-
-            tree_reverse_iterator& operator--()
-            {
-                ++_elem;
-                return (*this);
-            }
-
+            tree_reverse_iterator& operator--() { ++_elem; return (*this); }
             tree_reverse_iterator operator--(int)
             {
                 tree_reverse_iterator tmp = *this;
@@ -369,14 +336,8 @@ public:
                 return (tmp);
             }
 
-            tree_reverse_iterator& operator-= (difference_type n)
-            {
-                _elem += n;
-                return (*this);
-            }
-
+            tree_reverse_iterator& operator-= (difference_type n) { _elem += n; return (*this); }
             pointer operator->() const { return &(operator*()); }
-
             reference operator[] (difference_type n) const { return (this->base()[-n - 1]); }
 
         private:

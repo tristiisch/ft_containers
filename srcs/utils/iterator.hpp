@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 00:46:02 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 22:19:02 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,23 @@ class	iterator
 {
 public:
 
-	typedef T						value_type;
-	typedef value_type&				reference;
-	typedef const value_type&		const_reference;
-	typedef value_type*				pointer;
-	typedef const value_type*		const_pointer;
-	typedef typename std::ptrdiff_t difference_type;
+	typedef T							value_type;
+	typedef value_type&						reference;
+	typedef const value_type&					const_reference;
+	typedef value_type*						pointer;
+	typedef const value_type*					const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
 
-	iterator(void) {};
-	iterator(pointer ptr) { _ptr = ptr; };
-	iterator(const iterator &src) { *this = src; } ;
+	iterator(void) : _ptr(NULL) {}
+	iterator(T* other) : _ptr(other) {}
+	iterator(const iterator &src) { *this = src; }
 
+	virtual ~iterator() {}
 
-	virtual ~iterator() {};
+	iterator &operator=(iterator const &src) { _ptr = src._ptr; return (*this); }
 
-	iterator &operator=(iterator const &src) { _ptr = src.operator->(); return (*this); };
-
-	// BOOLEANS
+	// BOOLEANS : pas besoin dans ce cas
+	bool operator ==(T* const base) const { return (_ptr == base); }
 	bool operator ==(iterator const& b) const { return (_ptr == b._ptr); };
 	bool operator !=(iterator const& b) const { return (_ptr != b._ptr); };
 	bool operator >(iterator const& b) const { return (_ptr > b._ptr); };
@@ -53,32 +53,41 @@ public:
 
 	difference_type operator +(iterator b) { return (_ptr + b._ptr); }; // a + b
 	difference_type operator -(iterator b) { return (_ptr - b._ptr); }; // a - b
-
-	// INCREMENTERS
-	iterator& operator ++() { _ptr++; return (*this); };			// ++a
-	iterator operator ++(int) { return (iterator( _ptr++)); };	// a++
-	iterator& operator --() { _ptr--; return (*this); };			// --a
-	iterator operator --(int) { return (iterator(_ptr--)); };	// a--
-
-	//COMPOUND ASSIGNMENTS
+	
 	iterator& operator +=(difference_type b) {_ptr += b; return *this; };	// a += b
 	iterator& operator -=(difference_type b) {_ptr -= b; return *this; };	// a -= b
+	// INCREMENTERS
+
+
+	iterator& operator ++() { _ptr++; return ((*this)); }			// ++a //
+	iterator operator ++(int) 															// a++
+	{
+		T* tmp = _ptr;
+		_ptr++;
+		return iterator(tmp);
+	}
+	iterator& operator --() { _ptr--; return ((*this)); }			// --a
+	iterator operator --(int)															// a--
+	{
+		T* tmp = _ptr;
+		_ptr--;
+		return iterator(tmp);
+	}
 
 	//DEREFERENCING & ADDRESS STUFF
-	reference operator *() { return (*_ptr); };											// *a
-	const_reference operator *() const { return (*_ptr); };								// *a
 	reference operator [](difference_type b) { return (*(_ptr + b)); };					// a[]
 	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
-	pointer operator ->() { return (_ptr); };											// a->b
-	pointer operator ->() const { return (_ptr); };											// a->b
+	reference operator *() { return *_ptr; }											// *a
+	const_reference operator *() const { return *_ptr; }								// *a
+	pointer operator ->() { return _ptr; }											// a->b
+	const_pointer operator ->() const { return _ptr; }											// a->b
 
-	iterator base() const {return _ptr;};
+	T* base() const {return _ptr;};
 
 	static const bool input_iter = true;
 
-
 	private:
-		pointer _ptr;
+		T* _ptr;
 };
 
 	template < class One, class Two>
@@ -113,7 +122,9 @@ public:
 	// }
 
 	template < class One, class Two>
-	bool operator<(const One &lhs, const Two &rhs) {
+	bool operator<(const One &lhs, const Two &rhs ) {
+		
+		std::cout << "COUCOU" << std::endl;
 		return lhs.base() < rhs.base();
 	}
 
