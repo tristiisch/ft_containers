@@ -450,3 +450,11 @@ void vector_tests()
 
 	(void)&timeTest;
 }
+
+#ifdef MAIN
+int main()
+{
+	vector_tests();
+	return 0;
+}
+#endif

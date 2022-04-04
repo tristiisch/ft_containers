@@ -85,3 +85,11 @@ void stack_tests()
 	(void)&stackPushPopTest;
 	stackPushPopTest();
 }
+
+#ifdef MAIN
+int main()
+{
+	stack_tests();
+	return 0;
+}
+#endif

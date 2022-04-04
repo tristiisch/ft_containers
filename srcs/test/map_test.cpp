@@ -15,7 +15,6 @@
 # define IS_STL 0
 #endif
 
-
 #if IS_STL
 	#include <map>
 	namespace ft = std;
@@ -334,15 +333,19 @@ static void mapVarious()
 	map2.insert(ft::pair<char,int>('Z', 20));
 	map2.insert(ft::pair<char,int>('R', 10));
 
+	std::cout << "Various tests :" << std::endl;
+	std::cout << "Lower_bound test :" << std::endl;
 	itlow = map1.lower_bound('b');
 	std::cout << itlow->first << "=" << itlow->second << std::endl;
 	itlow = map1.lower_bound('-');
+	std::cout << "Upper_bound test :" << std::endl;
 	std::cout << itlow->first << "=" << itlow->second << std::endl;
 	itup = map1.upper_bound('0');
 	std::cout << itup->first << "=" << itup->second << std::endl;
 	itup = map1.upper_bound('-');
 	std::cout << itup->first << "=" << itup->second << std::endl;
 
+	std::cout << "Equal_range test :" << std::endl;
 	pair = map1.equal_range('f');
 	std::cout << pair.first->first << std::endl;
 	std::cout << pair.first->second << std::endl;
@@ -355,18 +358,21 @@ static void mapVarious()
 	std::cout << pair.second->first << std::endl;
 	std::cout << pair.second->second << std::endl;
 
+	std::cout << "Key_comp test1 :" << std::endl;
+	std::cout << map1.key_comp()(map1.begin()->first, 0) << std::endl;
+	std::cout << map1.key_comp()(0, map1.begin()->first) << std::endl;
+	std::cout << map1.key_comp()(0, 0) << std::endl;
+	std::cout << "Key_comp test2 :" << std::endl;
 	ft::map<char,int>::iterator it = map1.begin();
 	do {
 		std::cout << it->first << " => " << it->second << '\n';
 	} while (map1.key_comp()((*it++).first, map1.rbegin()->first));
-	std::cout << map1.key_comp()(map1.begin()->first, '\0') << std::endl;
-	std::cout << map1.key_comp()('\0', map1.begin()->first) << std::endl;
-	std::cout << map1.key_comp()('\0', '\0') << std::endl;
 
+	std::cout << "Swap test :" << std::endl;
 	std::cout << map1 << std::endl;
 	std::cout << map2 << std::endl;
 
-	//map1.swap(map2);
+	map1.swap(map2);
 	std::cout << map2 << std::endl;
 	std::cout << map1 << std::endl;
 }
@@ -405,8 +411,7 @@ void map_tests()
 	mapVarious();
 }
 
-// #define MAP_MAIN
-#ifndef MAP_MAIN
+#ifdef MAIN
 int main()
 {
 	map_tests();

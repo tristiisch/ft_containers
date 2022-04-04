@@ -9,6 +9,7 @@ CC="c++ -Wall -Wextra -std=c++98"
 SRCS="srcs/test/map_test.cpp"
 EXEC=map_test.out
 MAX_NB_LINE=4
+PRECONCOMPIL_FLAGS+="-D MAIN"
 
 WORK=0
 VALGRIND_FLAGS="--leak-check=full --error-exitcode=1 --show-leak-kinds=definite --track-origins=yes"
@@ -20,7 +21,7 @@ else
 fi
 
 if [[ $1 == "capacity" ]]; then
-	PRECONCOMPIL_FLAGS+="-D CAPACITY_TEST"
+	PRECONCOMPIL_FLAGS+=" -D CAPACITY_TEST"
 fi
 
 # Compile with our containers
