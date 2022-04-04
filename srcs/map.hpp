@@ -159,14 +159,15 @@ namespace ft
 
 		allocator_type get_allocator() const { return _alloc; }
 
-		mapped_type& operator[](const Key &key)
-		{
-			const_iterator it = find(key);
+		mapped_type& operator[](const key_type &key)
+ 		{
+ 			iterator value = find(key);
 
-			if (it != const_iterator(end()))
-				return it->second;
-			return insert(ft::make_pair(key, mapped_type())).first->second;
-		}
+ 			if (value == end())
+ 				insert(ft::make_pair(key, mapped_type()));
+ 			value = find(key);
+ 			return ((*value).second);
+ 		}
 
 		void swap(map &map) {
 			std::swap(_alloc, map._alloc);
@@ -234,4 +235,4 @@ namespace ft
 	{
 		x.swap(y);
 	}
-
+}
