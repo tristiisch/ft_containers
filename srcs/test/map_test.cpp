@@ -76,7 +76,7 @@ static void mapInsert()
 	map2.insert(map1.begin(), map1.find('e'));
 	std::cout << map2 << std::endl;
 
-	srand(time(NULL));
+	//srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
 	for (int i = 0; i < 100; ++i)
 		map3.insert(ft::pair<int,int>((rand() % 1000), i));
@@ -268,7 +268,6 @@ static void printIteratorMapTest(std::string itName, InputIterator begin, InputI
 	std::cout << "--" << itName << " = " << (--begin)->first << std::endl;
 	std::cout << itName << "-- = " << (begin--)->first << std::endl;
 	std::cout << " ++(++" << itName << ") = " << (++(++begin))->first << std::endl;
-	//std::cout << itName << "[3] = " << begin[3] << std::endl; // A voir si demander
 	std::cout << itName << " to last >";
 	while (begin != last)
 		std::cout << " " << (begin++)->first;
@@ -293,7 +292,6 @@ static void iteratorMapTest()
 
 	std::cout << map << std::endl;
 	std::cout << "Iterator test :" << std::endl;
-	//std::cout << "DEBUG " << map.get_tree() << std::endl;
 	std::cout << "*map.begin() = " << map.begin()->first << std::endl;
 	printIteratorMapTest("it", map.begin(), map.end());
 
@@ -397,9 +395,9 @@ void map_tests()
 	(void)&mapErase;
 	mapErase();
 
-	/*std::cout << std::endl;
+	std::cout << std::endl;
 	(void)&mapClear;
-	mapClear();*/
+	mapClear();
 
 	/*std::cout << std::endl;
 	(void)&mapEmpty;

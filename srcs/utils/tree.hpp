@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 01:16:17 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 19:30:51 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ namespace ft
 			_size = 0;
 			_node_alloc.destroy(_end_node);
 			_node_alloc.deallocate(_end_node, 1);
-
 		}
 
 		node_pointer pre_organize_tree(node_pointer node)
@@ -119,8 +118,10 @@ namespace ft
 		void check_tree()
 		{
 			node_pointer current = _node_min(_root);
+			//std::cout << "root " << _root->right << std::endl;
 			if (_root->left && _root->right == NULL)
 			{
+				//std::cout << "current2 " << current->data.first << std::endl;
 				node_pointer previous = _node_prev(_root);
 				previous->right = _root;
 				previous->parent = NULL;
@@ -133,6 +134,7 @@ namespace ft
 			}
 			while (current != NULL )
 			{
+				//std::cout << "current " << current->data.first << std::endl;
 				if (!_check_node(current))
 				{
 					organise_tree(current);
@@ -178,20 +180,14 @@ namespace ft
 			}
 
 			new_node = _node_alloc.allocate(1);
+			_node_alloc.construct(new_node, Node(val));
+			new_node->parent = current;
 			if (this->_comp(current->data.first, val.first))
-			{
-				_node_alloc.construct(new_node, Node(val));
 				current->right = new_node;
-				new_node->parent = current;
-			}
 			else
-			{
-				_node_alloc.construct(new_node, Node(val));
 				current->left = new_node;
-				new_node->parent = current;
-			}
 			//if (val.first != '5')
-				check_tree();
+			check_tree();
 			/*else
 			{
 				std::cout << "verif " << new_node->data << std::endl;
@@ -310,7 +306,7 @@ namespace ft
 			}
 			_end_node->parent->right = NULL;
 			if (_node_next(current) == _root && !_node_has_leaf(current))
-					pre_organize_tree(current);
+				pre_organize_tree(current);
 			if (_node_is_root(current) && current->right)
 			{
 				next = _node_next(current);
@@ -385,7 +381,7 @@ namespace ft
 			iterator one = first;
 			iterator two = last;
 			while (one != two)
-			{	
+			{
 				//std::cout << "ERASING = " << one->first << std::endl;
 				erase((one++)->first);
 				//std::cout << "ROOT = " <<_root->data.first << std::endl;
@@ -393,7 +389,7 @@ namespace ft
 			}
 		}
 
-		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		iterator lower_bound(const Key& k)
 		{
 			iterator ite = this->begin();
 			while (ite != this->end() && _comp(ite->first, k))
@@ -401,7 +397,7 @@ namespace ft
 			return (ite);
 		}
 
-		const_iterator lower_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		const_iterator lower_bound(const Key& k) const
 		{
 			const_iterator ite = this->begin();
 			while (ite != this->end() && _comp(ite->first, k))
@@ -409,15 +405,15 @@ namespace ft
 			return (ite);
 		}
 
-		iterator upper_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		iterator upper_bound(const Key& k)
 		{
 			iterator ite = this->begin();
 			while (ite != this->end() && !(_comp(k, ite->first)))
 				ite++;
-			return (ite++); // pourquoi est ce que ++ite ne marche pas ?
+			return (ite++);
 		}
 
-		const_iterator upper_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		const_iterator upper_bound(const Key& k) const
 		{
 			const_iterator ite = this->begin();
 			while (ite != this->end() && !(_comp(k, ite->first)))
@@ -441,59 +437,8 @@ namespace ft
 			std::swap(_size, tree._size);
 		}
 	
-		node_pointer get_root() const { return _root ; }
-
-	private :
-
-		size_type _erase(const node_pointer current)
-		{
-			node_pointer next;
-
-			if (!_node_has_leaf(current))
-			{
-				next = _node_next(current);
-				if (next && current->parent)
-				{
-					if (_is_left_node(next))
-						next->parent->left = NULL;
-					else if (_is_right_node(next))
-						next->parent->right = NULL;
-					next->parent = current->parent;
-				}
-				else
-					next->parent = NULL;
-
-				if (current->left)
-				{
-					current->left->parent = next;
-					next->left = current->left;
-				}
-				if (_is_left_node(current))
-					current->parent->left = next;
-				else if (current->parent)
-					current->parent->right = next;
-				if (_node_is_root(next))
-					_root = next;
-			}
-			else if (_node_is_root(current) && _node_has_leaf(current))
-			{
-				_node_alloc.destroy(static_cast<node_type*>(current));
-				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
-				_size = 0;
-				_root = NULL;
-				return (1);
-			}
-			else
-			{
-				if (_is_left_node(current))
-					current->parent->left = NULL;
-				else if (_is_right_node(current))
-					current->parent->right = NULL;
-			}
-			_node_alloc.destroy(current);
-			_node_alloc.deallocate(current, 1);
-			_size--;
-			return (1);
+		node_pointer get_root() const {
+			return _root ;
 		}
 
 	private :
