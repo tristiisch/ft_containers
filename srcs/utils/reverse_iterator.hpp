@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 00:52:17 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 22:20:19 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,71 +19,62 @@ namespace ft
 {
 
 
-template <typename iterator>
-class	reverse_iterator
-{
-public:
+template <class Iterator>
+    class reverse_iterator
+    {
+        public:
+            typedef Iterator							iterator_type;
+            typedef typename Iterator::value_type		value_type;
+            typedef typename Iterator::difference_type	difference_type;
+            typedef typename Iterator::pointer			pointer;
+            typedef typename Iterator::reference		reference;
 
-	typedef typename iterator::value_type			value_type;
-	typedef typename iterator::reference			reference;
-	typedef typename iterator::const_reference		const_reference;
-	typedef typename iterator::pointer				pointer;
-	typedef typename iterator::const_pointer		const_pointer;
-	typedef typename iterator::difference_type		difference_type;
+            reverse_iterator(): _elem() {}
+			
+            explicit reverse_iterator (iterator_type it): _elem(it) {}
 
-	reverse_iterator(void) {};
-	reverse_iterator(pointer ptr) { _ptr = ptr; };
-	reverse_iterator(const reverse_iterator &src) { *this = src; } ;
-	reverse_iterator(const ft::iterator<value_type> &src) { _ptr = src.operator->() - 1; } ;
+            template <class Iter>
+            reverse_iterator (const reverse_iterator<Iter>& rev_it): _elem(rev_it.base()) {}
 
+            virtual ~reverse_iterator() {}
 
-	virtual ~reverse_iterator() {};
+            iterator_type base() const { return (_elem); }
+            reference operator*() const { iterator_type tmp = _elem; return (*(--tmp)); }
+            reverse_iterator operator+ (difference_type n) const { return (reverse_iterator(_elem - n)); }
+            reverse_iterator& operator++() { --_elem; return (*this); }
+            reverse_iterator operator++(int)
+            {
+                reverse_iterator tmp = *this;
+                ++(*this);
+                return (tmp);
+            }
+            reverse_iterator& operator+= (difference_type n) { _elem -= n; return (*this); }
+            reverse_iterator& operator-= (difference_type n) { _elem += n; return (*this); }
+            reverse_iterator operator- (difference_type n) const { return (reverse_iterator(_elem + n)); }
+            difference_type operator +(reverse_iterator b) { return (b._elem + _elem); }; // a + b
+	        difference_type operator -(reverse_iterator b) { return (b._elem - _elem); }; // a - b
+            reverse_iterator& operator--() { ++_elem; return (*this); }
+            reverse_iterator operator--(int)
+            {
+                reverse_iterator tmp = *this;
+                --(*this);
+                return (tmp);
+            }
 
-	reverse_iterator &operator=(reverse_iterator const &src) { _ptr = src.operator->(); return (*this); };
+            bool operator ==(reverse_iterator const& b) const { return (b._elem == _elem); };
+            bool operator !=(reverse_iterator const& b) const { return (b._elem != _elem); };
+            bool operator >(reverse_iterator const& b) const { return (b._elem < _elem); }; // à verifier
+            bool operator <(reverse_iterator const& b) const { return (b._elem > _elem); }; //à verifier
+            bool operator >=(reverse_iterator const& b) const { return (b._elem <= _elem); };//à verifier
+            bool operator <=(reverse_iterator const& b) const { return (b._elem >= _elem); };//à verifier
 
-	// BOOLEANS
-	bool operator ==(reverse_iterator const& b) const { return (_ptr == b._ptr); };
-	bool operator !=(reverse_iterator const& b) const { return (_ptr != b._ptr); };
-	bool operator >(reverse_iterator const& b) const { return (_ptr < b._ptr); }; // à verifier
-	bool operator <(reverse_iterator const& b) const { return (_ptr > b._ptr); }; //à verifier
-	bool operator >=(reverse_iterator const& b) const { return (_ptr <= b._ptr); };//à verifier
-	bool operator <=(reverse_iterator const& b) const { return (_ptr >= b._ptr); };//à verifier
+            pointer operator->() const { return &(operator*()); }
+            reference operator[] (difference_type n) const { return (this->base()[-n - 1]); }
 
-	// ARITHMETICS
-	reverse_iterator operator +(difference_type b) const { return (reverse_iterator(_ptr - b)); }; // a + n
-	reverse_iterator operator -(difference_type b) const { return (reverse_iterator(_ptr + b)); }; // a - n
+            static const bool input_iter = false;
 
-	difference_type operator +(reverse_iterator b) { return (b._ptr + _ptr); }; // a + b
-	difference_type operator -(reverse_iterator b) { return (b._ptr - _ptr); }; // a - b
-
-	// INCREMENTERS
-	reverse_iterator& operator ++() { _ptr--; return (*this); };			// ++a
-	reverse_iterator operator ++(int) { return (reverse_iterator( _ptr--)); };	// a++
-	reverse_iterator& operator --() { _ptr++; return (*this); };			// --a
-	reverse_iterator operator --(int) { return (reverse_iterator(_ptr++)); };	// a--
-
-	//COMPOUND ASSIGNMENTS
-	reverse_iterator& operator +=(difference_type b) {_ptr -= b; return *this; };	// a += b
-	reverse_iterator& operator -=(difference_type b) {_ptr += b; return *this; };	// a -= b
-
-	//DEREFERENCING & ADDRESS STUFF
-	reference operator *() { return (*_ptr); };											// *a
-	const_reference operator *() const { return (*_ptr); };								// *a
-	reference operator [](difference_type b) { return (*(_ptr - b)); };					// a[]
-	const_reference operator [](difference_type b) const { return *(*this + b); };		// a[]
-	pointer operator ->() { return (_ptr); };											// a->b
-	pointer operator ->() const { return (_ptr); };											// a->b
-
-	ft::iterator<value_type> base() const { return _ptr + 1; }
-
-	static const bool input_iter = true;
-
-
-	private:
-		pointer _ptr;
-
-
-};
-
-
+        private:
+            iterator_type     _elem;
+    };
 }
+

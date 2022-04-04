@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   const_reverse_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:11:58 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/03 15:13:31 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 16:23:08 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ public:
 
 	const_reverse_iterator(void) {};
 	const_reverse_iterator(pointer ptr) { _node = ptr; };
-	const_reverse_iterator(const ft::reverse_iterator<iterator> &src) { _node = src.operator->(); } ;
-	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _node = src.operator->() - 1; } ;
-	const_reverse_iterator(const iterator &src) { _node = src.operator->() - 1; } ;
+	const_reverse_iterator(const ft::reverse_iterator<iterator> &src) { _node = src.base(); } ;
+	const_reverse_iterator(const ft::const_iterator<value_type> &src) { _node = src.base() - 1; } ;
+	const_reverse_iterator(const iterator &src) { _node = src.base() - 1; } ;
 	const_reverse_iterator(const const_reverse_iterator &src) { *this = src; } ;
 
 
@@ -70,9 +70,9 @@ public:
 	//DEREFERENCING & ADDRESS STUFF
 	const_reference operator *() const { return (*_node); };								// *a
 	const_reference operator [](difference_type b) const { return *(*this + b); };		// a[]
-	pointer operator ->() const { return (_node); };											// a->b
+	const_pointer operator ->() const { return (_node); };											// a->b
 
-	ft::iterator<value_type> base() const { return _node + 1; }
+	pointer base() const { return _node + 1; }
 
 	static const bool input_iter = true;
 
