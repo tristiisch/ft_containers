@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/04 01:17:56 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/04 02:01:25 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,15 @@ public:
 		_node = _node_prev(_node);
 		return const_tree_iterator(tmp);
 	}
+
+	reference operator *() const { return (_node->data); }								// *a
+ 	pointer operator ->() const { return &(_node->data); }
+
+ 	T* base() const {return _node;};									// a->b
+
+ 	private:
+ 		T* _node;
+
 };
 
 	template <class Iterator>
@@ -314,7 +323,7 @@ public:
                 {}
 
             virtual ~tree_reverse_iterator() {}
-      
+
             iterator_type base() const
             { return (_elem); }
 
@@ -325,7 +334,7 @@ public:
             }
 
             tree_reverse_iterator operator+ (difference_type n) const { return (tree_reverse_iterator(_elem - n)); }
-      
+
             tree_reverse_iterator& operator++()
             {
                 --_elem;
@@ -338,7 +347,7 @@ public:
                 ++(*this);
                 return (tmp);
             }
-      
+
             tree_reverse_iterator& operator+= (difference_type n)
             {
                 _elem -= n;
@@ -352,20 +361,20 @@ public:
                 ++_elem;
                 return (*this);
             }
-      
+
             tree_reverse_iterator operator--(int)
             {
                 tree_reverse_iterator tmp = *this;
                 --(*this);
                 return (tmp);
             }
-      
+
             tree_reverse_iterator& operator-= (difference_type n)
             {
                 _elem += n;
                 return (*this);
             }
-      
+
             pointer operator->() const { return &(operator*()); }
 
             reference operator[] (difference_type n) const { return (this->base()[-n - 1]); }
@@ -373,6 +382,7 @@ public:
         private:
             iterator_type     _elem;
     };
+}
 
 template <typename T>
 std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
@@ -422,6 +432,4 @@ bool _verify_node(Node node)
 		return false;
 	}
 	return true;
-}
-
 }
