@@ -384,12 +384,12 @@ static void mapVarious()
 
 void map_tests()
 {
-	/*(void)&mapInsert;
+	(void)&mapInsert;
 	mapInsert();
 
 	std::cout << std::endl;
 	(void)&mapOperatorInsert;
-	mapOperatorInsert();*/
+	mapOperatorInsert();
 
 	std::cout << std::endl;
 	(void)&mapErase;
@@ -399,7 +399,7 @@ void map_tests()
 	(void)&mapClear;
 	mapClear();
 
-	/*std::cout << std::endl;
+	std::cout << std::endl;
 	(void)&mapEmpty;
 	mapEmpty();
 
@@ -413,7 +413,7 @@ void map_tests()
 
 	std::cout << std::endl;
 	(void)&mapVarious;
-	mapVarious();*/
+	mapVarious();
 }
 
 #ifdef MAIN

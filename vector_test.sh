@@ -6,7 +6,7 @@
 # - Compare le resultat de la sortie standard avec la STL (le main doit gérer le #define IS_STL)
 
 CC="c++ -Wall -Wextra -std=c++98"
-SRCS="srcs/test/main_test.cpp"
+SRCS="srcs/test/main_test.cpp srcs/test/stack_test.cpp srcs/test/vector_test.cpp"
 EXEC=vector_test.out
 MAX_NB_LINE=4
 
