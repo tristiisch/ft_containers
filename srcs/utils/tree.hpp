@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/05 20:07:25 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/05 20:08:59 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ namespace ft
 
 			new_node = _node_alloc.allocate(1);
 			_node_alloc.construct(new_node, Node(val));
-			new_node->parent = current;
 			if (this->_comp(current->data.first, val.first))
 			{
 				current->right = new_node;
