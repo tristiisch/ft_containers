@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/05 19:29:39 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/05 19:50:30 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			//check_tree();
+			check_tree();
 			/*else
 			{
 				std::cout << "verif " << new_node->data << std::endl;
