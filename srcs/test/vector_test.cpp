@@ -326,24 +326,24 @@ static void printIteratorVectorTest(std::string itName, InputIterator begin, Inp
 template<class InputIteratorOne, class InputIteratorTwo>
 static void printIteratorVectorOpe(std::string itName1, std::string itName2, InputIteratorOne one, InputIteratorTwo two)
 {
-	std::cout << itName1 << " == " << itName2 << " = " << (one == two) << " | " << *one << " == " << *two << std::endl;
-	std::cout << itName1 << " != " << itName2 << " = " << (one != two) << " | " << *one << " != " << *two << std::endl;
-	std::cout << itName1 << " == " << itName2 << " + 1 = " << (one == two + 1) << " | " << *one << " == " << *(two + 1) << std::endl;
-	std::cout << itName1 << " != " << itName2 << " + 1 = " << (one != two + 1) << " | " << *one << " != " << *(two + 1) << std::endl;
-	std::cout << itName1 << " == 1 + " << itName2 << " = " << (one == 1 + two) << " | " << *one << " == " << *(1 + two) << std::endl;
-	std::cout << itName1 << " != 1 + " << itName2 << " = " << (one != 1 + two) << " | " << *one << " != " << *(1 + two) << std::endl;
-	std::cout << itName1 << " <= " << itName2 << " = " << (one <= two) << " | " << *one << " <= " << *two << std::endl;
-	std::cout << itName1 << " >= " << itName2 << " = " << (one >= two) << " | " << *one << " >= " << *two << std::endl;
-	std::cout << itName1 << " <= " << itName2 << " + 1 = " << (one <= (two + 1)) << " | " << *one << " <= " << *(two + 1) << std::endl;
-	std::cout << itName1 << " >= " << itName2 << " + 1 = " << (one >= (two + 1)) << " | " << *one << " >= " << *(two + 1) << std::endl;
-	std::cout << itName1 << " <= 1 + " << itName2 << " = " << (one <= (1 + two)) << " | " << *one << " <= " << *(1 + two) << std::endl;
-	std::cout << itName1 << " >= 1 + " << itName2 << " = " << (one >= (1 + two)) << " | " << *one << " >= " << *(1 + two) << std::endl;
-	std::cout << itName1 << " < " << itName2 << " = " << (one < two) << " | " << *one << " > " << *two << std::endl;
-	std::cout << itName1 << " > " << itName2 << " = " << (one > two) << " | " << *one << " < " << *two << std::endl;
-	std::cout << itName1 << " < 1 + " << itName2 << " = " << (one < (1 + two)) << " | " << *one << " > " << *(1 + two) << std::endl;
-	std::cout << itName1 << " > 1 + " << itName2 << " = " << (one > (1 + two)) << " | " << *one << " > " << *(1 + two) << std::endl;
-	std::cout << itName1 << " < " << itName2 << " + 1 = " << (one < (two + 1)) << " | " << *one << " < " << *(two + 1) << std::endl;
-	std::cout << itName1 << " > " << itName2 << " + 1 = " << (one > (two + 1)) << " | " << *one << " > " << *(two + 1) << std::endl;
+	std::cout << itName1 << " == "		<< itName2 << " = " 	<< (one == two)			<< " | " << *one << " == " << *two << std::endl;
+	std::cout << itName1 << " != "		<< itName2 << " = " 	<< (one != two)			<< " | " << *one << " != " << *two << std::endl;
+	std::cout << itName1 << " == " 		<< itName2 << " + 1 = " << (one == two + 1)		<< " | " << *one << " == " << *(two + 1) << std::endl;
+	std::cout << itName1 << " != "		<< itName2 << " + 1 = " << (one != two + 1)		<< " | " << *one << " != " << *(two + 1) << std::endl;
+	std::cout << itName1 << " == 1 + "	<< itName2 << " = " 	<< (one == 1 + two)		<< " | " << *one << " == " << *(1 + two) << std::endl;
+	std::cout << itName1 << " != 1 + "	<< itName2 << " = " 	<< (one != 1 + two)		<< " | " << *one << " != " << *(1 + two) << std::endl;
+	std::cout << itName1 << " <= "		<< itName2 << " = " 	<< (one <= two)			<< " | " << *one << " <= " << *two << std::endl;
+	std::cout << itName1 << " >= "		<< itName2 << " = " 	<< (one >= two)			<< " | " << *one << " >= " << *two << std::endl;
+	std::cout << itName1 << " <= 1 + "	<< itName2 << " = " 	<< (one <= (1 + two))	<< " | " << *one << " <= " << *(1 + two) << std::endl;
+	std::cout << itName1 << " >= 1 + "	<< itName2 << " = " 	<< (one >= (1 + two))	<< " | " << *one << " >= " << *(1 + two) << std::endl;
+	std::cout << itName1 << " <= "		<< itName2 << " + 1 = " << (one <= (two + 1))	<< " | " << *one << " <= " << *(two + 1) << std::endl;
+	std::cout << itName1 << " >= "		<< itName2 << " + 1 = " << (one >= (two + 1))	<< " | " << *one << " >= " << *(two + 1) << std::endl;
+	std::cout << itName1 << " < "		<< itName2 << " = " 	<< (one < two)			<< " | " << *one << " < " << *two << std::endl;
+	std::cout << itName1 << " > "		<< itName2 << " = " 	<< (one > two)			<< " | " << *one << " > " << *two << std::endl;
+	std::cout << itName1 << " < 1 + "	<< itName2 << " = " 	<< (one < (1 + two))	<< " | " << *one << " < " << *(1 + two) << std::endl;
+	std::cout << itName1 << " > 1 + "	<< itName2 << " = " 	<< (one > (1 + two))	<< " | " << *one << " > " << *(1 + two) << std::endl;
+	std::cout << itName1 << " < "		<< itName2 << " + 1 = " << (one < (two + 1))	<< " | " << *one << " < " << *(two + 1) << std::endl;
+	std::cout << itName1 << " > "		<< itName2 << " + 1 = " << (one > (two + 1))	<< " | " << *one << " > " << *(two + 1) << std::endl;
 }
 
 static void swapTest()
