@@ -323,6 +323,28 @@ static void printIteratorVectorTest(std::string itName, InputIterator begin, Inp
 	std::cout << itName << "last < " << itName << "last - 1 = " << (last < (last - 1)) << std::endl;
 	std::cout << itName << "last > " << itName << "last - 1 = " << (last > (last - 1)) << std::endl;
 }
+template<class InputIteratorOne, class InputIteratorTwo>
+static void printIteratorVectorOpe(std::string itName1, std::string itName2, InputIteratorOne one, InputIteratorTwo two)
+{
+	std::cout << itName1 << " == " << itName2 << " = " << (one == two) << " | " << *one << " == " << *two << std::endl;
+	std::cout << itName1 << " != " << itName2 << " = " << (one != two) << " | " << *one << " != " << *two << std::endl;
+	std::cout << itName1 << " == " << itName2 << " + 1 = " << (one == two + 1) << " | " << *one << " == " << *(two + 1) << std::endl;
+	std::cout << itName1 << " != " << itName2 << " + 1 = " << (one != two + 1) << " | " << *one << " != " << *(two + 1) << std::endl;
+	std::cout << itName1 << " == 1 + " << itName2 << " = " << (one == 1 + two) << " | " << *one << " == " << *(1 + two) << std::endl;
+	std::cout << itName1 << " != 1 + " << itName2 << " = " << (one != 1 + two) << " | " << *one << " != " << *(1 + two) << std::endl;
+	std::cout << itName1 << " <= " << itName2 << " = " << (one <= two) << " | " << *one << " <= " << *two << std::endl;
+	std::cout << itName1 << " >= " << itName2 << " = " << (one >= two) << " | " << *one << " >= " << *two << std::endl;
+	std::cout << itName1 << " <= " << itName2 << " + 1 = " << (one <= (two + 1)) << " | " << *one << " <= " << *(two + 1) << std::endl;
+	std::cout << itName1 << " >= " << itName2 << " + 1 = " << (one >= (two + 1)) << " | " << *one << " >= " << *(two + 1) << std::endl;
+	std::cout << itName1 << " <= 1 + " << itName2 << " = " << (one <= (1 + two)) << " | " << *one << " <= " << *(1 + two) << std::endl;
+	std::cout << itName1 << " >= 1 + " << itName2 << " = " << (one >= (1 + two)) << " | " << *one << " >= " << *(1 + two) << std::endl;
+	std::cout << itName1 << " < " << itName2 << " = " << (one < two) << " | " << *one << " > " << *two << std::endl;
+	std::cout << itName1 << " > " << itName2 << " = " << (one > two) << " | " << *one << " < " << *two << std::endl;
+	std::cout << itName1 << " < 1 + " << itName2 << " = " << (one < (1 + two)) << " | " << *one << " > " << *(1 + two) << std::endl;
+	std::cout << itName1 << " > 1 + " << itName2 << " = " << (one > (1 + two)) << " | " << *one << " > " << *(1 + two) << std::endl;
+	std::cout << itName1 << " < " << itName2 << " + 1 = " << (one < (two + 1)) << " | " << *one << " < " << *(two + 1) << std::endl;
+	std::cout << itName1 << " > " << itName2 << " + 1 = " << (one > (two + 1)) << " | " << *one << " > " << *(two + 1) << std::endl;
+}
 
 static void swapTest()
 {
@@ -369,8 +391,18 @@ static void iteratorVectorTest()
 	std::cout << "*constVector.rend() - 1 = " << *(constVector.rend() - 1) << std::endl;
 	printIteratorVectorTest("reverseitConst", constVector.rbegin(), constVector.rend());
 
-	const ft::vector<int>::const_reverse_iterator constIt = vector.rbegin();
-	(void)constIt;
+	ft::vector<int>::const_reverse_iterator ritConst = vector.rbegin();
+	(void)ritConst;
+
+	printIteratorVectorOpe("it", "it", vector.begin(), vector.begin());
+	printIteratorVectorOpe("cit", "cit", itConst, itConst);
+	printIteratorVectorOpe("rit", "rit", vector.rbegin(), vector.rbegin());
+	printIteratorVectorOpe("rcit", "rcit", ritConst, ritConst);
+
+	printIteratorVectorOpe("it", "cit", vector.begin(), itConst);
+	printIteratorVectorOpe("cit", "it", itConst, vector.begin());
+	printIteratorVectorOpe("rit", "rcit", vector.rbegin(), ritConst);
+	printIteratorVectorOpe("rcit", "rit", ritConst, vector.rbegin());
 }
 
 static void compTest()

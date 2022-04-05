@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 22:19:02 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/05 02:06:26 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <cstddef>
+#include <iostream>
 
 namespace ft
 {
@@ -82,7 +83,7 @@ public:
 	pointer operator ->() { return _ptr; }											// a->b
 	const_pointer operator ->() const { return _ptr; }											// a->b
 
-	T* base() const {return _ptr;};
+	pointer base() const {return _ptr;};
 
 	static const bool input_iter = true;
 
@@ -123,8 +124,6 @@ public:
 
 	template < class One, class Two>
 	bool operator<(const One &lhs, const Two &rhs ) {
-		
-		std::cout << "COUCOU" << std::endl;
 		return lhs.base() < rhs.base();
 	}
 

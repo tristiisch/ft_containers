@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:12:07 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 22:20:19 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/05 01:59:54 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ template <class Iterator>
                 --(*this);
                 return (tmp);
             }
-
+            
             bool operator ==(reverse_iterator const& b) const { return (b._elem == _elem); };
             bool operator !=(reverse_iterator const& b) const { return (b._elem != _elem); };
-            bool operator >(reverse_iterator const& b) const { return (b._elem < _elem); }; // à verifier
-            bool operator <(reverse_iterator const& b) const { return (b._elem > _elem); }; //à verifier
-            bool operator >=(reverse_iterator const& b) const { return (b._elem <= _elem); };//à verifier
-            bool operator <=(reverse_iterator const& b) const { return (b._elem >= _elem); };//à verifier
+            bool operator >(reverse_iterator const& b) const { return (b._elem > _elem); }; // à verifier
+            bool operator <(reverse_iterator const& b) const { return (b._elem < _elem); }; //à verifier
+            bool operator >=(reverse_iterator const& b) const { return (b._elem >= _elem); };//à verifier
+            bool operator <=(reverse_iterator const& b) const { return (b._elem <= _elem); };//à verifier
 
             pointer operator->() const { return &(operator*()); }
             reference operator[] (difference_type n) const { return (this->base()[-n - 1]); }

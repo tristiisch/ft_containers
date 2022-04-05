@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/28 20:55:19 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/05 02:04:32 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@
 
 #include <iostream>
 #include <sstream>
-//#include "iterator_traits.hpp"
+#include "iterator.hpp"
+#include "reverse_iterator.hpp"
+#include "const_iterator.hpp"
+#include "const_reverse_iterator.hpp"
 
 namespace ft {
 
@@ -115,4 +118,85 @@ namespace ft {
 	template<typename T>
 	struct is_integral : public is_integral_type<T> { };
 
+
+	/*template <class One, class Two>
+	bool operator<(iterator<One> &lhs, const_iterator<Two> &rhs) {
+		return lhs.base() < rhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator<=(iterator<One> &lhs, const_iterator<Two> &rhs) {
+		return lhs.base() <= rhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>(iterator<One> &lhs, const_iterator<Two> &rhs) {
+		return lhs.base() > rhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>=(iterator<One> &lhs, const_iterator<Two> &rhs) {
+		return lhs.base() >= rhs.base();
+	}
+
+
+	template <class One, class Two>
+	bool operator<(const_iterator<One> &lhs, iterator<Two> &rhs) {
+		return lhs.base() < rhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator<=(const_iterator<One> &lhs, iterator<Two> &rhs) {
+		return lhs.base() <= rhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>(const_iterator<One> &lhs, iterator<Two> &rhs) {
+		return lhs.base() > rhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>=(const_iterator<One> &lhs, iterator<Two> &rhs) {
+		return lhs.base() >= rhs.base();
+	}
+
+    template <class One, class Two>
+	bool operator<(const reverse_iterator<One> &lhs, const const_reverse_iterator<Two> &rhs) {
+		return rhs.base() < lhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator<=(const reverse_iterator<One> &lhs, const const_reverse_iterator<Two> &rhs) {
+		return rhs.base() <= lhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>(const reverse_iterator<One> &lhs, const const_reverse_iterator<Two> &rhs) {
+		return rhs.base() > lhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>=(const reverse_iterator<One> &lhs, const const_reverse_iterator<Two> &rhs) {
+		return lhs.base() >= rhs.base();
+	}
+
+    template <class One, class Two>
+	bool operator<(const const_reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+		return rhs.base() < lhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator<=(const const_reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+		return rhs.base() <= lhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>(const const_reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+		return rhs.base() > lhs.base();
+	}
+
+	template <class One, class Two>
+	bool operator>=(const const_reverse_iterator<One> &lhs, const reverse_iterator<Two> &rhs) {
+		return lhs.base() >= rhs.base();
+	}*/
 }
