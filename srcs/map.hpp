@@ -18,6 +18,7 @@
 # include <cstddef>
 # include "./utils/utils.hpp"
 # include "./utils/iterator.hpp"
+# include "./utils/reverse_iterator.hpp"
 # include "./utils/tree_iterator.hpp"
 # include "./utils/tree.hpp"
 namespace ft
@@ -41,10 +42,8 @@ namespace ft
 
 		typedef typename ft::tree<value_type, Key, Compare>::iterator			iterator;
 		typedef typename ft::tree<value_type, Key, Compare>::const_iterator		const_iterator;
-		typedef typename ft::tree_reverse_iterator<iterator>					reverse_iterator;
-		typedef typename ft::tree_reverse_iterator<const_iterator>				const_reverse_iterator;
-		//typedef typename ft::tree<value_type, Key, Compare>::reverse_iterator			reverse_iterator;
-		//typedef typename ft::tree<value_type, Key, Compare>::const_reverse_iterator		const_reverse_iterator;
+		typedef typename ft::reverse_iterator<iterator>							reverse_iterator;
+		typedef typename ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 		class value_compare : std::binary_function<value_type, value_type, bool>
 		{
@@ -162,9 +161,8 @@ namespace ft
 		mapped_type& operator[](const key_type &key)
  		{
  			iterator value = find(key);
-
  			if (value == end())
- 				insert(ft::make_pair(key, mapped_type()));
+ 				_tree.insert(ft::make_pair(key, mapped_type()));
  			value = find(key);
  			return ((*value).second);
  		}

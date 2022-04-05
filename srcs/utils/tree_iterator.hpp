@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/04 15:25:15 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:47:26 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <cstddef>
 #include "pair.hpp"
 #include "iterator.hpp"
+#include "reverse_iterator.hpp"
 #include <iostream>
 #include <memory>
 #include <algorithm>
@@ -343,6 +344,47 @@ public:
         private:
             iterator_type     _elem;
     };
+
+	template <typename T>
+    bool operator==(const ft::tree_iterator<T> lhs,
+              const ft::tree_iterator<T> rhs)
+    {
+        return (lhs.operator*() == rhs.operator*());
+    }
+
+    /* For iterator == const_iterator */
+    template<typename T_L, typename T_R>
+    bool operator==(const ft::tree_iterator<T_L> lhs,
+              const ft::tree_iterator<T_R> rhs)
+    {
+        return (lhs.operator*() == rhs.operator*());
+    }
+
+    /*
+    ** @brief Check if the pointer of "lhs"
+    ** is different than "rhs" in the memory.
+    **
+    ** @param lhs the random access iterator to compare.
+    ** @param rhs the random access iterator with who check.
+    ** @return true if the pointer of lhs
+    ** if different than "rhs", otherwise false.
+    */
+    template <typename T>
+    bool operator!=(const ft::tree_iterator<T> lhs,
+              const ft::tree_iterator<T> rhs)
+    {
+        return (lhs.operator*() != rhs.operator*());
+    }
+
+    /* For iterator != const_iterator */
+    template<typename T_L, typename T_R>
+    bool operator!=(const ft::tree_iterator<T_L> lhs,
+              const ft::tree_iterator<T_R> rhs)
+    {
+        return (lhs.operator*() != rhs.operator*());
+    }
+
+	
 }
 
 template <typename T>

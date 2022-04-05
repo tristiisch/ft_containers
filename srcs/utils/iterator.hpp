@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/05 02:06:26 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/05 19:27:19 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,16 @@ public:
 
 	typedef T							value_type;
 	typedef value_type&						reference;
-	typedef const value_type&					const_reference;
 	typedef value_type*						pointer;
-	typedef const value_type*					const_pointer;
 	typedef typename std::ptrdiff_t 	difference_type;
 
 	iterator(void) : _ptr(NULL) {}
-	iterator(T* other) : _ptr(other) {}
-	iterator(const iterator &src) { *this = src; }
+	iterator(pointer other) : _ptr(other) {}
+	iterator(const iterator &src) : _ptr(src._ptr) {}
 
 	virtual ~iterator() {}
 
-	iterator &operator=(iterator const &src) { _ptr = src._ptr; return (*this); }
+	iterator &operator=(iterator const &src) { this->_ptr = src._ptr; return (*this); }
 
 	// BOOLEANS : pas besoin dans ce cas
 	bool operator ==(T* const base) const { return (_ptr == base); }
@@ -77,13 +75,16 @@ public:
 
 	//DEREFERENCING & ADDRESS STUFF
 	reference operator [](difference_type b) { return (*(_ptr + b)); };					// a[]
-	const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
+	//const_reference operator [](difference_type b) const { return (*(_ptr + b)); };		// a[]
 	reference operator *() { return *_ptr; }											// *a
-	const_reference operator *() const { return *_ptr; }								// *a
-	pointer operator ->() { return _ptr; }											// a->b
-	const_pointer operator ->() const { return _ptr; }											// a->b
+	//const_reference operator *() const { return *_ptr; }								// *a
+	pointer operator ->() { return &(this->operator*()); }											// a->b
+	//const_pointer operator ->() const { return _ptr; }											// a->b
 
-	pointer base() const {return _ptr;};
+	operator iterator<const T> () const
+        { return (iterator<const T>(this->_ptr)); }
+
+	T* base() const {return this->_ptr;};
 
 	static const bool input_iter = true;
 
@@ -91,57 +92,142 @@ public:
 		T* _ptr;
 };
 
-	template < class One, class Two>
-	bool operator==(const One &lhs, const Two &rhs) {
-		return lhs.base() == rhs.base();
-	}
+	template <typename T>
+    bool operator==(const ft::iterator<T> lhs,
+              const ft::iterator<T> rhs)
+    {
+        return (lhs.base() == rhs.base());
+    }
 
-	template < class One, class Two>
-	bool operator!=(const One &lhs, const Two &rhs) {
-		return lhs.base() != rhs.base();
-	}
+    /* For iterator == const_iterator */
+    template<typename T_L, typename T_R>
+    bool operator==(const ft::iterator<T_L> lhs,
+              const ft::iterator<T_R> rhs)
+    {
+        return (lhs.base() == rhs.base());
+    }
 
-/*********** USLESS : les comparaisons ne vont pas dedans ***********/
-	// template <class One, class Two>
-	// bool operator<(const iterator<One> &lhs, const iterator<Two> &rhs) {
-	// 	return lhs.base() < rhs.base();
-	// }
+    /*
+    ** @brief Check if the pointer of "lhs"
+    ** is different than "rhs" in the memory.
+    **
+    ** @param lhs the random access iterator to compare.
+    ** @param rhs the random access iterator with who check.
+    ** @return true if the pointer of lhs
+    ** if different than "rhs", otherwise false.
+    */
+    template <typename T>
+    bool operator!=(const ft::iterator<T> lhs,
+              const ft::iterator<T> rhs)
+    {
+        return (lhs.base() != rhs.base());
+    }
 
-	// template <class One, class Two>
-	// bool operator<=(const iterator<One> &lhs, const iterator<Two> &rhs) {
-	// 	return !(rhs < lhs);
-	// }
+    /* For iterator != const_iterator */
+    template<typename T_L, typename T_R>
+    bool operator!=(const ft::iterator<T_L> lhs,
+              const ft::iterator<T_R> rhs)
+    {
+        return (lhs.base() != rhs.base());
+    }
 
-	// template <class One, class Two>
-	// bool operator>(const iterator<One> &lhs, const iterator<Two> &rhs) {
-	// 	return (rhs < lhs);
-	// }
+    /*
+    ** @brief Check if the pointer of "lhs"
+    ** is lower than "rhs" in the memory.
+    **
+    ** @param lhs the random access iterator to compare.
+    ** @param rhs the random access iterator with who check.
+    ** @return true if the pointer of lhs
+    ** if lower than "rhs", otherwise false.
+    */
+    template <typename T>
+    bool operator<(const ft::iterator<T> lhs,
+              const ft::iterator<T> rhs)
+    {
+        return (lhs.base() < rhs.base());
+    }
 
-	// template <class One, class Two>
-	// bool operator>=(const iterator<One> &lhs, const iterator<Two> &rhs) {
-	// 	return !(lhs < rhs);
-	// }
+    /* For iterator < const_iterator */
+    template<typename T_L, typename T_R>
+    bool operator<(const ft::iterator<T_L> lhs,
+              const ft::iterator<T_R> rhs)
+    {
+        return (lhs.base() < rhs.base());
+    }
 
-	template < class One, class Two>
-	bool operator<(const One &lhs, const Two &rhs ) {
-		return lhs.base() < rhs.base();
-	}
+    /*
+    ** @brief Check if the pointer of "lhs"
+    ** is upper than "rhs" in the memory.
+    **
+    ** @param lhs the random access iterator to compare.
+    ** @param rhs the random access iterator with who check.
+    ** @return true if the pointer of lhs
+    ** if upper than "rhs", otherwise false.
+    */
+    template <typename T>
+    bool operator>(const ft::iterator<T> lhs,
+              const ft::iterator<T> rhs)
+    {
+        return (lhs.base() > rhs.base());
+    }
 
-	template < class One, class Two>
-	bool operator<=(const One &lhs, const Two &rhs) {
-		return lhs.base() <= rhs.base();
-	}
+    /* For iterator > const_iterator */
+    template<typename T_L,
+             typename T_R>
+    bool operator>(const ft::iterator<T_L> lhs,
+              const ft::iterator<T_R> rhs)
+    {
+        return (lhs.base() > rhs.base());
+    }
 
-	template < class One, class Two>
-	bool operator>(const One &lhs, const Two &rhs) {
-		return (lhs.base() > rhs.base());
-	}
+    /*
+    ** @brief Check if the pointer of "lhs"
+    ** is lower or equal than "rhs" in the memory.
+    **
+    ** @param lhs the random access iterator to compare.
+    ** @param rhs the random access iterator with who check.
+    ** @return true if the pointer of lhs
+    ** if lower or equal than "rhs", otherwise false.
+    */
+    template <typename T>
+    bool operator<=(const ft::iterator<T> lhs,
+              const ft::iterator<T> rhs)
+    {
+        return (lhs.base() <= rhs.base());
+    }
 
-	template < class One, class Two>
-	bool operator>=(const One &lhs, const Two &rhs) {
-		return lhs.base() >= rhs.base();
-	}
+    /* For iterator <= const_iterator */
+    template<typename T_L, typename T_R>
+    bool operator<=(const ft::iterator<T_L> lhs,
+              const ft::iterator<T_R> rhs)
+    {
+        return (lhs.base() <= rhs.base());
+    }
 
+    /*
+    ** @brief Check if the pointer of "lhs"
+    ** is upper or equal than "rhs" in the memory.
+    **
+    ** @param lhs the random access iterator to compare.
+    ** @param rhs the random access iterator with who check.
+    ** @return true if the pointer of lhs
+    ** if upper or equal than "rhs", otherwise false.
+    */
+    template <typename T>
+    bool operator>=(const ft::iterator<T> lhs,
+              const ft::iterator<T> rhs)
+    {
+        return (lhs.base() >= rhs.base());
+    }
+
+    /* For iterator >= const_iterator */
+    template<typename T_L,
+             typename T_R>
+    bool operator>=(const ft::iterator<T_L> lhs,
+              const ft::iterator<T_R> rhs)
+    {
+        return (lhs.base() >= rhs.base());
+    }
 /********************************************************************/
 
 	template <class InputIterator>
