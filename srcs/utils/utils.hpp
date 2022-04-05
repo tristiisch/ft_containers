@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/03/28 20:55:19 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/05 15:16:25 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

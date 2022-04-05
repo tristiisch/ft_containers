@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 21:15:45 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:59:29 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <cstddef>
 # include "./utils/utils.hpp"
 # include "./utils/iterator.hpp"
-# include "./utils/const_iterator.hpp"
+//# include "./utils/const_iterator.hpp"
 # include "./utils/reverse_iterator.hpp"
 
 namespace ft
@@ -37,7 +37,7 @@ namespace ft
 		typedef typename allocator_type::const_pointer			const_pointer;
 
 		typedef ft::iterator<value_type>						iterator;
-		typedef ft::const_iterator<value_type>					const_iterator;
+		typedef ft::iterator<const value_type>					const_iterator;
 		typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
@@ -112,7 +112,8 @@ namespace ft
 		{
 			if (x != *this)
 			{
-				this->clear(); // a CHECK
+				if (!this->empty())
+					this->clear(); // a CHECK
 				this->insert(this->end(), x.begin(), x.end());
 				//this->assign(x.begin(), x.end());
 			}
@@ -547,7 +548,7 @@ namespace ft
 	template<class T, class Alloc>
 	bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		if (ft::equal(lhs.begin(), lhs.end(), rhs.begin()) != false)
+		if (lhs.size() && rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()) != false)
 			return lhs.size() == rhs.size();
 		return false;
 	}

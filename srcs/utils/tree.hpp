@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/04 01:16:17 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/05 16:47:09 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
-//#include "reverse_iterator.hpp"
+#include "iterator.hpp"
 #include "tree_iterator.hpp"
 #include "../vector.hpp"
 #include "utils.hpp"
@@ -118,6 +118,7 @@ namespace ft
 
 		void check_tree()
 		{
+			
 			node_pointer current = _node_min(_root);
 			if (_root->left && _root->right == NULL)
 			{
@@ -133,8 +134,10 @@ namespace ft
 			}
 			while (current != NULL )
 			{
+				//std::cout << "CHECKING" << std::endl;
 				if (!_check_node(current))
 				{
+					//std::cout << "ORGANIZING" << std::endl;
 					organise_tree(current);
 					current = _node_min(_root);
 				}
@@ -148,6 +151,7 @@ namespace ft
 			node_pointer new_node;
 			node_pointer current;
 
+			//std::cout << "INSERTING" << std::endl;
 			if (_root == _end_node)
 			{
 				new_node = _node_alloc.allocate(1);
@@ -190,8 +194,7 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			//if (val.first != '5')
-				check_tree();
+			//check_tree();
 			/*else
 			{
 				std::cout << "verif " << new_node->data << std::endl;
@@ -265,28 +268,23 @@ namespace ft
 
 		iterator find(const Key& k)
 		{
-			if (_root)
-			{
-				node_pointer current = _node_min(_root);
-				while (current != _end_node && current->data.first != k)
-					current = _node_next(current);
-				if (current != _end_node)
-					return iterator(current);
+			iterator pos = lower_bound(k);
+
+			if (pos != end() && !_comp(k, pos->first)) {
+				return pos;
 			}
-			return iterator(this->end());
+
+			return end();
 		}
 
-		const_iterator find(const Key& k) const
-		{
-			if (_root)
-			{
-				node_pointer current = _node_min(_root);
-				while (current != _end_node && current->data.first != k)
-					current = _node_next(current);
-				if (current != _end_node)
-					return const_iterator(current);
+		const_iterator find(const Key &k) const {
+			const_iterator pos = lower_bound(k);
+
+			if (pos != end() && !_comp(k, pos->first)) {
+				return pos;
 			}
-			return const_iterator(this->end());
+
+			return end();
 		}
 
 		size_type count(const Key& k) const
