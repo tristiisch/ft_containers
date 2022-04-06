@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/05 14:59:29 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/06 16:43:32 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <cstddef>
 # include "./utils/utils.hpp"
 # include "./utils/iterator.hpp"
-//# include "./utils/const_iterator.hpp"
 # include "./utils/reverse_iterator.hpp"
 
 namespace ft
@@ -41,10 +40,6 @@ namespace ft
 		typedef ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
-
-		// il faut appeler tous les types d'iterateurs ici et les definir via iterator.hpp, etc..
-
-		// constructeur par defaut
 		explicit vector(const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
 			_start(NULL),
@@ -52,7 +47,6 @@ namespace ft
 			_end_capacity(NULL)
 		{};
 
-		// constructeur avec capacity par default
 		explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		:	_alloc(alloc),
 			_start(NULL),
@@ -64,10 +58,8 @@ namespace ft
 			_end_capacity = _start + n;
 			for (; n > 0; --n)
 				_alloc.construct(_end++, val);
-			// insert(this->begin(), n, val);
 		}
 
-		// checker pour la verif des iterator + comprendre pourquoi "InputIterator"
 		template<class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 		:	_alloc(alloc),
@@ -87,7 +79,6 @@ namespace ft
 			_end_capacity = _start + size;
 			for (; size > 0; --size)
 				_alloc.construct(_end++, *(first++));
-			//insert(this->begin(), first, last);
 		}
 
 		vector(const vector& x)
@@ -99,23 +90,18 @@ namespace ft
 			this->insert(this->begin(), x.begin(), x.end());
 		}
 
-		//Destructeur par défaut
 		~vector()
 		{
-			// Verify it
 			_alloc.deallocate(_start, this->capacity());
 		}
 
-		vector &operator=(const vector& x) // il y a un souci avec cette fonction je pense que c'est un souci de size()
-											//c'est cette fonction qui ne fait pas passer les tests sur sizecd ..
-
+		vector &operator=(const vector& x)
 		{
 			if (x != *this)
 			{
 				if (!this->empty())
-					this->clear(); // a CHECK
+					this->clear();
 				this->insert(this->end(), x.begin(), x.end());
-				//this->assign(x.begin(), x.end());
 			}
 			return (*this);
 		}
@@ -152,7 +138,6 @@ namespace ft
 			return (iterator(p_first));
 		}
 
-		// iterator from start
 		iterator begin()
 		{
 			return _start;
@@ -173,7 +158,6 @@ namespace ft
 			return const_reverse_iterator(_end);
 		}
 
-		// iterator at the end
 		iterator end()
 		{
 			if (this->empty() == false)
@@ -206,13 +190,11 @@ namespace ft
 				return const_reverse_iterator(_start);
 		}
 
-		// Number of elements
 		size_type size() const
 		{
 			return _end - _start;
 		}
 
-		// Return first element of the vector
 		reference front()
 		{
 			return (*_start);
@@ -222,7 +204,6 @@ namespace ft
 			return (*_start);
 		}
 
-		//	Return lasat element of the vector
 		reference back()
 		{
 			return *(_end - 1);
@@ -233,8 +214,6 @@ namespace ft
 			return *(_end - 1);
 		}
 
-		// Le nombre maximum d'octet que notre vector peux contenir.
-		// Défini en fonction de la RAM
 		size_type max_size() const
 		{
 			return allocator_type().max_size();
@@ -242,16 +221,13 @@ namespace ft
 
 		void resize(size_type n, value_type val = value_type())
 		{
-			/*if (n > this->max_size())
-				throw une exception.*/
-			/*else*/ if (n < this->size())
+			if (n < this->size())
 			{
 				while (this->size() > n)
 				{
 					--_end;
 					_alloc.destroy(_end);
 				}
-				//this->erase(begin() + n, end());
 			}
 			else if (n > this->size())
 			{
@@ -272,7 +248,6 @@ namespace ft
 			_alloc.construct(_end++, value);
 		}
 
-		// Supprime la valeur au Top du vector. N'affecte pas la memoire allouée
 		void pop_back()
 		{
 			_alloc.destroy(_end--);
@@ -316,7 +291,6 @@ namespace ft
 			{
 				 int newCapacity;
 				newCapacity = (this->size() * 2 > 0) ? this->size() * 2 : 1;
-				// std::cout << C_CYAN << "Hey2 " << newCapacity << C_RESET << std::endl;
 				pointer newStart = _alloc.allocate(newCapacity);
 				pointer newEnd = newStart + this->size() + 1;
 				pointer newEndCapacity = newStart + newCapacity;
@@ -404,10 +378,8 @@ namespace ft
 			}
 			else
 			{
-				//size_type newCapacity = this->capacity() * 2;
 				pointer newStart, newEnd, newEndCapacity;
 
-				// if (size_type(newEndCapacity - newStart) < this->size() + dist)
 				if (this->size() + dist >= this->size() * 2)
 				{
 					newStart = _alloc.allocate(this->size() + dist);
@@ -420,12 +392,6 @@ namespace ft
 					newEnd = newStart + this->size() + dist;
 					newEndCapacity = newStart + (this->size() * 2);
 				}
-				// while (this->size() + dist > newCapacity)
-				// 	newCapacity *= 2;
-
-				/*newStart = _alloc.allocate(newCapacity);
-				newEnd = newStart + this->size() + dist;
-				newEndCapacity = newStart + (newCapacity);*/
 
 				for (int i = 0; i < &(*position) - _start; ++i)
 					_alloc.construct(newStart + i, *(_start + i));
@@ -446,7 +412,7 @@ namespace ft
 			}
 		}
 
-		void assign(size_t n, const value_type& val) // il faut vérifier que ce truc marche comme prévu
+		void assign(size_t n, const value_type& val)
 		{
 			this->clear();
 			this->insert(this->begin(), n, val);
@@ -458,8 +424,6 @@ namespace ft
 			this->clear();
 			this->insert(this->begin(), first, last);
 		}
-
-
 
 		void swap(vector& x)
 		{
@@ -484,7 +448,6 @@ namespace ft
 			this->_end_capacity = save_endcap;
 		}
 
-		// Supprime les valeurs. N'affecte pas la memoire allouée
 		void clear()
 		{
 			for (; _start != _end; --_end)
@@ -540,8 +503,7 @@ namespace ft
 
 		void _range_check(size_type n) const {
 			if (n >= size())
-				//throw std::out_of_range("vector::out_of_range > n in not in range");
-				throw std::out_of_range("vector"); // STL MSG on MAC
+				throw std::out_of_range("vector");
 		}
 	};
 
@@ -582,7 +544,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
- 		void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+ 	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
 	{
 		x.swap(y);
 	}

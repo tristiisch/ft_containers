@@ -233,8 +233,8 @@ int main() {
 	map1.insert(ft::pair<char,int>('a', 30));
 	map1.insert(ft::pair<char,int>('c', 70));
 	map1.insert(ft::pair<char,int>('b', 20));
-	map1.insert(ft::pair<char,int>('P', 20));
-	map1.insert(ft::pair<char,int>('d', 10));
+	map1.insert(ft::pair<char,int>('d', 20));
+	map1.insert(ft::pair<char,int>('P', 10));
 	map1.insert(ft::pair<char,int>('e', 50));
 	map1.insert(ft::pair<char,int>('Y', 50));
 	map1.insert(ft::pair<char,int>('0', 101));
@@ -253,8 +253,7 @@ int main() {
 	std::cout << map1 << std::endl;
 	print_tree(map1);
 
-	ft::map<char,int>::iterator it = map1.find('b');
-	map1.erase(it);
+	map1.erase('b');
 	std::cout << map1 << std::endl;
 	print_tree(map1);
 
@@ -282,10 +281,10 @@ int main() {
 	std::cout << map1 << std::endl;
 	print_tree(map1);
 
-	it = map1.find('e');
+	/*it = map1.find('e');
 	map1.erase(it, map1.end());
 	std::cout << map1 << std::endl;
-	print_tree(map1);
+	print_tree(map1);*/
 
 
 	//BinTree<int, char> bt(map1.get_tree().get_root());

@@ -108,8 +108,6 @@ namespace ft
 
 		iterator lower_bound(const key_type& k) { return iterator(_tree.lower_bound(k)); }
 
-
-
 		const_iterator lower_bound (const key_type& k) const { return const_iterator(_tree.lower_bound(k)); } // iulk faut retourner un const_iterator
 
 		iterator upper_bound (const key_type& k) { return iterator(_tree.upper_bound(k)); }

@@ -78,8 +78,8 @@ static void mapInsert()
 
 	//srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
-	for (int i = 0; i < 100; ++i)
-		map3.insert(ft::pair<int,int>((rand() % 1000), i));
+	for (int i = 0; i < 15; ++i)
+		map3.insert(ft::pair<int,int>((rand() % 15), i));
 	std::cout << map3 << std::endl;
 }
 
@@ -393,7 +393,7 @@ void map_tests()
 
 	std::cout << std::endl;
 	(void)&mapErase;
-	mapErase();
+	//mapErase();
 
 	std::cout << std::endl;
 	(void)&mapClear;

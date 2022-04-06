@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/05 16:47:26 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/06 16:48:59 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,41 @@ bool _check_node(Node node)
 	return (true);
 }
 
+template <class Node>
+bool _verify_valid_node(Node node)
+{
+	if (node && node->parent)
+	{
+		if (_is_right_node(node) && node->parent->right != node)
+		{
+			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
+			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in right (has " << node->parent->right->data << ")\033[0m" << std::endl;
+			exit(1);
+		}
+		else if (_is_left_node(node) && node->parent->left != node)
+		{
+			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
+			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in left (has " << node->parent->left->data << ")\033[0m" << std::endl;
+			exit(1);
+			return false;
+		}
+	}
+	if (node->right && node->right->parent != NULL && node->right->parent != node)
+	{
+		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
+		if (node->right->parent)
+			std::cerr << "\033[0;31mNode child right " << node->right->data << " has not this node in right (has " << node->right->parent->data << ")\033[0m" << std::endl;
+		exit(1);
+		return false;
+	}
+	if (node->left && node->left->parent != NULL && node->left->parent != node)
+	{
+		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
+		exit(1);
+		return false;
+	}
+	return true;
+}
 namespace ft
 {
 
@@ -209,18 +244,14 @@ public:
 
 	tree_iterator &operator=(tree_iterator const &src) { _node = src._node; return (*this); }
 
-	// BOOLEANS : pas besoin dans ce cas
+	// BOOLEANS
 	bool operator ==(T* const base) const { return (_node == base); }
 	bool operator ==(tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(tree_iterator const& b) const { return (!(_node == b._node)); }
-	//bool operator >(tree_iterator const& b) const { return (_node > b._node); };
-	//bool operator <(tree_iterator const& b) const { return (key_compare(_node, b._node)); };
-	//bool operator >=(tree_iterator const& b) const { return (_node >= b._node); };
-	//bool operator <=(tree_iterator const& b) const { return (_node <= b._node); };
 
 
 	// INCREMENTERS
-	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a //
+	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
 	tree_iterator operator ++(int) 															// a++
 	{
 		T* tmp = _node;
@@ -236,10 +267,10 @@ public:
 	}
 
 	//DEREFERENCING & ADDRESS STUFF
-	reference operator *() { return (_node->data); }											// *a
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() { return &(_node->data); }											// a->b
-	const_pointer operator ->() const { return &(_node->data); }											// a->b
+	reference operator *() { return (_node->data); }										// *a
+	const_reference operator *() const { return (_node->data); }							// *a
+	pointer operator ->() { return &(_node->data); }										// a->b
+	const_pointer operator ->() const { return &(_node->data); }							// a->b
 
 	T* base() const {return _node;};
 
@@ -346,45 +377,28 @@ public:
     };
 
 	template <typename T>
-    bool operator==(const ft::tree_iterator<T> lhs,
-              const ft::tree_iterator<T> rhs)
+    bool operator==(const ft::tree_iterator<T> lhs, const ft::tree_iterator<T> rhs)
     {
         return (lhs.operator*() == rhs.operator*());
     }
 
-    /* For iterator == const_iterator */
     template<typename T_L, typename T_R>
-    bool operator==(const ft::tree_iterator<T_L> lhs,
-              const ft::tree_iterator<T_R> rhs)
+    bool operator==(const ft::tree_iterator<T_L> lhs, const ft::tree_iterator<T_R> rhs)
     {
         return (lhs.operator*() == rhs.operator*());
     }
 
-    /*
-    ** @brief Check if the pointer of "lhs"
-    ** is different than "rhs" in the memory.
-    **
-    ** @param lhs the random access iterator to compare.
-    ** @param rhs the random access iterator with who check.
-    ** @return true if the pointer of lhs
-    ** if different than "rhs", otherwise false.
-    */
     template <typename T>
-    bool operator!=(const ft::tree_iterator<T> lhs,
-              const ft::tree_iterator<T> rhs)
+    bool operator!=(const ft::tree_iterator<T> lhs, const ft::tree_iterator<T> rhs)
     {
         return (lhs.operator*() != rhs.operator*());
     }
 
-    /* For iterator != const_iterator */
     template<typename T_L, typename T_R>
-    bool operator!=(const ft::tree_iterator<T_L> lhs,
-              const ft::tree_iterator<T_R> rhs)
+    bool operator!=(const ft::tree_iterator<T_L> lhs, const ft::tree_iterator<T_R> rhs)
     {
         return (lhs.operator*() != rhs.operator*());
     }
-
-	
 }
 
 template <typename T>
@@ -399,40 +413,4 @@ std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
 {
 	outputFile << pair.first << "=" << pair.second;
 	return outputFile;
-}
-
-template <class Node>
-bool _verify_node(Node node)
-{
-	if (node && node->parent)
-	{
-		if (_is_right_node(node) && node->parent->right != node)
-		{
-			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
-			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in right (has " << node->parent->right->data << ")\033[0m" << std::endl;
-			exit(1);
-		}
-		else if (_is_left_node(node) && node->parent->left != node)
-		{
-			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
-			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in left (has " << node->parent->left->data << ")\033[0m" << std::endl;
-			exit(1);
-			return false;
-		}
-	}
-	if (node->right && node->right->parent != NULL && node->right->parent != node)
-	{
-		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
-		if (node->right->parent)
-			std::cerr << "\033[0;31mNode child right " << node->right->data << " has not this node in right (has " << node->right->parent->data << ")\033[0m" << std::endl;
-		exit(1);
-		return false;
-	}
-	if (node->left && node->left->parent != NULL && node->left->parent != node)
-	{
-		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
-		exit(1);
-		return false;
-	}
-	return true;
 }

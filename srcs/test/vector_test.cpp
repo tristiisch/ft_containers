@@ -137,7 +137,7 @@ static void insertTest()
 
 	vector3.insert(vector3.begin(), vector2.begin(), vector2.end());
 	std::cout << vector3 << std::endl;
-	vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1); //-> capacity not good on
+	vector3.insert(vector3.begin(), vector1.begin(), vector1.end() - 1);
 	std::cout << vector3 << std::endl;
 	std::cout << "vector4.insert(vector4.begin() + 2, 6, 69)" << std::endl;
 	vector4.insert(vector4.begin() + 2, 6, 69);
