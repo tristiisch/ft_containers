@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/05 20:08:59 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/06 19:49:40 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,36 +116,56 @@ namespace ft
 		}
 
 		void check_tree()
-		{
-			
-			node_pointer current = _node_min(_root);
-			//std::cout << "root " << _root->right << std::endl;
+        {
+
+            node_pointer current = _node_min(_root);
+            //if (_root->left && _node_has_leaf(_root->left) && _root->right == NULL)
+            //{
+            //    node_pointer previous = _node_prev(_root);
+            //    previous->right = _root;
+            //    previous->parent = NULL;
+            //    previous->left = NULL;
+            //    _root->parent = previous;
+            //    _root->left = NULL;
+            //    _root->right = NULL;
+            //    _root = previous;
+            //    return;
+            //}
 			if (_root->left && _root->right == NULL)
-			{
-				//std::cout << "current2 " << current->data.first << std::endl;
-				node_pointer previous = _node_prev(_root);
-				previous->right = _root;
-				previous->parent = NULL;
-				previous->left = NULL;
-				_root->parent = previous;
+            {
+                node_pointer previous = _root->left;
+                previous->parent = NULL;
+                _root->parent = _node_true_max(previous);
+                _node_true_max(previous)->right = _root;
 				_root->left = NULL;
-				_root->right = NULL;
-				_root = previous;
-				return;
-			}
-			while (current != NULL )
-			{
-				//std::cout << "CHECKING" << std::endl;
-				if (!_check_node(current))
-				{
-					//std::cout << "ORGANIZING" << std::endl;
-					organise_tree(current);
-					current = _node_min(_root);
-				}
-				else
-					current = _node_next(current);
-			}
-		}
+                _root->right = NULL;
+                _root = previous;
+                return;
+            }
+			else if (_root->right && _root->left == NULL)
+            {
+                node_pointer previous = _root->right;
+                previous->parent = NULL;
+                _root->parent = _node_min(previous);
+                _node_min(previous)->left = _root;
+				_root->left = NULL;
+                _root->right = NULL;
+                _root = previous;
+                return;
+            }
+            while (current != NULL )
+            {
+                //std::cout << "CHECKING" << std::endl;
+                if (!_check_node(current))
+                {
+                    //std::cout << "ORGANIZING" << std::endl;
+                    organise_tree(current);
+                    current = _node_min(_root);
+                }
+                else
+                    current = _node_next(current);
+            }
+        }
 
 		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
 		{

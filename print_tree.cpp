@@ -228,9 +228,9 @@ std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 
 int main() {
 
-	ft::map<char, int> map1, map2;
+	ft::map<int, int> map1, map2;
 
-	map1.insert(ft::pair<char,int>('a', 30));
+	/*map1.insert(ft::pair<char,int>('a', 30));
 	map1.insert(ft::pair<char,int>('c', 70));
 	map1.insert(ft::pair<char,int>('b', 20));
 	map1.insert(ft::pair<char,int>('d', 20));
@@ -242,13 +242,6 @@ int main() {
 	map1.insert(ft::pair<char,int>('g', 60));
 	map1.insert(ft::pair<char,int>('2', 100));
 	map1.insert(ft::pair<char,int>('9', 100));
-
-
-	//std::cout << map1.get_tree()->get_root()->data.first << std::endl;
-	
-	//BinTree<int, char> bt(map1.get_tree()->get_root());
-	//std::cout << map1.get_tree()->get_root() << std::endl;
-	//bt.print(std::cout);
 
 	std::cout << map1 << std::endl;
 	print_tree(map1);
@@ -279,25 +272,39 @@ int main() {
 
 	map1.erase('g');
 	std::cout << map1 << std::endl;
-	print_tree(map1);
-
-	/*it = map1.find('e');
-	map1.erase(it, map1.end());
-	std::cout << map1 << std::endl;
 	print_tree(map1);*/
 
 
-	//BinTree<int, char> bt(map1.get_tree().get_root());
-	//bt.print(std::cout);
-	//std::cout << map1.get_tree() << std::endl;
-	//std::cout << map1 << std::endl;
-
-	/*ft::map<char, int>::iterator one = map1.begin();
-	ft::map<char, int>::iterator two = map1.end();
-	while (one != two)
+	std::cout << "Map Random Basic insert :" << std::endl;
+	for (int i = 0; i < 20; ++i)
 	{
+		map1.insert(ft::pair<int,int>((rand() % 1000), i));
+		//std::cout << "-------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		//print_tree(map1);
+	}
+	std::cout << map1 << std::endl;
+
+
+	ft::map<int, int>::iterator one = map1.begin();
+	while (one != map1.end())
+	{
+		std::cout << "Deleting " << one->first << std::endl;
 		map1.erase((one++)->first);
 		std::cout << map1 << std::endl;
-		std::cout << map1.get_tree() << std::endl;
-	}*/
+		print_tree(map1);
+
+		int i = 0;
+		ft::map<int, int>::iterator one2 = map1.begin();
+		while (one2 != map1.end())
+		{
+			one2++;
+			i++;
+		}
+		if (i != map1.size())
+		{
+			std::cout << "ERROR" << std::endl;
+			return 1;
+		}
+		std::cout << "-----------------------------------------------------" << std::endl;
+	}
 }
