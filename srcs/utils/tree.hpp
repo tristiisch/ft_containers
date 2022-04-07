@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/06 19:49:40 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/07 19:03:36 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,8 @@ namespace ft
 				_root = node;
 		}
 
-		void check_tree()
+		void check_tree(node_pointer node)
         {
-
-            node_pointer current = _node_min(_root);
             //if (_root->left && _node_has_leaf(_root->left) && _root->right == NULL)
             //{
             //    node_pointer previous = _node_prev(_root);
@@ -153,6 +151,33 @@ namespace ft
                 _root = previous;
                 return;
             }
+			node = _root;
+			/*if (node->left && node->right == NULL && !_node_has_leaf(node->left))
+            {
+                node_pointer previous = node->left;
+                previous->parent = NULL;
+				printf("Previous %c\n", previous->data.first);
+                node->parent = previous->right;
+				printf("Parent %c\n", node->parent->data.first);
+                _node_true_max(previous)->right = node;
+				printf("node true max %c\n", _node_true_max(previous)->data.first);
+				node->left = NULL;
+                node->right = NULL;
+                _root = previous;
+                return;
+            }
+			else if (_root->right && _root->left == NULL && !_node_has_leaf(_root->right))
+            {
+                node_pointer previous = _root->right;
+                previous->parent = NULL;
+                _root->parent = _node_min(previous);
+                _node_min(previous)->left = _root;
+				_root->left = NULL;
+                _root->right = NULL;
+                _root = previous;
+                return;
+            }*/
+            node_pointer current = _node_min(_root);
             while (current != NULL )
             {
                 //std::cout << "CHECKING" << std::endl;
@@ -214,7 +239,7 @@ namespace ft
 				current->left = new_node;
 				new_node->parent = current;
 			}
-			check_tree();
+			check_tree(new_node);
 			/*else
 			{
 				std::cout << "verif " << new_node->data << std::endl;
@@ -385,9 +410,9 @@ namespace ft
 					current->parent->right = NULL;
 			}
 			//std::cout << "Erase " << current->data << std::endl;
+			check_tree(current->parent);
 			_node_alloc.destroy(current);
 			_node_alloc.deallocate(current, 1);
-			check_tree();
 			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
 			_size--;

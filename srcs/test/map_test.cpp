@@ -93,10 +93,11 @@ void mapOperatorInsert()
 	map['f'] = 40;
 	map['d'] = 10;
 	map['e'] = 50;
-	map['0'] = 101;
+	map['0'] = map['f'];
 	map['g'] = 60;
 	map['2'] = 100;
 
+	std::cout << "Map Operator[] insert :" << std::endl;
 	std::cout << map << std::endl;
 }
 
