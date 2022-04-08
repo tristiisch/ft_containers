@@ -253,7 +253,7 @@ static void resizeTest()
 	std::cout << "vector push_back" << std::endl;
 	vector.push_back(863);
 	vector.push_back(3);
-	vector.push_back(1); // -> capacity not like stl
+	vector.push_back(1);
 	vector.push_back(48512);
 	std::cout << vector << std::endl;
 
