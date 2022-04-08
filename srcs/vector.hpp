@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/02 17:48:15 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/06 16:43:32 by tglory           ###   ########lyon.fr   */
+/*   Created: 2021/12/02 17:48:15 by tglory            #+#    #+#             */
+/*   Updated: 2022/04/08 12:31:40 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,15 +294,15 @@ namespace ft
 				pointer newStart = _alloc.allocate(newCapacity);
 				pointer newEnd = newStart + this->size() + 1;
 				pointer newEndCapacity = newStart + newCapacity;
-				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
+				for (size_type i = 0; i < posIndex; ++i)
 					_alloc.construct(newStart + i, *(_start + i));
 
-				_alloc.construct(newStart + posIndex, value); // ajoute notre valeur
+				_alloc.construct(newStart + posIndex, value);
 
-				for (size_type i = 0; i < this->size() - posIndex; ++i)  // realloue de notre valeur à la fin
+				for (size_type i = 0; i < this->size() - posIndex; ++i)
 					_alloc.construct(newEnd - i - 1, *(_end - i - 1));
 
-				for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
+				for (size_type i = 0; i < this->size(); ++i)
 					_alloc.destroy(_start + i);
 				if (_start)
 					_alloc.deallocate(_start, this->capacity());
@@ -348,13 +348,13 @@ namespace ft
 					new_endcap = new_start + new_cap;
 				}
 
-				for (size_type i = 0; i < posIndex; ++i) // realloue du debut jusqu'a posIndex
+				for (size_type i = 0; i < posIndex; ++i)
 					_alloc.construct(new_start + i, *(_start + i));
 				for (size_type i = 0 ; i < n ; ++i)
-					_alloc.construct(new_start + posIndex + i, val); // ajoute notre valeur
-				for (size_type i = 0 ; i < this->size() - posIndex ; ++i)  // realloue de notre valeur à la fin
+					_alloc.construct(new_start + posIndex + i, val);
+				for (size_type i = 0 ; i < this->size() - posIndex ; ++i)
 					_alloc.construct(new_end - i - 1, *(_end - i - 1));
-				for (size_type i = 0; i < this->size(); ++i) // détruit l'ancien
+				for (size_type i = 0; i < this->size(); ++i)
 					_alloc.destroy(_start + i);
 				if (_start)
 					_alloc.deallocate(_start, this->capacity());

@@ -76,7 +76,6 @@ static void mapInsert()
 	map2.insert(map1.begin(), map1.find('e'));
 	std::cout << map2 << std::endl;
 
-	//srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
 	for (int i = 0; i < 15; ++i)
 		map3.insert(ft::pair<int,int>((rand() % 15), i));
@@ -131,14 +130,6 @@ static void mapErase()
 	std::cout << map1 << std::endl;
 
 	map1.erase('0');
-	std::cout << map1 << std::endl;
-
-	it = map1.find('e');
-	map1.erase(it, map1.end());
-	std::cout << map1 << std::endl;
-
-	it = map1.find('e');
-	map1.erase(it, map1.end());
 	std::cout << map1 << std::endl;
 }
 
@@ -394,7 +385,7 @@ void map_tests()
 
 	std::cout << std::endl;
 	(void)&mapErase;
-	//mapErase();
+	mapErase();
 
 	std::cout << std::endl;
 	(void)&mapClear;

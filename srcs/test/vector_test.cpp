@@ -99,19 +99,6 @@ static void outRangePop()
 	std::cout << vector << std::endl;
 }
 
-static void segfault_test()
-{
-	ft::vector<int> vector;
-
-	std::cout << "SegFault test" << std::endl;
-	std::cout << vector << std::endl;
-
-	std::cout << "vector.pop_back()" << std::endl;
-	vector.pop_back();
-	std::cout << vector << std::endl;
-	std::cout << std::endl;
-}
-
 static void insertTest()
 {
 	ft::vector<int> vector1(10), vector2, vector3(10), vector4(10);
@@ -324,29 +311,6 @@ static void printIteratorVectorTest(std::string itName, InputIterator begin, Inp
 	std::cout << itName << "last > " << itName << "last - 1 = " << (last > (last - 1)) << std::endl;
 }
 
-template<class InputIteratorOne, class InputIteratorTwo>
-static void printIteratorVectorOpe(std::string itName1, std::string itName2, InputIteratorOne one, InputIteratorTwo two)
-{
-	std::cout << itName1 << " == "		<< itName2 << " = " 	<< (one == two)			<< " | " << *one << " == " << *two << std::endl;
-	std::cout << itName1 << " != "		<< itName2 << " = " 	<< (one != two)			<< " | " << *one << " != " << *two << std::endl;
-	std::cout << itName1 << " == " 		<< itName2 << " + 1 = " << (one == (two + 1))	<< " | " << *one << " == " << *(two + 1) << std::endl;
-	std::cout << itName1 << " != "		<< itName2 << " + 1 = " << (one != (two + 1))	<< " | " << *one << " != " << *(two + 1) << std::endl;
-	std::cout << itName1 << " == 1 + "	<< itName2 << " = " 	<< (one == (1 + two))	<< " | " << *one << " == " << *(1 + two) << std::endl;
-	std::cout << itName1 << " != 1 + "	<< itName2 << " = " 	<< (one != (1 + two))	<< " | " << *one << " != " << *(1 + two) << std::endl;
-	std::cout << itName1 << " <= "		<< itName2 << " = " 	<< (one <= two)			<< " | " << *one << " <= " << *two << std::endl;
-	std::cout << itName1 << " >= "		<< itName2 << " = " 	<< (one >= two)			<< " | " << *one << " >= " << *two << std::endl;
-	std::cout << itName1 << " <= 1 + "	<< itName2 << " = " 	<< (one <= (1 + two))	<< " | " << *one << " <= " << *(1 + two) << std::endl;
-	std::cout << itName1 << " >= 1 + "	<< itName2 << " = " 	<< (one >= (1 + two))	<< " | " << *one << " >= " << *(1 + two) << std::endl;
-	std::cout << itName1 << " <= "		<< itName2 << " + 1 = " << (one <= (two + 1))	<< " | " << *one << " <= " << *(two + 1) << std::endl;
-	std::cout << itName1 << " >= "		<< itName2 << " + 1 = " << (one >= (two + 1))	<< " | " << *one << " >= " << *(two + 1) << std::endl;
-	std::cout << itName1 << " < "		<< itName2 << " = " 	<< (one < two)			<< " | " << *one << " < " << *two << std::endl;
-	std::cout << itName1 << " > "		<< itName2 << " = " 	<< (one > two)			<< " | " << *one << " > " << *two << std::endl;
-	std::cout << itName1 << " < 1 + "	<< itName2 << " = " 	<< (one < (1 + two))	<< " | " << *one << " < " << *(1 + two) << std::endl;
-	std::cout << itName1 << " > 1 + "	<< itName2 << " = " 	<< (one > (1 + two))	<< " | " << *one << " > " << *(1 + two) << std::endl;
-	std::cout << itName1 << " < "		<< itName2 << " + 1 = " << (one < (two + 1))	<< " | " << *one << " < " << *(two + 1) << std::endl;
-	std::cout << itName1 << " > "		<< itName2 << " + 1 = " << (one > (two + 1))	<< " | " << *one << " > " << *(two + 1) << std::endl;
-}
-
 static void swapTest()
 {
 	int tab[] = {86, -2147483648, 6, 9465, 472, 41, 2147483647, 74, 633, 6, 96, 432, 555};
@@ -394,16 +358,6 @@ static void iteratorVectorTest()
 
 	ft::vector<int>::const_reverse_iterator ritConst = vector.rbegin();
 	(void)ritConst;
-
-	/*printIteratorVectorOpe("it", "it", vector.begin(), vector.begin());
-	printIteratorVectorOpe("cit", "cit", itConst, itConst);
-	printIteratorVectorOpe("rit", "rit", vector.rbegin(), vector.rbegin());
-	printIteratorVectorOpe("rcit", "rcit", ritConst, ritConst);
-
-	printIteratorVectorOpe("it", "cit", vector.begin(), itConst);
-	printIteratorVectorOpe("cit", "it", itConst, vector.begin());
-	printIteratorVectorOpe("rit", "rcit", vector.rbegin(), ritConst);
-	printIteratorVectorOpe("rcit", "rit", ritConst, vector.rbegin());*/
 }
 
 static void compTest()
@@ -440,10 +394,6 @@ void vector_tests()
 	std::cout << std::endl << std::endl;
 	(void)&outRangePop;
 	outRangePop();
-
-	//std::cout << std::endl << std::endl;
-	(void)&segfault_test;
-	// segfault_test();
 
 	std::cout << std::endl << std::endl;
 	insertTest();

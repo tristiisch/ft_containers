@@ -5,9 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/14 15:42:23 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/03/22 18:24:14 by tglory           ###   ########lyon.fr   */
-
+/*   Created: 2022/03/14 15:42:23 by tglory            #+#    #+#             */
+/*   Updated: 2022/04/08 12:44:48 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +46,20 @@ namespace ft
 
 		class value_compare : std::binary_function<value_type, value_type, bool>
 		{
-		friend class map;
-		protected:
-		  Compare comp;
-		  value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
-		public:
-		  typedef bool result_type;
-		  typedef value_type first_argument_type;
-		  typedef value_type second_argument_type;
-		  bool operator() (const value_type& x, const value_type& y) const
-		  {
-		    return comp(x.first, y.first);
-		  }
+			friend class map;
+
+			protected:
+				Compare comp;
+				value_compare (Compare c) : comp(c) {}
+			public:
+				typedef bool result_type;
+				typedef value_type first_argument_type;
+				typedef value_type second_argument_type;
+
+				bool operator() (const value_type& x, const value_type& y) const
+				{
+					return comp(x.first, y.first);
+				}
 		};
 
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
@@ -171,7 +172,11 @@ namespace ft
 			std::swap(_compare, map._compare);
 		}
 
-		// Temp functions
+	protected :
+		allocator_type 								_alloc;
+		tree<value_type, key_type, key_compare>		_tree;
+		key_compare 								_compare;
+
 		tree<value_type, key_type, key_compare> *get_tree()
 		{
 			return &_tree;
@@ -182,12 +187,6 @@ namespace ft
 			for (iterator ite = begin(); ite != end(); ite++)
 				_verify_node(ite.base());
 		}
-		// End Temp functions
-
-	protected :
-		allocator_type 								_alloc;
-		tree<value_type, key_type, key_compare>		_tree;
-		key_compare 								_compare;
 	};
 
 	template <class Key, class T, class Alloc>
