@@ -145,6 +145,6 @@ rm -f output output_STL
 
 memory_check
 
-make fclean
+make clean
 
 exit $WORK
