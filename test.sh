@@ -50,7 +50,6 @@ function launch_STL {
 	elif [ $PIPE != 0 ]; then
 		echo -e "\033[0;33mWARN: STL prog return $PIPE\033[0m"
 	fi
-	rm -f $EXEC_STL
 }
 
 function KO_our {
@@ -145,6 +144,6 @@ rm -f output output_STL
 
 memory_check
 
-make clean
+make fclean
 
 exit $WORK
