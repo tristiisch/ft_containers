@@ -64,7 +64,7 @@ static void mapInsert()
 	map1.insert(ft::pair<char,int>('f', 40));
 	map1.insert(ft::pair<char,int>('g', 60));
 	map1.insert(ft::pair<char,int>('2', 100));
-	
+
 	std::cout << map1 << std::endl;
 
 	std::cout << "Map Iterator insert :" << std::endl;
@@ -80,7 +80,9 @@ static void mapInsert()
 	//srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
 	for (int i = 0; i < 100; ++i)
+	{
 		map3.insert(ft::pair<int,int>((rand() % 1000), i));
+	}
 	std::cout << map3 << std::endl;//
 }
 

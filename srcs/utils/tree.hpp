@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/06 19:47:05 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/12 01:15:40 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,176 +58,63 @@ namespace ft
 
 		}
 
-		node_pointer pre_organize_tree(node_pointer node)
+
+		iterator insert (const data_type& val)
 		{
-			if (_is_right_node(node) && node->left)
-			{
-				node->left->parent = node->parent;
-				node->parent->right = node->left;
-				node->left->right = node;
-				node->parent = node->left;
-				node->left = NULL;
-				return (node->parent);
-			}
-			else if (_is_left_node(node) && node->right)
-			{
-				node->right->parent = node->parent;
-				node->parent->left = node->right;
-				node->right->left = node;
-				node->parent = node->right;
-				node->right = NULL;
-				return (node->parent);
-			}
-			return node;
+
+			iterator ret;
+			if (_root != _end_node)
+				_end_node->parent->right = NULL;
+			ret = iterator(insert2(NULL, _root, val));
+			_end_node->parent = _node_true_max(_root);
+			(_node_true_max(_root))->right = _end_node;
+			return ret;
 		}
 
-		void organise_tree(node_pointer node)
+		node_pointer insert2(node_pointer parent, node_pointer new_node, const data_type& val)
 		{
-			node = pre_organize_tree(node);
-			if (_is_right_node(node))
-			{
-				if (node->parent != _root)
-				{
-					if (_is_left_node(node->parent))
-						node->parent->parent->left = node;
-					else if (_is_right_node(node->parent))
-						node->parent->parent->right = node;
-				}
-				node->left = node->parent;
-				node->parent->right = NULL;
-				node->parent = node->left->parent;
-				node->left->parent = node;
-			}
-			else if (_is_left_node(node))
-			{
-				if (node->parent != _root)
-				{
-					if (_is_left_node(node->parent))
-						node->parent->parent->left = node;
-					else if (_is_right_node(node->parent))
-						node->parent->parent->right = node;
-				}
-				node->right = node->parent;
-				node->parent->left = NULL;
-				node->parent = node->right->parent;
-				node->right->parent = node;
-			}
-			if (node->parent == NULL)
-				_root = node;
-		}
-
-		void check_tree()
-        {
-
-            node_pointer current = _node_min(_root);
-            //if (_root->left && _node_has_leaf(_root->left) && _root->right == NULL)
-            //{
-            //    node_pointer previous = _node_prev(_root);
-            //    previous->right = _root;
-            //    previous->parent = NULL;
-            //    previous->left = NULL;
-            //    _root->parent = previous;
-            //    _root->left = NULL;
-            //    _root->right = NULL;
-            //    _root = previous;
-            //    return;
-            //}
-			if (_root->left && _root->right == NULL)
-            {
-                node_pointer previous = _root->left;
-                previous->parent = NULL;
-                _root->parent = _node_true_max(previous);
-                _node_true_max(previous)->right = _root;
-				_root->left = NULL;
-                _root->right = NULL;
-                _root = previous;
-                return;
-            }
-			else if (_root->right && _root->left == NULL)
-            {
-                node_pointer previous = _root->right;
-                previous->parent = NULL;
-                _root->parent = _node_min(previous);
-                _node_min(previous)->left = _root;
-				_root->left = NULL;
-                _root->right = NULL;
-                _root = previous;
-                return;
-            }
-            while (current != NULL )
-            {
-                //std::cout << "CHECKING" << std::endl;
-                if (!_check_node(current))
-                {
-                    //std::cout << "ORGANIZING" << std::endl;
-                    organise_tree(current);
-                    current = _node_min(_root);
-                }
-                else
-                    current = _node_next(current);
-            }
-        }
-		
-
-		pair<iterator,bool> insert(const data_type& val) // iterateur sur la valeur insérée + True pour dire valeur ajoutée ou false pour déjà éxistante
-		{
-			node_pointer new_node;
-			node_pointer current;
-
-			//std::cout << "INSERTING" << std::endl;
-			if (_root == _end_node)
+			if (new_node == NULL || new_node == _end_node)
 			{
 				new_node = _node_alloc.allocate(1);
 				_node_alloc.construct(new_node, Node(val));
-				_root = new_node;
-				_root->right = _end_node;
-				_end_node->parent = _root;
+				new_node->parent = parent;
+				if (_root == _end_node)
+					_root = new_node;
 				++_size;
-				return (ft::make_pair(iterator(_root), true));
+				return (new_node);
 			}
-			_end_node->parent->right = NULL;
-			current = _root;
-			while (current != NULL)
-			{
-
-				if (_comp(val.first, current->data.first) && current->left != NULL)
-					current = current->left;
-				else if (current->data.first == val.first)
-				{
-					_end_node->parent = _node_true_max(_root);
-					(_node_true_max(_root))->right = _end_node;
-					return ft::make_pair(iterator(current), false);
-				}
-				else if (_comp(current->data.first, val.first) && current->right != NULL)
-					current = current->right;
-				else
-					break;
-			}
-
-			new_node = _node_alloc.allocate(1);
-			if (this->_comp(current->data.first, val.first))
-			{
-				_node_alloc.construct(new_node, Node(val));
-				current->right = new_node;
-				new_node->parent = current;
-			}
+			if (_comp(val.first, new_node->data.first))
+				new_node->left = insert2(new_node, new_node->left, val);
+			else if (_comp(new_node->data.first,  val.first))
+				new_node->right = insert2(new_node, new_node->right, val);
 			else
+				return new_node;
+
+			new_node->height = 1 + max(_node_height(new_node->left), _node_height(new_node->right));
+			int balance = _node_balance(new_node);
+
+			if (balance > 1 && _comp(val.first, new_node->left->data.first))
+				return (_node_rotate_R(new_node));
+			if (balance < -1 && _comp(new_node->right->data.first, val.first))
+				return _node_rotate_L(new_node);
+			if (balance > 1 && _comp(new_node->left->data.first, val.first))
 			{
-				_node_alloc.construct(new_node, Node(val));
-				current->left = new_node;
-				new_node->parent = current;
+				new_node->left = _node_rotate_L(new_node->left);
+				return (_node_rotate_R(new_node));
 			}
-			check_tree();
-			_end_node->parent = _node_true_max(_root);
-			(_node_true_max(_root))->right = _end_node;
-			++_size;
-			return ft::make_pair(iterator(new_node), true);
+			if (balance < -1 && _comp(val.first, new_node->right->data.first))
+			{
+				new_node->right = _node_rotate_R(new_node->right);
+				return _node_rotate_L(new_node);
+			}
+			return (new_node);
 		}
+
 
 		iterator insert (iterator position, const data_type& val)
 		{
 			(void)position;
-			return(insert(val).first);
+			return(iterator(insert(val)));
 		}
 
 		template <class InputIterator>
@@ -309,100 +196,187 @@ namespace ft
 				return 0;
 		}
 
-		size_type erase(const Key& k)
-		{
-			node_pointer current = _node_min(_root);
-			node_pointer next;
 
-			while (current != _end_node && current->data.first != k)
+
+		node_pointer _node_rotate_R(node_pointer node)
+		{
+			node_pointer x =  node->left;
+			node_pointer t2 = x->right;
+
+
+			x->right = node;
+			x->parent = node->parent;
+			node->parent = x;
+			node->left = t2;
+			if(t2)
+				t2->parent = node;
+			node->height = max(_node_height(node->left), _node_height(node->right)) + 1;
+			x->height = max(_node_height(x->left), _node_height(x->right)) + 1;
+			if(_root == node)
+				_root = x;
+			return x;
+		}
+
+
+		node_pointer _node_rotate_L(node_pointer node)
+		{
+			node_pointer x =  node->right;
+			node_pointer t2 = x->left;
+
+
+			x->left = node;
+			x->parent = node->parent;
+			node->parent = x;
+			node->right = t2;
+			if(t2)
+				t2->parent = node;
+			node->height = max(_node_height(node->left), _node_height(node->right)) + 1;
+			x->height = max(_node_height(x->left), _node_height(x->right)) + 1;
+			if(_root == node)
+				_root = x;
+			return x;
+		}
+
+		void erase(const Key& k)
+		{
+			if (_root != _end_node)
 			{
-				current = _node_next(current);
-				if (current == _end_node)
-					return (0);
+				_end_node->parent->right = NULL;
+				_end_node->parent = NULL;
 			}
-			_end_node->parent->right = NULL;
-			if (_node_next(current) == _root && !_node_has_leaf(current))
-					pre_organize_tree(current);
-			if (_node_is_root(current) && current->right)
+			erase2(_root, k);
+			if (_root != _end_node)
 			{
-				next = _node_next(current);
-				if (_is_left_node(next))
-				{
-					next->right = current->right;
-					current->right->parent = next;
-					next->parent->left = NULL;
+				_end_node->parent = _node_true_max(_root);
+				(_node_true_max(_root))->right = _end_node;
+			}
+		}
+
+		node_pointer erase2(node_pointer to_delete, const Key &k)
+		{
+			if (to_delete == NULL)
+		        return to_delete;
+		    if ( k < to_delete->data.first )
+		        to_delete->left = erase2(to_delete->left, k);
+		    else if( k > to_delete->data.first )
+		        to_delete->right = erase2(to_delete->right, k);
+		    else
+		    {
+		        if( (to_delete->left == NULL) || (to_delete->right == NULL))
+		        {
+		            node_pointer temp = to_delete->left ? to_delete->left : to_delete->right;
+
+					if (temp == NULL)
+					{
+						if (to_delete == _root)
+							_root = _end_node;
+							if (_is_right_node(to_delete))
+								to_delete->parent->right = NULL;
+							else if (_is_left_node(to_delete))
+								to_delete->parent->left = NULL;
+						temp = to_delete;
+						to_delete = NULL;
+					}
+					else
+					{
+						if (_is_left_node(temp))
+							to_delete->left = NULL;
+						if (_is_right_node(temp))
+							to_delete->right = NULL;
+						temp->parent = to_delete->parent;
+						if (_is_left_node(to_delete))
+							to_delete->parent->left = temp;
+						else if (_is_right_node(to_delete))
+							to_delete->parent->right = temp;
+						temp->right = to_delete->right;
+						temp->left = to_delete->left;
+						temp->height = to_delete->height;
+						if (to_delete == _root)
+							_root = temp;
+						node_pointer temp2 = temp;
+						temp = to_delete;
+						to_delete = temp2;
+						temp2 = NULL;
+					}
+					_node_alloc.destroy(temp);
+					_node_alloc.deallocate(temp, 1);
+					_size--;
+		        }
+		        else
+		        {
+					Node* temp = _node_min(to_delete->right);
+					int is_root = 0;
+					if (to_delete == _root)
+						is_root = 1;
+					node_pointer parent = to_delete->parent;
+					node_pointer parentL;
+					node_pointer parentR;
+					if (parent)
+					{
+						parentL = to_delete->parent->left;
+						parentR = to_delete->parent->right;
+					}
+					node_pointer childL = to_delete->left;
+					node_pointer childR = to_delete->right;
+					int height_save = to_delete->height;
+					_node_alloc.destroy(to_delete);
+					_node_alloc.construct(to_delete, Node(temp->data,
+							parent, childR, childL, height_save));
+					if (_is_left_node(to_delete))
+							parentL = to_delete;
+					else if (_is_right_node(to_delete))
+							parentR = to_delete;
+					childL->parent = to_delete;
+					childR->parent = to_delete;
+					if (is_root == 1)
+						_root = to_delete;
+					to_delete->right = erase2(to_delete->right, temp->data.first);
 				}
-				if (current->left)
-				{
-					next->left = current->left;
-					current->left->parent = next;
-				}
-				next->parent = NULL;
-				_root = next;
 			}
-			else if (_node_is_root(current) && _node_has_leaf(current))
+			if (to_delete == NULL)
+				return to_delete;
+			to_delete->height = 1 + max(_node_height(to_delete->left),
+					_node_height(to_delete->right));
+
+			int balance = _node_balance(to_delete);
+
+			// Left Left Case
+			if (balance > 1 &&
+				_node_balance(to_delete->left) >= 0)
 			{
-				_node_alloc.destroy(current);
-				_node_alloc.deallocate(current, 1);
-				_size = 0;
-				_root = _end_node;
-				return (1);
+
+				return _node_rotate_R(to_delete);
 			}
-			else if (!_node_has_leaf(current)) // il faut reprendre ici
+			// Left Right Case
+			if (balance > 1 &&
+				_node_balance(to_delete->left) < 0)
 			{
-				next = _node_next(current);
-				if (_is_right_node(next))
-					next->parent->right = NULL;
-				else
-					next->parent->left = NULL;
-				if (_is_right_node(current))
-					current->parent->right = next;
-				else
-					current->parent->left = next;
-				next->parent = current->parent;
-				if (current->right)
-				{
-					next->right = current->right;
-					current->right->parent = next;
-				}
-				if (current->left)
-				{
-					next->left = current->left;
-					current->left->parent = next;
-				}
+				to_delete->left = _node_rotate_L(to_delete->left);
+				return _node_rotate_R(to_delete);
 			}
-			else
+			// Right Right Case
+			if (balance < -1 &&
+				_node_balance(to_delete->right) <= 0)
+				return _node_rotate_L(to_delete);
+			// Right Left Case
+			if (balance < -1 &&
+				_node_balance(to_delete->right) > 0)
 			{
-				if (_is_left_node(current))
-					current->parent->left = NULL;
-				else if (_is_right_node(current))
-					current->parent->right = NULL;
+				to_delete->right = _node_rotate_R(to_delete->right);
+				return _node_rotate_L(to_delete);
 			}
-			//std::cout << "Erase " << current->data << std::endl;
-			_node_alloc.destroy(current);
-			_node_alloc.deallocate(current, 1);
-			check_tree();
-			_end_node->parent = _node_true_max(_root);
-			(_node_true_max(_root))->right = _end_node;
-			_size--;
-			return (1);
+			return to_delete;
 		}
 
 		void erase(iterator position) {
+			(void)position;
 			erase(position->first);
 		}
 
 		void erase(iterator first, iterator last)
 		{
-			iterator one = first;
-			iterator two = last;
-			while (one != two)
-			{	
-				//std::cout << "ERASING = " << one->first << std::endl;
-				erase((one++)->first);
-				//std::cout << "ROOT = " <<_root->data.first << std::endl;
-
-			}
+			while (first->first != last->first)
+				erase((first++)->first);
 		}
 
 		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
@@ -452,7 +426,7 @@ namespace ft
 			std::swap(_comp, tree._comp);
 			std::swap(_size, tree._size);
 		}
-	
+
 		node_pointer get_root() const { return _root ; }
 
 	private :

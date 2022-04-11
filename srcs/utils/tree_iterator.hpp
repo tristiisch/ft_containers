@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/05 16:47:26 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/11 16:41:26 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 
 # define LEFT	true
 # define RIGHT	false
+
+int max(int a, int b)
+{
+	return (a > b) ? a : b;
+}
 
 template <class Node>
 bool _is_right_node(Node node)
@@ -128,6 +133,24 @@ Node _node_prev(Node node)
 }
 
 template <class Node>
+int _node_height(Node node)
+{
+	if (node == NULL)
+		return 0;
+	return node->height;
+}
+
+
+
+template <class Node>
+int		_node_balance(Node node)
+{
+	if (node == NULL)
+		return (0);
+	return _node_height(node->left) - _node_height(node->right);
+}
+
+template <class Node>
 bool _check_node(Node node)
 {
 	Node parent;
@@ -149,13 +172,15 @@ struct	_node
 		_node 							*parent;
 		_node							*right;
 		_node							*left;
-		_node							*to_have_same_max_size;
+		//_node							*to_have_same_max_size;
+		int								height;
 
 		_node()
 		:	data(),
 			parent(NULL),
 			right(NULL),
-			left(NULL)
+			left(NULL),
+			height(1)
 		{
 
 		}
@@ -163,29 +188,34 @@ struct	_node
 		:	data(v),
 			parent(NULL),
 			right(NULL),
-			left(NULL)
+			left(NULL),
+			height(1)
+
 		{
 		};
 
-		_node(Value const & v, _node *parent, _node *right, _node *left)
+		_node(Value const & v, _node *parent, _node *right, _node *left, int height)
 		:	data(v),
 			parent(parent),
 			right(right),
-			left(left)
+			left(left),
+			height(height)
 		{
 
 		}
 
 		~_node()
-		{
+		{}
 
-		}
+
 
 		int max_depth() const {
 			const int left_depth = left ? left->max_depth() : 0;
 			const int right_depth = right ? right->max_depth() : 0;
 			return (left_depth > right_depth ? left_depth : right_depth) + 1;
 		}
+
+
 };
 
 template <typename T>
@@ -309,7 +339,7 @@ public:
             typedef typename Iterator::reference		reference;
 
             tree_reverse_iterator(): _elem() {}
-			
+
             explicit tree_reverse_iterator (iterator_type it): _elem(it) {}
 
             template <class Iter>
@@ -384,7 +414,7 @@ public:
         return (lhs.operator*() != rhs.operator*());
     }
 
-	
+
 }
 
 template <typename T>

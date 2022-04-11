@@ -95,7 +95,12 @@ namespace ft
 			return *this;
 		}
 
-		pair<iterator,bool> insert(const value_type& val) { return _tree.insert(val); }
+		pair<iterator,bool> insert(const value_type& val)
+		{
+			if (this->find(val.first) == end())
+				return ft::make_pair(_tree.insert(val), true);
+			return (ft::make_pair(this->find(val.first), false));
+		}
 
 		iterator insert(iterator position, const value_type& val) { return _tree.insert(position, val); }
 
@@ -122,7 +127,15 @@ namespace ft
 
 		void erase(iterator position) { _tree.erase(position); }
 
-		size_type erase(const key_type& k) { return _tree.erase(k); }
+		size_type erase(const key_type& k)
+		{
+			if (find(k) != end())
+			{
+				_tree.erase(k);
+				return 1;
+			}
+			return 0;
+		}
 
 		void erase(iterator first, iterator last)  { return _tree.erase(first, last); }
 
@@ -162,7 +175,7 @@ namespace ft
  		{
  			iterator value = find(key);
  			if (value == end())
- 				_tree.insert(ft::make_pair(key, mapped_type()));
+ 				insert(ft::make_pair(key, mapped_type()));
  			value = find(key);
  			return ((*value).second);
  		}

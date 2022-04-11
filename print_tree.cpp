@@ -33,7 +33,7 @@ public:
 		std::vector< std::vector<_node*> > rows;
 
 		if(!_root) return display_rows();
-	
+
 		_node *p = _root;
 		const int max_depth = _root->max_depth();
 		rows.resize(max_depth);
@@ -79,7 +79,7 @@ public:
 					ss = std::stringstream();
 				} else {
 					rows_disp.back().push_back(cell_display());
-				}  
+				}
 				++it2;
 			}
 			++it1;
@@ -151,7 +151,7 @@ public:
 		}
 
 		std::reverse(formatted_rows.begin(), formatted_rows.end());
-	
+
 		return formatted_rows;
 	}
 
@@ -228,78 +228,77 @@ std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 
 int main() {
 
-	ft::map<char, int> map1, map2;
+    ft::map<char, int> map1;
 
 	map1.insert(ft::pair<char,int>('a', 30));
 	map1.insert(ft::pair<char,int>('c', 70));
 	map1.insert(ft::pair<char,int>('b', 20));
-	map1.insert(ft::pair<char,int>('d', 20));
-	map1.insert(ft::pair<char,int>('P', 10));
+	map1.insert(ft::pair<char,int>('d', 10));
 	map1.insert(ft::pair<char,int>('e', 50));
-	map1.insert(ft::pair<char,int>('Y', 50));
 	map1.insert(ft::pair<char,int>('0', 101));
 	map1.insert(ft::pair<char,int>('f', 40));
 	map1.insert(ft::pair<char,int>('g', 60));
 	map1.insert(ft::pair<char,int>('2', 100));
-	map1.insert(ft::pair<char,int>('9', 100));
-
-
-	//std::cout << map1.get_tree()->get_root()->data.first << std::endl;
-	
-	//BinTree<int, char> bt(map1.get_tree()->get_root());
-	//std::cout << map1.get_tree()->get_root() << std::endl;
-	//bt.print(std::cout);
-
-	std::cout << map1 << std::endl;
+    std::cout << map1 << std::endl;
 	print_tree(map1);
 
+
+	map1.erase('2');
+	print_tree(map1);
+	map1.erase('a');
+	print_tree(map1);
 	map1.erase('b');
-	std::cout << map1 << std::endl;
 	print_tree(map1);
-
 	map1.erase('c');
-	std::cout << map1 << std::endl;
 	print_tree(map1);
-
-	map1.erase('W');
-	std::cout << map1 << std::endl;
+	map1.erase('d');
 	print_tree(map1);
-
-	map1.erase('0');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
-
 	map1.erase('e');
-	std::cout << map1 << std::endl;
 	print_tree(map1);
-
 	map1.erase('f');
-	std::cout << "deleting f" << std::endl;
-	std::cout << map1 << std::endl;
 	print_tree(map1);
-
 	map1.erase('g');
-	std::cout << "deleting g" << std::endl;
-	std::cout << map1 << std::endl;
 	print_tree(map1);
 
-	/*it = map1.find('e');
-	map1.erase(it, map1.end());
-	std::cout << map1 << std::endl;
-	print_tree(map1);*/
+    ft::map<char, int>::iterator one = map1.begin();
+   //while (one != map1.end())
+   //{
 
+	//	std::cout <<  "Data = "<< (*one).first << std::endl;
+	//	if (one.base()->right)
+	//		std::cout <<  "right = "<< one.base()->right->data.first << std::endl;
+	//	else
+	//		std::cout <<  "right = NULL" << std::endl;
+	//	if (one.base()->left)
+	//		std::cout <<  "left = "<< one.base()->left->data.first << std::endl;
+	//	else
+	//		std::cout <<  "left = NULL" << std::endl;
+	//	if (one.base()->parent)
+	//		std::cout <<  "parent = "<< one.base()->parent->data.first << std::endl;
+	//	else
+	//		std::cout <<  "parent = NULL" << std::endl;
 
-	//BinTree<int, char> bt(map1.get_tree().get_root());
-	//bt.print(std::cout);
-	//std::cout << map1.get_tree() << std::endl;
-	//std::cout << map1 << std::endl;
-
-	/*ft::map<char, int>::iterator one = map1.begin();
-	ft::map<char, int>::iterator two = map1.end();
-	while (one != two)
-	{
-		map1.erase((one++)->first);
-		std::cout << map1 << std::endl;
-		std::cout << map1.get_tree() << std::endl;
-	}*/
-}
+	//	one++;
+   //}
+	//print_tree(map1);
+	//map1.erase('a');
+    //print_tree(map1);
+	//map1.erase('c');
+	//print_tree(map1);
+	//std::cout << "end = " << (*map1.end()).first << std::endl;
+//
+    //    int i = 0;
+    //    ft::map<int, int>::iterator one2 = map1.begin();
+    //    while (one2 != map1.end())
+    //    {
+    //        one2++;
+    //        i++;
+    //    }
+    //    if (i != map1.size())
+    //    {
+    //        std::cout << "ERROR" << std::endl;
+    //        return 1;
+    //    }
+    //    std::cout << "-----------------------------------------------------" << std::endl;
+    //}
+}//
