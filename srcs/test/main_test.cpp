@@ -1,30 +1,28 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main_test.cpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/10 22:36:36 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/05 18:33:08 by alganoun         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "common.hpp"
 
-// #include "vector_test.cpp"
-// #include "stack_test.cpp"
-// #include "map_test.cpp"
-#include <iostream>
+#define T1 int
+#define T2 std::string
 
-void vector_tests();
-void stack_tests();
-void map_tests();
+struct ft_more {
+	bool	operator()(const T1 &first, const T1 &second) const {
+		return (first > second);
+	}
+};
 
-int main()
+typedef TESTED_NAMESPACE::map<T1, T2, ft_more> ft_mp;
+typedef TESTED_NAMESPACE::map<T1, T2, ft_more>::iterator ft_mp_it;
+
+int		main(void)
 {
-	std::cout << "\033[1;35mVector :\033[0m" << std::endl;
-	vector_tests();
-	std::cout << "\033[1;35mStack :\033[0m" << std::endl;
-	stack_tests();
-	std::cout << "\033[1;35mMap :\033[0m" << std::endl;
-//	map_tests();
+	ft_mp mp;
+
+	mp[42] = "fgzgxfn";
+	mp[25] = "funny";
+	mp[80] = "hey";
+	mp[12] = "no";
+	mp[27] = "bee";
+	mp[90] = "8";
+	printSize(mp);
+
+	return (0);
 }
