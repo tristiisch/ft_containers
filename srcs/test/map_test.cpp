@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_test.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/14 19:34:07 by allanganoun       #+#    #+#             */
+/*   Updated: 2022/04/14 19:34:12 by allanganoun      ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <cstddef>
 #include <cstdlib>
@@ -8,13 +19,12 @@
   * Main de test pour les fonctions associé à Map
   * Permet d'effectuer le test avec notre code ou la STL
   * Il faut changer IS_STL par 0 ou 1
-  * "clang++ -D IS_STL" permet de switch sans modifier le code
+  * "clang++ -D IS_STL" permet de switch sans modifier le cod
   */
 
 #ifndef IS_STL
 # define IS_STL 0
 #endif
-
 
 #if IS_STL
 	#include <map>
@@ -77,13 +87,10 @@ static void mapInsert()
 	map2.insert(map1.begin(), map1.find('e'));
 	std::cout << map2 << std::endl;
 
-	//srand(time(NULL));
 	std::cout << "Map Random Basic insert :" << std::endl;
-	for (int i = 0; i < 100; ++i)
-	{
-		map3.insert(ft::pair<int,int>((rand() % 1000), i));
-	}
-	std::cout << map3 << std::endl;//
+	for (int i = 0; i < 15; ++i)
+		map3.insert(ft::pair<int,int>((rand() % 15), i));
+	std::cout << map3 << std::endl;
 }
 
 void mapOperatorInsert()
@@ -96,10 +103,11 @@ void mapOperatorInsert()
 	map['f'] = 40;
 	map['d'] = 10;
 	map['e'] = 50;
-	map['0'] = 101;
+	map['0'] = map['f'];
 	map['g'] = 60;
 	map['2'] = 100;
 
+	std::cout << "Map Operator[] insert :" << std::endl;
 	std::cout << map << std::endl;
 }
 
@@ -111,12 +119,15 @@ static void mapErase()
 	map1.insert(ft::pair<char,int>('a', 30));
 	map1.insert(ft::pair<char,int>('c', 70));
 	map1.insert(ft::pair<char,int>('b', 20));
+	map1.insert(ft::pair<char,int>('P', 20));
 	map1.insert(ft::pair<char,int>('d', 10));
 	map1.insert(ft::pair<char,int>('e', 50));
+	map1.insert(ft::pair<char,int>('Y', 50));
 	map1.insert(ft::pair<char,int>('0', 101));
 	map1.insert(ft::pair<char,int>('f', 40));
 	map1.insert(ft::pair<char,int>('g', 60));
 	map1.insert(ft::pair<char,int>('2', 100));
+	map1.insert(ft::pair<char,int>('9', 100));
 	std::cout << map1 << std::endl;
 
 	ft::map<char,int>::iterator it = map1.find('b');
@@ -130,10 +141,6 @@ static void mapErase()
 	std::cout << map1 << std::endl;
 
 	map1.erase('0');
-	std::cout << map1 << std::endl;
-
-	it = map1.find('e');
-	map1.erase(it, map1.end());
 	std::cout << map1 << std::endl;
 }
 
@@ -264,7 +271,6 @@ static void printIteratorMapTest(std::string itName, InputIterator begin, InputI
 	std::cout << "--" << itName << " = " << (--begin)->first << std::endl;
 	std::cout << itName << "-- = " << (begin--)->first << std::endl;
 	std::cout << " ++(++" << itName << ") = " << (++(++begin))->first << std::endl;
-	//std::cout << itName << "[3] = " << begin[3] << std::endl; // A voir si demander
 	std::cout << itName << " to last >";
 	while (begin != last)
 		std::cout << " " << (begin++)->first;
@@ -289,7 +295,6 @@ static void iteratorMapTest()
 
 	std::cout << map << std::endl;
 	std::cout << "Iterator test :" << std::endl;
-	//std::cout << "DEBUG " << map.get_tree() << std::endl;
 	std::cout << "*map.begin() = " << map.begin()->first << std::endl;
 	printIteratorMapTest("it", map.begin(), map.end());
 
@@ -336,15 +341,19 @@ static void mapVarious()
 	map2.insert(ft::pair<char,int>('Z', 20));
 	map2.insert(ft::pair<char,int>('R', 10));
 
+	std::cout << "Various tests :" << std::endl;
+	std::cout << "Lower_bound test :" << std::endl;
 	itlow = map1.lower_bound('b');
 	std::cout << itlow->first << "=" << itlow->second << std::endl;
 	itlow = map1.lower_bound('-');
+	std::cout << "Upper_bound test :" << std::endl;
 	std::cout << itlow->first << "=" << itlow->second << std::endl;
 	itup = map1.upper_bound('0');
 	std::cout << itup->first << "=" << itup->second << std::endl;
 	itup = map1.upper_bound('-');
 	std::cout << itup->first << "=" << itup->second << std::endl;
 
+	std::cout << "Equal_range test :" << std::endl;
 	pair = map1.equal_range('f');
 	std::cout << pair.first->first << std::endl;
 	std::cout << pair.first->second << std::endl;
@@ -357,18 +366,21 @@ static void mapVarious()
 	std::cout << pair.second->first << std::endl;
 	std::cout << pair.second->second << std::endl;
 
+	std::cout << "Key_comp test1 :" << std::endl;
+	std::cout << map1.key_comp()(map1.begin()->first, 0) << std::endl;
+	std::cout << map1.key_comp()(0, map1.begin()->first) << std::endl;
+	std::cout << map1.key_comp()(0, 0) << std::endl;
+	std::cout << "Key_comp test2 :" << std::endl;
 	ft::map<char,int>::iterator it = map1.begin();
 	do {
 		std::cout << it->first << " => " << it->second << '\n';
 	} while (map1.key_comp()((*it++).first, map1.rbegin()->first));
-	std::cout << map1.key_comp()(map1.begin()->first, '\0') << std::endl;
-	std::cout << map1.key_comp()('\0', map1.begin()->first) << std::endl;
-	std::cout << map1.key_comp()('\0', '\0') << std::endl;
 
+	std::cout << "Swap test :" << std::endl;
 	std::cout << map1 << std::endl;
 	std::cout << map2 << std::endl;
 
-	//map1.swap(map2);
+	map1.swap(map2);
 	std::cout << map2 << std::endl;
 	std::cout << map1 << std::endl;
 }
@@ -407,8 +419,7 @@ void map_tests()
 	mapVarious();
 }
 
-// #define MAP_MAIN
-#ifndef MAP_MAIN
+#ifdef MAIN
 int main()
 {
 	map_tests();

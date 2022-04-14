@@ -40,8 +40,8 @@ namespace ft
 		typedef typename allocator_type::pointer								pointer;
 		typedef typename allocator_type::const_pointer							const_pointer;
 
-		typedef typename ft::tree<value_type, Key, Compare>::iterator			iterator;
-		typedef typename ft::tree<value_type, Key, Compare>::const_iterator		const_iterator;
+		typedef typename ft::tree<value_type, Key, Compare, Allocator>::iterator			iterator;
+		typedef typename ft::tree<value_type, Key, Compare, Allocator>::const_iterator		const_iterator;
 		typedef typename ft::reverse_iterator<iterator>							reverse_iterator;
 		typedef typename ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
@@ -187,7 +187,7 @@ namespace ft
 		}
 
 		// Temp functions
-		tree<value_type, key_type, key_compare>* get_tree()
+		tree<value_type, key_type, key_compare, allocator_type>* get_tree()
 		{
 			return &_tree;
 		}
@@ -200,9 +200,9 @@ namespace ft
 		// End Temp functions
 
 	protected :
-		allocator_type 								_alloc;
-		tree<value_type, key_type, key_compare>		_tree;
-		key_compare 								_compare;
+		allocator_type 												_alloc;
+		tree<value_type, key_type, key_compare, allocator_type>		_tree;
+		key_compare 												_compare;
 	};
 
 	template <class Key, class T, class Alloc>

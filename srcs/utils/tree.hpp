@@ -6,7 +6,7 @@
 /*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/12 01:15:40 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/14 18:45:08 by allanganoun      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@
 
 namespace ft
 {
-	template <class Value, class Key, class Compare, class Value_alloc = std::allocator<Value>
-				, class Node = ft::_node<Value>, class Node_alloc = std::allocator<Node> >
+	template <class Value, class Key, class Compare, class Allocator, class Value_alloc = std::allocator<Value>
+				, class Node = ft::_node<Value> >
 	class tree
 	{
 	public :
-		typedef Value											data_type;
-		typedef Node_alloc										node_alloc;
-		typedef Node											node_type;
-		typedef Node *											node_pointer;
-		typedef typename node_alloc::size_type					size_type;
-		typedef ft::tree_iterator<node_type>					iterator;
-		typedef ft::const_tree_iterator<node_type>				const_iterator;
-		typedef typename Value_alloc::difference_type 			difference_type;
+		typedef Value													data_type;
+		typedef typename Allocator::template rebind<Node>::other		node_alloc;
+		typedef Node													node_type;
+		typedef Node *													node_pointer;
+		typedef typename node_alloc::size_type							size_type;
+		typedef ft::tree_iterator<node_type>							iterator;
+		typedef ft::const_tree_iterator<node_type>						const_iterator;
+		typedef typename Value_alloc::difference_type 					difference_type;
 
 		tree(const node_alloc &alloc = node_alloc(), const Compare &comp = Compare() )
 		: _end(NULL), _end_node(NULL), _root(NULL), _node_alloc(alloc), _comp(comp), _size(0)
@@ -412,7 +412,7 @@ namespace ft
 		}
 
 		size_type max_size() const {
-			return Node_alloc().max_size();
+			return node_alloc().max_size();
 		}
 
 		Compare key_comp() const { return _comp ; }
