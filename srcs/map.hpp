@@ -96,9 +96,10 @@ namespace ft
 
 		pair<iterator,bool> insert(const value_type& val)
 		{
-			if (this->find(val.first) == end())
+			iterator founded = this->find(val.first);
+			if (founded == end())
 				return ft::make_pair(_tree.insert(val), true);
-			return (ft::make_pair(this->find(val.first), false));
+			return (ft::make_pair(founded, false));
 		}
 
 		iterator insert(iterator position, const value_type& val) { return _tree.insert(position, val); }

@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/15 13:16:57 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/15 16:51:52 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,8 +350,8 @@ namespace ft
 
 		void erase(iterator first, iterator last)
 		{
-			while (first->first != last->first)
-				erase((first++)->first);
+			while (first != last)
+				erase(first++);
 		}
 
 		iterator lower_bound(const Key& k)
