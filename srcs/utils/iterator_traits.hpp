@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 11:28:05 by alganoun          #+#    #+#             */
-/*   Updated: 2022/03/09 15:56:04 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/15 11:22:48 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,12 @@
 
 namespace ft
 {
-    /*  TAGS
-    *   ====
-    */   
     struct input_iterator_tag { };
     struct output_iterator_tag { };
     struct forward_iterator_tag : public input_iterator_tag { };
     struct bidirectional_iterator_tag : public forward_iterator_tag { };
     struct random_access_iterator_tag : public bidirectional_iterator_tag { };
 
-
-    /*  TRAITS
-    *   ======
-    */
     template <class Iterator>
     struct iterator_traits
     {

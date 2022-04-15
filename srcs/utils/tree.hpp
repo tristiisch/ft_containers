@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/14 18:45:08 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/15 13:16:57 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ namespace ft
 
 		iterator insert (const data_type& val)
 		{
-
-			iterator ret;
 			if (_root != _end_node)
 				_end_node->parent->right = NULL;
-			ret = iterator(insert2(NULL, _root, val));
+			insert2(NULL, _root, val);
 			_end_node->parent = _node_true_max(_root);
 			(_node_true_max(_root))->right = _end_node;
-			return ret;
+			return this->find(val.first);
 		}
 
 		node_pointer insert2(node_pointer parent, node_pointer new_node, const data_type& val)
@@ -152,39 +150,26 @@ namespace ft
 			return NULL;
 		}
 
-		size_type size() const
-		{
-			return _size;
-		}
+		size_type size() const { return _size; }
 
-		bool empty() const
-		{
-			return size() == 0;
-		}
+		bool empty() const { return size() == 0; }
 
-		void clear()
-		{
-			erase(this->begin(), this->end());
-		}
+		void clear(){ erase(this->begin(), this->end()); }
 
 		iterator find(const Key& k)
 		{
 			iterator pos = lower_bound(k);
 
-			if (pos != end() && !_comp(k, pos->first)) {
+			if (pos != end() && !_comp(k, pos->first))
 				return pos;
-			}
-
 			return end();
 		}
 
 		const_iterator find(const Key &k) const {
 			const_iterator pos = lower_bound(k);
 
-			if (pos != end() && !_comp(k, pos->first)) {
+			if (pos != end() && !_comp(k, pos->first))
 				return pos;
-			}
-
 			return end();
 		}
 
@@ -195,8 +180,6 @@ namespace ft
 			else
 				return 0;
 		}
-
-
 
 		node_pointer _node_rotate_R(node_pointer node)
 		{
@@ -216,7 +199,6 @@ namespace ft
 				_root = x;
 			return x;
 		}
-
 
 		node_pointer _node_rotate_L(node_pointer node)
 		{
@@ -341,26 +323,19 @@ namespace ft
 			int balance = _node_balance(to_delete);
 
 			// Left Left Case
-			if (balance > 1 &&
-				_node_balance(to_delete->left) >= 0)
-			{
-
+			if (balance > 1 && _node_balance(to_delete->left) >= 0)
 				return _node_rotate_R(to_delete);
-			}
 			// Left Right Case
-			if (balance > 1 &&
-				_node_balance(to_delete->left) < 0)
+			if (balance > 1 && _node_balance(to_delete->left) < 0)
 			{
 				to_delete->left = _node_rotate_L(to_delete->left);
 				return _node_rotate_R(to_delete);
 			}
 			// Right Right Case
-			if (balance < -1 &&
-				_node_balance(to_delete->right) <= 0)
+			if (balance < -1 && _node_balance(to_delete->right) <= 0)
 				return _node_rotate_L(to_delete);
 			// Right Left Case
-			if (balance < -1 &&
-				_node_balance(to_delete->right) > 0)
+			if (balance < -1 && _node_balance(to_delete->right) > 0)
 			{
 				to_delete->right = _node_rotate_R(to_delete->right);
 				return _node_rotate_L(to_delete);
@@ -379,7 +354,7 @@ namespace ft
 				erase((first++)->first);
 		}
 
-		iterator lower_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		iterator lower_bound(const Key& k)
 		{
 			iterator ite = this->begin();
 			while (ite != this->end() && _comp(ite->first, k))
@@ -387,7 +362,7 @@ namespace ft
 			return (ite);
 		}
 
-		const_iterator lower_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		const_iterator lower_bound(const Key& k) const
 		{
 			const_iterator ite = this->begin();
 			while (ite != this->end() && _comp(ite->first, k))
@@ -395,15 +370,15 @@ namespace ft
 			return (ite);
 		}
 
-		iterator upper_bound(const Key& k) // je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		iterator upper_bound(const Key& k)
 		{
 			iterator ite = this->begin();
 			while (ite != this->end() && !(_comp(k, ite->first)))
 				ite++;
-			return (ite++); // pourquoi est ce que ++ite ne marche pas ?
+			return (ite++);
 		}
 
-		const_iterator upper_bound(const Key& k) const// je ne suis pas sûr d'avoir bein compris ce que cette fonction fait
+		const_iterator upper_bound(const Key& k) const
 		{
 			const_iterator ite = this->begin();
 			while (ite != this->end() && !(_comp(k, ite->first)))

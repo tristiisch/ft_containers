@@ -260,45 +260,4 @@ int main() {
 	map1.erase('g');
 	print_tree(map1);
 
-    ft::map<char, int>::iterator one = map1.begin();
-   //while (one != map1.end())
-   //{
-
-	//	std::cout <<  "Data = "<< (*one).first << std::endl;
-	//	if (one.base()->right)
-	//		std::cout <<  "right = "<< one.base()->right->data.first << std::endl;
-	//	else
-	//		std::cout <<  "right = NULL" << std::endl;
-	//	if (one.base()->left)
-	//		std::cout <<  "left = "<< one.base()->left->data.first << std::endl;
-	//	else
-	//		std::cout <<  "left = NULL" << std::endl;
-	//	if (one.base()->parent)
-	//		std::cout <<  "parent = "<< one.base()->parent->data.first << std::endl;
-	//	else
-	//		std::cout <<  "parent = NULL" << std::endl;
-
-	//	one++;
-   //}
-	//print_tree(map1);
-	//map1.erase('a');
-    //print_tree(map1);
-	//map1.erase('c');
-	//print_tree(map1);
-	//std::cout << "end = " << (*map1.end()).first << std::endl;
-//
-    //    int i = 0;
-    //    ft::map<int, int>::iterator one2 = map1.begin();
-    //    while (one2 != map1.end())
-    //    {
-    //        one2++;
-    //        i++;
-    //    }
-    //    if (i != map1.size())
-    //    {
-    //        std::cout << "ERROR" << std::endl;
-    //        return 1;
-    //    }
-    //    std::cout << "-----------------------------------------------------" << std::endl;
-    //}
-}//
+}

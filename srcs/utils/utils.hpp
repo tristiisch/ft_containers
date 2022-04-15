@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/05 15:16:25 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/15 11:48:41 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <sstream>
-//#include "iterator_traits.hpp"
 
 namespace ft {
 
@@ -43,19 +42,14 @@ namespace ft {
 	}
 
 	template<class InputIter1, class InputIter2>
-	bool lexicographical_compare(InputIter1 first1, InputIter1 last1, InputIter2 first2, InputIter2 last2) {
-		while (first1 != last1) {
-			// Check if we reach the end of the second iterator or if
-			// the element in the first iterator is bigger than the one
-			// in the second.
-			if (first2 == last2 || *first2 < *first1) {
+	bool lexicographical_compare(InputIter1 first1, InputIter1 last1, InputIter2 first2, InputIter2 last2)
+	{
+		while (first1 != last1) 
+		{
+			if (first2 == last2 || *first2 < *first1)
 				return false;
-			}
-
-			if (*first1 < *first2) {
+			if (*first1 < *first2)
 				return true;
-			}
-
 			++first1;
 			++first2;
 		}

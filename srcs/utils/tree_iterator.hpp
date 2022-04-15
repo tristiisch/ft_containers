@@ -3,15 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   tree_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allanganoun <allanganoun@student.42lyon    +#+  +:+       +#+        */
+/*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/11 16:41:26 by allanganoun      ###   ########lyon.fr   */
+/*   Updated: 2022/04/15 11:45:45 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-// ICI IL FAUT ENCORE FAIRE LES AUTRES ITERATEURS
 #pragma once
 
 #include <cstddef>
@@ -22,8 +20,6 @@
 #include <memory>
 #include <algorithm>
 #include <cstddef>
-
-//fonction pour calculer les incrementations
 
 # define LEFT	true
 # define RIGHT	false
@@ -172,7 +168,6 @@ struct	_node
 		_node 							*parent;
 		_node							*right;
 		_node							*left;
-		//_node							*to_have_same_max_size;
 		int								height;
 
 		_node()
@@ -239,37 +234,29 @@ public:
 
 	tree_iterator &operator=(tree_iterator const &src) { _node = src._node; return (*this); }
 
-	// BOOLEANS : pas besoin dans ce cas
 	bool operator ==(T* const base) const { return (_node == base); }
 	bool operator ==(tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(tree_iterator const& b) const { return (!(_node == b._node)); }
-	//bool operator >(tree_iterator const& b) const { return (_node > b._node); };
-	//bool operator <(tree_iterator const& b) const { return (key_compare(_node, b._node)); };
-	//bool operator >=(tree_iterator const& b) const { return (_node >= b._node); };
-	//bool operator <=(tree_iterator const& b) const { return (_node <= b._node); };
 
-
-	// INCREMENTERS
-	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a //
-	tree_iterator operator ++(int) 															// a++
+	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }
+	tree_iterator operator ++(int)
 	{
 		T* tmp = _node;
 		_node = _node_next(_node);
 		return tree_iterator(tmp);
 	}
-	tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }			// --a
-	tree_iterator operator --(int)															// a--
+	tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }
+	tree_iterator operator --(int)
 	{
 		T* tmp = _node;
 		_node = _node_prev(_node);
 		return tree_iterator(tmp);
 	}
 
-	//DEREFERENCING & ADDRESS STUFF
-	reference operator *() { return (_node->data); }											// *a
-	const_reference operator *() const { return (_node->data); }								// *a
-	pointer operator ->() { return &(_node->data); }											// a->b
-	const_pointer operator ->() const { return &(_node->data); }											// a->b
+	reference operator *() { return (_node->data); }
+	const_reference operator *() const { return (_node->data); }
+	pointer operator ->() { return &(_node->data); }
+	const_pointer operator ->() const { return &(_node->data); }
 
 	T* base() const {return _node;};
 
@@ -297,31 +284,29 @@ public:
 
 	const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
 
-	// BOOLEANS : pas besoin dans ce cas
 	bool operator ==(T* const base) const { return (_node == base); }
 	bool operator ==(const_tree_iterator const& b) const { return (_node == b._node); }
 	bool operator !=(const_tree_iterator const& b) const { return (!(_node == b._node)); }
 
-	// INCREMENTERS
-	const_tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
-	const_tree_iterator operator ++(int) 														// a++
+	const_tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }
+	const_tree_iterator operator ++(int)
 	{
 		T* tmp = _node;
 		_node = _node_next(_node);
 		return const_tree_iterator(tmp);
 	}
-	const_tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }			// --a
-	const_tree_iterator operator --(int)														// a--
+	const_tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }
+	const_tree_iterator operator --(int)
 	{
 		T* tmp = _node;
 		_node = _node_prev(_node);
 		return const_tree_iterator(tmp);
 	}
 
-	reference operator *() const { return (_node->data); }								// *a
+	reference operator *() const { return (_node->data); }
  	pointer operator ->() const { return &(_node->data); }
 
- 	T* base() const {return _node;};									// a->b
+ 	T* base() const {return _node;}
 
  	private:
  		T* _node;
@@ -376,93 +361,27 @@ public:
     };
 
 	template <typename T>
-    bool operator==(const ft::tree_iterator<T> lhs,
-              const ft::tree_iterator<T> rhs)
+    bool operator==(const ft::tree_iterator<T> lhs, const ft::tree_iterator<T> rhs)
     {
         return (lhs.operator*() == rhs.operator*());
     }
 
-    /* For iterator == const_iterator */
     template<typename T_L, typename T_R>
-    bool operator==(const ft::tree_iterator<T_L> lhs,
-              const ft::tree_iterator<T_R> rhs)
+    bool operator==(const ft::tree_iterator<T_L> lhs, const ft::tree_iterator<T_R> rhs)
     {
         return (lhs.operator*() == rhs.operator*());
     }
 
-    /*
-    ** @brief Check if the pointer of "lhs"
-    ** is different than "rhs" in the memory.
-    **
-    ** @param lhs the random access iterator to compare.
-    ** @param rhs the random access iterator with who check.
-    ** @return true if the pointer of lhs
-    ** if different than "rhs", otherwise false.
-    */
     template <typename T>
-    bool operator!=(const ft::tree_iterator<T> lhs,
-              const ft::tree_iterator<T> rhs)
+    bool operator!=(const ft::tree_iterator<T> lhs, const ft::tree_iterator<T> rhs)
     {
         return (lhs.operator*() != rhs.operator*());
     }
 
-    /* For iterator != const_iterator */
     template<typename T_L, typename T_R>
-    bool operator!=(const ft::tree_iterator<T_L> lhs,
-              const ft::tree_iterator<T_R> rhs)
+    bool operator!=(const ft::tree_iterator<T_L> lhs, const ft::tree_iterator<T_R> rhs)
     {
         return (lhs.operator*() != rhs.operator*());
     }
-
-
 }
 
-template <typename T>
-std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
-{
-	outputFile << node->first << "=" << node->second;
-	return outputFile;
-}
-
-template <typename T, typename U>
-std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
-{
-	outputFile << pair.first << "=" << pair.second;
-	return outputFile;
-}
-
-template <class Node>
-bool _verify_node(Node node)
-{
-	if (node && node->parent)
-	{
-		if (_is_right_node(node) && node->parent->right != node)
-		{
-			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
-			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in right (has " << node->parent->right->data << ")\033[0m" << std::endl;
-			exit(1);
-		}
-		else if (_is_left_node(node) && node->parent->left != node)
-		{
-			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
-			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in left (has " << node->parent->left->data << ")\033[0m" << std::endl;
-			exit(1);
-			return false;
-		}
-	}
-	if (node->right && node->right->parent != NULL && node->right->parent != node)
-	{
-		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
-		if (node->right->parent)
-			std::cerr << "\033[0;31mNode child right " << node->right->data << " has not this node in right (has " << node->right->parent->data << ")\033[0m" << std::endl;
-		exit(1);
-		return false;
-	}
-	if (node->left && node->left->parent != NULL && node->left->parent != node)
-	{
-		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
-		exit(1);
-		return false;
-	}
-	return true;
-}
