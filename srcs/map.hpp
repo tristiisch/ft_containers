@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:42:23 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/18 21:36:10 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/18 22:09:40 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ namespace ft
 			std::swap(_compare, map._compare);
 		}
 
-	protected :
 		tree<value_type, key_type, key_compare, allocator_type>* get_tree() { return &_tree; }
 
 	private :

@@ -1,9 +1,21 @@
 # ft_containers
 
-`./test.sh` To start our tester
-### How Work our tester
-It will print the result of somes units tests with our vector, stack, map, then it compare the output with the STL ones. After that, it re-start with our and check for leaks (valgrind on linux, leaks on macos). If he find leaks, he try to find leaks on STL (maybe our tests with STL ?) and if it find it, a warning is printed.
+## Vector
+It is a dynamic array that tries not to allocate memory at each insertion. Vector contains many member functions.
+## Stack
+It is a container that contains a container: deque, list or vector.
+## Map
+It is a container that contains its values by keys. It is sorted according to the key, and the value is accessed using a key. 
+Here is an example of a tree based on the AVL tree algorithm. This is how our keys and values are stored. 
+<img align="center" src="avl_tree.png" />
 
-`cd containers_test && ./do.sh vector stack map` To start mli42's tester
-### Result on Linux :
+## Our Tester
+`./test.sh`
+It will display the result of some unit tests with our vector, stack, map then compare the output with the STL output. After that, it restarts with nos and checks for leaks (valgrind on linux, leaks on macos). If it finds leaks, it tries to find leaks on the STL (maybe our tests with the STL?) and if it finds them, a warning is printed.
+
+## mli42's tester
+`cd containers_test && ./do.sh vector stack map` \
+It have many hard tests to check if it really work like STL does.
+Result on Linux :
 <img align="center" src="containers_test_linux.png" />
+Tester repo : https://github.com/mli42/containers_test

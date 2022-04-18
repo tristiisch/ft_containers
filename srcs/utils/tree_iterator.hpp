@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
-/*   Updated: 2022/04/18 21:36:04 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/18 22:49:00 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define LEFT	true
 # define RIGHT	false
 
-int max(int a, int b)
+inline int _comp_max(int a, int b)
 {
 	return (a > b) ? a : b;
 }

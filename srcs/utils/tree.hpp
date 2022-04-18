@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/18 21:32:19 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/18 22:47:53 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ namespace ft
 			else
 				return new_node;
 
-			new_node->height = 1 + max(_node_height(new_node->left), _node_height(new_node->right));
+			new_node->height = 1 + _comp_max(_node_height(new_node->left), _node_height(new_node->right));
 			int balance = _node_balance(new_node);
 
 			if (balance > 1 && _comp(val.first, new_node->left->data.first))
@@ -192,8 +192,8 @@ namespace ft
 			node->left = t2;
 			if(t2)
 				t2->parent = node;
-			node->height = max(_node_height(node->left), _node_height(node->right)) + 1;
-			x->height = max(_node_height(x->left), _node_height(x->right)) + 1;
+			node->height = _comp_max(_node_height(node->left), _node_height(node->right)) + 1;
+			x->height = _comp_max(_node_height(x->left), _node_height(x->right)) + 1;
 			if(_root == node)
 				_root = x;
 			return x;
@@ -211,8 +211,8 @@ namespace ft
 			node->right = t2;
 			if(t2)
 				t2->parent = node;
-			node->height = max(_node_height(node->left), _node_height(node->right)) + 1;
-			x->height = max(_node_height(x->left), _node_height(x->right)) + 1;
+			node->height = _comp_max(_node_height(node->left), _node_height(node->right)) + 1;
+			x->height = _comp_max(_node_height(x->left), _node_height(x->right)) + 1;
 			if(_root == node)
 				_root = x;
 			return x;
@@ -298,7 +298,7 @@ namespace ft
 			}
 			if (to_delete == NULL)
 				return to_delete;
-			to_delete->height = 1 + max(_node_height(to_delete->left),
+			to_delete->height = 1 + _comp_max(_node_height(to_delete->left),
 					_node_height(to_delete->right));
 
 			int balance = _node_balance(to_delete);

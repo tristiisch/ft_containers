@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    test.sh                                            :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/14 19:31:02 by allanganoun       #+#    #+#              #
-#    Updated: 2022/04/18 21:36:21 by tglory           ###   ########lyon.fr    #
-#                                                                              #
-# **************************************************************************** #
-
 #!/bin/bash
 # Script Linux & Mac pour lancer un main de tests, et vérifie si :
 # - il n'y a pas de leaks dessus

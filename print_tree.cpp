@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -74,7 +75,9 @@ public:
 			while (it2 != row.end()) {
 				_node* pn = *it2;
 				if (pn) {
-					ss << pn->data;
+					ss << pn->data.first;
+					ss << "=";
+					ss << pn->data.second;
 					rows_disp.back().push_back(cell_display(ss.str()));
 					ss = std::stringstream();
 				} else {
@@ -226,73 +229,116 @@ std::ostream &operator<<(std::ostream &outputFile, const ft::map<T, U> &map)
 }
 
 
-int main() {
-	ft::map<int, int> map1;
+void simpleTree() {
+	ft::map<int, int> map;
 
-	map1.insert(ft::pair<char,int>('a', 30));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('a', 30));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('c', 70));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('c', 70));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('b', 20));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('b', 20));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('d', 10));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('d', 10));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('e', 50));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('e', 50));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('0', 101));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('0', 101));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('f', 40));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('f', 40));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('g', 60));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('g', 60));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.insert(ft::pair<char,int>('2', 100));
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.insert(ft::pair<char,int>('2', 100));
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('b');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('b');
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('c');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('c');
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('W');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('W');
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('0');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('0');
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('e');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('e');
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('f');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('f');
+	std::cout << map << std::endl;
+	print_tree(map);
 
-	map1.erase('g');
-	std::cout << map1 << std::endl;
-	print_tree(map1);
+	map.erase('g');
+	std::cout << map << std::endl;
+	print_tree(map);
+}
+
+void complexTree()
+{
+	ft::map<char, int> map;
+	std::cout << "Map Random Basic insert :" << std::endl;
+	for (int i = 0; i < 100; ++i)
+	{
+		map.insert(ft::pair<char,int>((rand() % ('~' - ' ')) + ' ', i));
+		//std::cout << "-------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		//print_tree(map1);
+	}
+	std::cout << map << std::endl;
+
+
+	ft::map<char, int>::iterator one = map.begin();
+	while (one != map.end())
+	{
+		std::cout << "Deleting " << one->first << std::endl;
+		map.erase((one++)->first);
+		std::cout << map << std::endl;
+		print_tree(map);
+
+		int i = 0;
+		ft::map<char, int>::iterator one2 = map.begin();
+		while (one2 != map.end())
+		{
+			one2++;
+			i++;
+		}
+		if (i != map.size())
+		{
+			std::cout << "ERROR" << std::endl;
+			exit(1);
+		}
+		std::cout << "-----------------------------------------------------" << std::endl;
+	}
+}
+
+int main()
+{
+	// simpleTree();
+	complexTree();
 }
