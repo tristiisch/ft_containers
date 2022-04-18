@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/18 15:17:47 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/18 15:22:14 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,10 @@ namespace ft
 					{
 						if (to_delete == _root)
 							_root = _end_node;
-							if (_is_right_node(to_delete))
-								to_delete->parent->right = NULL;
-							else if (_is_left_node(to_delete))
-								to_delete->parent->left = NULL;
+						if (_is_right_node(to_delete))
+							to_delete->parent->right = NULL;
+						else if (_is_left_node(to_delete))
+							to_delete->parent->left = NULL;
 						temp = to_delete;
 						to_delete = NULL;
 					}
