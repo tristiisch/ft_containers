@@ -14,4 +14,4 @@ Coding it was about learning iterators purpose, templates in C++ and data struct
 ### Instructions
 
 * Use ``test.sh`` command to test the containers. This test consists in comparing the Standard librairy containers with my own version using simple tests.
-* Use ``./test/containers_test/do.sh vector map stack`` command to launch an other testing program using more elaborate test.
+* Use ``./containers_test/do.sh vector map stack`` (Thanks to mli42 for the tester) command to launch an other testing program using more elaborate test.

@@ -10,4 +10,4 @@ Coder ces conteneurs avait pour but de comprendre le fonctionnement des iterateu
 ### Instructions
 
 * Utilisez la commande ``test.sh`` afin de tester les conteneurs. Ces tests consistent à comparer les conteneurs de la Standard Librairy avec ma propre version en utilisant des test simples.
-* Utilisez la commande ``./test/containers_test/do.sh vector map stack`` pour lancer un autre programme de test utilisant des tests plus élaborés.
+* Utilisez la commande ``./containers_test/do.sh vector map stack`` (Merci à mli42 pour ce testeur) pour lancer un autre programme de test utilisant des tests plus élaborés.
