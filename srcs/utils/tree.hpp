@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/18 12:52:51 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/18 15:17:47 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,26 +290,8 @@ namespace ft
 					int is_root = 0;
 					if (to_delete == _root)
 						is_root = 1;
-					node_pointer parent = to_delete->parent;
-					node_pointer parentL;
-					node_pointer parentR;
-					if (parent)
-					{
-						parentL = to_delete->parent->left;
-						parentR = to_delete->parent->right;
-					}
-					node_pointer childL = to_delete->left;
-					node_pointer childR = to_delete->right;
-					int height_save = to_delete->height;
-					_node_alloc.destroy(to_delete);
 					_node_alloc.construct(to_delete, Node(temp->data,
-							parent, childR, childL, height_save));
-					if (_is_left_node(to_delete))
-							parentL = to_delete;
-					else if (_is_right_node(to_delete))
-							parentR = to_delete;
-					childL->parent = to_delete;
-					childR->parent = to_delete;
+							to_delete->parent, to_delete->right, to_delete->left, to_delete->height));
 					if (is_root == 1)
 						_root = to_delete;
 					to_delete->right = erase2(to_delete->right, temp->data.first);
@@ -403,59 +385,6 @@ namespace ft
 		}
 
 		node_pointer get_root() const { return _root ; }
-
-	private :
-
-		size_type _erase(const node_pointer current)
-		{
-			node_pointer next;
-
-			if (!_node_has_leaf(current))
-			{
-				next = _node_next(current);
-				if (next && current->parent)
-				{
-					if (_is_left_node(next))
-						next->parent->left = NULL;
-					else if (_is_right_node(next))
-						next->parent->right = NULL;
-					next->parent = current->parent;
-				}
-				else
-					next->parent = NULL;
-
-				if (current->left)
-				{
-					current->left->parent = next;
-					next->left = current->left;
-				}
-				if (_is_left_node(current))
-					current->parent->left = next;
-				else if (current->parent)
-					current->parent->right = next;
-				if (_node_is_root(next))
-					_root = next;
-			}
-			else if (_node_is_root(current) && _node_has_leaf(current))
-			{
-				_node_alloc.destroy(static_cast<node_type*>(current));
-				_node_alloc.deallocate(static_cast<node_type*>(current), 1);
-				_size = 0;
-				_root = NULL;
-				return (1);
-			}
-			else
-			{
-				if (_is_left_node(current))
-					current->parent->left = NULL;
-				else if (_is_right_node(current))
-					current->parent->right = NULL;
-			}
-			_node_alloc.destroy(current);
-			_node_alloc.deallocate(current, 1);
-			_size--;
-			return (1);
-		}
 
 	private :
 		node_pointer _start;
