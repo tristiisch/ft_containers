@@ -148,19 +148,15 @@ namespace ft
 		size_type max_size() const { return _tree.max_size(); }
 
 		iterator begin() { return _tree.begin(); }
-
 		const_iterator begin() const { return _tree.begin(); }
 
 		iterator end() { return _tree.end(); }
-
 		const_iterator end() const { return _tree.end(); }
 
 		reverse_iterator rbegin() { return reverse_iterator(end()); }
-
 		const_reverse_iterator rbegin() const {  return const_reverse_iterator(end()); }
 
 		reverse_iterator rend() { return reverse_iterator(begin()); }
-
 		const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 		size_type count(const key_type& k) const { return _tree.count(k); }
@@ -186,11 +182,8 @@ namespace ft
 			std::swap(_compare, map._compare);
 		}
 
-	//protected :
-		tree<value_type, key_type, key_compare, allocator_type>* get_tree()
-		{
-			return &_tree;
-		}
+	protected :
+		tree<value_type, key_type, key_compare, allocator_type>* get_tree() { return &_tree; }
 
 	private :
 		allocator_type 												_alloc;
