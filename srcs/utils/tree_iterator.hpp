@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 19:34:39 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/08 12:32:00 by tglory           ###   ########lyon.fr   */
+/*   Created: 2022/03/15 19:34:39 by alganoun          #+#    #+#             */
+/*   Updated: 2022/04/18 21:36:04 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 #include <algorithm>
 #include <cstddef>
 
-//fonction pour calculer les incrementations
-
 # define LEFT	true
 # define RIGHT	false
+
+int max(int a, int b)
+{
+	return (a > b) ? a : b;
+}
 
 template <class Node>
 bool _is_right_node(Node node)
@@ -126,6 +129,24 @@ Node _node_prev(Node node)
 }
 
 template <class Node>
+int _node_height(Node node)
+{
+	if (node == NULL)
+		return 0;
+	return node->height;
+}
+
+
+
+template <class Node>
+int		_node_balance(Node node)
+{
+	if (node == NULL)
+		return (0);
+	return _node_height(node->left) - _node_height(node->right);
+}
+
+template <class Node>
 bool _check_node(Node node)
 {
 	Node parent;
@@ -135,197 +156,162 @@ bool _check_node(Node node)
 	return (true);
 }
 
-template <class Node>
-bool _verify_valid_node(Node node)
-{
-	if (node && node->parent)
-	{
-		if (_is_right_node(node) && node->parent->right != node)
-		{
-			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
-			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in right (has " << node->parent->right->data << ")\033[0m" << std::endl;
-			exit(1);
-		}
-		else if (_is_left_node(node) && node->parent->left != node)
-		{
-			std::cerr << "\033[0;31mNode " << node->data << " error verify : parent not linked correctly\033[0m" << std::endl;
-			std::cerr << "\033[0;31mNode parent " << node->parent->data << " has not this node in left (has " << node->parent->left->data << ")\033[0m" << std::endl;
-			exit(1);
-			return false;
-		}
-	}
-	if (node->right && node->right->parent != NULL && node->right->parent != node)
-	{
-		std::cerr << "\033[0;31mNode " << node->data << " error verify : right not linked correctly\033[0m" << std::endl;
-		if (node->right->parent)
-			std::cerr << "\033[0;31mNode child right " << node->right->data << " has not this node in right (has " << node->right->parent->data << ")\033[0m" << std::endl;
-		exit(1);
-		return false;
-	}
-	if (node->left && node->left->parent != NULL && node->left->parent != node)
-	{
-		std::cerr << "\033[0;31mNode " << node->data << " error verify : left not linked correctly\033[0m" << std::endl;
-		exit(1);
-		return false;
-	}
-	return true;
-}
 namespace ft
 {
 
-	template <class Value>
-	struct	_node
+template <class Value>
+struct	_node
+{
+		typedef Value					value_type;
+
+		value_type						data;
+		_node 							*parent;
+		_node							*right;
+		_node							*left;
+		int								height;
+
+		_node()
+		:	data(),
+			parent(NULL),
+			right(NULL),
+			left(NULL),
+			height(1)
+		{
+
+		}
+		_node(Value const &v)
+		:	data(v),
+			parent(NULL),
+			right(NULL),
+			left(NULL),
+			height(1)
+
+		{
+		};
+
+		_node(Value const & v, _node *parent, _node *right, _node *left, int height)
+		:	data(v),
+			parent(parent),
+			right(right),
+			left(left),
+			height(height)
+		{
+
+		}
+
+		~_node()
+		{}
+
+
+
+		int max_depth() const {
+			const int left_depth = left ? left->max_depth() : 0;
+			const int right_depth = right ? right->max_depth() : 0;
+			return (left_depth > right_depth ? left_depth : right_depth) + 1;
+		}
+
+
+};
+
+template <typename T>
+class	tree_iterator
+{
+public:
+
+	typedef T							value_type;
+	typedef typename T::value_type    	pair;
+	typedef pair&						reference;
+	typedef const pair&					const_reference;
+	typedef pair*						pointer;
+	typedef const pair*					const_pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
+
+	tree_iterator(void) : _node(NULL) {}
+	tree_iterator(T* other) : _node(other) {}
+	tree_iterator(const tree_iterator &src) { *this = src; }
+
+	virtual ~tree_iterator() {}
+
+	tree_iterator &operator=(tree_iterator const &src) { _node = src._node; return (*this); }
+
+	bool operator ==(T* const base) const { return (_node == base); }
+	bool operator ==(tree_iterator const& b) const { return (_node == b._node); }
+	bool operator !=(tree_iterator const& b) const { return (!(_node == b._node)); }
+
+	tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }
+	tree_iterator operator ++(int)
 	{
-			typedef Value					value_type;
-
-			value_type						data;
-			_node 							*parent;
-			_node							*right;
-			_node							*left;
-			_node							*to_have_same_max_size;
-
-			_node()
-			:	data(),
-				parent(NULL),
-				right(NULL),
-				left(NULL)
-			{
-
-			}
-			_node(Value const &v)
-			:	data(v),
-				parent(NULL),
-				right(NULL),
-				left(NULL)
-			{
-			};
-
-			_node(Value const & v, _node *parent, _node *right, _node *left)
-			:	data(v),
-				parent(parent),
-				right(right),
-				left(left)
-			{
-
-			}
-
-			~_node()
-			{
-
-			}
-
-			int max_depth() const {
-				const int left_depth = left ? left->max_depth() : 0;
-				const int right_depth = right ? right->max_depth() : 0;
-				return (left_depth > right_depth ? left_depth : right_depth) + 1;
-			}
-	};
-
-	template <typename T>
-	class	tree_iterator
+		T* tmp = _node;
+		_node = _node_next(_node);
+		return tree_iterator(tmp);
+	}
+	tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }
+	tree_iterator operator --(int)
 	{
-	public:
+		T* tmp = _node;
+		_node = _node_prev(_node);
+		return tree_iterator(tmp);
+	}
 
-		typedef T							value_type;
-		typedef typename T::value_type    	pair;
-		typedef pair&						reference;
-		typedef const pair&					const_reference;
-		typedef pair*						pointer;
-		typedef const pair*					const_pointer;
-		typedef typename std::ptrdiff_t 	difference_type;
+	reference operator *() { return (_node->data); }
+	const_reference operator *() const { return (_node->data); }
+	pointer operator ->() { return &(_node->data); }
+	const_pointer operator ->() const { return &(_node->data); }
 
-		tree_iterator(void) : _node(NULL) {}
-		tree_iterator(T* other) : _node(other) {}
-		tree_iterator(const tree_iterator &src) { *this = src; }
+	T* base() const {return _node;};
 
-		virtual ~tree_iterator() {}
+	private:
+		T* _node;
+};
 
-		tree_iterator &operator=(tree_iterator const &src) { _node = src._node; return (*this); }
+template <typename T>
+class	const_tree_iterator
+{
+public:
 
-		// BOOLEANS
-		bool operator ==(T* const base) const { return (_node == base); }
-		bool operator ==(tree_iterator const& b) const { return (_node == b._node); }
-		bool operator !=(tree_iterator const& b) const { return (!(_node == b._node)); }
+	typedef T							value_type;
+	typedef typename T::value_type    	pair;
+	typedef const pair&					reference;
+	typedef const pair*					pointer;
+	typedef typename std::ptrdiff_t 	difference_type;
 
+	const_tree_iterator(void) : _node(NULL) {}
+	const_tree_iterator(T* other) : _node(other) {}
+	const_tree_iterator(const const_tree_iterator &src) { *this = src; }
+	const_tree_iterator(const tree_iterator<value_type> &src) { _node = src.base(); }
 
-		// INCREMENTERS
-		tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
-		tree_iterator operator ++(int) 															// a++
-		{
-			T* tmp = _node;
-			_node = _node_next(_node);
-			return tree_iterator(tmp);
-		}
-		tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }			// --a
-		tree_iterator operator --(int)															// a--
-		{
-			T* tmp = _node;
-			_node = _node_prev(_node);
-			return tree_iterator(tmp);
-		}
+	virtual ~const_tree_iterator() {}
 
-		//DEREFERENCING & ADDRESS STUFF
-		reference operator *() { return (_node->data); }										// *a
-		const_reference operator *() const { return (_node->data); }							// *a
-		pointer operator ->() { return &(_node->data); }										// a->b
-		const_pointer operator ->() const { return &(_node->data); }							// a->b
+	const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
 
-		T* base() const {return _node;};
+	bool operator ==(T* const base) const { return (_node == base); }
+	bool operator ==(const_tree_iterator const& b) const { return (_node == b._node); }
+	bool operator !=(const_tree_iterator const& b) const { return (!(_node == b._node)); }
 
-		private:
-			T* _node;
-	};
-
-	template <typename T>
-	class	const_tree_iterator
+	const_tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }
+	const_tree_iterator operator ++(int)
 	{
-	public:
+		T* tmp = _node;
+		_node = _node_next(_node);
+		return const_tree_iterator(tmp);
+	}
+	const_tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }
+	const_tree_iterator operator --(int)
+	{
+		T* tmp = _node;
+		_node = _node_prev(_node);
+		return const_tree_iterator(tmp);
+	}
 
-		typedef T							value_type;
-		typedef typename T::value_type    	pair;
-		typedef const pair&					reference;
-		typedef const pair*					pointer;
-		typedef typename std::ptrdiff_t 	difference_type;
+	reference operator *() const { return (_node->data); }
+ 	pointer operator ->() const { return &(_node->data); }
 
-		const_tree_iterator(void) : _node(NULL) {}
-		const_tree_iterator(T* other) : _node(other) {}
-		const_tree_iterator(const const_tree_iterator &src) { *this = src; }
-		const_tree_iterator(const tree_iterator<value_type> &src) { _node = src.base(); }
+ 	T* base() const {return _node;}
 
-		virtual ~const_tree_iterator() {}
+ 	private:
+ 		T* _node;
 
-		const_tree_iterator &operator=(const_tree_iterator const &src) { _node = src._node; return (*this); }
-
-		// BOOLEANS : pas besoin dans ce cas
-		bool operator ==(T* const base) const { return (_node == base); }
-		bool operator ==(const_tree_iterator const& b) const { return (_node == b._node); }
-		bool operator !=(const_tree_iterator const& b) const { return (!(_node == b._node)); }
-
-		// INCREMENTERS
-		const_tree_iterator& operator ++() { _node = _node_next(_node); return ((*this)); }			// ++a
-		const_tree_iterator operator ++(int) 														// a++
-		{
-			T* tmp = _node;
-			_node = _node_next(_node);
-			return const_tree_iterator(tmp);
-		}
-		const_tree_iterator& operator --() { _node = _node_prev(_node); return ((*this)); }			// --a
-		const_tree_iterator operator --(int)														// a--
-		{
-			T* tmp = _node;
-			_node = _node_prev(_node);
-			return const_tree_iterator(tmp);
-		}
-
-		reference operator *() const { return (_node->data); }								// *a
-		pointer operator ->() const { return &(_node->data); }
-
-		T* base() const {return _node;};									// a->b
-
-		private:
-			T* _node;
-
-	};
+};
 
 	template <class Iterator>
     class tree_reverse_iterator
@@ -338,7 +324,7 @@ namespace ft
             typedef typename Iterator::reference		reference;
 
             tree_reverse_iterator(): _elem() {}
-			
+
             explicit tree_reverse_iterator (iterator_type it): _elem(it) {}
 
             template <class Iter>
@@ -397,18 +383,4 @@ namespace ft
     {
         return (lhs.operator*() != rhs.operator*());
     }
-}
-
-template <typename T>
-std::ostream &operator<<(std::ostream &outputFile, ft::_node<T> &node)
-{
-	outputFile << node->first << "=" << node->second;
-	return outputFile;
-}
-
-template <typename T, typename U>
-std::ostream &operator<<(std::ostream &outputFile, ft::pair<T, U> &pair)
-{
-	outputFile << pair.first << "=" << pair.second;
-	return outputFile;
 }

@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:48:15 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/08 12:31:40 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/18 21:30:28 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,8 +236,6 @@ namespace ft
 			}
 		}
 
-		// Ajoute une valeur au Top du vector
-		// Si la capacity est dépassé, alloue le double de la capacity actuelle
 		void push_back(const value_type& value)
 		{
 			if (_end == _end_capacity)
@@ -253,10 +251,6 @@ namespace ft
 			_alloc.destroy(_end--);
 		}
 
-		// Réalloue de la mémoire pour avoir une capacity de new_cap
-		// Si capacity >= new_cap -> ne fait rien
-		// Si new_cap > ram dispo -> renvoie une erreur
-		// Sinon réalloue toute le vector
 		void reserve(size_type new_cap)
 		{
 			if (new_cap > this->max_size())
@@ -301,7 +295,6 @@ namespace ft
 
 				for (size_type i = 0; i < this->size() - posIndex; ++i)
 					_alloc.construct(newEnd - i - 1, *(_end - i - 1));
-
 				for (size_type i = 0; i < this->size(); ++i)
 					_alloc.destroy(_start + i);
 				if (_start)
@@ -347,7 +340,6 @@ namespace ft
 					new_end = new_start + this->size() + n;
 					new_endcap = new_start + new_cap;
 				}
-
 				for (size_type i = 0; i < posIndex; ++i)
 					_alloc.construct(new_start + i, *(_start + i));
 				for (size_type i = 0 ; i < n ; ++i)
@@ -392,20 +384,15 @@ namespace ft
 					newEnd = newStart + this->size() + dist;
 					newEndCapacity = newStart + (this->size() * 2);
 				}
-
 				for (int i = 0; i < &(*position) - _start; ++i)
 					_alloc.construct(newStart + i, *(_start + i));
-
 				for (int i = 0; &(*first) != &(*last); ++first, ++i)
 					_alloc.construct(newStart + (&(*position) - _start) + i, *first);
-
 				for (size_type i = 0; i < this->size() - (&(*position) - _start); ++i)
 					_alloc.construct(newStart + (&(*position) - _start) + dist + i, *(_start + (&(*position) - _start) + i));
-
 				for (size_type i = 0; i < this->size(); ++i)
 					_alloc.destroy(_start + i);
 				_alloc.deallocate(_start, this->capacity());
-
 				_start = newStart;
 				_end = newEnd;
 				_end_capacity = newEndCapacity;
@@ -466,13 +453,15 @@ namespace ft
 
 		reference at(size_type n)
 		{
-			this->_range_check(n);
+			if (n >= size())
+				throw std::out_of_range("vector");
 			return *(_start + n);
 		}
 
 		const_reference at(size_type n) const
 		{
-			this->_range_check(n);
+			if (n >= size())
+				throw std::out_of_range("vector");
 			return *(_start + n);
 		}
 
@@ -481,7 +470,6 @@ namespace ft
 			return _alloc;
 		}
 
-		// Max elements
 		size_type capacity() const
 		{
 			return _end_capacity - _start;
@@ -500,11 +488,6 @@ namespace ft
 		pointer			_start;
 		pointer			_end;
 		pointer			_end_capacity;
-
-		void _range_check(size_type n) const {
-			if (n >= size())
-				throw std::out_of_range("vector");
-		}
 	};
 
 	template<class T, class Alloc>

@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 01:39:02 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/06 16:43:43 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/18 21:25:10 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <sstream>
-#include "iterator.hpp"
 
 namespace ft {
 
@@ -43,16 +42,14 @@ namespace ft {
 	}
 
 	template<class InputIter1, class InputIter2>
-	bool lexicographical_compare(InputIter1 first1, InputIter1 last1, InputIter2 first2, InputIter2 last2) {
-		while (first1 != last1) {
-			if (first2 == last2 || *first2 < *first1) {
+	bool lexicographical_compare(InputIter1 first1, InputIter1 last1, InputIter2 first2, InputIter2 last2)
+	{
+		while (first1 != last1) 
+		{
+			if (first2 == last2 || *first2 < *first1)
 				return false;
-			}
-
-			if (*first1 < *first2) {
+			if (*first1 < *first2)
 				return true;
-			}
-
 			++first1;
 			++first2;
 		}

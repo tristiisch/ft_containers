@@ -6,7 +6,7 @@
 /*   By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:26:33 by tglory            #+#    #+#             */
-/*   Updated: 2022/04/08 12:31:49 by tglory           ###   ########lyon.fr   */
+/*   Updated: 2022/04/18 21:29:18 by tglory           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 namespace ft
 {
 
-    template <typename T>
+    template<typename T>
     class	iterator
     {
     public:
@@ -88,90 +88,84 @@ namespace ft
             T* _ptr;
     };
 
-    template <typename T>
-    bool operator==(const ft::iterator<T> lhs,
-                const ft::iterator<T> rhs)
+    template<typename T>
+    bool operator==(const ft::iterator<T> lhs, const ft::iterator<T> rhs)
     {
         return (lhs.base() == rhs.base());
     }
 
-    template <typename T_L, typename T_R>
-    bool operator==(const ft::iterator<T_L> lhs,
-                const ft::iterator<T_R> rhs)
+    template<typename T_L, typename T_R>
+    bool operator==(const ft::iterator<T_L> lhs, const ft::iterator<T_R> rhs)
     {
         return (lhs.base() == rhs.base());
     }
 
-    template <typename T>
-    bool operator!=(const ft::iterator<T> lhs,
-                const ft::iterator<T> rhs)
+    template<typename T>
+    bool operator!=(const ft::iterator<T> lhs, const ft::iterator<T> rhs)
     {
         return (lhs.base() != rhs.base());
     }
 
-    template <typename T_L, typename T_R>
-    bool operator!=(const ft::iterator<T_L> lhs,
-                const ft::iterator<T_R> rhs)
+    template<typename T_L, typename T_R>
+    bool operator!=(const ft::iterator<T_L> lhs, const ft::iterator<T_R> rhs)
     {
         return (lhs.base() != rhs.base());
     }
 
-    template <typename T>
-    bool operator<(const ft::iterator<T> lhs,
-                const ft::iterator<T> rhs)
+    template<typename T>
+    bool operator<(const ft::iterator<T> lhs, const ft::iterator<T> rhs)
     {
         return (lhs.base() < rhs.base());
     }
 
-    template <typename T_L, typename T_R>
+    template<typename T_L, typename T_R>
     bool operator<(const ft::iterator<T_L> lhs, const ft::iterator<T_R> rhs)
     {
         return (lhs.base() < rhs.base());
     }
 
-    template <typename T>
+    template<typename T>
     bool operator>(const ft::iterator<T> lhs, const ft::iterator<T> rhs)
     {
         return (lhs.base() > rhs.base());
     }
 
-    template <typename T_L, typename T_R>
-    bool operator>(const ft::iterator<T_L> lhs,
-                const ft::iterator<T_R> rhs)
+    template<typename T_L, typename T_R>
+    bool operator>(const ft::iterator<T_L> lhs, const ft::iterator<T_R> rhs)
     {
         return (lhs.base() > rhs.base());
     }
 
-    template <typename T>
+    template<typename T>
     bool operator<=(const ft::iterator<T> lhs, const ft::iterator<T> rhs)
     {
         return (lhs.base() <= rhs.base());
     }
 
-    template <typename T_L, typename T_R>
+    template<typename T_L, typename T_R>
     bool operator<=(const ft::iterator<T_L> lhs, const ft::iterator<T_R> rhs)
     {
         return (lhs.base() <= rhs.base());
     }
 
-    template <typename T>
+    template<typename T>
     bool operator>=(const ft::iterator<T> lhs, const ft::iterator<T> rhs)
     {
         return (lhs.base() >= rhs.base());
     }
 
-    template <typename T_L, typename T_R>
+    template<typename T_L, typename T_R>
     bool operator>=(const ft::iterator<T_L> lhs, const ft::iterator<T_R> rhs)
     {
         return (lhs.base() >= rhs.base());
     }
 
-    template <class InputIterator>
+    template<class InputIterator>
     typename InputIterator::difference_type operator-(const InputIterator &lhs, const InputIterator&rhs) {
         return lhs.base() - rhs.base();
     }
 
-    template <class InputIterator>
+    template<class InputIterator>
     InputIterator operator+(const typename InputIterator::difference_type &lhs, const InputIterator&rhs) {
         return rhs + lhs;
     }

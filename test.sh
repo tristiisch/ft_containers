@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    test.sh                                            :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tglory <tglory@student.42lyon.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/04/14 19:31:02 by allanganoun       #+#    #+#              #
+#    Updated: 2022/04/18 21:36:21 by tglory           ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
 #!/bin/bash
 # Script Linux & Mac pour lancer un main de tests, et vérifie si :
 # - il n'y a pas de leaks dessus
@@ -5,7 +17,6 @@
 # - [LINUX] Vérifie les invalid read/write et autre erreur invisible
 # - Compare le resultat de la sortie standard avec la STL (le main doit gérer le #define IS_STL)
 
-CC="c++ -Wall -Wextra -std=c++98"
 EXEC_STL=test_stl
 EXEC_FT=test_ft
 MAX_NB_LINE=4
