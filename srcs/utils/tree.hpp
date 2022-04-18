@@ -6,7 +6,7 @@
 /*   By: alganoun <alganoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:36:17 by allanganoun       #+#    #+#             */
-/*   Updated: 2022/04/18 15:22:14 by alganoun         ###   ########.fr       */
+/*   Updated: 2022/04/18 15:24:45 by alganoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,20 +303,15 @@ namespace ft
 					_node_height(to_delete->right));
 
 			int balance = _node_balance(to_delete);
-
-			// Left Left Case
 			if (balance > 1 && _node_balance(to_delete->left) >= 0)
 				return _node_rotate_R(to_delete);
-			// Left Right Case
 			if (balance > 1 && _node_balance(to_delete->left) < 0)
 			{
 				to_delete->left = _node_rotate_L(to_delete->left);
 				return _node_rotate_R(to_delete);
 			}
-			// Right Right Case
 			if (balance < -1 && _node_balance(to_delete->right) <= 0)
 				return _node_rotate_L(to_delete);
-			// Right Left Case
 			if (balance < -1 && _node_balance(to_delete->right) > 0)
 			{
 				to_delete->right = _node_rotate_R(to_delete->right);
