@@ -11,7 +11,7 @@ Here is an example of a tree based on the AVL tree algorithm. This is how our ke
 
 ## Our Tester
 `./test.sh`
-It will display the result of some unit tests with our vector, stack, map then compare the output with the STL output. After that, it restarts with nos and checks for leaks (valgrind on linux, leaks on macos). If it finds leaks, it tries to find leaks on the STL (maybe our tests with the STL?) and if it finds them, a warning is printed.
+It will display the result of some unit tests with our vector, stack, map then compare the output with the STL output. After that, it checks for leaks (valgrind on linux, leaks on macos).
 
 ## mli42's tester
 `cd containers_test && ./do.sh vector stack map` \
